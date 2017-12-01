@@ -1,86 +1,80 @@
 <template>
-<div>
-  <Card>
-            <p slot="title">
-                <Icon type="navicon"></Icon>
-                检索条件
-            </p>
-            <div>
-                <Form
-                    ref="queryForm"
-                    :model="queryForm"
-                    :label-width="100"
-                    label-position="right"
-                    inline
-                >
-                <Row>
-                  <Col span="8">
-                    <FormItem label="姓名：" prop="xm">
-                      <div style="display:inline-block;width:180px;">
-                        <Input v-model="queryForm.xm" ></Input>
-                      </div>
-                    </FormItem>
-                  </Col>
-                  <Col span="8">
-                    <FormItem label="民族：" prop="mzdm">
-                      <div style="display:inline-block;width:180px;">
-                        <Select v-model="queryForm.mzdm" style="width:180px" filterable clearable>
-                          <Option v-for="dict in dictList.mz" :key="dict.index" :value="dict.key">{{dict.value}}</Option>
-                        </Select>
-                      </div>
-                    </FormItem>
-                  </Col>
-                  <!-- <Col span="8">
-                    <FormItem label="部门：" prop="bm">
-                      <div style="display:inline-block;width:180px;">
-                        <Dept></Dept>
-                      </div>
-                    </FormItem>
-                  </Col> -->
-                  <Col span="8">
-                    <FormItem label="公民身份证号：" prop="zjhm">
-                      <div style="display:inline-block;width:180px;">
-                        <Input v-model="queryForm.zjhm" ></Input>
-                      </div>
-                    </FormItem>
-                  </Col>
-                  <Col span="8">
-                    <FormItem label="日期：" prop="bm">
-                      <Date-picker type="daterange" placement="bottom-end" placeholder="选择日期" style="width: 180px">
-                      </Date-picker>
-                    </FormItem>
-                  </Col>
-                  <Col span="8">
-                    <FormItem label="户籍地址：" prop="hjdz">
-                      <div style="display:inline-block;width:180px;">
-                        <Input v-model="queryForm.hjdz" ></Input>
-                      </div>
-                    </FormItem>
-                  </Col>
-                </Row>
-                <Row>
-                  <Col span="12" offset="8">
-                    <Form-item>
-                      <Button type="primary" @click="search">查询</Button>
-                    </Form-item>
-                  </Col>
-                </Row>
-                </Form>
-            </div>
-        </Card>
-        <div v-show="data.length>0">
-        <Table size="small" :columns="columns" :data="data">
-        </Table>
-        <Page :current="pageInfo.pageNum" :total="pageInfo.pages" :page-size="pageInfo.pageSize" @on-change="changePage"></Page>
-        </div>
-        <Spin size="large" fix v-if="spinShow"></Spin>
-        </div>
+  <div>
+    <Card>
+      <p slot="title">
+        <Icon type="navicon"></Icon>
+        检索条件
+      </p>
+      <div>
+        <Form ref="queryForm" :model="queryForm" :label-width="100" label-position="right" inline>
+          <Row>
+            <Col span="8">
+            <FormItem label="姓名：" prop="xm">
+              <div style="display:inline-block;width:180px;">
+                <Input v-model="queryForm.xm"></Input>
+              </div>
+            </FormItem>
+            </Col>
+            <Col span="8">
+            <FormItem label="民族："  prop="mzdm">
+              <div style="display:inline-block;width:180px;">
+                <Select v-model="queryForm.mzdm" style="width:180px" filterable clearable>
+                                                                                          <Option v-for="dict in dictList.mz" :key="dict.index" :value="dict.key">{{dict.value}}</Option>
+                                                                                        </Select>
+              </div>
+            </FormItem>
+            </Col>
+            <!-- <Col span="8">
+                                                                                    <FormItem label="部门：" prop="bm">
+                                                                                      <div style="display:inline-block;width:180px;">
+                                                                                        <Dept></Dept>
+                                                                                      </div>
+                                                                                    </FormItem>
+                                                                                  </Col> -->
+            <Col span="8">
+            <FormItem label="公民身份证号：" prop="zjhm">
+              <div style="display:inline-block;width:180px;">
+                <Input v-model="queryForm.zjhm"></Input>
+              </div>
+            </FormItem>
+            </Col>
+            <Col span="8">
+            <FormItem label="日期：" prop="bm">
+              <Date-picker type="daterange" placement="bottom-start" placeholder="选择日期" style="width: 180px">
+              </Date-picker>
+            </FormItem>
+            </Col>
+            <Col span="8">
+            <FormItem label="户籍地址：" prop="hjdz">
+              <div style="display:inline-block;width:180px;">
+                <Input v-model="queryForm.hjdz"></Input>
+              </div>
+            </FormItem>
+            </Col>
+          </Row>
+          <Row>
+            <Col span="12" offset="8">
+            <Form-item>
+              <Button type="primary" @click="search">查询</Button>
+            </Form-item>
+            </Col>
+          </Row>
+        </Form>
+      </div>
+    </Card>
+    <div v-show="data.length>0">
+      <Table size="small" :columns="columns" :data="data">
+      </Table>
+      <Page :current="pageInfo.pageNum" :total="pageInfo.pages" :page-size="pageInfo.pageSize" @on-change="changePage"></Page>
+    </div>
+    <Spin size="large" fix v-if="spinShow"></Spin>
+  </div>
 </template>
+
 <script>
 import Dept from '@/components/Dept.vue'
 import { fetchDictList } from '@/api/dict'
-import { fetchRycxList } from '@/api/cxtj/rycx'
-
+import { fetchRjbxxList } from '@/api/cxtj/rycx'
 export default {
   data () {
     return {
@@ -137,7 +131,7 @@ export default {
     search () {
       const _self = this
       _self.spinShow = true
-      fetchRycxList(this.pageInfo, this.queryForm)
+      fetchRjbxxList(this.pageInfo, this.queryForm)
         .then(response => {
           this.data = response.data.data.list
           this.pageInfo.pages = response.data.data.pages

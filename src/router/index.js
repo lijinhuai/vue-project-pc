@@ -135,7 +135,7 @@ export const appRouter = [{
     icon: 'compose',
     name: 'rfgl',
     title: '人房关联',
-    component: _import('sysmanage/user/user-manage')
+    component: _import('cxtj/rfgl/rfgl')
   },
   {
     path: '/rycx',
