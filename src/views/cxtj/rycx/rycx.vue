@@ -16,21 +16,21 @@
             </FormItem>
             </Col>
             <Col span="8">
-            <FormItem label="民族："  prop="mzdm">
+            <FormItem label="民族：" prop="mzdm">
               <div style="display:inline-block;width:180px;">
                 <Select v-model="queryForm.mzdm" style="width:180px" filterable clearable>
-                                                                                          <Option v-for="dict in dictList.mz" :key="dict.index" :value="dict.key">{{dict.value}}</Option>
-                                                                                        </Select>
+                                                                                            <Option v-for="dict in dictList.mz" :key="dict.index" :value="dict.key">{{dict.value}}</Option>
+                                                                                          </Select>
               </div>
             </FormItem>
             </Col>
             <!-- <Col span="8">
-                                                                                    <FormItem label="部门：" prop="bm">
-                                                                                      <div style="display:inline-block;width:180px;">
-                                                                                        <Dept></Dept>
-                                                                                      </div>
-                                                                                    </FormItem>
-                                                                                  </Col> -->
+                                                                                      <FormItem label="部门：" prop="bm">
+                                                                                        <div style="display:inline-block;width:180px;">
+                                                                                          <Dept></Dept>
+                                                                                        </div>
+                                                                                      </FormItem>
+                                                                                    </Col> -->
             <Col span="8">
             <FormItem label="公民身份证号：" prop="zjhm">
               <div style="display:inline-block;width:180px;">
@@ -65,35 +65,42 @@
     <div v-show="data.length>0">
       <Table size="small" :columns="columns" :data="data">
       </Table>
-      <Page :current="pageInfo.pageNum" :total="pageInfo.pages" :page-size="pageInfo.pageSize" @on-change="changePage"></Page>
+      <div style="margin: 10px;overflow: hidden">
+        <div style="float: right;">
+          <Page :current="pageInfo.pageNum" :total="pageInfo.pages" :page-size="pageInfo.pageSize" @on-change="changePage"></Page>
+        </div>
+      </div>
     </div>
     <Spin size="large" fix v-if="spinShow"></Spin>
   </div>
 </template>
 
 <script>
-import Dept from '@/components/Dept.vue'
-import { fetchDictList } from '@/api/dict'
-import { fetchRjbxxList } from '@/api/cxtj/rycx'
-export default {
-  data () {
-    return {
-      spinShow: false,
-      dictList: {
-        mz: []
-      },
-      pageInfo: {
-        pageNum: 1,
-        pageSize: 10,
-        pages: 0
-      },
-      queryForm: {
-        mzdm: '',
-        xm: '',
-        zjhm: ''
-      },
-      columns: [
-        {
+  import Dept from '@/components/Dept.vue'
+  import {
+    fetchDictList
+  } from '@/api/dict'
+  import {
+    fetchRjbxxList
+  } from '@/api/cxtj/rycx'
+  export default {
+    data () {
+      return {
+        spinShow: false,
+        dictList: {
+          mz: []
+        },
+        pageInfo: {
+          pageNum: 1,
+          pageSize: 10,
+          pages: 0
+        },
+        queryForm: {
+          mzdm: '',
+          xm: '',
+          zjhm: ''
+        },
+        columns: [{
           title: '姓名',
           key: 'xm'
         },
@@ -117,48 +124,48 @@ export default {
           title: '户籍地址',
           key: 'hjdz'
         }
-      ],
-      data: []
-    }
-  },
-  components: {
-    Dept
-  },
-  mounted () {
-    this.initDict()
-  },
-  methods: {
-    search () {
-      const _self = this
-      _self.spinShow = true
-      fetchRjbxxList(this.pageInfo, this.queryForm)
-        .then(response => {
-          this.data = response.data.data.list
-          this.pageInfo.pages = response.data.data.pages
-          _self.spinShow = false
-        })
-        .catch(() => {
-          _self.spinShow = false
-        })
+        ],
+        data: []
+      }
     },
-    initDict () {
-      const _self = this
-      fetchDictList('MZ').then(response => {
-        _self.dictList.mz = response.data
-      })
+    components: {
+      Dept
     },
-    changePage (value) {
-      this.pageInfo.pageNum = value
-      this.search()
+    mounted () {
+      this.initDict()
+    },
+    methods: {
+      search () {
+        const _self = this
+        _self.spinShow = true
+        fetchRjbxxList(this.pageInfo, this.queryForm)
+          .then(response => {
+            this.data = response.data.data.list
+            this.pageInfo.pages = response.data.data.pages
+            _self.spinShow = false
+          })
+          .catch(() => {
+            _self.spinShow = false
+          })
+      },
+      initDict () {
+        const _self = this
+        fetchDictList('MZ').then(response => {
+          _self.dictList.mz = response.data
+        })
+      },
+      changePage (value) {
+        this.pageInfo.pageNum = value
+        this.search()
+      }
     }
   }
-}
 </script>
 
 <style lang="less" scoped>
-.ivu-form-item {
-  margin-bottom: 5px;
-}
+  .ivu-form-item {
+    margin-bottom: 5px;
+  }
 </style>
 
 

@@ -9,25 +9,25 @@
         <Form ref="queryForm" :model="queryForm" :label-width="100" label-position="right" inline>
           <Row>
             <!-- <Col span="8">
-                        <FormItem label="房屋属性：" prop="xm">
-                          <div class="form-item">
-                            <Select v-model="queryForm.mz" clearable>
-                              <Option value="beijing">居住房屋</Option>
-                              <Option value="shanghai">出租房屋</Option>
-                            </Select>
-                          </div>
-                        </FormItem>
-                      </Col>
-                      <Col span="8">
-                        <FormItem label="房屋结构：" prop="mz">
-                          <div class="form-item">
-                            <Select v-model="queryForm.mz" clearable>
-                              <Option value="beijing">楼房</Option>
-                              <Option value="shanghai">平方</Option>
-                            </Select>
-                          </div>
-                        </FormItem>
-                      </Col> -->
+                          <FormItem label="房屋属性：" prop="xm">
+                            <div class="form-item">
+                              <Select v-model="queryForm.mz" clearable>
+                                <Option value="beijing">居住房屋</Option>
+                                <Option value="shanghai">出租房屋</Option>
+                              </Select>
+                            </div>
+                          </FormItem>
+                        </Col>
+                        <Col span="8">
+                          <FormItem label="房屋结构：" prop="mz">
+                            <div class="form-item">
+                              <Select v-model="queryForm.mz" clearable>
+                                <Option value="beijing">楼房</Option>
+                                <Option value="shanghai">平方</Option>
+                              </Select>
+                            </div>
+                          </FormItem>
+                        </Col> -->
             <Col span="8">
             <FormItem label="房屋街路巷：" prop="jlxmc">
               <div class="form-item">
@@ -79,12 +79,12 @@
             </FormItem>
             </Col>
             <!-- <Col span="8">
-                        <FormItem label="居住人姓名：" prop="hjdz">
-                          <div class="form-item">
-                            <Input v-model="queryForm.csd" ></Input>
-                          </div>
-                        </FormItem>
-                      </Col> -->
+                          <FormItem label="居住人姓名：" prop="hjdz">
+                            <div class="form-item">
+                              <Input v-model="queryForm.csd" ></Input>
+                            </div>
+                          </FormItem>
+                        </Col> -->
           </Row>
           <Row>
             <Col span="12" offset="8">
@@ -99,42 +99,45 @@
     <div v-show="data.length>0">
       <Table size="small" :columns="columns" :data="data">
       </Table>
-      <Page :current="pageInfo.pageNum" :total="pageInfo.pages" :page-size="pageInfo.pageSize" @on-change="changePage"></Page>
+      <div style="margin: 10px;overflow: hidden">
+        <div style="float: right;">
+          <Page :current="pageInfo.pageNum" :total="pageInfo.pages" :page-size="pageInfo.pageSize" @on-change="changePage"></Page>
+        </div>
+      </div>
     </div>
     <Spin size="large" fix v-if="spinShow"></Spin>
   </div>
 </template>
 
 <script>
-import { fetchFwjbxxList } from '@/api/cxtj/rycx'
-import Dept from '@/components/Dept.vue'
-export default {
-  data () {
-    return {
-      spinShow: false,
-      pageInfo: {
-        pageNum: 1,
-        pageSize: 10,
-        pages: 0
-      },
-      queryForm: {},
-      columns: [
-        {
+  import {
+    fetchFwjbxxList
+  } from '@/api/cxtj/rycx'
+  import Dept from '@/components/Dept.vue'
+  export default {
+    data () {
+      return {
+        spinShow: false,
+        pageInfo: {
+          pageNum: 1,
+          pageSize: 10,
+          pages: 0
+        },
+        queryForm: {},
+        columns: [{
           title: '房屋地址',
           key: 'mlphxx',
           render: (h, params) => {
             let mlphxx = params.row.mlphxx
             return h(
-              'Poptip',
-              {
-                props: {
-                  trigger: 'hover',
-                  placement: 'top-start',
-                  content: mlphxx
-                }
-              },
-              [h('span', mlphxx.length > 10 ? mlphxx.substring(6) : mlphxx)]
-            )
+                'Poptip', {
+                  props: {
+                    trigger: 'hover',
+                    placement: 'top-start',
+                    content: mlphxx
+                  }
+                }, [h('span', mlphxx.length > 10 ? mlphxx.substring(6) : mlphxx)]
+              )
           }
         },
         {
@@ -161,43 +164,43 @@ export default {
           title: '居住房屋类型',
           key: 'jzfwlxText'
         }
-      ],
-      data: []
-    }
-  },
-  components: {
-    Dept
-  },
-  methods: {
-    search () {
-      const _self = this
-      _self.spinShow = true
-      fetchFwjbxxList(this.pageInfo, this.queryForm)
-        .then(response => {
-          this.data = response.data.data.list
-          this.pageInfo.pages = response.data.data.pages
-          _self.spinShow = false
-        })
-        .catch(() => {
-          _self.spinShow = false
-        })
+        ],
+        data: []
+      }
     },
-    changePage (value) {
-      this.pageInfo.pageNum = value
-      this.search()
+    components: {
+      Dept
+    },
+    methods: {
+      search () {
+        const _self = this
+        _self.spinShow = true
+        fetchFwjbxxList(this.pageInfo, this.queryForm)
+          .then(response => {
+            this.data = response.data.data.list
+            this.pageInfo.pages = response.data.data.pages
+            _self.spinShow = false
+          })
+          .catch(() => {
+            _self.spinShow = false
+          })
+      },
+      changePage (value) {
+        this.pageInfo.pageNum = value
+        this.search()
+      }
     }
   }
-}
 </script>
 
 <style lang="less" scoped>
-.form-item {
-  display: inline-block;
-  width: 180px;
-}
-.ivu-form-item {
-  margin-bottom: 5px;
-}
+  .form-item {
+    display: inline-block;
+    width: 180px;
+  }
+  .ivu-form-item {
+    margin-bottom: 5px;
+  }
 </style>
 
 
