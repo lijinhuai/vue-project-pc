@@ -25,7 +25,7 @@ function hasPermission (roles, permissionRoles) {
 const whiteList = ['/login'] // 不重定向白名单
 router.beforeEach((to, from, next) => {
   NProgress.start() // 开启Progress
-  Util.title(to.meta.title)
+  Util.title(to.meta.title === undefined ? '金山区一标六实系统' : to.meta.title)
   if (Cookies.get('locking') === '1' && to.name !== 'locking') { // 判断当前是否是锁定状态
     next(false)
     router.replace({

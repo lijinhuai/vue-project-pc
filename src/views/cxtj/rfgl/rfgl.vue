@@ -42,10 +42,10 @@
           <div class="head head2"></div>
         </div>
         <div class="house-body">
-          <div v-for="floor in fwxx.floors" :key="floor.index" class="floor">
-            <Poptip trigger="hover" content="该房屋居住XX人">
-              <div v-for="room in floor.rooms" :key="room.index" class="room" @click="showRoomDetail(room.dztzm)">
-                <span>{{room.fwsh}}</span>
+          <div v-for="floor in house.floors" :key="floor.index" v-bind:class="{floor:true,floor_2:floor.rooms.length==2,floor_3:floor.rooms.length==3,floor_4:floor.rooms.length==4}">
+            <Poptip v-for="room in floor.rooms" :key="room.index" trigger="hover" :content="room.jzrsTip">
+              <div class="room" @click="showRoomDetail(room.dztzm)">
+                <span>{{room.houseRoomNum}}</span>
               </div>
             </Poptip>
           </div>
@@ -56,7 +56,28 @@
               <Table :columns="room.jzryCloumns" :data="room.jzryData"></Table>
             </Tab-pane>
             <Tab-pane label="居住历史" name="jzls">
-              <Table :columns="columns" :data="data"></Table>
+              <Timeline>
+                <Timeline-item>
+                  <p class="time">1976年</p>
+                  <p class="content">Apple I 问世</p>
+                </Timeline-item>
+                <Timeline-item>
+                  <p class="time">1984年</p>
+                  <p class="content">发布 Macintosh</p>
+                </Timeline-item>
+                <Timeline-item>
+                  <p class="time">2007年</p>
+                  <p class="content">发布 iPhone</p>
+                </Timeline-item>
+                <Timeline-item>
+                  <p class="time">2010年</p>
+                  <p class="content">发布 iPad</p>
+                </Timeline-item>
+                <Timeline-item>
+                  <p class="time">2011年10月5日</p>
+                  <p class="content">史蒂夫·乔布斯去世</p>
+                </Timeline-item>
+              </Timeline>
             </Tab-pane>
           </Tabs>
         </Modal>
@@ -72,9 +93,9 @@
 
 <script>
 import {
-  fetchRfglFwAddress,
-  fetchRfglFw,
-  fetchRfglFwry
+  fetchRfglHouseAddress,
+  fetchRfglHouse,
+  fetchRfglRPerson
 } from '@/api/cxtj/rfgl'
 export default {
   data () {
@@ -99,10 +120,7 @@ export default {
           key: 'address',
           render: (h, params) => {
             let address = params.row.address
-            return h(
-              'span',
-              address.substring(6)
-            )
+            return h('span', address.substring(6))
           }
         },
         {
@@ -130,7 +148,7 @@ export default {
         }
       ],
       data: [],
-      fwxx: [],
+      house: [],
       room: {
         jzryCloumns: [
           {
@@ -160,7 +178,7 @@ export default {
     },
     showRoomDetail (dztzm) {
       this.loading = true
-      fetchRfglFwry(dztzm).then(response => {
+      fetchRfglRPerson(dztzm).then(response => {
         this.room.jzryData = response.data.data
         this.modal = true
         this.loading = false
@@ -168,7 +186,7 @@ export default {
     },
     searchRfglFwAddress () {
       this.loading = true
-      fetchRfglFwAddress(this.pageInfo, this.queryForm).then(response => {
+      fetchRfglHouseAddress(this.pageInfo, this.queryForm).then(response => {
         this.data = response.data.data.list
         this.pageInfo.pages = response.data.data.pages
         this.cxTab = 'fwlb'
@@ -181,8 +199,8 @@ export default {
     },
     searchRfglFwxx (dztzm) {
       this.loading = true
-      fetchRfglFw(dztzm).then(response => {
-        this.fwxx = response.data.data.fwxx
+      fetchRfglHouse(dztzm).then(response => {
+        this.house = response.data.data
         this.loading = false
       })
     }
@@ -219,7 +237,6 @@ export default {
       display: flex;
       justify-content: center;
       .room {
-        width: 180px;
         height: 80px;
         background-color: #8ac6f7;
         display: inline-flex;
@@ -229,10 +246,33 @@ export default {
         margin: 3px;
         transition: all 0.3s;
         &:hover {
-          width: 185px;
           height: 85px;
           margin: 0px;
           cursor: pointer;
+        }
+      }
+    }
+    .floor_2 {
+      .room {
+        width: calc(360px / 2);
+        &:hover {
+          width: calc(360px / 2 + 5px);
+        }
+      }
+    }
+    .floor_3 {
+      .room {
+        width: calc((360px / 3) - 2.5px);
+        &:hover {
+          width: calc(360px / 3 + 5px);
+        }
+      }
+    }
+    .floor_4 {
+      .room {
+        width: calc((360px / 4) - 2.5px);
+        &:hover {
+          width: calc(360px / 4 + 5px);
         }
       }
     }
