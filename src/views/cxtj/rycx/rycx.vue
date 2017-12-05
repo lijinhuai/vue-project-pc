@@ -76,31 +76,28 @@
 </template>
 
 <script>
-  import Dept from '@/components/Dept.vue'
-  import {
-    fetchDictList
-  } from '@/api/dict'
-  import {
-    fetchRjbxxList
-  } from '@/api/cxtj/rycx'
-  export default {
-    data () {
-      return {
-        spinShow: false,
-        dictList: {
-          mz: []
-        },
-        pageInfo: {
-          pageNum: 1,
-          pageSize: 10,
-          pages: 0
-        },
-        queryForm: {
-          mzdm: '',
-          xm: '',
-          zjhm: ''
-        },
-        columns: [{
+import Dept from '@/components/Dept.vue'
+import { fetchDictList } from '@/api/dict'
+import { fetchRjbxxList } from '@/api/cxtj/rycx'
+export default {
+  data () {
+    return {
+      spinShow: false,
+      dictList: {
+        mz: []
+      },
+      pageInfo: {
+        pageNum: 1,
+        pageSize: 10,
+        pages: 0
+      },
+      queryForm: {
+        mzdm: '',
+        xm: '',
+        zjhm: ''
+      },
+      columns: [
+        {
           title: '姓名',
           key: 'xm'
         },
@@ -123,49 +120,74 @@
         {
           title: '户籍地址',
           key: 'hjdz'
+        },
+        {
+          title: '操作',
+          key: 'action',
+          render: (h, params) => {
+            const _self = this
+            return h(
+              'Button',
+              {
+                props: {
+                  type: 'primary',
+                  size: 'small'
+                },
+                on: {
+                  click: function () {
+                    _self.$router.push({
+                      name: 'rfgl',
+                      params: { zjhm: params.row.zjhm }
+                    })
+                  }
+                }
+              },
+              '人房关联'
+            )
+          }
         }
-        ],
-        data: []
-      }
-    },
-    components: {
-      Dept
-    },
-    mounted () {
-      this.initDict()
-    },
-    methods: {
-      search () {
-        const _self = this
-        _self.spinShow = true
-        fetchRjbxxList(this.pageInfo, this.queryForm)
-          .then(response => {
-            this.data = response.data.data.list
-            this.pageInfo.pages = response.data.data.pages
-            _self.spinShow = false
-          })
-          .catch(() => {
-            _self.spinShow = false
-          })
-      },
-      initDict () {
-        const _self = this
-        fetchDictList('MZ').then(response => {
-          _self.dictList.mz = response.data
+      ],
+      data: []
+    }
+  },
+  components: {
+    Dept
+  },
+  mounted () {
+    this.initDict()
+  },
+  methods: {
+    search () {
+      const _self = this
+      _self.spinShow = true
+      fetchRjbxxList(this.pageInfo, this.queryForm)
+        .then(response => {
+          this.data = response.data.data.list
+          this.pageInfo.pages = response.data.data.pages
+          _self.spinShow = false
         })
-      },
-      changePage (value) {
-        this.pageInfo.pageNum = value
-        this.search()
-      }
+        .catch(() => {
+          _self.spinShow = false
+        })
+    },
+    initDict () {
+      const _self = this
+      fetchDictList('MZ').then(response => {
+        _self.dictList.mz = response.data
+      })
+    },
+    changePage (value) {
+      this.pageInfo.pageNum = value
+      this.search()
     }
   }
+}
 </script>
 
 <style lang="less" scoped>
-  .ivu-form-item {
-    margin-bottom: 5px;
-  }
+.ivu-form-item {
+  margin-bottom: 5px;
+}
 </style>
 
 
