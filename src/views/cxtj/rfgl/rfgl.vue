@@ -22,8 +22,8 @@
                 <Input v-model="queryForm.sh" placeholder="请输入"></Input>
               </Form-item>
               <Form-item>
-                <Button type="primary" @click="searchRfglHouseAddress">搜索</Button>
-                <Button type="ghost" @click="clearRfglHouseAddress" style="margin-left: 8px">重置</Button>
+                <Button type="primary" @click="searchRfglRoom">搜索</Button>
+                <Button type="ghost" @click="clearSearchRfglRoom" style="margin-left: 8px">重置</Button>
               </Form-item>
             </Form>
             <Form v-show="cxlb=='sfz'" :model="queryForm" :label-width="80">
@@ -31,8 +31,8 @@
                 <Input v-model="queryForm.sfzh" placeholder="请输入"></Input>
               </Form-item>
               <Form-item>
-                <Button type="primary" @click="searchRfglHouseAddress">搜索</Button>
-                <Button type="ghost" @click="clearRfglHouseAddress" style="margin-left: 8px">重置</Button>
+                <Button type="primary" @click="searchRfglRoom">搜索</Button>
+                <Button type="ghost" @click="clearSearchRfglRoom" style="margin-left: 8px">重置</Button>
               </Form-item>
             </Form>
           </Tab-pane>
@@ -114,7 +114,7 @@
 
 <script>
   import {
-    fetchRfglHouseAddress,
+    fetchRfglRoom,
     fetchRfglHouse,
     fetchRfglRPerson
   } from '@/api/cxtj/rfgl'
@@ -164,7 +164,7 @@
                   on: {
                     click: function () {
                       _self.showRoomDetail(params.row.dztzm)
-                      _self.searchRfglFwxx(params.row.dztzm)
+                      _self.searchRfglHouse(params.row.dztzm)
                     }
                   }
                 },
@@ -216,6 +216,12 @@
       if (zjhm) {
         this.cxlb = 'sfz'
         this.queryForm.sfzh = zjhm
+        this.searchRfglRoom()
+      }
+      let dztzm = this.$route.params.dztzm
+      if (dztzm) {
+        this.queryForm.dztzm = dztzm
+        this.searchRfglRoom()
       }
     },
     methods: {
@@ -233,24 +239,24 @@
           this.loading = false
         })
       },
-      searchRfglHouseAddress () {
+      searchRfglRoom () {
         this.loading = true
         this.house = {}
-        fetchRfglHouseAddress(this.pageInfo, this.queryForm).then(response => {
+        fetchRfglRoom(this.pageInfo, this.queryForm).then(response => {
           this.data = response.data.data.list
           this.pageInfo.pages = response.data.data.pages
           this.cxTab = 'fwlb'
           this.loading = false
         })
       },
-      clearRfglHouseAddress () {
+      clearSearchRfglRoom () {
         this.queryForm = {}
       },
       changePage (value) {
         this.pageInfo.pageNum = value
-        this.searchRfglHouseAddress()
+        this.searchRfglRoom()
       },
-      searchRfglFwxx (dztzm) {
+      searchRfglHouse (dztzm) {
         this.loading = true
         fetchRfglHouse(dztzm).then(response => {
           this.house = response.data.data
@@ -258,7 +264,7 @@
         })
       },
       onRowClick (row) {
-        this.searchRfglFwxx(row.dztzm)
+        this.searchRfglHouse(row.dztzm)
       }
     },
     watch: {
@@ -270,6 +276,10 @@
           this.queryForm.mnph = ''
           this.queryForm.sh = ''
         }
+        this.queryForm.dztzm = ''
+      },
+      cxTab (value) {
+        this.queryForm.dztzm = ''
       }
     }
   }

@@ -104,19 +104,19 @@ export const otherRouter = {
 // 作为Main组件的子页面展示并且在左侧菜单显示的路由写在appRouter里
 export const appRouter = [{
   path: '/sysmanage',
-  icon: 'social-buffer',
+  icon: 'ios-gear',
   name: 'sysmanage',
   title: '系统管理',
   component: Main,
   children: [{
-    path: '/usermanage',
+    path: 'usermanage',
     icon: 'compose',
     name: 'usermanage',
     title: '用户管理',
     component: _import('sysmanage/user/user-manage')
   },
   {
-    path: '/rolemanage',
+    path: 'rolemanage',
     icon: 'compose',
     name: 'rolemanage',
     title: '角色管理',
@@ -131,21 +131,21 @@ export const appRouter = [{
   title: '查询统计',
   component: Main,
   children: [{
-    path: '/rfgl',
+    path: 'rfgl',
     icon: 'compose',
     name: 'rfgl',
     title: '人房关联',
     component: _import('cxtj/rfgl/rfgl')
   },
   {
-    path: '/rycx',
+    path: 'rycx',
     icon: 'compose',
     name: 'rycx',
     title: '人员查询',
     component: _import('cxtj/rycx/rycx')
   },
   {
-    path: '/fwcx',
+    path: 'fwcx',
     icon: 'compose',
     name: 'fwcx',
     title: '房屋查询',

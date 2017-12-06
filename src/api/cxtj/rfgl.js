@@ -1,12 +1,12 @@
 import fetch from '@/utils/fetch'
 // 查询房屋地址信息
-export function fetchRfglHouseAddress (pageInfo, data) {
+export function fetchRfglRoom (pageInfo, data) {
   const params = {
     ...pageInfo,
     ...data
   }
   return fetch({
-    url: '/rfgl/houses',
+    url: '/rfgl/rooms',
     method: 'get',
     params: params
   })

@@ -11,15 +11,3 @@ export function fetchRjbxxList (pageInfo, data) {
     params: params
   })
 }
-// 查询房屋信息
-export function fetchFwjbxxList (pageInfo, data) {
-  const params = {
-    ...pageInfo,
-    ...data
-  }
-  return fetch({
-    url: '/fwjbxx',
-    method: 'get',
-    params: params
-  })
-}

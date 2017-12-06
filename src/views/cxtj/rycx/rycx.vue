@@ -19,29 +19,16 @@
             <FormItem label="民族：" prop="mzdm">
               <div style="display:inline-block;width:180px;">
                 <Select v-model="queryForm.mzdm" style="width:180px" filterable clearable>
-                                                                                            <Option v-for="dict in dictList.mz" :key="dict.index" :value="dict.key">{{dict.value}}</Option>
-                                                                                          </Select>
+                  <Option v-for="dict in dictList.mz" :key="dict.index" :value="dict.key">{{dict.value}}</Option>
+                </Select>
               </div>
             </FormItem>
             </Col>
-            <!-- <Col span="8">
-                                                                                      <FormItem label="部门：" prop="bm">
-                                                                                        <div style="display:inline-block;width:180px;">
-                                                                                          <Dept></Dept>
-                                                                                        </div>
-                                                                                      </FormItem>
-                                                                                    </Col> -->
             <Col span="8">
             <FormItem label="公民身份证号：" prop="zjhm">
               <div style="display:inline-block;width:180px;">
                 <Input v-model="queryForm.zjhm"></Input>
               </div>
-            </FormItem>
-            </Col>
-            <Col span="8">
-            <FormItem label="日期：" prop="bm">
-              <Date-picker type="daterange" placement="bottom-start" placeholder="选择日期" style="width: 180px">
-              </Date-picker>
             </FormItem>
             </Col>
             <Col span="8">
@@ -99,19 +86,23 @@ export default {
       columns: [
         {
           title: '姓名',
-          key: 'xm'
+          key: 'xm',
+          width: '140px'
         },
         {
           title: '性别',
-          key: 'xbhz'
+          key: 'xbhz',
+          width: '80px'
         },
         {
           title: '民族',
-          key: 'mzhz'
+          key: 'mzhz',
+          width: '100px'
         },
         {
           title: '出生日期',
-          key: 'csrq'
+          key: 'csrq',
+          width: '100px'
         },
         {
           title: '公民身份证号码',
@@ -124,6 +115,7 @@ export default {
         {
           title: '操作',
           key: 'action',
+          width: '120px',
           render: (h, params) => {
             const _self = this
             return h(
@@ -137,7 +129,9 @@ export default {
                   click: function () {
                     _self.$router.push({
                       name: 'rfgl',
-                      params: { zjhm: params.row.zjhm }
+                      params: {
+                        zjhm: params.row.zjhm
+                      }
                     })
                   }
                 }

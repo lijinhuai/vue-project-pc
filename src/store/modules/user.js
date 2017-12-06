@@ -71,7 +71,7 @@ const user = {
             Cookies.set('password', userInfo.password)
             commit(
               'setAvator',
-              'https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=3448484253,3685836170&fm=27&gp=0.jpg'
+              'https://ss0.bdstatic.com/94oJfD_bAAcT8t7mm9GUKT-xh_/timg?image&quality=100&size=b4000_4000&sec=1512529926&di=c92afacc5626da6084148693f630f03d&src=http://wx3.sinaimg.cn/wap720/e629955ely1fbth7eblbmj21b60qowld.jpg'
             )
             if (username === 'iview_admin') {
               Cookies.set('access', 0)

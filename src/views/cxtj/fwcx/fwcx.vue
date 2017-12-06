@@ -8,59 +8,24 @@
       <div>
         <Form ref="queryForm" :model="queryForm" :label-width="100" label-position="right" inline>
           <Row>
-            <!-- <Col span="8">
-                          <FormItem label="房屋属性：" prop="xm">
-                            <div class="form-item">
-                              <Select v-model="queryForm.mz" clearable>
-                                <Option value="beijing">居住房屋</Option>
-                                <Option value="shanghai">出租房屋</Option>
-                              </Select>
-                            </div>
-                          </FormItem>
-                        </Col>
-                        <Col span="8">
-                          <FormItem label="房屋结构：" prop="mz">
-                            <div class="form-item">
-                              <Select v-model="queryForm.mz" clearable>
-                                <Option value="beijing">楼房</Option>
-                                <Option value="shanghai">平方</Option>
-                              </Select>
-                            </div>
-                          </FormItem>
-                        </Col> -->
             <Col span="8">
-            <FormItem label="房屋街路巷：" prop="jlxmc">
+            <FormItem label="路名：" prop="lm">
               <div class="form-item">
-                <Input v-model="queryForm.jlxmc"></Input>
+                <Input v-model="queryForm.lm"></Input>
               </div>
             </FormItem>
             </Col>
             <Col span="8">
-            <FormItem label="门牌号：" prop="yjmlph">
+            <FormItem label="门弄牌号：" prop="mnph">
               <div class="form-item">
-                <Input v-model="queryForm.yjmlph"></Input>
+                <Input v-model="queryForm.mnph"></Input>
               </div>
             </FormItem>
             </Col>
             <Col span="8">
-            <FormItem label="幢楼号：" prop="bm">
-              <div class="form-item">
-                <Input></Input>
-              </div>
-            </FormItem>
-            </Col>
-            <Col span="8">
-            <FormItem label="房屋室号：" prop="sh">
+            <FormItem label="室号：" prop="sh">
               <div class="form-item">
                 <Input v-model="queryForm.sh"></Input>
-              </div>
-            </FormItem>
-            </Col>
-            <Col span="8">
-            <FormItem label="日期：" prop="hjdz">
-              <div class="form-item">
-                <Date-picker type="daterange" placement="bottom-start" placeholder="选择日期" style="width:180px">
-                </Date-picker>
               </div>
             </FormItem>
             </Col>
@@ -78,13 +43,6 @@
               </div>
             </FormItem>
             </Col>
-            <!-- <Col span="8">
-                          <FormItem label="居住人姓名：" prop="hjdz">
-                            <div class="form-item">
-                              <Input v-model="queryForm.csd" ></Input>
-                            </div>
-                          </FormItem>
-                        </Col> -->
           </Row>
           <Row>
             <Col span="12" offset="8">
@@ -110,97 +68,132 @@
 </template>
 
 <script>
-  import {
-    fetchFwjbxxList
-  } from '@/api/cxtj/rycx'
-  import Dept from '@/components/Dept.vue'
-  export default {
-    data () {
-      return {
-        spinShow: false,
-        pageInfo: {
-          pageNum: 1,
-          pageSize: 10,
-          pages: 0
-        },
-        queryForm: {},
-        columns: [{
+import { fetchFwjbxxList } from '@/api/cxtj/fwcx'
+import Dept from '@/components/Dept.vue'
+export default {
+  data () {
+    return {
+      spinShow: false,
+      pageInfo: {
+        pageNum: 1,
+        pageSize: 10,
+        pages: 0
+      },
+      queryForm: {},
+      columns: [
+        {
           title: '房屋地址',
-          key: 'mlphxx',
+          key: 'address',
           render: (h, params) => {
-            let mlphxx = params.row.mlphxx
+            let address = params.row.mlphxx + params.row.sh
             return h(
-                'Poptip', {
-                  props: {
-                    trigger: 'hover',
-                    placement: 'top-start',
-                    content: mlphxx
-                  }
-                }, [h('span', mlphxx.length > 10 ? mlphxx.substring(6) : mlphxx)]
-              )
+              'Poptip',
+              {
+                props: {
+                  trigger: 'hover',
+                  placement: 'top-start',
+                  content: address
+                }
+              },
+              [h('span', address.length > 10 ? address.substring(6) : address)]
+            )
           }
         },
         {
           title: '居村委名称',
-          key: 'jcwmc'
+          key: 'jcwmc',
+          width: '120px'
         },
         {
           title: '派出所',
-          key: 'pcsmc'
+          key: 'pcsmc',
+          width: '120px'
         },
         {
           title: '房主姓名',
-          key: 'fzxm'
+          key: 'fzxm',
+          width: '120px'
         },
         {
           title: '房主联系电话',
-          key: 'fzlxdh'
+          key: 'fzlxdh',
+          width: '140px'
         },
         {
           title: '房主证件号码',
-          key: 'fzzjhm'
+          key: 'fzzjhm',
+          width: '180px'
         },
         {
           title: '居住房屋类型',
-          key: 'jzfwlxText'
+          key: 'jzfwlxText',
+          width: '140px'
+        },
+        {
+          title: '操作',
+          key: 'action',
+          width: '120px',
+          render: (h, params) => {
+            const _self = this
+            return h(
+              'Button',
+              {
+                props: {
+                  type: 'primary',
+                  size: 'small'
+                },
+                on: {
+                  click: function () {
+                    _self.$router.push({
+                      name: 'rfgl',
+                      params: {
+                        dztzm: params.row.dztzm
+                      }
+                    })
+                  }
+                }
+              },
+              '人房关联'
+            )
+          }
         }
-        ],
-        data: []
-      }
+      ],
+      data: []
+    }
+  },
+  components: {
+    Dept
+  },
+  methods: {
+    search () {
+      const _self = this
+      _self.spinShow = true
+      fetchFwjbxxList(this.pageInfo, this.queryForm)
+        .then(response => {
+          this.data = response.data.data.list
+          this.pageInfo.pages = response.data.data.pages
+          _self.spinShow = false
+        })
+        .catch(() => {
+          _self.spinShow = false
+        })
     },
-    components: {
-      Dept
-    },
-    methods: {
-      search () {
-        const _self = this
-        _self.spinShow = true
-        fetchFwjbxxList(this.pageInfo, this.queryForm)
-          .then(response => {
-            this.data = response.data.data.list
-            this.pageInfo.pages = response.data.data.pages
-            _self.spinShow = false
-          })
-          .catch(() => {
-            _self.spinShow = false
-          })
-      },
-      changePage (value) {
-        this.pageInfo.pageNum = value
-        this.search()
-      }
+    changePage (value) {
+      this.pageInfo.pageNum = value
+      this.search()
     }
   }
+}
 </script>
 
 <style lang="less" scoped>
-  .form-item {
-    display: inline-block;
-    width: 180px;
-  }
-  .ivu-form-item {
-    margin-bottom: 5px;
-  }
+.form-item {
+  display: inline-block;
+  width: 180px;
+}
+.ivu-form-item {
+  margin-bottom: 5px;
+}
 </style>
 
 
