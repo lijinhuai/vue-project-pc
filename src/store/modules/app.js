@@ -35,7 +35,7 @@ const app = {
     cachePage: [],
     lang: '',
     isFullScreen: false,
-    dontCache: ['text-editor'] // 在这里定义你不想要缓存的页面的name属性值(参见路由配置router.js)
+    dontCache: ['rfgl'] // 在这里定义你不想要缓存的页面的name属性值(参见路由配置router.js)
   },
   getters: {
 
@@ -52,11 +52,17 @@ const app = {
       })
     },
     increateTag (state, tagObj) {
+      // if (!Util.oneOf(tagObj.name, state.dontCache)) {
+      //   state.cachePage.push(tagObj.name)
+      //   localStorage.cachePage = JSON.stringify(state.cachePage)
+      // }
+      // state.pageOpenedList.push(tagObj)
       if (!Util.oneOf(tagObj.name, state.dontCache)) {
         state.cachePage.push(tagObj.name)
         localStorage.cachePage = JSON.stringify(state.cachePage)
       }
       state.pageOpenedList.push(tagObj)
+      localStorage.pageOpenedList = JSON.stringify(state.pageOpenedList)
     },
     initCachepage (state) {
       if (localStorage.cachePage) {

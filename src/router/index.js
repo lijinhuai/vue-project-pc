@@ -132,21 +132,21 @@ export const appRouter = [{
   component: Main,
   children: [{
     path: 'rfgl',
-    icon: 'compose',
+    icon: 'person-add',
     name: 'rfgl',
     title: '人房关联',
     component: _import('cxtj/rfgl/rfgl')
   },
   {
     path: 'rycx',
-    icon: 'compose',
+    icon: 'person',
     name: 'rycx',
     title: '人员查询',
     component: _import('cxtj/rycx/rycx')
   },
   {
     path: 'fwcx',
-    icon: 'compose',
+    icon: 'home',
     name: 'fwcx',
     title: '房屋查询',
     component: _import('cxtj/fwcx/fwcx')

@@ -98,7 +98,7 @@ export default {
       spanLeft: 4,
       spanRight: 20,
       currentPageName: '',
-      hideMenuText: false,
+      hideMenuText: true,
       userName: '',
       showFullScreenBtn: window.navigator.userAgent.indexOf('MSIE') < 0,
       messageCount: 0,

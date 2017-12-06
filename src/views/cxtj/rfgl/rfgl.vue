@@ -101,6 +101,9 @@
               </Timeline>
             </Tab-pane>
           </Tabs>
+          <div slot="footer">
+            <Button type="primary" @click="modal=false" size="large">确定</Button>
+          </div>
         </Modal>
       </Card>
       </Col>
@@ -118,7 +121,9 @@
     fetchRfglHouse,
     fetchRfglRPerson
   } from '@/api/cxtj/rfgl'
+  import PersonPhoto from './components/PersonPhoto.vue'
   export default {
+    name: 'rfgl',
     data () {
       return {
         modal: false,
@@ -185,6 +190,28 @@
             }
           },
           {
+            title: '照片',
+            key: 'photo',
+            width: '80px',
+            render: (h, params) => {
+              if (params.row.photoList == null || params.row.photoList.length === 0) {
+                return h('span', {
+                  attrs: {
+                    style: 'color:#9ea7b4'
+                  }
+                },
+                    '无照片'
+                  )
+              } else {
+                return h(PersonPhoto, {
+                  props: {
+                    uploadList: params.row.photoList
+                  }
+                })
+              }
+            }
+          },
+          {
             title: '人员类别',
             key: 'syrklbhz',
             width: '120px'
@@ -211,7 +238,10 @@
         }
       }
     },
-    mounted () {
+    components: {
+      PersonPhoto
+    },
+    created () {
       let zjhm = this.$route.params.zjhm
       if (zjhm) {
         this.cxlb = 'sfz'
@@ -237,6 +267,9 @@
           this.room.jzryData = response.data.data
           this.modal = true
           this.loading = false
+        }).catch(() => {
+          this.loading = false
+          this.error()
         })
       },
       searchRfglRoom () {
@@ -247,6 +280,9 @@
           this.pageInfo.pages = response.data.data.pages
           this.cxTab = 'fwlb'
           this.loading = false
+        }).catch(() => {
+          this.loading = false
+          this.error()
         })
       },
       clearSearchRfglRoom () {
@@ -261,10 +297,16 @@
         fetchRfglHouse(dztzm).then(response => {
           this.house = response.data.data
           this.loading = false
+        }).catch(() => {
+          this.loading = false
+          this.error()
         })
       },
       onRowClick (row) {
         this.searchRfglHouse(row.dztzm)
+      },
+      error () {
+        this.$Message.error('查询错误！')
       }
     },
     watch: {

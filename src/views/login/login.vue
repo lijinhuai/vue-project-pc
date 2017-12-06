@@ -84,7 +84,7 @@
   }
 </script>
 
-<style>
+<style scoped>
   .ivu-card {
     background: transparent;
   }
