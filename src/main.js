@@ -2,23 +2,18 @@
 // (runtime-only or standalone) has been set in webpack.base.conf with an alias.
 import Vue from 'vue'
 import App from './App'
-import router from './router'
 import store from './store'
-import './permission' // 权限
+import router from '@/router/index'
+import {appRouter} from '@/router/router'
+import '@/permission' // 权限
 import './UI'
+import '@/locale'
 // import './mock' // 该项目所有请求使用mockjs模拟
-import {appRouter} from '@/router'
-import './i18n'
 
 Vue.config.productionTip = false
 
 /* eslint-disable no-new */
 new Vue({
-  // el: '#app',
-  // router,
-  // store,
-  // template: '<App/>',
-  // components: { App }
   el: '#app',
   router: router,
   store: store,
@@ -28,22 +23,11 @@ new Vue({
   },
   mounted () {
     this.currentPageName = this.$route.name
+    // 显示打开的页面的列表
+    this.$store.commit('setOpenedList')
     this.$store.commit('initCachepage')
-      // 权限菜单过滤相关
+    // 权限菜单过滤相关
     this.$store.commit('updateMenulist')
-      // 全屏相关
-    document.addEventListener('fullscreenchange', () => {
-      this.$store.commit('changeFullScreenState')
-    })
-    document.addEventListener('mozfullscreenchange', () => {
-      this.$store.commit('changeFullScreenState')
-    })
-    document.addEventListener('webkitfullscreenchange', () => {
-      this.$store.commit('changeFullScreenState')
-    })
-    document.addEventListener('msfullscreenchange', () => {
-      this.$store.commit('changeFullScreenState')
-    })
   },
   created () {
     let tagsList = []

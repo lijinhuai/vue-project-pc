@@ -76,6 +76,9 @@
                 this.$router.push({
                   name: 'home_index'
                 })
+              }).catch(() => {
+                _self.loading = false
+                this.$Message.error('登录失败！')
               })
           }
         })
