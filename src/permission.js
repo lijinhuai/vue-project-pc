@@ -1,19 +1,23 @@
 import router from './router/index'
-import store from './store'
-import NProgress from 'nprogress' // Progress 进度条
-import 'nprogress/nprogress.css' // Progress 进度条样式
-// import * as dictUtil from './utils/dict'
-import {
-  getToken
-} from '@/utils/auth' // 验权
-
-import Util from './libs/util'
-import Cookies from 'js-cookie'
 import {
   routers,
   otherRouter,
   appRouter
 } from '@/router/router'
+
+import store from './store'
+
+import NProgress from 'nprogress' // Progress 进度条
+import 'nprogress/nprogress.css' // Progress 进度条样式
+
+import Util from './libs/util'
+import Cookies from 'js-cookie'
+
+import config from '@/config/index'
+
+import {
+  getToken
+} from '@/utils/auth' // 验权
 
 // permissiom judge
 function hasPermission (roles, permissionRoles) {
@@ -26,7 +30,7 @@ function hasPermission (roles, permissionRoles) {
 const whiteList = ['/login'] // 不重定向白名单
 router.beforeEach((to, from, next) => {
   NProgress.start() // 开启Progress
-  Util.title(to.meta.title === undefined ? '金山区一标六实系统' : to.meta.title)
+  Util.title(to.meta.title === undefined ? config.systemTitle : to.meta.title)
   if (Cookies.get('locking') === '1' && to.name !== 'locking') { // 判断当前是否是锁定状态
     next({
       replace: true,

@@ -1,5 +1,5 @@
 import axios from 'axios'
-import env from '../config/index'
+import env from '@/config/index'
 import semver from 'semver'
 import packjson from '../../package.json'
 

@@ -65,7 +65,7 @@
 <script>
   import Dept from '@/components/Dept.vue'
   import {
-    fetchDictList
+    fetchDbDictList
   } from '@/api/dict'
   import {
     fetchRjbxxList
@@ -168,7 +168,7 @@
       },
       initDict () {
         const _self = this
-        fetchDictList('MZ').then(response => {
+        fetchDbDictList('MZ').then(response => {
           _self.dictList.mz = response.data
         })
       },

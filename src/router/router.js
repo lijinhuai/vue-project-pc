@@ -148,6 +148,36 @@ export const appRouter = [{
     component: _import('cxtj/fwcx/fwcx')
   }
   ]
+},
+{
+  path: '/mpgl',
+  icon: 'social-buffer',
+  name: 'mpgl',
+  title: '门牌管理',
+  component: Main,
+  children: [{
+    path: 'mpcx',
+    icon: 'person-add',
+    name: 'mpcx',
+    title: '门牌查询',
+    component: _import('mpgl/mpcx/mpcx')
+  },
+  {
+    path: 'mpsq',
+    icon: 'person-add',
+    name: 'mpsq',
+    title: '门牌申请',
+    component: _import('mpgl/mpsq/mpsq')
+  },
+  {
+    path: 'mpsp',
+    icon: 'person-add',
+    name: 'mpsp',
+    title: '门牌审批',
+    component: _import('mpgl/mpsp/mpsp')
+  }
+
+  ]
 }
 ]
 
