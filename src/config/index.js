@@ -9,6 +9,6 @@ const BASE_API = Env === 'development'
 let config = {
   env: Env,
   BASE_API: BASE_API,
-  systemTitle: '金山区一标六实管理'
+  systemTitle: '金山区一标六实管理系统'
 }
 export default config

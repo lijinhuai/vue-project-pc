@@ -246,6 +246,8 @@ export default {
     PersonPhoto
   },
   created () {
+  },
+  activated () {
     let zjhm = this.$route.params.zjhm
     if (zjhm) {
       this.cxlb = 'sfz'
