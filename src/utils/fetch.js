@@ -5,7 +5,7 @@ import config from '@/config/index'
 
 import {
   getToken
-} from '@/utils/auth'
+} from '@/utils/auth' // 验权
 
 // 创建axios实例
 const service = axios.create({

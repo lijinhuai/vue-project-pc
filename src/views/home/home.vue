@@ -34,7 +34,7 @@
                         </Row>
                     </Card>
                 </Row>
-                <Row class="margin-top-10">
+                <!-- <Row class="margin-top-10">
                     <Card>
                         <p slot="title" class="card-title">
                             <Icon type="android-checkbox-outline"></Icon>
@@ -62,9 +62,9 @@
                             </div>
                         </div>
                     </Card>
-                </Row>
+                </Row> -->
             </Col>
-            <Col span="16" class-name="padding-left-5">
+            <!-- <Col span="16" class-name="padding-left-5">
                 <Row>
                     <Col span="6">
                         <infor-card
@@ -122,9 +122,9 @@
                         </div>
                     </Card>
                 </Row>
-            </Col>
+            </Col> -->
         </Row>
-        <Row class="margin-top-10">
+        <!-- <Row class="margin-top-10">
             <Col span="8">
                 <Card>
                     <p slot="title" class="card-title">
@@ -169,7 +169,7 @@
                     <service-requests></service-requests>
                 </div>
             </Card>
-        </Row>
+        </Row> -->
     </div>
 </template>
 

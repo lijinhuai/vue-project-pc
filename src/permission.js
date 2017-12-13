@@ -15,10 +15,6 @@ import Cookies from 'js-cookie'
 
 import config from '@/config/index'
 
-import {
-  getToken
-} from '@/utils/auth' // 验权
-
 // permissiom judge
 function hasPermission (roles, permissionRoles) {
   if (roles.indexOf('admin') >= 0) return true // admin权限 直接通过
@@ -40,7 +36,7 @@ router.beforeEach((to, from, next) => {
   } else if (Cookies.get('locking') === '0' && to.name === 'locking') {
     next(false)
   } else {
-    if (getToken()) { // 有token 已登录
+    if (store.getters.token) { // 有token 已登录
       if (to.name === 'login') { // 前往的是登录页
         Util.title()
         next({
