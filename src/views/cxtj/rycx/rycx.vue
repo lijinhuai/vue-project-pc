@@ -54,7 +54,7 @@
       </Table>
       <div style="margin: 10px;overflow: hidden">
         <div style="float: right;">
-          <Page :current="pageInfo.pageNum" :total="pageInfo.pages" :page-size="pageInfo.pageSize" @on-change="changePage"></Page>
+          <Page :current="pageInfo.pageNum" :total="pageInfo.total" :page-size="pageInfo.pageSize" @on-change="changePage"></Page>
         </div>
       </div>
     </div>
@@ -80,7 +80,7 @@
         pageInfo: {
           pageNum: 1,
           pageSize: 10,
-          pages: 0
+          total: 0
         },
         queryForm: {
           mzdm: '',
@@ -159,7 +159,7 @@
         fetchRjbxxList(this.pageInfo, this.queryForm)
           .then(response => {
             this.data = response.data.data.list
-            this.pageInfo.pages = response.data.data.pages
+            this.pageInfo.total = response.data.data.total
             _self.spinShow = false
           })
           .catch(() => {

@@ -40,7 +40,7 @@
             <Table :columns="columns" :data="data" @on-row-click="onRowClick"></Table>
             <div style="margin: 10px;overflow: hidden">
               <div style="float: right;">
-                <Page v-show="data.length>0" :current="pageInfo.pageNum" :total="pageInfo.pages" :page-size="pageInfo.pageSize" @on-change="changePage"></Page>
+                <Page v-show="data.length>0" :current="pageInfo.pageNum" :total="pageInfo.total" :page-size="pageInfo.pageSize" @on-change="changePage"></Page>
               </div>
             </div>
           </Tab-pane>
@@ -129,7 +129,7 @@ export default {
       pageInfo: {
         pageNum: 1,
         pageSize: 5,
-        pages: 0
+        total: 0
       },
       queryForm: {
         lm: '',
@@ -286,7 +286,7 @@ export default {
       fetchRfglRoom(this.pageInfo, this.queryForm)
         .then(response => {
           this.data = response.data.data.list
-          this.pageInfo.pages = response.data.data.pages
+          this.pageInfo.total = response.data.data.total
           this.cxTab = 'fwlb'
           this.loading = false
         })
