@@ -71,6 +71,7 @@
 import { fetchFwjbxxList } from '@/api/cxtj/fwcx'
 import Dept from '@/components/Dept.vue'
 export default {
+  name: 'fwcx',
   data () {
     return {
       spinShow: false,

@@ -112,6 +112,7 @@ import { fetchAddressInfoList } from '@/api/address/address'
 import { fetchRfglHouse } from '@/api/cxtj/rfgl'
 import Dept from '@/components/Dept.vue'
 export default {
+  name: 'mpsq',
   data () {
     return {
       dictList: {

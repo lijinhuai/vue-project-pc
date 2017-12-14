@@ -17,8 +17,8 @@
                 </template>
                 <template v-for="child in item.children">
                     <MenuItem :name="child.name" :key="child.name">
-                        <Icon :type="child.icon" :size="iconSize" :key="child.name"></Icon>
-                        <span class="layout-text" :key="child.name">{{ itemTitle(child) }}</span>
+                        <Icon :type="child.icon" :size="iconSize" :key="child.id"></Icon>
+                        <span class="layout-text" :key="child.id">{{ itemTitle(child) }}</span>
                     </MenuItem>
                 </template>
             </Submenu>

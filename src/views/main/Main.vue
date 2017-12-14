@@ -16,8 +16,8 @@
       <div class="main-header">
         <div class="navicon-con">
           <Button :style="{transform: 'rotateZ(' + (this.shrink ? '-90' : '0') + 'deg)'}" type="text" @click="toggleClick">
-                              <Icon type="navicon" size="32"></Icon>
-                          </Button>
+                                <Icon type="navicon" size="32"></Icon>
+                            </Button>
         </div>
         <div class="header-middle-con">
           <div class="main-breadcrumb">
@@ -52,10 +52,6 @@
     </div>
     <div class="single-page-con" :style="{left: shrink?'60px':'200px'}">
       <div class="single-page">
-        <!-- <keep-alive>
-            <router-view v-if="$route.meta.keepAlive"></router-view>
-          </keep-alive>
-          <router-view v-if="!$route.meta.keepAlive"></router-view> -->
         <keep-alive :include="cachePage">
           <router-view></router-view>
         </keep-alive>

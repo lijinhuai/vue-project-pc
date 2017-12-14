@@ -71,6 +71,7 @@
     fetchRjbxxList
   } from '@/api/cxtj/rycx'
   export default {
+    name: 'rycx',
     data () {
       return {
         spinShow: false,

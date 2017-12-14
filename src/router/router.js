@@ -92,9 +92,6 @@ export const otherRouter = {
     name: 'message_index',
     component: resolve => {
       require(['../views/message/message.vue'], resolve)
-    },
-    meta: {
-      keepAlive: true
     }
   }
   ]
@@ -112,20 +109,14 @@ export const appRouter = [{
     icon: 'compose',
     name: 'usermanage',
     title: '用户管理',
-    component: _import('sysmanage/user/user-manage'),
-    meta: {
-      keepAlive: true
-    }
+    component: _import('sysmanage/user/user-manage')
   },
   {
     path: 'rolemanage',
     icon: 'compose',
     name: 'rolemanage',
     title: '角色管理',
-    component: _import('sysmanage/role/role-manage'),
-    meta: {
-      keepAlive: true
-    }
+    component: _import('sysmanage/role/role-manage')
   }
   ]
 },
@@ -140,30 +131,21 @@ export const appRouter = [{
     icon: 'person-add',
     name: 'rfgl',
     title: '人房关联',
-    component: _import('cxtj/rfgl/rfgl'),
-    meta: {
-      keepAlive: true
-    }
+    component: _import('cxtj/rfgl/rfgl')
   },
   {
     path: 'rycx',
     icon: 'person',
     name: 'rycx',
     title: '人员查询',
-    component: _import('cxtj/rycx/rycx'),
-    meta: {
-      keepAlive: true
-    }
+    component: _import('cxtj/rycx/rycx')
   },
   {
     path: 'fwcx',
     icon: 'home',
     name: 'fwcx',
     title: '房屋查询',
-    component: _import('cxtj/fwcx/fwcx'),
-    meta: {
-      keepAlive: true
-    }
+    component: _import('cxtj/fwcx/fwcx')
   }
   ]
 },
@@ -178,30 +160,21 @@ export const appRouter = [{
     icon: 'person-add',
     name: 'mpcx',
     title: '门牌查询',
-    component: _import('mpgl/mpcx/mpcx'),
-    meta: {
-      keepAlive: true
-    }
+    component: _import('mpgl/mpcx/mpcx')
   },
   {
     path: 'mpsq',
     icon: 'person-add',
     name: 'mpsq',
     title: '门牌申请',
-    component: _import('mpgl/mpsq/mpsq'),
-    meta: {
-      keepAlive: true
-    }
+    component: _import('mpgl/mpsq/mpsq')
   },
   {
     path: 'mpsp',
     icon: 'person-add',
     name: 'mpsp',
     title: '门牌审批',
-    component: _import('mpgl/mpsp/mpsp'),
-    meta: {
-      keepAlive: true
-    }
+    component: _import('mpgl/mpsp/mpsp')
   }
 
   ]
