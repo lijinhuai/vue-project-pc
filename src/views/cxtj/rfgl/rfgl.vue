@@ -123,8 +123,8 @@ import {
   fetchRfglRoom,
   fetchRfglHouse,
   fetchRfglRPerson
-} from '@/api/cxtj/rfgl';
-import PersonPhoto from './components/PersonPhoto.vue';
+} from '@/api/cxtj/rfgl'
+import PersonPhoto from './components/PersonPhoto.vue'
 export default {
   name: 'rfgl',
   data () {
@@ -255,7 +255,7 @@ export default {
   activated () {
     let zjhm = this.$route.params.zjhm
     if (zjhm) {
-      this.cxlb = 'sfz';
+      this.cxlb = 'sfz'
       this.queryForm.sfzh = zjhm
       this.searchRfglRoom()
     }
@@ -291,7 +291,7 @@ export default {
         .then(response => {
           this.data = response.data.list
           this.pageInfo.total = response.data.total
-          this.cxTab = 'fwlb';
+          this.cxTab = 'fwlb'
           this.$store.commit('loading', false)
         })
         .catch(() => {
@@ -323,16 +323,16 @@ export default {
   watch: {
     cxlb (newVal, oldVal) {
       if (newVal === 'tj') {
-        this.queryForm.sfzh = '';
+        this.queryForm.sfzh = ''
       } else {
-        this.queryForm.lm = '';
-        this.queryForm.mnph = '';
-        this.queryForm.sh = '';
+        this.queryForm.lm = ''
+        this.queryForm.mnph = ''
+        this.queryForm.sh = ''
       }
-      this.queryForm.dztzm = '';
+      this.queryForm.dztzm = ''
     },
     cxTab (value) {
-      this.queryForm.dztzm = '';
+      this.queryForm.dztzm = ''
     }
   }
 }
