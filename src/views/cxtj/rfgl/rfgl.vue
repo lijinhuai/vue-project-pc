@@ -57,14 +57,26 @@
           <div class="head head2"></div>
         </div>
         <div class="house-body">
-          <div class="body-head">{{house.address}}</div>
+          <div class="body-head">{{ house.address }}</div>
           <div class="floor" v-for="floor in house.floors" :key="floor.index">
-            <div class="room" v-for="room in floor.rooms" :key="room.index" @click="showRoomDetail(room.dztzm)" v-bind:class="{room_active:room.cxfwbj==1}">
-              <span>{{room.houseRoomNum}}</span>
+            <div class="room" v-for="room in floor.rooms" :key="room.index" @click="showRoomDetail(room.dztzm)"
+                 :class="{room_active:room.cxfwbj==1,
+                          room_rhyz:room.flagRhfl==0,
+                          room_rhfl:room.flagRhfl==1,
+                          room_rhyz_czfw:room.flagRhfl==0 && room.jzfwlx=='01',
+                          room_rhfl_czfw:room.flagRhfl==1 && room.jzfwlx=='01'
+            }">
+              <span>{{ room.houseRoomNum }}</span>
               <Poptip trigger="hover" :content="room.jzrsTip">
                 <Badge class-name="badge-jzrs" :count="room.jzrs"></Badge>
               </Poptip>
             </div>
+          </div>
+          <div class="body-footer">
+            <div class="box box_wcdz">未采地址</div>
+            <div class="box box_rhyz">人户一致</div>
+            <div class="box box_rhfl">人户分离</div>
+            <div class="box box_czfw">出租房屋</div>
           </div>
         </div>
         <Modal v-model="modal" title="房屋信息" width="80%" @on-ok="ok" @on-cancel="cancel">
@@ -245,8 +257,7 @@ export default {
   components: {
     PersonPhoto
   },
-  created () {
-  },
+  created () {},
   activated () {
     let zjhm = this.$route.params.zjhm
     if (zjhm) {
@@ -271,7 +282,7 @@ export default {
       this.loading = true
       fetchRfglRPerson(dztzm)
         .then(response => {
-          this.room.jzryData = response.data.data
+          this.room.jzryData = response.data
           this.modal = true
           this.loading = false
         })
@@ -285,8 +296,8 @@ export default {
       this.house = {}
       fetchRfglRoom(this.pageInfo, this.queryForm)
         .then(response => {
-          this.data = response.data.data.list
-          this.pageInfo.total = response.data.data.total
+          this.data = response.data.list
+          this.pageInfo.total = response.data.total
           this.cxTab = 'fwlb'
           this.loading = false
         })
@@ -306,7 +317,7 @@ export default {
       this.loading = true
       fetchRfglHouse(dztzm)
         .then(response => {
-          this.house = response.data.data
+          this.house = response.data
           this.loading = false
         })
         .catch(() => {
@@ -340,6 +351,10 @@ export default {
 </script>
 
 <style lang="less" scoped>
+@wcdz: #ffffff;
+@rhyz: #54ff9f;
+@rhfl: #daa520;
+@czfw: tomato;
 .house {
   .house-head {
     display: flex;
@@ -375,6 +390,35 @@ export default {
       justify-content: center;
       align-items: center;
     }
+    .body-footer {
+      margin-top: 10px;
+      width: 364px;
+      height: 30px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      .box {
+        width: 100%;
+        height: 100%;
+        margin: 3px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border: 1px solid #dcd7d7;
+        &_wcdz {
+          background-color: @wcdz;
+        }
+        &_rhyz {
+          background-color: @rhyz;
+        }
+        &_rhfl {
+          background-color: @rhfl;
+        }
+        &_czfw {
+          background-color: @czfw;
+        }
+      }
+    }
     .floor {
       display: flex;
       justify-content: center;
@@ -396,7 +440,27 @@ export default {
           cursor: pointer;
         }
         &_active {
-          background-color: #fa9255;
+          border: #fa9255 2px solid;
+          box-shadow: inset 0 -5px 8px -7px rgba(81, 81, 81, 0.8);
+          // background-color: #fa9255;
+        }
+        &_wcdz {
+          background-color: @wcdz;
+        }
+        &_rhyz {
+          background-color: @rhyz;
+        }
+        &_rhyz_czfw {
+          background: linear-gradient(left, @rhyz 50%, @czfw 50%);
+        }
+        &_rhfl {
+          background-color: @rhfl;
+        }
+        &_rhfl_czfw {
+          background: linear-gradient(left, @rhfl 50%, @czfw 50%);
+        }
+        &_czfw {
+          background-color: @czfw;
         }
       }
     }

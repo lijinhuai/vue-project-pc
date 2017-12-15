@@ -61,24 +61,15 @@ const user = {
       const username = userInfo.username.trim()
       return new Promise((resolve, reject) => {
         loginByUsername(username, userInfo.password).then(response => {
-          const data = response.data
-          if (data.code !== 0) {
-            // reject('SET_SETTING')
-          } else {
-            setToken(data.data)
-            commit('SET_TOKEN', data.data)
+          if (response.code === 200) {
+            const token = response.data
+            setToken(token)
+            commit('SET_TOKEN', token)
             Cookies.set('user', username)
             Cookies.set('password', userInfo.password)
-            commit(
-              'setAvator',
-              'https://ss0.bdstatic.com/94oJfD_bAAcT8t7mm9GUKT-xh_/timg?image&quality=100&size=b4000_4000&sec=1512529926&di=c92afacc5626da6084148693f630f03d&src=http://wx3.sinaimg.cn/wap720/e629955ely1fbth7eblbmj21b60qowld.jpg'
-            )
-            if (username === 'iview_admin') {
-              Cookies.set('access', 0)
-            } else {
-              Cookies.set('access', 1)
-            }
             resolve()
+          } else {
+            // reject('SET_SETTING')
           }
         }).catch(error => {
           reject(error)
@@ -94,7 +85,11 @@ const user = {
       return new Promise((resolve, reject) => {
         getUserInfo().then(response => {
           const data = response.data
-          commit('SET_ROLES', data.data.role)
+          commit('SET_ROLES', data.role)
+          commit(
+            'setAvator',
+            'https://ss0.bdstatic.com/94oJfD_bAAcT8t7mm9GUKT-xh_/timg?image&quality=100&size=b4000_4000&sec=1512529926&di=c92afacc5626da6084148693f630f03d&src=http://wx3.sinaimg.cn/wap720/e629955ely1fbth7eblbmj21b60qowld.jpg'
+          )
           // commit('SET_NAME', data.name)
           // commit('SET_AVATAR', data.avatar)
           // commit('SET_INTRODUCTION', data.introduction)

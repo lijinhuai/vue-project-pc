@@ -12,7 +12,7 @@
         <Carousel-item v-for="item in uploadList" :key="item.index">
           <img :src="item.photoBase64" style="width: 100%">
           <div style="width:100%;position: relative;top: -10px;left: 0px;text-align:center;">
-            <span style="color:gold;font-size:20px;">照片日期：{{item.zprq}}</span>
+            <span style="color:#2d8cf0;font-size:20px;">照片日期：{{item.zprq}}</span>
           </div>
         </Carousel-item>
       </Carousel>

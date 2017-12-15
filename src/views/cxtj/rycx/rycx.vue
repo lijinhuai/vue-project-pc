@@ -159,8 +159,8 @@
         _self.spinShow = true
         fetchRjbxxList(this.pageInfo, this.queryForm)
           .then(response => {
-            this.data = response.data.data.list
-            this.pageInfo.total = response.data.data.total
+            this.data = response.data.list
+            this.pageInfo.total = response.data.total
             _self.spinShow = false
           })
           .catch(() => {

@@ -196,8 +196,8 @@ export default {
       _self.spinShow = true
       fetchAddressInfoList(this.pageInfo, this.queryForm)
         .then(response => {
-          this.data = response.data.data.list
-          this.pageInfo.total = response.data.data.total
+          this.data = response.data.list
+          this.pageInfo.total = response.data.total
           _self.spinShow = false
         })
         .catch(() => {
@@ -222,10 +222,9 @@ export default {
       this.spinShow = true
       fetchRfglHouse(dztzm)
         .then(response => {
-          this.house = response.data.data
+          this.house = response.data
           this.house.floors.map((floor) => {
             floor.rooms.map((room) => {
-              console.log(room.sfconfirm)
               if (room.sfconfirm !== '1') {
                 _self.canSq = false
               }
@@ -237,7 +236,6 @@ export default {
         })
         .catch(() => {
           this.spinShow = false
-          this.error()
         })
     }
   }
