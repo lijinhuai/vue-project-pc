@@ -63,7 +63,6 @@
         </div>
       </div>
     </div>
-    <Spin size="large" fix v-if="spinShow"></Spin>
   </div>
 </template>
 
@@ -74,7 +73,6 @@ export default {
   name: 'fwcx',
   data () {
     return {
-      spinShow: false,
       pageInfo: {
         pageNum: 1,
         pageSize: 10,
@@ -168,15 +166,15 @@ export default {
   methods: {
     search () {
       const _self = this
-      _self.spinShow = true
+      _self.$store.commit('loading', true)
       fetchFwjbxxList(this.pageInfo, this.queryForm)
         .then(response => {
           this.data = response.data.list
           this.pageInfo.total = response.data.total
-          _self.spinShow = false
+          _self.$store.commit('loading', false)
         })
         .catch(() => {
-          _self.spinShow = false
+          _self.$store.commit('loading', false)
         })
     },
     changePage (value) {

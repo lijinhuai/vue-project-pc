@@ -1,28 +1,12 @@
-import axios from 'axios'
-import env from '@/config/index'
-import semver from 'semver'
-import packjson from '../../package.json'
-
-let util = {
+let app = {
 
 }
-util.title = function (title) {
+app.title = function (title) {
   title = title || 'iView admin'
   window.document.title = title
 }
 
-const ajaxUrl = env === 'development'
-    ? 'http://127.0.0.1:8888'
-    : env === 'production'
-        ? 'https://www.url.com'
-        : 'https://debug.url.com'
-
-util.ajax = axios.create({
-  baseURL: ajaxUrl,
-  timeout: 30000
-})
-
-util.inOf = function (arr, targetArr) {
+app.inOf = function (arr, targetArr) {
   let res = true
   arr.map(item => {
     if (targetArr.indexOf(item) < 0) {
@@ -32,7 +16,7 @@ util.inOf = function (arr, targetArr) {
   return res
 }
 
-util.oneOf = function (ele, targetArr) {
+app.oneOf = function (ele, targetArr) {
   if (targetArr.indexOf(ele) >= 0) {
     return true
   } else {
@@ -40,15 +24,15 @@ util.oneOf = function (ele, targetArr) {
   }
 }
 
-util.showThisRoute = function (itAccess, currentAccess) {
+app.showThisRoute = function (itAccess, currentAccess) {
   if (typeof itAccess === 'object' && Array.isArray(itAccess)) {
-    return util.oneOf(currentAccess, itAccess)
+    return app.oneOf(currentAccess, itAccess)
   } else {
     return itAccess === currentAccess
   }
 }
 
-util.getRouterObjByName = function (routers, name) {
+app.getRouterObjByName = function (routers, name) {
   if (!name || !routers || !routers.length) {
     return null
   }
@@ -58,7 +42,7 @@ util.getRouterObjByName = function (routers, name) {
     if (item.name === name) {
       return item
     }
-    routerObj = util.getRouterObjByName(item.children, name)
+    routerObj = app.getRouterObjByName(item.children, name)
     if (routerObj) {
       return routerObj
     }
@@ -66,7 +50,7 @@ util.getRouterObjByName = function (routers, name) {
   return null
 }
 
-util.handleTitle = function (vm, item) {
+app.handleTitle = function (vm, item) {
   if (typeof item.title === 'object') {
     return vm.$t(item.title.i18n)
   } else {
@@ -74,13 +58,13 @@ util.handleTitle = function (vm, item) {
   }
 }
 
-util.setCurrentPath = function (vm, name) {
+app.setCurrentPath = function (vm, name) {
   let title = ''
   let isOtherRouter = false
   vm.$store.state.app.routers.forEach(item => {
     if (item.children.length === 1) {
       if (item.children[0].name === name) {
-        title = util.handleTitle(vm, item)
+        title = app.handleTitle(vm, item)
         if (item.name === 'otherRouter') {
           isOtherRouter = true
         }
@@ -88,7 +72,7 @@ util.setCurrentPath = function (vm, name) {
     } else {
       item.children.forEach(child => {
         if (child.name === name) {
-          title = util.handleTitle(vm, child)
+          title = app.handleTitle(vm, child)
           if (item.name === 'otherRouter') {
             isOtherRouter = true
           }
@@ -100,7 +84,7 @@ util.setCurrentPath = function (vm, name) {
   if (name === 'home_index') {
     currentPathArr = [
       {
-        title: util.handleTitle(vm, util.getRouterObjByName(vm.$store.state.app.routers, 'home_index')),
+        title: app.handleTitle(vm, app.getRouterObjByName(vm.$store.state.app.routers, 'home_index')),
         path: '',
         name: 'home_index'
       }
@@ -108,7 +92,7 @@ util.setCurrentPath = function (vm, name) {
   } else if ((name.indexOf('_index') >= 0 || isOtherRouter) && name !== 'home_index') {
     currentPathArr = [
       {
-        title: util.handleTitle(vm, util.getRouterObjByName(vm.$store.state.app.routers, 'home_index')),
+        title: app.handleTitle(vm, app.getRouterObjByName(vm.$store.state.app.routers, 'home_index')),
         path: '/home',
         name: 'home_index'
       },
@@ -184,7 +168,7 @@ util.setCurrentPath = function (vm, name) {
   return currentPathArr
 }
 
-util.openNewPage = function (vm, name, argu, query) {
+app.openNewPage = function (vm, name, argu, query) {
   let pageOpenedList = vm.$store.state.app.pageOpenedList
   let openedPageLen = pageOpenedList.length
   let i = 0
@@ -224,7 +208,7 @@ util.openNewPage = function (vm, name, argu, query) {
   vm.$store.commit('setCurrentPageName', name)
 }
 
-util.toDefaultPage = function (routers, name, route, next) {
+app.toDefaultPage = function (routers, name, route, next) {
   let len = routers.length
   let i = 0
   let notHandle = true
@@ -244,26 +228,11 @@ util.toDefaultPage = function (routers, name, route, next) {
   }
 }
 
-util.fullscreenEvent = function (vm) {
+app.fullscreenEvent = function (vm) {
   vm.$store.commit('initCachepage')
     // 权限菜单过滤相关
   vm.$store.commit('updateMenulist')
     // 全屏相关
 }
 
-util.checkUpdate = function (vm) {
-  axios.get('https://api.github.com/repos/iview/iview-admin/releases/latest').then(res => {
-    let version = res.data.tag_name
-    vm.$Notice.config({
-      duration: 0
-    })
-    if (semver.lt(packjson.version, version)) {
-      vm.$Notice.info({
-        title: 'iview-admin更新啦',
-        desc: '<p>iView-admin更新到了' + version + '了，去看看有哪些变化吧</p><a style="font-size:13px;" href="https://github.com/iview/iview-admin/releases" target="_blank">前往github查看</a>'
-      })
-    }
-  })
-}
-
-export default util
+export default app

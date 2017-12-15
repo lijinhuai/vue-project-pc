@@ -19,8 +19,8 @@
             <FormItem label="民族：" prop="mzdm">
               <div style="display:inline-block;width:180px;">
                 <Select v-model="queryForm.mzdm" style="width:180px" filterable clearable>
-                    <Option v-for="dict in dictList.mz" :key="dict.index" :value="dict.key">{{dict.value}}</Option>
-                  </Select>
+                      <Option v-for="dict in dictList.mz" :key="dict.index" :value="dict.key">{{dict.value}}</Option>
+                    </Select>
               </div>
             </FormItem>
             </Col>
@@ -58,37 +58,32 @@
         </div>
       </div>
     </div>
-    <Spin size="large" fix v-if="spinShow"></Spin>
   </div>
 </template>
 
 <script>
-  import Dept from '@/components/Dept.vue'
-  import {
-    fetchDbDictList
-  } from '@/api/dict'
-  import {
-    fetchRjbxxList
-  } from '@/api/cxtj/rycx'
-  export default {
-    name: 'rycx',
-    data () {
-      return {
-        spinShow: false,
-        dictList: {
-          mz: []
-        },
-        pageInfo: {
-          pageNum: 1,
-          pageSize: 10,
-          total: 0
-        },
-        queryForm: {
-          mzdm: '',
-          xm: '',
-          zjhm: ''
-        },
-        columns: [{
+import Dept from '@/components/Dept.vue'
+import { fetchDbDictList } from '@/api/dict'
+import { fetchRjbxxList } from '@/api/cxtj/rycx'
+export default {
+  name: 'rycx',
+  data () {
+    return {
+      dictList: {
+        mz: []
+      },
+      pageInfo: {
+        pageNum: 1,
+        pageSize: 10,
+        total: 0
+      },
+      queryForm: {
+        mzdm: '',
+        xm: '',
+        zjhm: ''
+      },
+      columns: [
+        {
           title: '姓名',
           key: 'xm',
           width: '140px'
@@ -123,68 +118,69 @@
           render: (h, params) => {
             const _self = this
             return h(
-                'Button', {
-                  props: {
-                    type: 'primary',
-                    size: 'small'
-                  },
-                  on: {
-                    click: function () {
-                      _self.$router.push({
-                        name: 'rfgl',
-                        params: {
-                          zjhm: params.row.zjhm
-                        }
-                      })
-                    }
-                  }
+              'Button',
+              {
+                props: {
+                  type: 'primary',
+                  size: 'small'
                 },
-                '人房关联'
-              )
+                on: {
+                  click: function () {
+                    _self.$router.push({
+                      name: 'rfgl',
+                      params: {
+                        zjhm: params.row.zjhm
+                      }
+                    })
+                  }
+                }
+              },
+              '人房关联'
+            )
           }
         }
-        ],
-        data: []
-      }
-    },
-    components: {
-      Dept
-    },
-    mounted () {
-      this.initDict()
-    },
-    methods: {
-      search () {
-        const _self = this
-        _self.spinShow = true
-        fetchRjbxxList(this.pageInfo, this.queryForm)
-          .then(response => {
-            this.data = response.data.list
-            this.pageInfo.total = response.data.total
-            _self.spinShow = false
-          })
-          .catch(() => {
-            _self.spinShow = false
-          })
-      },
-      initDict () {
-        const _self = this
-        fetchDbDictList('MZ').then(response => {
-          _self.dictList.mz = response
+      ],
+      data: []
+    }
+  },
+  components: {
+    Dept
+  },
+  mounted () {
+    this.initDict()
+  },
+  methods: {
+    search () {
+      const _self = this
+      _self.$store.commit('loading', true)
+      fetchRjbxxList(this.pageInfo, this.queryForm)
+        .then(response => {
+          this.data = response.data.list
+          this.pageInfo.total = response.data.total
+          _self.$store.commit('loading', false)
         })
-      },
-      changePage (value) {
-        this.pageInfo.pageNum = value
-        this.search()
-      }
+        .catch(() => {
+          _self.$store.commit('loading', false)
+        })
+    },
+    initDict () {
+      const _self = this
+      fetchDbDictList('MZ').then(response => {
+        _self.dictList.mz = response
+      })
+    },
+    changePage (value) {
+      this.pageInfo.pageNum = value
+      this.search()
     }
   }
+}
 </script>
 
 <style lang="less" scoped>
-  .ivu-form-item {
-    margin-bottom: 5px;
-  }
+.ivu-form-item {
+  margin-bottom: 5px;
+}
 </style>
 
 

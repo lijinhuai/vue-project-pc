@@ -1,7 +1,13 @@
 import Vue from 'vue'
-import {otherRouter, appRouter} from '@/router/router'
-import Util from '@/libs/util'
+import {
+  otherRouter,
+  appRouter
+} from '@/router/router'
+import AppUtil from '@/utils/app'
 import Cookies from 'js-cookie'
+import {
+  Loading
+} from 'element-ui'
 
 const app = {
   state: {
@@ -17,13 +23,11 @@ const app = {
       name: 'home_index'
     }],
     currentPageName: '',
-    currentPath: [
-      {
-        title: '首页',
-        path: '',
-        name: 'home_index'
-      }
-    ], // 面包屑数组
+    currentPath: [{
+      title: '首页',
+      path: '',
+      name: 'home_index'
+    }], // 面包屑数组
     menuList: [],
     routers: [
       otherRouter,
@@ -31,7 +35,8 @@ const app = {
     ],
     tagsList: [...otherRouter.children],
     messageCount: 0,
-    dontCache: [] // 在这里定义你不想要缓存的页面的name属性值(参见路由配置router.js)
+    dontCache: [], // 在这里定义你不想要缓存的页面的name属性值(参见路由配置router.js)
+    loading: Object
   },
   mutations: {
     setTagsList (state, list) {
@@ -42,7 +47,7 @@ const app = {
       let menuList = []
       appRouter.forEach((item, index) => {
         if (item.access !== undefined) {
-          if (Util.showThisRoute(item.access, accessCode)) {
+          if (AppUtil.showThisRoute(item.access, accessCode)) {
             if (item.children.length === 1) {
               menuList.push(item)
             } else {
@@ -68,7 +73,7 @@ const app = {
             let childrenArr = []
             childrenArr = item.children.filter(child => {
               if (child.access !== undefined) {
-                if (Util.showThisRoute(child.access, accessCode)) {
+                if (AppUtil.showThisRoute(child.access, accessCode)) {
                   return child
                 }
               } else {
@@ -180,12 +185,24 @@ const app = {
       state.messageCount = count
     },
     increateTag (state, tagObj) {
-      if (!Util.oneOf(tagObj.name, state.dontCache)) {
+      if (!AppUtil.oneOf(tagObj.name, state.dontCache)) {
         state.cachePage.push(tagObj.name)
         localStorage.cachePage = JSON.stringify(state.cachePage)
       }
       state.pageOpenedList.push(tagObj)
       localStorage.pageOpenedList = JSON.stringify(state.pageOpenedList)
+    },
+    loading (state, isShow) {
+      if (isShow) {
+        state.loading = Loading.service({
+          lock: true,
+          text: 'Loading',
+          spinner: 'el-icon-loading',
+          background: 'rgba(0, 0, 0, 0.7)'
+        })
+      } else {
+        state.loading.close()
+      }
     }
   }
 }

@@ -2,7 +2,7 @@
   "name": "vue-project-pc",
   "version": "1.0.0",
   "description": "A Vue.js project",
-  "author": "jinhuai lee",
+  "author": "jinhuailee",
   "private": true,
   "scripts": {
     "dev": "webpack-dev-server --inline --progress --config build/webpack.dev.conf.js",
@@ -21,7 +21,6 @@
     "iview": "^2.7.2",
     "js-cookie": "^2.2.0",
     "mockjs": "^1.0.1-beta3",
-    "nprogress": "^0.2.0",
     "tinymce": "^4.7.2",
     "vue": "^2.5.2",
     "vue-i18n": "^5.0.3",

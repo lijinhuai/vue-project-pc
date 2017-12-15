@@ -25,7 +25,7 @@
 <script>
 import sidebarMenu from './components/sidebarMenu.vue'
 import sidebarMenuShrink from './components/sidebarMenuShrink.vue'
-import util from '@/libs/util'
+import AppUtil from '@/utils/app'
 export default {
   name: 'shrinkableMenu',
   components: {
@@ -45,7 +45,7 @@ export default {
       type: String,
       default: 'dark',
       validator (val) {
-        return util.oneOf(val, ['dark', 'light'])
+        return AppUtil.oneOf(val, ['dark', 'light'])
       }
     },
     beforePush: {

@@ -61,6 +61,7 @@
 </template>
 
 <script>
+import { Loading } from 'element-ui'
 import shrinkableMenu from './components/shrinkable-menu/shrinkable-menu.vue'
 import tagsPageOpened from './components/tags-page-opened.vue'
 import breadcrumbNav from './components/breadcrumb-nav.vue'
@@ -69,7 +70,7 @@ import lockScreen from './components/lockscreen/lockscreen.vue'
 import messageTip from './components/message-tip.vue'
 import themeSwitch from './components/theme-switch/theme-switch.vue'
 import Cookies from 'js-cookie'
-import util from '@/libs/util.js'
+import AppUtil from '@/utils/app.js'
 export default {
   components: {
     shrinkableMenu,
@@ -116,7 +117,7 @@ export default {
   },
   methods: {
     init () {
-      let pathArr = util.setCurrentPath(this, this.$route.name)
+      let pathArr = AppUtil.setCurrentPath(this, this.$route.name)
       this.$store.commit('updateMenulist')
       if (pathArr.length >= 2) {
         this.$store.commit('addOpenSubmenu', pathArr[1].name)
@@ -132,7 +133,7 @@ export default {
     },
     handleClickUserDropdown (name) {
       if (name === 'ownSpace') {
-        util.openNewPage(this, 'ownspace_index')
+        AppUtil.openNewPage(this, 'ownspace_index')
         this.$router.push({
           name: 'ownspace_index'
         })
@@ -155,7 +156,7 @@ export default {
       })
       if (!openpageHasTag) {
         //  解决关闭当前标签后再点击回退按钮会退到当前页时没有标签的问题
-        util.openNewPage(
+        AppUtil.openNewPage(
           this,
           name,
           this.$route.params || {},
@@ -181,7 +182,7 @@ export default {
   watch: {
     $route (to) {
       this.$store.commit('setCurrentPageName', to.name)
-      let pathArr = util.setCurrentPath(this, to.name)
+      let pathArr = AppUtil.setCurrentPath(this, to.name)
       if (pathArr.length > 2) {
         this.$store.commit('addOpenSubmenu', pathArr[1].name)
       }
@@ -189,7 +190,7 @@ export default {
       localStorage.currentPageName = to.name
     },
     lang () {
-      util.setCurrentPath(this, this.$route.name) // 在切换语言时用于刷新面包屑
+      AppUtil.setCurrentPath(this, this.$route.name) // 在切换语言时用于刷新面包屑
     }
   },
   mounted () {

@@ -1,19 +1,20 @@
-import router from './router/index'
+import router from './index'
 import {
   routers,
   otherRouter,
   appRouter
 } from '@/router/router'
 
-import store from './store'
+import store from '@/store/index'
 
-import NProgress from 'nprogress' // Progress 进度条
-import 'nprogress/nprogress.css' // Progress 进度条样式
-
-import Util from './libs/util'
+import AppUtil from '@/utils/app'
 import Cookies from 'js-cookie'
 
 import config from '@/config/index'
+
+import {
+  LoadingBar
+} from 'iview'
 
 // permissiom judge
 function hasPermission (roles, permissionRoles) {
@@ -25,20 +26,20 @@ function hasPermission (roles, permissionRoles) {
 // register global progress.
 const whiteList = ['/login'] // 不重定向白名单
 router.beforeEach((to, from, next) => {
-  NProgress.start() // 开启Progress
-  Util.title(to.meta.title === undefined ? config.systemTitle : to.meta.title)
+  LoadingBar.start() // 开启Progress
+  AppUtil.title(to.meta.title === undefined ? config.systemTitle : to.meta.title)
   if (Cookies.get('locking') === '1' && to.name !== 'locking') { // 判断当前是否是锁定状态
     next({
       replace: true,
       name: 'locking'
     })
-    NProgress.done()
+    LoadingBar.finish()
   } else if (Cookies.get('locking') === '0' && to.name === 'locking') {
     next(false)
   } else {
     if (store.getters.token) { // 有token 已登录
       if (to.name === 'login') { // 前往的是登录页
-        Util.title()
+        AppUtil.title()
         next({
           name: 'home_index'
         })
@@ -64,10 +65,10 @@ router.beforeEach((to, from, next) => {
         } else {
           // 没有动态改变权限的需求可直接next() 删除下方权限判断 ↓
           if (hasPermission(store.getters.roles, to.meta.role)) {
-            const curRouterObj = Util.getRouterObjByName([otherRouter, ...appRouter], to.name)
+            const curRouterObj = AppUtil.getRouterObjByName([otherRouter, ...appRouter], to.name)
             if (curRouterObj && curRouterObj.access !== undefined) { // 需要判断权限的路由
               if (curRouterObj.access === parseInt(Cookies.get('access'))) {
-                Util.toDefaultPage([otherRouter, ...appRouter], to.name, router, next) // 如果在地址栏输入的是一级菜单则默认打开其第一个二级菜单的页面
+                AppUtil.toDefaultPage([otherRouter, ...appRouter], to.name, router, next) // 如果在地址栏输入的是一级菜单则默认打开其第一个二级菜单的页面
               } else {
                 next({
                   replace: true,
@@ -75,7 +76,7 @@ router.beforeEach((to, from, next) => {
                 })
               }
             } else { // 没有配置权限的路由, 直接通过
-              Util.toDefaultPage([...routers], to.name, router, next)
+              AppUtil.toDefaultPage([...routers], to.name, router, next)
             }
           } else {
             next({
@@ -95,13 +96,13 @@ router.beforeEach((to, from, next) => {
         next({
           name: 'login'
         }) // 否则全部重定向到登录页
-        NProgress.done() // 在hash模式下 改变手动改变hash 重定向回来 不会触发afterEach 暂时hack方案 ps：history模式下无问题，可删除该行！
+        LoadingBar.finish() // 在hash模式下 改变手动改变hash 重定向回来 不会触发afterEach 暂时hack方案 ps：history模式下无问题，可删除该行！
       }
     }
   }
 })
 
 router.afterEach((to) => {
-  Util.openNewPage(router.app, to.name, to.params, to.query)
-  NProgress.done() // 结束Progress
+  AppUtil.openNewPage(router.app, to.name, to.params, to.query)
+  LoadingBar.finish() // 结束Progress
 })

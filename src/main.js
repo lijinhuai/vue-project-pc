@@ -3,8 +3,8 @@
 import Vue from 'vue'
 import store from './store'
 import router from '@/router/index'
+import '@/router/permission' // 权限
 import {appRouter} from '@/router/router'
-import '@/permission' // 权限
 import App from './App'
 import '@/locale'
 import './UI'

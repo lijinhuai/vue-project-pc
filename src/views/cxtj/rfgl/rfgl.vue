@@ -1,5 +1,5 @@
 <template>
-  <div class="spin-col">
+  <div>
     <Row>
       <Col span="9">
       <Card>
@@ -59,13 +59,12 @@
         <div class="house-body">
           <div class="body-head">{{ house.address }}</div>
           <div class="floor" v-for="floor in house.floors" :key="floor.index">
-            <div class="room" v-for="room in floor.rooms" :key="room.index" @click="showRoomDetail(room.dztzm)"
-                 :class="{room_active:room.cxfwbj==1,
-                          room_rhyz:room.flagRhfl==0,
-                          room_rhfl:room.flagRhfl==1,
-                          room_rhyz_czfw:room.flagRhfl==0 && room.jzfwlx=='01',
-                          room_rhfl_czfw:room.flagRhfl==1 && room.jzfwlx=='01'
-            }">
+            <div class="room" v-for="room in floor.rooms" :key="room.index" @click="showRoomDetail(room.dztzm)" :class="{room_active:room.cxfwbj==1,
+                            room_rhyz:room.flagRhfl==0,
+                            room_rhfl:room.flagRhfl==1,
+                            room_rhyz_czfw:room.flagRhfl==0 && room.jzfwlx=='01',
+                            room_rhfl_czfw:room.flagRhfl==1 && room.jzfwlx=='01'
+              }">
               <span>{{ room.houseRoomNum }}</span>
               <Poptip trigger="hover" :content="room.jzrsTip">
                 <Badge class-name="badge-jzrs" :count="room.jzrs"></Badge>
@@ -116,10 +115,6 @@
       </Card>
       </Col>
     </Row>
-    <Spin v-show="loading" fix>
-      <Icon type="load-c" size=18 class="spin-icon-load"></Icon>
-      <div>Loading</div>
-    </Spin>
   </div>
 </template>
 
@@ -128,15 +123,14 @@ import {
   fetchRfglRoom,
   fetchRfglHouse,
   fetchRfglRPerson
-} from '@/api/cxtj/rfgl'
-import PersonPhoto from './components/PersonPhoto.vue'
+} from '@/api/cxtj/rfgl';
+import PersonPhoto from './components/PersonPhoto.vue';
 export default {
   name: 'rfgl',
   data () {
     return {
       modal: false,
       cxTab: 'fwcx',
-      loading: false,
       cxlb: 'tj',
       pageInfo: {
         pageNum: 1,
@@ -261,7 +255,7 @@ export default {
   activated () {
     let zjhm = this.$route.params.zjhm
     if (zjhm) {
-      this.cxlb = 'sfz'
+      this.cxlb = 'sfz';
       this.queryForm.sfzh = zjhm
       this.searchRfglRoom()
     }
@@ -279,31 +273,29 @@ export default {
       // this.$Message.info('点击了取消')
     },
     showRoomDetail (dztzm) {
-      this.loading = true
+      this.$store.commit('loading', true)
       fetchRfglRPerson(dztzm)
         .then(response => {
           this.room.jzryData = response.data
           this.modal = true
-          this.loading = false
+          this.$store.commit('loading', false)
         })
         .catch(() => {
-          this.loading = false
-          this.error()
+          this.$store.commit('loading', false)
         })
     },
     searchRfglRoom () {
-      this.loading = true
+      this.$store.commit('loading', true)
       this.house = {}
       fetchRfglRoom(this.pageInfo, this.queryForm)
         .then(response => {
           this.data = response.data.list
           this.pageInfo.total = response.data.total
-          this.cxTab = 'fwlb'
-          this.loading = false
+          this.cxTab = 'fwlb';
+          this.$store.commit('loading', false)
         })
         .catch(() => {
-          this.loading = false
-          this.error()
+          this.$store.commit('loading', false)
         })
     },
     clearSearchRfglRoom () {
@@ -314,37 +306,33 @@ export default {
       this.searchRfglRoom()
     },
     searchRfglHouse (dztzm) {
-      this.loading = true
+      this.$store.commit('loading', true)
       fetchRfglHouse(dztzm)
         .then(response => {
           this.house = response.data
-          this.loading = false
+          this.$store.commit('loading', false)
         })
         .catch(() => {
-          this.loading = false
-          this.error()
+          this.$store.commit('loading', false)
         })
     },
     onRowClick (row) {
       this.searchRfglHouse(row.dztzm)
-    },
-    error () {
-      this.$Message.error('查询错误！')
     }
   },
   watch: {
     cxlb (newVal, oldVal) {
       if (newVal === 'tj') {
-        this.queryForm.sfzh = ''
+        this.queryForm.sfzh = '';
       } else {
-        this.queryForm.lm = ''
-        this.queryForm.mnph = ''
-        this.queryForm.sh = ''
+        this.queryForm.lm = '';
+        this.queryForm.mnph = '';
+        this.queryForm.sh = '';
       }
-      this.queryForm.dztzm = ''
+      this.queryForm.dztzm = '';
     },
     cxTab (value) {
-      this.queryForm.dztzm = ''
+      this.queryForm.dztzm = '';
     }
   }
 }
@@ -441,8 +429,7 @@ export default {
         }
         &_active {
           border: #fa9255 2px solid;
-          box-shadow: inset 0 -5px 8px -7px rgba(81, 81, 81, 0.8);
-          // background-color: #fa9255;
+          box-shadow: inset 0 -5px 8px -7px rgba(81, 81, 81, 0.8); // background-color: #fa9255;
         }
         &_wcdz {
           background-color: @wcdz;
@@ -469,25 +456,6 @@ export default {
 </style>
 
 <style>
-.pin-icon-load {
-  animation: ani-spin 1s linear infinite;
-}
-@keyframes ani-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  50% {
-    transform: rotate(180deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
-.spin-col {
-  height: 100%;
-  position: relative;
-  border: 1px solid #eee;
-}
 .badge-jzrs {
   background: #5cb85c !important;
   position: absolute;
