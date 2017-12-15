@@ -170,7 +170,7 @@
       initDict () {
         const _self = this
         fetchDbDictList('MZ').then(response => {
-          _self.dictList.mz = response.data
+          _self.dictList.mz = response
         })
       },
       changePage (value) {

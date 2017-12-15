@@ -78,7 +78,6 @@
                 })
               }).catch(() => {
                 _self.loading = false
-                this.$Message.error('登录失败！')
               })
           }
         })

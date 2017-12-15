@@ -34,11 +34,19 @@ service.interceptors.response.use(
   // response => response,
   response => {
     const res = response.data
-    if (res.code === 200) {
-      return response.data
+    if (response.status === 200) {
+      if (res.code) { // 返回结构包含code，是以JsonResult封装的形式返回
+        if (res.code === 200) {
+          return response.data
+        } else {
+          Message.error(res.message, 5)
+          // return Promise.resolve('error')
+        }
+      } else {
+        return response.data
+      }
     } else {
-      Message.error(res.message, 5)
-      // return Promise.resolve('error')
+      Message.error(response.statusText, 5)
     }
   },
   error => {
