@@ -61,7 +61,6 @@
 </template>
 
 <script>
-import { Loading } from 'element-ui'
 import shrinkableMenu from './components/shrinkable-menu/shrinkable-menu.vue'
 import tagsPageOpened from './components/tags-page-opened.vue'
 import breadcrumbNav from './components/breadcrumb-nav.vue'
