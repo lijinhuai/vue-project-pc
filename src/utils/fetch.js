@@ -1,8 +1,8 @@
 import axios from 'axios'
 import {
   Message,
-  Modal
-} from 'iview'
+  MessageBox
+} from 'element-ui'
 import store from '@/store/index'
 import config from '@/config/index'
 
@@ -21,10 +21,12 @@ service.interceptors.request.use(config => {
   // Do something before request is sent
   if (store.getters.token) {
     config.headers['Authorization'] = getToken() // 让每个请求携带token--['Authorization']为自定义key 请根据实际情况自行修改
+    store.commit('appLoading', true)
   }
   return config
 }, error => {
   // Do something with request error
+  store.commit('appLoading', false)
   console.log(error) // for debug
   Promise.reject(error)
 })
@@ -33,6 +35,7 @@ service.interceptors.request.use(config => {
 service.interceptors.response.use(
   // response => response,
   response => {
+    store.commit('appLoading', false)
     const res = response.data
     if (response.status === 200) {
       if (res.code) { // 返回结构包含code，是以JsonResult封装的形式返回
@@ -46,32 +49,30 @@ service.interceptors.response.use(
         return response.data
       }
     } else {
-      Message.error(response.statusText, 5)
+      Message.error(response.statusText)
     }
   },
   error => {
+    store.commit('appLoading', false)
     console.log('err' + error) // for debug
     const res = error.response
-    Message.error(error.message, 5)
+    Message.error(error.message)
     // 403:非法的token或者过期了;
     if (res.status === 403) {
-      Modal.warning({
-        title: '确定登出',
-        content: '<p>你已被登出，可以取消继续留在该页面，或者重新登录</p>',
-        okText: '重新登录',
-        onOk: () => {
-          store.dispatch('FedLogOut').then(() => {
-            store.commit('clearOpenedSubmenu')
-            // this.$router.push({
-            //   name: 'login'
-            // })
-            location.reload() // 为了重新实例化vue-router对象 避免bug
-          })
-        },
-        cancelText: '取消',
-        onCancel: () => {
-          return Promise.reject(error)
-        }
+      MessageBox.confirm('认证超期，可以取消继续留在该页面，或者重新登录', '确定登出', {
+        confirmButtonText: '重新登录',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        store.dispatch('FedLogOut').then(() => {
+          store.commit('clearOpenedSubmenu')
+          // this.$router.push({
+          //   name: 'login'
+          // })
+          location.reload() // 为了重新实例化vue-router对象 避免bug
+        })
+      }).catch(() => {
+        return Promise.reject(error)
       })
     }
     return Promise.reject(error)

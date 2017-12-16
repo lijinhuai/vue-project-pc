@@ -36,7 +36,7 @@ const app = {
     tagsList: [...otherRouter.children],
     messageCount: 0,
     dontCache: [], // 在这里定义你不想要缓存的页面的name属性值(参见路由配置router.js)
-    loading: Object
+    appLoading: null // 数据查询loading界面
   },
   mutations: {
     setTagsList (state, list) {
@@ -192,16 +192,18 @@ const app = {
       state.pageOpenedList.push(tagObj)
       localStorage.pageOpenedList = JSON.stringify(state.pageOpenedList)
     },
-    loading (state, isShow) {
+    appLoading (state, isShow) {
       if (isShow) {
-        state.loading = Loading.service({
+        state.appLoading = Loading.service({
           lock: true,
-          text: 'Loading',
+          text: '数据加载中',
           spinner: 'el-icon-loading',
           background: 'rgba(0, 0, 0, 0.7)'
         })
       } else {
-        state.loading.close()
+        if (state.appLoading) {
+          state.appLoading.close()
+        }
       }
     }
   }

@@ -273,29 +273,23 @@ export default {
       // this.$Message.info('点击了取消')
     },
     showRoomDetail (dztzm) {
-      this.$store.commit('loading', true)
       fetchRfglRPerson(dztzm)
         .then(response => {
           this.room.jzryData = response.data
           this.modal = true
-          this.$store.commit('loading', false)
         })
         .catch(() => {
-          this.$store.commit('loading', false)
         })
     },
     searchRfglRoom () {
-      this.$store.commit('loading', true)
       this.house = {}
       fetchRfglRoom(this.pageInfo, this.queryForm)
         .then(response => {
           this.data = response.data.list
           this.pageInfo.total = response.data.total
           this.cxTab = 'fwlb'
-          this.$store.commit('loading', false)
         })
         .catch(() => {
-          this.$store.commit('loading', false)
         })
     },
     clearSearchRfglRoom () {
@@ -306,14 +300,11 @@ export default {
       this.searchRfglRoom()
     },
     searchRfglHouse (dztzm) {
-      this.$store.commit('loading', true)
       fetchRfglHouse(dztzm)
         .then(response => {
           this.house = response.data
-          this.$store.commit('loading', false)
         })
         .catch(() => {
-          this.$store.commit('loading', false)
         })
     },
     onRowClick (row) {
@@ -438,13 +429,13 @@ export default {
           background-color: @rhyz;
         }
         &_rhyz_czfw {
-          background: linear-gradient(left, @rhyz 50%, @czfw 50%);
+          background: linear-gradient(45deg, @rhyz 50%, @czfw 50%);
         }
         &_rhfl {
           background-color: @rhfl;
         }
         &_rhfl_czfw {
-          background: linear-gradient(left, @rhfl 50%, @czfw 50%);
+          background: linear-gradient(45deg, @rhfl 50%, @czfw 50%);
         }
         &_czfw {
           background-color: @czfw;

@@ -165,16 +165,12 @@ export default {
   },
   methods: {
     search () {
-      const _self = this
-      _self.$store.commit('loading', true)
       fetchFwjbxxList(this.pageInfo, this.queryForm)
         .then(response => {
           this.data = response.data.list
           this.pageInfo.total = response.data.total
-          _self.$store.commit('loading', false)
         })
         .catch(() => {
-          _self.$store.commit('loading', false)
         })
     },
     changePage (value) {
