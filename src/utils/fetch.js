@@ -42,7 +42,7 @@ service.interceptors.response.use(
         if (res.code === 200) {
           return response.data
         } else {
-          Message.error(res.message, 5)
+          Message.error(res.message)
           // return Promise.resolve('error')
         }
       } else {

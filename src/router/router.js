@@ -108,6 +108,9 @@ export const appRouter = [{
     path: 'usermanage',
     icon: 'compose',
     name: 'usermanage',
+    meta: {
+      privilege: 'USERMANAGE'
+    },
     title: '用户管理',
     component: _import('sysmanage/user/user-manage')
   },
@@ -115,6 +118,9 @@ export const appRouter = [{
     path: 'rolemanage',
     icon: 'compose',
     name: 'rolemanage',
+    meta: {
+      privilege: 'ROLEMANAGE'
+    },
     title: '角色管理',
     component: _import('sysmanage/role/role-manage')
   }
@@ -130,6 +136,9 @@ export const appRouter = [{
     path: 'rfgl',
     icon: 'person-add',
     name: 'rfgl',
+    meta: {
+      privilege: 'RFGL'
+    },
     title: '人房关联',
     component: _import('cxtj/rfgl/rfgl')
   },
@@ -137,6 +146,9 @@ export const appRouter = [{
     path: 'rycx',
     icon: 'person',
     name: 'rycx',
+    meta: {
+      privilege: 'RYCX'
+    },
     title: '人员查询',
     component: _import('cxtj/rycx/rycx')
   },
@@ -144,6 +156,9 @@ export const appRouter = [{
     path: 'fwcx',
     icon: 'home',
     name: 'fwcx',
+    meta: {
+      privilege: 'FWCX'
+    },
     title: '房屋查询',
     component: _import('cxtj/fwcx/fwcx')
   }
@@ -159,6 +174,9 @@ export const appRouter = [{
     path: 'mpcx',
     icon: 'person-add',
     name: 'mpcx',
+    meta: {
+      privilege: 'MPCX'
+    },
     title: '门牌查询',
     component: _import('mpgl/mpcx/mpcx')
   },
@@ -166,6 +184,9 @@ export const appRouter = [{
     path: 'mpsq',
     icon: 'person-add',
     name: 'mpsq',
+    meta: {
+      privilege: 'MPSQ'
+    },
     title: '门牌申请',
     component: _import('mpgl/mpsq/mpsq')
   },
@@ -193,7 +214,8 @@ export const routers = [
   bigData
 ]
 
-export const constantRouterMap = [loginRouter,
+export const constantRouterMap = [
+  loginRouter,
   otherRouter,
   locking,
   page500,

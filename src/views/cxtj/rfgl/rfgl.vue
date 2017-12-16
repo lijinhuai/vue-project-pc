@@ -278,8 +278,7 @@ export default {
           this.room.jzryData = response.data
           this.modal = true
         })
-        .catch(() => {
-        })
+        .catch(() => {})
     },
     searchRfglRoom () {
       this.house = {}
@@ -289,8 +288,7 @@ export default {
           this.pageInfo.total = response.data.total
           this.cxTab = 'fwlb'
         })
-        .catch(() => {
-        })
+        .catch(() => {})
     },
     clearSearchRfglRoom () {
       this.queryForm = {}
@@ -304,8 +302,7 @@ export default {
         .then(response => {
           this.house = response.data
         })
-        .catch(() => {
-        })
+        .catch(() => {})
     },
     onRowClick (row) {
       this.searchRfglHouse(row.dztzm)
@@ -419,8 +416,20 @@ export default {
           cursor: pointer;
         }
         &_active {
+          animation: spangled 1.5s infinite;
           border: #fa9255 2px solid;
           box-shadow: inset 0 -5px 8px -7px rgba(81, 81, 81, 0.8); // background-color: #fa9255;
+          @keyframes spangled {
+            0% {
+              transform: scale(1)
+            }
+            50% {
+              transform: scale(1.1)
+            }
+            100% {
+              transform: scale(1)
+            }
+          }
         }
         &_wcdz {
           background-color: @wcdz;

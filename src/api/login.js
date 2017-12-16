@@ -7,7 +7,7 @@ export function loginByUsername (username, password) {
   }
   return fetch({
     url: '/login',
-    method: 'get',
+    method: 'post',
     params: params
   })
 }
@@ -21,7 +21,7 @@ export function logout () {
 
 export function getUserInfo () {
   return fetch({
-    url: '/user/info',
+    url: '/userInfo',
     method: 'get'
   })
 }
