@@ -1,14 +1,13 @@
 /* layout */
 import Main from '@/views/main/Main.vue'
-const _import = require('./_import_' + process.env.NODE_ENV)
 // in development env not use Lazy Loading,because Lazy Loading too many pages will cause webpack hot update too slow.so only in production use Lazy Loading
+const _import = require('./_import_' + process.env.NODE_ENV)
 
 /**
  * icon : the icon show in the sidebar
- * hidden : if `hidden:true` will not show in the sidebar
  * redirect : if `redirect:noredirect` will no redirct in the levelbar
  * noDropdown : if `noDropdown:true` will has no submenu
- * meta : { role: ['admin'] }  will control the page role
+ * meta : { privilege: ['privilegeName'] }  will control the page privilege
  **/
 
 // 不作为Main组件的子页面展示的页面单独写，如下
@@ -74,25 +73,19 @@ export const otherRouter = {
       i18n: 'home'
     },
     name: 'home_index',
-    component: resolve => {
-      require(['../views/home/home.vue'], resolve)
-    }
+    component: _import('home/home')
   },
   {
     path: 'ownspace',
     title: '个人中心',
     name: 'ownspace_index',
-    component: resolve => {
-      require(['../views/own-space/own-space.vue'], resolve)
-    }
+    component: _import('own-space/own-space')
   },
   {
     path: 'message',
     title: '消息中心',
     name: 'message_index',
-    component: resolve => {
-      require(['../views/message/message.vue'], resolve)
-    }
+    component: _import('message/message')
   }
   ]
 }
@@ -195,6 +188,9 @@ export const appRouter = [{
     icon: 'person-add',
     name: 'mpsp',
     title: '门牌审批',
+    meta: {
+      privilege: 'MPSP'
+    },
     component: _import('mpgl/mpsp/mpsp')
   }
 
