@@ -11,10 +11,6 @@ import {
 
 import Cookies from 'js-cookie'
 
-import {
-  Message
-} from 'element-ui'
-
 const user = {
   state: {
     user: '',
