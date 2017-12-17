@@ -141,7 +141,6 @@ const user = {
         removeToken()
         Cookies.remove('user')
         Cookies.remove('password')
-        Cookies.remove('access')
         // 恢复默认样式
         let themeLink = document.querySelector('link[name="theme"]')
         themeLink.setAttribute('href', '')

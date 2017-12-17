@@ -231,7 +231,7 @@ app.toDefaultPage = function (routers, name, route, next) {
 app.fullscreenEvent = function (vm) {
   vm.$store.commit('initCachepage')
     // 权限菜单过滤相关
-  vm.$store.commit('updateMenulist')
+  // vm.$store.commit('updateMenulist')
     // 全屏相关
 }
 

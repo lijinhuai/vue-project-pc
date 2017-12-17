@@ -1,8 +1,6 @@
 import router from './index'
 import {
-  routers,
-  otherRouter,
-  appRouter
+  routers
 } from '@/router/router'
 
 import store from '@/store/index'
@@ -21,7 +19,7 @@ function hasPermission (roles, permissionPrivilege) {
   if (!permissionPrivilege) return true
   let hasPermission
   roles.map(role => {
-    hasPermission = role.privileges.some(privilege => permissionPrivilege.indexOf(privilege.code) >= 0)
+    hasPermission = role.privileges.some(privilege => permissionPrivilege === privilege.code)
   })
   return hasPermission
 }
@@ -50,13 +48,12 @@ router.beforeEach((to, from, next) => {
         if (store.getters.roles.length === 0) { // 判断当前用户是否已拉取完user_info信息
           store.dispatch('GetUserInfo').then(res => { // 拉取user_info
             const roles = res.data.roles
-            store.dispatch('GenerateRoutes', {
+            store.dispatch('GenerateMenuRoutes', {
               roles
-            }).then(() => { // 生成可访问的路由表
-              router.addRoutes(store.getters.addRouters) // 动态添加可访问路由表
+            }).then(() => { // 根据用户角色权限生成可访问的菜单路由
               next({
                 ...to
-              }) // hack方法 确保addRoutes已完成
+              })
             })
           }).catch(() => {
             store.dispatch('FedLogOut').then(() => {
@@ -66,21 +63,9 @@ router.beforeEach((to, from, next) => {
             })
           })
         } else {
-          // 没有动态改变权限的需求可直接next() 删除下方权限判断 ↓
+          // 根据用户所有用的权限判断是否允许访问当前页面
           if (hasPermission(store.getters.roles, to.meta.privilege)) {
-            const curRouterObj = AppUtil.getRouterObjByName([otherRouter, ...appRouter], to.name)
-            if (curRouterObj && curRouterObj.access !== undefined) { // 需要判断权限的路由
-              if (curRouterObj.access === parseInt(Cookies.get('access'))) {
-                AppUtil.toDefaultPage([otherRouter, ...appRouter], to.name, router, next) // 如果在地址栏输入的是一级菜单则默认打开其第一个二级菜单的页面
-              } else {
-                next({
-                  replace: true,
-                  name: 'error-403'
-                })
-              }
-            } else { // 没有配置权限的路由, 直接通过
-              AppUtil.toDefaultPage([...routers], to.name, router, next)
-            }
+            AppUtil.toDefaultPage([...routers], to.name, router, next)
           } else {
             next({
               path: '/401',
@@ -89,7 +74,6 @@ router.beforeEach((to, from, next) => {
               }
             })
           }
-          // 可删 ↑
         }
       }
     } else { // 没有token 未登录

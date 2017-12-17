@@ -213,18 +213,3 @@ export const routers = [
   page404,
   bigData
 ]
-
-export const constantRouterMap = [
-  loginRouter,
-  otherRouter,
-  locking,
-  page500,
-  page401,
-  page404,
-  bigData
-]
-
-export const asyncRouterMap = [
-  otherRouter,
-  ...appRouter
-]
