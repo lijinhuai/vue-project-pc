@@ -11,7 +11,8 @@
             <Col span="8">
             <FormItem label="路名：" prop="lm">
               <div class="form-item">
-                <Input v-model="queryForm.lm"></Input>
+                <!-- <Input v-model="queryForm.lm"></Input> -->
+                <Dept></Dept>
               </div>
             </FormItem>
             </Col>
@@ -32,8 +33,8 @@
             <FormItem label="门牌类型：" prop="mplx">
               <div class="form-item">
                 <Select v-model="queryForm.mplx" style="width:180px" filterable clearable>
-                                        <Option v-for="dict in dictList.mlplx" :key="dict.index" :value="dict.key">{{dict.value}}</Option>
-                                      </Select>
+                                            <Option v-for="dict in dictList.mlplx" :key="dict.index" :value="dict.key">{{dict.value}}</Option>
+                                          </Select>
               </div>
             </FormItem>
             </Col>
@@ -74,7 +75,6 @@
             <div class="floor" v-for="floor in house.floors" :key="floor.index">
               <div class="room" v-for="room in floor.rooms" :key="room.index" v-bind:class="{room_notconfirm:room.sfconfirm!=1,room_isconfirm:room.sfconfirm==1}">
                 <template v-if="room.ifconfirm==false">
-
                 </template>
                 <span>{{room.houseRoomNum}}</span>
                 <span v-if="room.sfconfirm==1">地址已确认</span>
@@ -182,6 +182,7 @@ export default {
       ],
       data: [],
       house: {}
+
     }
   },
   components: {
@@ -223,14 +224,13 @@ export default {
       fetchRfglHouse(dztzm)
         .then(response => {
           this.house = response.data
-          this.house.floors.map((floor) => {
-            floor.rooms.map((room) => {
+          this.house.floors.map(floor => {
+            floor.rooms.map(room => {
               if (room.sfconfirm !== '1') {
                 _self.canSq = false
               }
             })
           })
-
           this.spinShow = false
           this.modal = true
         })
@@ -295,8 +295,7 @@ export default {
         margin: 3px;
         transition: all 0.3s;
         &:hover {
-          transform: scale(1.1);
-          // background-color: greenyellow;
+          transform: scale(1.1); // background-color: greenyellow;
         }
         &_notconfirm {
           background-color: #f38e7e;

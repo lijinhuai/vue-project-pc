@@ -3,62 +3,17 @@
     <Input @on-focus="handleFocus"></Input>
     <transition :name="transition">
       <div v-show="visible" class="treeWarp">
-        <Ztree :list.sync='ztreeDataSource' :func='nodeClick' :expand='expandClick' :contextmenu='contextmenuClick' :is-open='true'></Ztree>
+        <el-tree :props="props" :load="loadNode" lazy show-checkbox @check-change="handleCheckChange">
+        </el-tree>
       </div>
     </transition>
   </div>
 </template>
 
 <script>
-  import clickoutside from '@/directives/clickoutside'
-  import Ztree from '@/components/ztree/Ztree.vue'
+  import clickoutside from '../directives/clickoutside'
   export default {
     name: 'Dept',
-    data () {
-      return {
-        ztreeDataSource: [{
-          id: 1,
-          name: '音乐',
-          children: [],
-          url: 'http://www.baidu.com'
-        }, {
-          id: 2,
-          name: '视频',
-          children: [{
-            id: 3,
-            name: '电影',
-            children: [{
-              id: 4,
-              name: '国产电影',
-              url: ''
-            }, {
-              id: 5,
-              name: '好莱坞电影',
-              url: ''
-            }, {
-              id: 6,
-              name: '小语种电影',
-              url: ''
-            }]
-          }, {
-            id: 7,
-            name: '短片',
-            children: [{
-              id: 9,
-              name: '电视剧',
-              url: ''
-            }, {
-              id: 10,
-              name: '短片',
-              url: ''
-            }]
-          }]
-        }]
-      }
-    },
-    components: {
-      Ztree
-    },
     directives: {
       clickoutside
     },
@@ -98,22 +53,22 @@
         type: String
       }
     },
-    // data () {
-    //   return {
-    //     props: {
-    //       label: 'name',
-    //       children: 'zones'
-    //     },
-    //     count: 1,
-    //     showClose: false,
-    //     visible: false,
-    //     picker: null,
-    //     internalValue: '',
-    //     disableClickOutSide: false, // fixed when click a date,trigger clickoutside to close picker
-    //     disableCloseUnderTransfer: false, // transfer 模式下，点击Drop也会触发关闭
-    //     currentValue: this.value
-    //   }
-    // },
+    data () {
+      return {
+        props: {
+          label: 'name',
+          children: 'zones'
+        },
+        count: 1,
+        showClose: false,
+        visible: false,
+        picker: null,
+        internalValue: '',
+        disableClickOutSide: false, // fixed when click a date,trigger clickoutside to close picker
+        disableCloseUnderTransfer: false, // transfer 模式下，点击Drop也会触发关闭
+        currentValue: this.value
+      }
+    },
     computed: {
       opened () {
         return this.open === null ? this.visible : this.open
@@ -199,52 +154,6 @@
           }
           resolve(data)
         }, 500)
-      },
-      // 点击节点
-      nodeClick: function (m) {
-        console.log(JSON.parse(JSON.stringify(m)))
-      },
-    // 右击事件
-      contextmenuClick: function (m) {
-        console.log(m)
-        console.log('触发了自定义的contextmenuClick事件')
-      },
-    // 点击展开收起
-      expandClick: function (m) {
-        console.log(JSON.parse(JSON.stringify(m)))
-       // 点击异步加载
-        if (m.isExpand) {
-          // 动态加载子节点, 模拟ajax请求数据
-         // 请注意 id 不能重复哦。
-          if (m.hasOwnProperty('children')) {
-            m.loadNode = 1 // 正在加载节点
-
-            setTimeout(() => {
-              m.loadNode = 2 // 节点加载完毕
-
-              m.isFolder = !m.isFolder
-
-              m.children.push({
-                id: +new Date(),
-                name: '动态加载节点1',
-                path: '',
-                clickNode: false,
-                isFolder: false,
-                isExpand: false,
-                loadNode: 0,
-                children: [{
-                  id: +new Date() + 1,
-                  name: '动态加载末节点',
-                  path: '',
-                  clickNode: false,
-                  isExpand: false,
-                  isFolder: false,
-                  loadNode: 0
-                }]
-              })
-            }, 1000)
-          }
-        }
       }
     },
     mounted () {
@@ -254,12 +163,12 @@
 </script>
 
 <style lang="less" scoped>
-.treeWarp {
-  width: 100%;
-  border: 1px solid #d3d3d3;
-  position: absolute;
-  z-index: 3;
-}
+  .treeWarp {
+    width: 100%;
+    border: 1px solid #d3d3d3;
+    position: absolute;
+    z-index: 3;
+  }
 </style>
 
 
