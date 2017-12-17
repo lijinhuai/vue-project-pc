@@ -11,6 +11,10 @@ import {
 
 import Cookies from 'js-cookie'
 
+import {
+  Message
+} from 'element-ui'
+
 const user = {
   state: {
     user: '',
@@ -84,16 +88,21 @@ const user = {
     }) {
       return new Promise((resolve, reject) => {
         getUserInfo().then(response => {
-          const data = response.data
-          commit('SET_ROLES', data.roles)
-          commit(
-            'setAvator',
-            'https://ss0.bdstatic.com/94oJfD_bAAcT8t7mm9GUKT-xh_/timg?image&quality=100&size=b4000_4000&sec=1512529926&di=c92afacc5626da6084148693f630f03d&src=http://wx3.sinaimg.cn/wap720/e629955ely1fbth7eblbmj21b60qowld.jpg'
-          )
-          // commit('SET_NAME', data.name)
-          // commit('SET_AVATAR', data.avatar)
-          // commit('SET_INTRODUCTION', data.introduction)
-          resolve(response)
+          const userInfo = response.data
+          debugger
+          if (userInfo.roles && userInfo.roles.length > 0) {
+            commit('SET_ROLES', userInfo.roles)
+            commit(
+              'setAvator',
+              'https://ss0.bdstatic.com/94oJfD_bAAcT8t7mm9GUKT-xh_/timg?image&quality=100&size=b4000_4000&sec=1512529926&di=c92afacc5626da6084148693f630f03d&src=http://wx3.sinaimg.cn/wap720/e629955ely1fbth7eblbmj21b60qowld.jpg'
+            )
+            // commit('SET_NAME', data.name)
+            // commit('SET_AVATAR', data.avatar)
+            // commit('SET_INTRODUCTION', data.introduction)
+            resolve(response)
+          } else {
+            reject(response)
+          }
         }).catch(error => {
           reject(error)
         })

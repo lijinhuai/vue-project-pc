@@ -46,8 +46,8 @@ const permission = {
         const {
           roles
         } = data
-        const accessedRouters = filterAsyncRouter(appRouter, roles)
-        commit('updateMenulist', accessedRouters)
+        const accessedMenuRouters = filterAsyncRouter(appRouter, roles)
+        commit('updateMenulist', accessedMenuRouters)
         resolve()
       })
     }

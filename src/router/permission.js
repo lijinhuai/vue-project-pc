@@ -60,6 +60,7 @@ router.beforeEach((to, from, next) => {
               next({
                 name: 'login'
               })
+              LoadingBar.finish()
             })
           })
         } else {
