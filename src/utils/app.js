@@ -104,7 +104,7 @@ app.setCurrentPath = function (vm, name) {
     ]
   } else {
     let currentPathObj = vm.$store.state.app.routers.filter(item => {
-      if (item.children.length <= 1) {
+      if (item.children.length === 1) {
         return item.children[0].name === name
       } else {
         let i = 0
@@ -119,7 +119,7 @@ app.setCurrentPath = function (vm, name) {
         return false
       }
     })[0]
-    if (currentPathObj.children.length <= 1 && currentPathObj.name === 'home') {
+    if (currentPathObj.children.length === 1 && currentPathObj.name === 'home') {
       currentPathArr = [
         {
           title: '首页',
@@ -127,7 +127,7 @@ app.setCurrentPath = function (vm, name) {
           name: 'home_index'
         }
       ]
-    } else if (currentPathObj.children.length <= 1 && currentPathObj.name !== 'home') {
+    } else if (currentPathObj.children.length === 1 && currentPathObj.name !== 'home') {
       currentPathArr = [
         {
           title: '首页',

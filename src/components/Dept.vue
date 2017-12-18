@@ -1,264 +1,118 @@
 <template>
   <div v-clickoutside="handleClose">
-    <Input @on-focus="handleFocus"></Input>
+    <Input @on-focus="handleFocus" :placeholder="placeholder" :value="visualValue"></Input>
     <transition :name="transition">
       <div v-show="visible" class="treeWarp">
-        <Ztree :list.sync='ztreeDataSource' :func='nodeClick' :expand='expandClick' :contextmenu='contextmenuClick' :is-open='true'></Ztree>
+        <el-tree :data="data" show-checkbox node-key="id" ref="tree" highlight-current :props="defaultProps">
+        </el-tree>
       </div>
     </transition>
   </div>
 </template>
 
 <script>
-  import clickoutside from '@/directives/clickoutside'
-  import Ztree from '@/components/ztree/Ztree.vue'
-  export default {
-    name: 'Dept',
-    data () {
-      return {
-        ztreeDataSource: [{
-          id: 1,
-          name: '音乐',
-          children: [],
-          url: 'http://www.baidu.com'
-        }, {
-          id: 2,
-          name: '视频',
-          children: [{
-            id: 3,
-            name: '电影',
-            children: [{
-              id: 4,
-              name: '国产电影',
-              url: ''
-            }, {
-              id: 5,
-              name: '好莱坞电影',
-              url: ''
-            }, {
-              id: 6,
-              name: '小语种电影',
-              url: ''
-            }]
-          }, {
-            id: 7,
-            name: '短片',
-            children: [{
-              id: 9,
-              name: '电视剧',
-              url: ''
-            }, {
-              id: 10,
-              name: '短片',
-              url: ''
-            }]
-          }]
-        }]
-      }
+import clickoutside from '../directives/clickoutside'
+import { fetchDeptTreeList } from '@/api/dept'
+export default {
+  name: 'Dept',
+  directives: {
+    clickoutside
+  },
+  props: {
+    value: {
+      type: Array,
+      default: []
     },
-    components: {
-      Ztree
+    clearable: {
+      type: Boolean,
+      default: true
     },
-    directives: {
-      clickoutside
+    open: {
+      type: Boolean,
+      default: null
     },
-    props: {
-      readonly: {
-        type: Boolean,
-        default: false
-      },
-      disabled: {
-        type: Boolean,
-        default: false
-      },
-      editable: {
-        type: Boolean,
-        default: true
-      },
-      clearable: {
-        type: Boolean,
-        default: true
-      },
-      confirm: {
-        type: Boolean,
-        default: false
-      },
-      open: {
-        type: Boolean,
-        default: null
-      },
-      placeholder: {
-        type: String,
-        default: ''
-      },
-      name: {
-        type: String
-      },
-      elementId: {
-        type: String
-      }
-    },
-    // data () {
-    //   return {
-    //     props: {
-    //       label: 'name',
-    //       children: 'zones'
-    //     },
-    //     count: 1,
-    //     showClose: false,
-    //     visible: false,
-    //     picker: null,
-    //     internalValue: '',
-    //     disableClickOutSide: false, // fixed when click a date,trigger clickoutside to close picker
-    //     disableCloseUnderTransfer: false, // transfer 模式下，点击Drop也会触发关闭
-    //     currentValue: this.value
-    //   }
-    // },
-    computed: {
-      opened () {
-        return this.open === null ? this.visible : this.open
-      },
-      transition () {
-        if (
-          this.placement === 'bottom-start' ||
-          this.placement === 'bottom' ||
-          this.placement === 'bottom-end'
-        ) {
-          return 'slide-up'
-        } else {
-          return 'slide-down'
-        }
-      }
-    },
-    methods: {
-      // 开启 transfer 时，点击 Drop 即会关闭，这里不让其关闭
-      handleTransferClick () {
-        if (this.transfer) this.disableCloseUnderTransfer = true
-      },
-      handleClose () {
-        if (this.disableCloseUnderTransfer) {
-          this.disableCloseUnderTransfer = false
-          return false
-        }
-        if (this.open !== null) return
-        //                if (!this.disableClickOutSide) this.visible = false;
-        this.visible = false
-        this.disableClickOutSide = false
-      },
-      handleFocus () {
-        if (this.readonly) return
-        this.visible = true
-      },
-      // handleBlur () {
-      //   this.visible = false
-      // },
-      handleInputMouseenter () {
-        if (this.readonly || this.disabled) return
-        if (this.visualValue && this.clearable) {
-          this.showClose = true
-        }
-      },
-      handleInputMouseleave () {
-        this.showClose = false
-      },
-      handleCheckChange (data, checked, indeterminate) {
-        console.log(data, checked, indeterminate)
-      },
-      handleNodeClick (data) {
-        console.log(data)
-      },
-      loadNode (node, resolve) {
-        if (node.level === 0) {
-          return resolve([{
-            name: 'region1'
-          }, {
-            name: 'region2'
-          }])
-        }
-        if (node.level > 3) return resolve([])
-        var hasChild
-        if (node.data.name === 'region1') {
-          hasChild = true
-        } else if (node.data.name === 'region2') {
-          hasChild = false
-        } else {
-          hasChild = Math.random() > 0.5
-        }
-        setTimeout(() => {
-          var data
-          if (hasChild) {
-            data = [{
-              name: 'zone' + this.count++
-            },
-            {
-              name: 'zone' + this.count++
-            }
-            ]
-          } else {
-            data = []
-          }
-          resolve(data)
-        }, 500)
-      },
-      // 点击节点
-      nodeClick: function (m) {
-        console.log(JSON.parse(JSON.stringify(m)))
-      },
-    // 右击事件
-      contextmenuClick: function (m) {
-        console.log(m)
-        console.log('触发了自定义的contextmenuClick事件')
-      },
-    // 点击展开收起
-      expandClick: function (m) {
-        console.log(JSON.parse(JSON.stringify(m)))
-       // 点击异步加载
-        if (m.isExpand) {
-          // 动态加载子节点, 模拟ajax请求数据
-         // 请注意 id 不能重复哦。
-          if (m.hasOwnProperty('children')) {
-            m.loadNode = 1 // 正在加载节点
-
-            setTimeout(() => {
-              m.loadNode = 2 // 节点加载完毕
-
-              m.isFolder = !m.isFolder
-
-              m.children.push({
-                id: +new Date(),
-                name: '动态加载节点1',
-                path: '',
-                clickNode: false,
-                isFolder: false,
-                isExpand: false,
-                loadNode: 0,
-                children: [{
-                  id: +new Date() + 1,
-                  name: '动态加载末节点',
-                  path: '',
-                  clickNode: false,
-                  isExpand: false,
-                  isFolder: false,
-                  loadNode: 0
-                }]
-              })
-            }, 1000)
-          }
-        }
-      }
-    },
-    mounted () {
-      if (this.open !== null) this.visible = this.open
+    placeholder: {
+      type: String,
+      default: ''
     }
+  },
+  data () {
+    return {
+      data: [],
+      defaultProps: {
+        children: 'children',
+        label: 'label'
+      },
+      visualValue: '',
+      visible: false
+    }
+  },
+  computed: {
+    opened () {
+      return this.open === null ? this.visible : this.open
+    },
+    transition () {
+      if (
+        this.placement === 'bottom-start' ||
+        this.placement === 'bottom' ||
+        this.placement === 'bottom-end'
+      ) {
+        return 'slide-up'
+      } else {
+        return 'slide-down'
+      }
+    }
+  },
+  methods: {
+    handleClose () {
+      if (this.open !== null) return
+      this.visible = false
+      this.checkChange()
+    },
+    handleFocus () {
+      if (this.readonly) return
+      this.visible = true
+    },
+    loadNode (node, resolve) {
+      fetchDeptTreeList().then(response => {
+        this.data = response.data
+      })
+    },
+    checkChange () {
+      const checkedNodes = this.$refs.tree.getCheckedNodes()
+      const checkedKeys = this.$refs.tree.getCheckedKeys()
+      let checkLabels = ''
+      let index = 0
+      for (var checkedNode of checkedNodes) {
+        // if (checkedNode.children.length <= 0) {
+        //   continue
+        // }
+        if (index !== 0) {
+          checkLabels += ','
+        }
+        checkLabels += checkedNode.label
+        index++
+      }
+      this.visualValue = checkLabels
+      this.$emit('input', checkedKeys)
+    }
+  },
+  mounted () {
+    if (this.open !== null) this.visible = this.open
+    this.loadNode()
   }
+}
 </script>
 
 <style lang="less" scoped>
 .treeWarp {
   width: 100%;
+  height: 300px;
   border: 1px solid #d3d3d3;
+  background-color: white;
   position: absolute;
   z-index: 3;
+  overflow: auto;
 }
 </style>
 

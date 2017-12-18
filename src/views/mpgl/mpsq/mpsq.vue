@@ -12,7 +12,7 @@
             <FormItem label="路名：" prop="lm">
               <div class="form-item">
                 <!-- <Input v-model="queryForm.lm"></Input> -->
-                <Dept></Dept>
+                <Dept v-model="queryForm.lm" placeholder="选择部门"></Dept>
               </div>
             </FormItem>
             </Col>
@@ -30,11 +30,14 @@
               </div>
             </FormItem>
             </Col>
+          </Row>
+          <Row>
+            <Col span="8">
             <FormItem label="门牌类型：" prop="mplx">
               <div class="form-item">
                 <Select v-model="queryForm.mplx" style="width:180px" filterable clearable>
-                                            <Option v-for="dict in dictList.mlplx" :key="dict.index" :value="dict.key">{{dict.value}}</Option>
-                                          </Select>
+                                                <Option v-for="dict in dictList.mlplx" :key="dict.index" :value="dict.key">{{dict.value}}</Option>
+                                              </Select>
               </div>
             </FormItem>
             </Col>
@@ -74,8 +77,6 @@
             <div class="body-head">{{house.address}}</div>
             <div class="floor" v-for="floor in house.floors" :key="floor.index">
               <div class="room" v-for="room in floor.rooms" :key="room.index" v-bind:class="{room_notconfirm:room.sfconfirm!=1,room_isconfirm:room.sfconfirm==1}">
-                <template v-if="room.ifconfirm==false">
-                </template>
                 <span>{{room.houseRoomNum}}</span>
                 <span v-if="room.sfconfirm==1">地址已确认</span>
                 <span v-else>地址未确认</span>
@@ -128,7 +129,9 @@ export default {
         pageSize: 10,
         total: 0
       },
-      queryForm: {},
+      queryForm: {
+        lm: []
+      },
       columns: [
         {
           title: '地址',
@@ -182,7 +185,6 @@ export default {
       ],
       data: [],
       house: {}
-
     }
   },
   components: {
