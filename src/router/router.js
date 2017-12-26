@@ -5,8 +5,8 @@ const _import = require('./_import_' + process.env.NODE_ENV)
 
 /**
  * icon : the icon show in the sidebar
- * redirect : if `redirect:noredirect` will no redirct in the levelbar
- * noDropdown : if `noDropdown:true` will has no submenu
+ * title : the name show in the sidebar
+ * meta : { title: 'titleName' }  the title show in the Browser
  * meta : { privilege: ['privilegeName'] }  will control the page privilege
  **/
 
@@ -195,6 +195,20 @@ export const appRouter = [{
   }
 
   ]
+},
+{
+  path: 'cs1',
+  icon: 'social-buffer',
+  name: 'cs1',
+  title: '测试1',
+  children: [{
+    path: 'cs21',
+    icon: 'person-add',
+    name: 'cs21',
+    redirect: {
+      name: 'big_data'
+    }
+  }]
 }
 ]
 
