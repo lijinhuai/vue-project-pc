@@ -204,12 +204,13 @@ export const appRouter = [{
   {
     path: 'gzgl2',
     icon: 'person-add',
-    title: '感知管理测试2',
+    title: '地图',
     name: 'gzgl2',
     redirect: {
-      name: 'big_data'
+      name: 'amap'
     }
-  }]
+  }
+  ]
 }
 ]
 
@@ -220,6 +221,13 @@ export const showRouter = [{
   },
   name: 'big_data',
   component: _import('big-data/big-data')
+}, {
+  path: '/amap',
+  meta: {
+    title: '地图展示'
+  },
+  name: 'amap',
+  component: _import('map/map')
 }]
 
 // 所有上面定义的路由都要写在下面的routers里

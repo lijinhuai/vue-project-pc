@@ -14,3 +14,6 @@ import './iView'
 
 // 导入Weui
 // import './Weui'
+
+// 导入AMap
+// import './AMap'

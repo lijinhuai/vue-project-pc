@@ -48,6 +48,25 @@
       </Card>
       </Col>
       <Col span="15">
+      <el-dropdown>
+        <el-button type="primary">
+          图例<i class="el-icon--right"></i>
+        </el-button>
+        <el-dropdown-menu slot="dropdown">
+          <el-dropdown-item>涉恐</el-dropdown-item>
+          <el-dropdown-item>涉稳</el-dropdown-item>
+          <el-dropdown-item>刑事前科</el-dropdown-item>
+          <el-dropdown-item>精神病</el-dropdown-item>
+          <el-dropdown-item>重点上访</el-dropdown-item>
+          <el-dropdown-item>出租车司机</el-dropdown-item>
+          <el-dropdown-item>回、维、藏民</el-dropdown-item>
+          <el-dropdown-item>国保重点人员</el-dropdown-item>
+          <el-dropdown-item>涉毒</el-dropdown-item>
+          <el-dropdown-item>犯罪人员</el-dropdown-item>
+          <el-dropdown-item>货车司机</el-dropdown-item>
+          <el-dropdown-item>境外人员</el-dropdown-item>
+        </el-dropdown-menu>
+      </el-dropdown>
       <Card class="house">
         <div class="house-head">
           <div class="head head1"></div>
@@ -59,17 +78,24 @@
         <div class="house-body">
           <div class="body-head">{{ house.address }}</div>
           <div class="floor" v-for="floor in house.floors" :key="floor.index">
-            <div class="room" v-for="room in floor.rooms" :key="room.index" @click="showRoomDetail(room.dztzm)" :class="{room_active:room.cxfwbj==1,
-                            room_rhyz:room.flagRhfl==0,
-                            room_rhfl:room.flagRhfl==1,
-                            room_rhyz_czfw:room.flagRhfl==0 && room.jzfwlx=='01',
-                            room_rhfl_czfw:room.flagRhfl==1 && room.jzfwlx=='01'
-              }">
-              <span>{{ room.houseRoomNum }}</span>
-              <Poptip trigger="hover" :content="room.jzrsTip">
-                <Badge class-name="badge-jzrs" :count="room.jzrs"></Badge>
-              </Poptip>
-            </div>
+            <template v-if="floor.rooms.length>0">
+              <div class="room" v-for="room in floor.rooms" :key="room.index" @click="showRoomDetail(room.dztzm)" :class="{room_active:room.cxfwbj==1,
+                              room_rhyz:room.flagRhfl==0,
+                              room_rhfl:room.flagRhfl==1,
+                              room_rhyz_czfw:room.flagRhfl==0 && room.jzfwlx=='01',
+                              room_rhfl_czfw:room.flagRhfl==1 && room.jzfwlx=='01'
+                }">
+                <span>{{ room.houseRoomNum }}</span>
+                <Poptip trigger="hover" :content="room.jzrsTip">
+                  <Badge class-name="badge-jzrs" :count="room.jzrs"></Badge>
+                </Poptip>
+              </div>
+            </template>
+
+            <template v-else>
+              <div class="room room_wcdz">
+              </div>
+            </template>
           </div>
           <div class="body-footer">
             <div class="box box_wcdz">未采地址</div>
@@ -107,6 +133,9 @@
                 </Timeline-item>
               </Timeline>
             </Tab-pane>
+            <Tab-pane label="电力数据" name="dlsj">
+              <Dlsj ref="dlsj"></Dlsj>
+            </Tab-pane>
           </Tabs>
           <div slot="footer">
             <Button type="primary" @click="modal=false" size="large">确定</Button>
@@ -125,6 +154,7 @@ import {
   fetchRfglRPerson
 } from '@/api/cxtj/rfgl'
 import PersonPhoto from './components/PersonPhoto.vue'
+import Dlsj from './components/Dlsj.vue'
 export default {
   name: 'rfgl',
   data () {
@@ -249,7 +279,7 @@ export default {
     }
   },
   components: {
-    PersonPhoto
+    PersonPhoto, Dlsj
   },
   created () {},
   activated () {
@@ -277,6 +307,9 @@ export default {
         .then(response => {
           this.room.jzryData = response.data
           this.modal = true
+          setTimeout(() => {
+            this.$refs.dlsj.showChart()
+          })
         })
         .catch(() => {})
     },
@@ -421,13 +454,13 @@ export default {
           box-shadow: inset 0 -5px 8px -7px rgba(81, 81, 81, 0.8); // background-color: #fa9255;
           @keyframes spangled {
             0% {
-              transform: scale(1)
+              transform: scale(1);
             }
             50% {
-              transform: scale(1.1)
+              transform: scale(1.1);
             }
             100% {
-              transform: scale(1)
+              transform: scale(1);
             }
           }
         }
