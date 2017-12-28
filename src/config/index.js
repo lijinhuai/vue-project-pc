@@ -3,7 +3,7 @@ const Env = process.env.NODE_ENV
 const BASE_API = Env === 'development'
   ? 'http://localhost:8081/api'
   : Env === 'production'
-  ? 'http://116.228.125.236:18080/api'
+  ? 'http://116.228.125.236:14310/api'
   : 'https://debug.url.com'
 
 let config = {

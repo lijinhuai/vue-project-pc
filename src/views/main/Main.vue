@@ -82,7 +82,7 @@ export default {
   },
   data () {
     return {
-      shrink: false,
+      shrink: true,
       userName: '',
       isFullScreen: false,
       openedSubmenuArr: this.$store.state.app.openedSubmenuArr

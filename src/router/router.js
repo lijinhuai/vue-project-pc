@@ -53,15 +53,6 @@ export const locking = {
   component: _import('main/components/lockscreen/components/locking-page')
 }
 
-export const bigData = {
-  path: '/bigdata',
-  meta: {
-    title: '大数据展示平台'
-  },
-  name: 'big_data',
-  component: _import('big-data/big-data')
-}
-
 // 作为Main组件的子页面展示但是不在左侧菜单显示的路由写在otherRouter里
 export const otherRouter = {
   path: '/',
@@ -197,14 +188,24 @@ export const appRouter = [{
   ]
 },
 {
-  path: 'cs1',
+  path: 'gzgl',
   icon: 'social-buffer',
-  name: 'cs1',
-  title: '测试1',
+  name: 'gzgl',
+  title: '感知管理',
   children: [{
-    path: 'cs21',
+    path: 'gzgl1',
     icon: 'person-add',
-    name: 'cs21',
+    title: '感知管理测试1',
+    name: 'gzgl1',
+    redirect: {
+      name: 'big_data'
+    }
+  },
+  {
+    path: 'gzgl2',
+    icon: 'person-add',
+    title: '感知管理测试2',
+    name: 'gzgl2',
     redirect: {
       name: 'big_data'
     }
@@ -212,14 +213,23 @@ export const appRouter = [{
 }
 ]
 
+export const showRouter = [{
+  path: '/bigdata',
+  meta: {
+    title: '大数据展示平台'
+  },
+  name: 'big_data',
+  component: _import('big-data/big-data')
+}]
+
 // 所有上面定义的路由都要写在下面的routers里
 export const routers = [
-  loginRouter,
-  otherRouter,
-  locking,
   ...appRouter,
+  otherRouter,
+  loginRouter,
+  locking,
   page500,
   page401,
   page404,
-  bigData
+  ...showRouter
 ]
