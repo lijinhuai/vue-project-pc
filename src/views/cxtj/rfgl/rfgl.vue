@@ -54,18 +54,42 @@
             图例<i class="el-icon--right"></i>
           </el-button>
           <el-dropdown-menu slot="dropdown">
-            <el-dropdown-item><div class="rybq rybq_sk">涉恐</div></el-dropdown-item>
-            <el-dropdown-item><div class="rybq rybq_sw">涉稳</div></el-dropdown-item>
-            <el-dropdown-item><div class="rybq rybq_xsqk">刑事前科</div></el-dropdown-item>
-            <el-dropdown-item><div class="rybq rybq_jsb">精神病</div></el-dropdown-item>
-            <el-dropdown-item><div class="rybq rybq_zdsf">重点上访</div></el-dropdown-item>
-            <el-dropdown-item><div class="rybq rybq_czcsj">出租车司机</div></el-dropdown-item>
-            <el-dropdown-item><div class="rybq rybq_hwzm">回、维、藏民</div></el-dropdown-item>
-            <el-dropdown-item><div class="rybq rybq_gbzdry">国保重点人员</div></el-dropdown-item>
-            <el-dropdown-item><div class="rybq rybq_sd">涉毒</div></el-dropdown-item>
-            <el-dropdown-item><div class="rybq rybq_fzry">犯罪人员</div></el-dropdown-item>
-            <el-dropdown-item><div class="rybq rybq_hcsj">货车司机</div></el-dropdown-item>
-            <el-dropdown-item><div class="rybq rybq_jwry">境外人员</div></el-dropdown-item>
+            <el-dropdown-item>
+              <div class="rybq rybq_sk">涉恐</div>
+            </el-dropdown-item>
+            <el-dropdown-item>
+              <div class="rybq rybq_sw">涉稳</div>
+            </el-dropdown-item>
+            <el-dropdown-item>
+              <div class="rybq rybq_xsqk">刑事前科</div>
+            </el-dropdown-item>
+            <el-dropdown-item>
+              <div class="rybq rybq_jsb">精神病</div>
+            </el-dropdown-item>
+            <el-dropdown-item>
+              <div class="rybq rybq_zdsf">重点上访</div>
+            </el-dropdown-item>
+            <el-dropdown-item>
+              <div class="rybq rybq_czcsj">出租车司机</div>
+            </el-dropdown-item>
+            <el-dropdown-item>
+              <div class="rybq rybq_hwzm">回、维、藏民</div>
+            </el-dropdown-item>
+            <el-dropdown-item>
+              <div class="rybq rybq_gbzdry">国保重点人员</div>
+            </el-dropdown-item>
+            <el-dropdown-item>
+              <div class="rybq rybq_sd">涉毒</div>
+            </el-dropdown-item>
+            <el-dropdown-item>
+              <div class="rybq rybq_fzry">犯罪人员</div>
+            </el-dropdown-item>
+            <el-dropdown-item>
+              <div class="rybq rybq_hcsj">货车司机</div>
+            </el-dropdown-item>
+            <el-dropdown-item>
+              <div class="rybq rybq_jwry">境外人员</div>
+            </el-dropdown-item>
           </el-dropdown-menu>
         </el-dropdown>
         <div class="house-head">
@@ -79,18 +103,23 @@
           <div class="body-head">{{ house.address }}</div>
           <div class="floor" v-for="floor in house.floors" :key="floor.index">
             <template v-if="floor.rooms.length>0">
-                <div class="room" v-for="room in floor.rooms" :key="room.index" @click="showRoomDetail(room.dztzm)" :class="{room_active:room.cxfwbj==1,
-                                room_rhyz:room.flagRhfl==0,
-                                room_rhfl:room.flagRhfl==1,
-                                room_rhyz_czfw:room.flagRhfl==0 && room.jzfwlx=='01',
-                                room_rhfl_czfw:room.flagRhfl==1 && room.jzfwlx=='01'
-                  }">
-                  <div class="rybq_room rybq_sk"></div>
-                  <span>{{ room.houseRoomNum }}</span>
-                  <Poptip trigger="hover" :content="room.jzrsTip">
-                    <Badge class-name="badge-jzrs" :count="room.jzrs"></Badge>
-                  </Poptip>
-                </div>
+                      <div class="room" v-for="room in floor.rooms" :key="room.index" @click="showRoomDetail(room.dztzm)" :class="{room_active:room.cxfwbj==1,
+                                      room_rhyz:room.flagRhfl==0,
+                                      room_rhfl:room.flagRhfl==1,
+                                      room_rhyz_czfw:room.flagRhfl==0 && room.jzfwlx=='01',
+                                      room_rhfl_czfw:room.flagRhfl==1 && room.jzfwlx=='01'
+                        }">
+                        <div class="room_info">
+                          <span>{{ room.houseRoomNum }}</span>
+                          <Poptip trigger="hover" :content="room.jzrsTip">
+                            <Badge class-name="badge-jzrs" :count="room.jzrs"></Badge>
+                          </Poptip>
+                        </div>
+                        <div class="room_rybq" v-for="room in floor.rooms" :key="room.index">
+                          <div class="rybq_room rybq_sk"></div>
+                          <div class="rybq_room rybq_sw"></div>
+                      </div>
+                      </div>
             </template>
 
             <template v-else>
@@ -439,18 +468,23 @@ export default {
     .floor {
       display: flex;
       justify-content: center;
+      position: relative;
       width: 368px;
       height: 80px;
       .room {
         width: 100%;
         height: 100%;
         background-color: #8ac6f7;
-        display: inline-flex;
-        justify-content: center;
-        align-items: center;
         border: 2px solid #d7dde4;
         margin: 3px;
         transition: all 0.3s;
+        &_info {
+          width: 100%;
+          height: 100%;
+          display: inline-flex;
+          justify-content: center;
+          align-items: center;
+        }
         &:hover {
           transform: scale(1.1);
           background-color: greenyellow;
@@ -490,64 +524,74 @@ export default {
         &_czfw {
           background-color: @czfw;
         }
+        &_rybq {
+          position: absolute;
+          z-index: 1;
+          left: 0px;
+          top:0px;
+          // background:red;
+          width: 100%;
+          height: 100%;
+          float: left;
+          // display: inline-flex;
+          // justify-content: center;
+          // align-items: center;
+          .rybq {
+            background-size: 20px 20px;
+            background-repeat: no-repeat;
+            background-position-y: 5px;
+            padding-left: 25px;
+            &_room {
+              // position: absolute;
+              // left: 0px;
+              // top: 0px;
+              width: 20px;
+              height: 20px;
+              background-size: 20px 20px;
+              background-repeat: no-repeat;
+              background-position-y: 5px;
+            }
+            &_sk {
+              background-image: url("~@/images/rfgl/rybq/sk.png");
+            }
+            &_sw {
+              background-image: url("~@/images/rfgl/rybq/sw.png");
+            }
+            &_xsqk {
+              background-image: url("~@/images/rfgl/rybq/xsqk.png");
+            }
+            &_jsb {
+              background-image: url("~@/images/rfgl/rybq/jsb.png");
+            }
+            &_zdsf {
+              background-image: url("~@/images/rfgl/rybq/zdsf.png");
+            }
+            &_czcsj {
+              background-image: url("~@/images/rfgl/rybq/czcsj.png");
+            }
+            &_hwzm {
+              background-image: url("~@/images/rfgl/rybq/h、w、zm.png");
+            }
+            &_gbzdry {
+              background-image: url("~@/images/rfgl/rybq/gbzdry.png");
+            }
+            &_sd {
+              background-image: url("~@/images/rfgl/rybq/sd.png");
+            }
+            &_fzry {
+              background-image: url("~@/images/rfgl/rybq/fzry.png");
+            }
+            &_hcsj {
+              background-image: url("~@/images/rfgl/rybq/hcsj.png");
+            }
+            &_jwry {
+              background-image: url("~@/images/rfgl/rybq/jwry.png");
+            }
+          }
+        }
       }
     }
   }
-}
-
-.rybq {
-  background-size: 20px 20px;
-  background-repeat: no-repeat;
-  background-position-y: 5px;
-  padding-left: 25px;
-}
-
-.rybq_room {
-  position: absolute;
-  // left: 0px;
-  // top: 0px;
-  width: 30px;
-  height: 30px;
-  background-size: 30px 30px;
-  background-repeat: no-repeat;
-  background-position-y: 5px;
-}
-
-.rybq_sk {
-  background-image: url("~@/images/rfgl/rybq/sk.png");
-}
-.rybq_sw {
-  background-image: url("~@/images/rfgl/rybq/sw.png");
-}
-.rybq_xsqk {
-  background-image: url("~@/images/rfgl/rybq/xsqk.png");
-}
-.rybq_jsb {
-  background-image: url("~@/images/rfgl/rybq/jsb.png");
-}
-.rybq_zdsf {
-  background-image: url("~@/images/rfgl/rybq/zdsf.png");
-}
-.rybq_czcsj {
-  background-image: url("~@/images/rfgl/rybq/czcsj.png");
-}
-.rybq_hwzm {
-  background-image: url("~@/images/rfgl/rybq/h、w、zm.png");
-}
-.rybq_gbzdry {
-  background-image: url("~@/images/rfgl/rybq/gbzdry.png");
-}
-.rybq_sd {
-  background-image: url("~@/images/rfgl/rybq/sd.png");
-}
-.rybq_fzry {
-  background-image: url("~@/images/rfgl/rybq/fzry.png");
-}
-.rybq_hcsj {
-  background-image: url("~@/images/rfgl/rybq/hcsj.png");
-}
-.rybq_jwry {
-  background-image: url("~@/images/rfgl/rybq/jwry.png");
 }
 </style>
 
