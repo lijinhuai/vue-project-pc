@@ -1,17 +1,17 @@
 <template>
-  <div id="echartsDiv" style="width: 100%;height:100%;">
+  <div id="yssjChartDiv" style="width: 100%;height:100%;">
   </div>
 </template>
 
 <script>
 import echarts from 'echarts'
 export default {
-  name: 'dlsj',
+  name: 'yssj',
   data () {
     return {
       option: {
         title: {
-          text: '最近12个月用电量分布'
+          text: '最近12个月用水量分布'
         },
         tooltip: {
           trigger: 'axis',
@@ -40,7 +40,7 @@ export default {
         yAxis: {
           type: 'value',
           axisLabel: {
-            formatter: '{value} 度'
+            formatter: '{value} 吨'
           },
           axisPointer: {
             snap: true
@@ -77,10 +77,10 @@ export default {
         },
         series: [
           {
-            name: '用电量',
+            name: '用水量',
             type: 'line',
             smooth: true,
-            data: [300, 280, 250, 260, 270, 300, 550, 500, 400, 390, 380, 390]
+            data: [50, 20, 20, 60, 70, 30, 50, 100, 200, 40, 280, 100]
             // markArea: {
             //   data: [
             //     [
@@ -110,8 +110,8 @@ export default {
   },
   methods: {
     showChart () {
-      let mychart = echarts.init(document.getElementById('echartsDiv'))
-      mychart.setOption(this.option)
+      let yssjchart = echarts.init(document.getElementById('yssjChartDiv'))
+      yssjchart.setOption(this.option)
     }
   }
 }
