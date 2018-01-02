@@ -1,15 +1,22 @@
 <template>
-  <div id="yssjChartDiv" style="width: 100%;height:100%;">
-  </div>
+  <ECharts ref="echarts" :options="option" auto-resize></ECharts>
 </template>
 
 <script>
-import echarts from 'echarts'
+import ECharts from 'vue-echarts/components/ECharts'
 export default {
   name: 'yssj',
   data () {
     return {
-      option: {
+      option: {}
+    }
+  },
+  components: {
+    ECharts
+  },
+  methods: {
+    showChart () {
+      this.option = {
         title: {
           text: '最近12个月用水量分布'
         },
@@ -106,12 +113,6 @@ export default {
           }
         ]
       }
-    }
-  },
-  methods: {
-    showChart () {
-      let yssjchart = echarts.init(document.getElementById('yssjChartDiv'))
-      yssjchart.setOption(this.option)
     }
   }
 }

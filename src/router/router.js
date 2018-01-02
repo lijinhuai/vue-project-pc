@@ -214,7 +214,8 @@ export const appRouter = [{
 }
 ]
 
-export const showRouter = [{
+// 独占页面的应用
+export const singlePageRouter = [{
   path: '/bigdata',
   meta: {
     title: '大数据展示平台'
@@ -234,10 +235,10 @@ export const showRouter = [{
 export const routers = [
   ...appRouter,
   otherRouter,
+  ...singlePageRouter,
   loginRouter,
   locking,
   page500,
   page401,
-  page404,
-  ...showRouter
+  page404
 ]

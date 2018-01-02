@@ -55,40 +55,40 @@
           </el-button>
           <el-dropdown-menu slot="dropdown">
             <el-dropdown-item>
-              <div class="rybq rybq_sk">涉恐</div>
+              <div class="rybq rybq_sk" @click="showThisTybq('sk')">涉恐</div>
             </el-dropdown-item>
             <el-dropdown-item>
-              <div class="rybq rybq_sw">涉稳</div>
+              <div class="rybq rybq_sw" @click="showThisTybq('sw')">涉稳</div>
             </el-dropdown-item>
             <el-dropdown-item>
-              <div class="rybq rybq_xsqk">刑事前科</div>
+              <div class="rybq rybq_xsqk" @click="showThisTybq('xsqk')">刑事前科</div>
             </el-dropdown-item>
             <el-dropdown-item>
-              <div class="rybq rybq_jsb">精神病</div>
+              <div class="rybq rybq_jsb" @click="showThisTybq('jsb')">精神病</div>
             </el-dropdown-item>
             <el-dropdown-item>
-              <div class="rybq rybq_zdsf">重点上访</div>
+              <div class="rybq rybq_zdsf" @click="showThisTybq('zdsf')">重点上访</div>
             </el-dropdown-item>
             <el-dropdown-item>
-              <div class="rybq rybq_czcsj">出租车司机</div>
+              <div class="rybq rybq_czcsj" @click="showThisTybq('czcsj')">出租车司机</div>
             </el-dropdown-item>
             <el-dropdown-item>
-              <div class="rybq rybq_hwzm">回、维、藏民</div>
+              <div class="rybq rybq_hwzm" @click="showThisTybq('hwzm')">回、维、藏民</div>
             </el-dropdown-item>
             <el-dropdown-item>
-              <div class="rybq rybq_gbzdry">国保重点人员</div>
+              <div class="rybq rybq_gbzdr" @click="showThisTybq('gbzdr')">国保重点人员</div>
             </el-dropdown-item>
             <el-dropdown-item>
-              <div class="rybq rybq_sd">涉毒</div>
+              <div class="rybq rybq_sd" @click="showThisTybq('sd')">涉毒</div>
             </el-dropdown-item>
             <el-dropdown-item>
-              <div class="rybq rybq_fzry">犯罪人员</div>
+              <div class="rybq rybq_fzry" @click="showThisTybq('fzry')">犯罪人员</div>
             </el-dropdown-item>
             <el-dropdown-item>
-              <div class="rybq rybq_hcsj">货车司机</div>
+              <div class="rybq rybq_hcsj" @click="showThisTybq('hcsj')">货车司机</div>
             </el-dropdown-item>
             <el-dropdown-item>
-              <div class="rybq rybq_jwry">境外人员</div>
+              <div class="rybq rybq_jwry" @click="showThisTybq('jwry')">境外人员</div>
             </el-dropdown-item>
           </el-dropdown-menu>
         </el-dropdown>
@@ -103,27 +103,24 @@
           <div class="body-head">{{ house.address }}</div>
           <div class="floor" v-for="floor in house.floors" :key="floor.index">
             <template v-if="floor.rooms.length>0">
-                          <div class="room room_info" v-for="room in floor.rooms" :key="room.index" @click="showRoomDetail(room.dztzm)" :class="{room_active:room.cxfwbj==1,
-                                          room_rhyz:room.flagRhfl==0,
-                                          room_rhfl:room.flagRhfl==1,
-                                          room_rhyz_czfw:room.flagRhfl==0 && room.jzfwlx=='01',
-                                          room_rhfl_czfw:room.flagRhfl==1 && room.jzfwlx=='01'
-                            }">
-                              <span>{{ room.houseRoomNum }}</span>
-                              <Poptip trigger="hover" :content="room.jzrsTip">
-                                <Badge class-name="badge-jzrs" :count="room.jzrs"></Badge>
-                              </Poptip>
-                            <!-- <div class="room_rybq" v-for="room in floor.rooms" :key="room.index">
-                              <div class="rybq_room rybq_sk"></div>
-                              <div class="rybq_room rybq_sw"></div>
-                          </div> -->
-                          </div>
+                              <div class="room room_info" v-for="room in floor.rooms" :key="room.index" @click="showRoomDetail(room.dztzm)" :class="{room_active:room.cxfwbj==1,
+                                              room_rhyz:room.flagRhfl==0,
+                                              room_rhfl:room.flagRhfl==1,
+                                              room_rhyz_czfw:room.flagRhfl==0 && room.jzfwlx=='01',
+                                              room_rhfl_czfw:room.flagRhfl==1 && room.jzfwlx=='01'
+                                }">
+                                <div v-for="rybq in room.rybqList" :key="rybq.index" class="rybq_room" :class="rybq.colorPng"></div>
+                                <span>{{ room.houseRoomNum }}</span>
+                                <Poptip trigger="hover" :content="room.jzrsTip">
+                                  <Badge class-name="badge-jzrs" :count="room.jzrs"></Badge>
+                                </Poptip>
+                              </div>
             </template>
 
-          <template v-else>
-            <div class="room room_wcdz">
-            </div>
-          </template>
+            <template v-else>
+              <div class="room room_wcdz">
+              </div>
+            </template>
           </div>
           <div class="body-footer">
             <div class="box box_wcdz">未采地址</div>
@@ -328,6 +325,7 @@ export default {
       this.queryForm.dztzm = dztzm
       this.searchRfglRoom()
     }
+    this.$route.params = {}
   },
   methods: {
     ok () {
@@ -374,6 +372,18 @@ export default {
     },
     onRowClick (row) {
       this.searchRfglHouse(row.dztzm)
+    },
+    showThisTybq (rybq) {
+      var allObjArr = document.getElementsByClassName('rybq_room')
+      for (var i = 0; i < allObjArr.length; i++) {
+        allObjArr[i].style.display = 'none'
+      }
+      var thisObjArr = document.getElementsByClassName(
+        'rybq_room rybq_' + rybq
+      )
+      for (var j = 0; j < thisObjArr.length; j++) {
+        thisObjArr[j].style.display = 'inline'
+      }
     }
   },
   watch: {
@@ -478,10 +488,7 @@ export default {
         display: inline-flex;
         justify-content: center;
         align-items: center;
-        // &_info {
-        //   width: 100%;
-        //   height: 100%;
-        // }
+        position: relative;
         &:hover {
           transform: scale(1.1);
           background-color: greenyellow;
@@ -539,14 +546,15 @@ export default {
   background-position-y: 5px;
   padding-left: 25px;
   &_room {
-    // position: absolute;
-    // left: 0px;
-    // top: 0px;
-    width: 20px;
-    height: 20px;
-    background-size: 20px 20px;
+    width: 25px;
+    height: 25px;
+    background-size: 25px 25px;
     background-repeat: no-repeat;
     background-position-y: 5px;
+    display: none;
+    position: absolute;
+    top: 5px;
+    left: 5px;
   }
   &_sk {
     background-image: url("~@/images/rfgl/rybq/sk.png");
@@ -569,7 +577,7 @@ export default {
   &_hwzm {
     background-image: url("~@/images/rfgl/rybq/h、w、zm.png");
   }
-  &_gbzdry {
+  &_gbzdr {
     background-image: url("~@/images/rfgl/rybq/gbzdry.png");
   }
   &_sd {
