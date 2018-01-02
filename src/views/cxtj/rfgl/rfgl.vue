@@ -103,7 +103,7 @@
           <div class="body-head">{{ house.address }}</div>
           <div class="floor" v-for="floor in house.floors" :key="floor.index">
             <template v-if="floor.rooms.length>0">
-                          <div class="room" v-for="room in floor.rooms" :key="room.index" @click="showRoomDetail(room.dztzm)" :class="{room_active:room.cxfwbj==1,
+                          <div class="room room_info" v-for="room in floor.rooms" :key="room.index" @click="showRoomDetail(room.dztzm)" :class="{room_active:room.cxfwbj==1,
                                           room_rhyz:room.flagRhfl==0,
                                           room_rhfl:room.flagRhfl==1,
                                           room_rhyz_czfw:room.flagRhfl==0 && room.jzfwlx=='01',
@@ -118,12 +118,12 @@
                               <div class="rybq_room rybq_sw"></div>
                           </div> -->
                           </div>
-</template>
+            </template>
 
-<template v-else>
-  <div class="room room_wcdz">
-  </div>
-</template>
+          <template v-else>
+            <div class="room room_wcdz">
+            </div>
+          </template>
           </div>
           <div class="body-footer">
             <div class="box box_wcdz">未采地址</div>
@@ -395,197 +395,196 @@ export default {
 </script>
 
 <style lang="less" scoped>
-  @wcdz: #ffffff;
-  @rhyz: #54ff9f;
-  @rhfl: #daa520;
-  @czfw: tomato;
-  .house {
-    .house-head {
+@wcdz: #ffffff;
+@rhyz: #54ff9f;
+@rhfl: #daa520;
+@czfw: tomato;
+.house {
+  .house-head {
+    display: flex;
+    justify-content: center;
+    .head {
+      width: 77px;
+      height: 81px;
+      display: inline-block;
+    }
+    .head1 {
+      background-image: url("~@/images/rfgl/wd1.png");
+    }
+    .head2 {
+      background-image: url("~@/images/rfgl/wd2.png");
+    }
+    .head3 {
+      width: 156px;
+      background-image: url("~@/images/rfgl/wd3.png");
+    }
+    .head4 {
+      background-image: url("~@/images/rfgl/wd4.png");
+    }
+  }
+  .house-body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    .body-head {
+      width: 364px;
+      height: 25px;
+      background-color: #dcd7d7;
       display: flex;
       justify-content: center;
-      .head {
-        width: 77px;
-        height: 81px;
-        display: inline-block;
-      }
-      .head1 {
-        background-image: url("~@/images/rfgl/wd1.png");
-      }
-      .head2 {
-        background-image: url("~@/images/rfgl/wd2.png");
-      }
-      .head3 {
-        width: 156px;
-        background-image: url("~@/images/rfgl/wd3.png");
-      }
-      .head4 {
-        background-image: url("~@/images/rfgl/wd4.png");
-      }
-    }
-    .house-body {
-      display: flex;
-      flex-direction: column;
       align-items: center;
-      .body-head {
-        width: 364px;
-        height: 25px;
-        background-color: #dcd7d7;
+    }
+    .body-footer {
+      margin-top: 10px;
+      width: 364px;
+      height: 30px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      .box {
+        width: 100%;
+        height: 100%;
+        margin: 3px;
         display: flex;
         justify-content: center;
         align-items: center;
-      }
-      .body-footer {
-        margin-top: 10px;
-        width: 364px;
-        height: 30px;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        .box {
-          width: 100%;
-          height: 100%;
-          margin: 3px;
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          border: 1px solid #dcd7d7;
-          &_wcdz {
-            background-color: @wcdz;
-          }
-          &_rhyz {
-            background-color: @rhyz;
-          }
-          &_rhfl {
-            background-color: @rhfl;
-          }
-          &_czfw {
-            background-color: @czfw;
-          }
+        border: 1px solid #dcd7d7;
+        &_wcdz {
+          background-color: @wcdz;
+        }
+        &_rhyz {
+          background-color: @rhyz;
+        }
+        &_rhfl {
+          background-color: @rhfl;
+        }
+        &_czfw {
+          background-color: @czfw;
         }
       }
-      .floor {
-        display: flex;
+    }
+    .floor {
+      display: flex;
+      justify-content: center;
+      width: 368px;
+      height: 80px;
+      .room {
+        width: 100%;
+        height: 100%;
+        background-color: #8ac6f7;
+        border: 2px solid #d7dde4;
+        margin: 3px;
+        transition: all 0.3s;
+        display: inline-flex;
         justify-content: center;
-        position: relative;
-        width: 368px;
-        height: 80px;
-        .room {
-          width: 100%;
-          height: 100%;
-          background-color: #8ac6f7;
-          border: 2px solid #d7dde4;
-          margin: 3px;
-          transition: all 0.3s;
-          &_info {
-            width: 100%;
-            height: 100%;
-            display: inline-flex;
-            justify-content: center;
-            align-items: center;
-          }
-          &:hover {
-            transform: scale(1.1);
-            background-color: greenyellow;
-            cursor: pointer;
-          }
-          &_active {
-            animation: spangled 1.5s infinite;
-            border: #fa9255 2px solid;
-            box-shadow: inset 0 -5px 8px -7px rgba(81, 81, 81, 0.8); // background-color: #fa9255;
-            @keyframes spangled {
-              0% {
-                transform: scale(1);
-              }
-              50% {
-                transform: scale(1.1);
-              }
-              100% {
-                transform: scale(1);
-              }
+        align-items: center;
+        // &_info {
+        //   width: 100%;
+        //   height: 100%;
+        // }
+        &:hover {
+          transform: scale(1.1);
+          background-color: greenyellow;
+          cursor: pointer;
+        }
+        &_active {
+          animation: spangled 1.5s infinite;
+          border: #fa9255 2px solid;
+          box-shadow: inset 0 -5px 8px -7px rgba(81, 81, 81, 0.8); // background-color: #fa9255;
+          @keyframes spangled {
+            0% {
+              transform: scale(1);
+            }
+            50% {
+              transform: scale(1.1);
+            }
+            100% {
+              transform: scale(1);
             }
           }
-          &_wcdz {
-            background-color: @wcdz;
-          }
-          &_rhyz {
-            background-color: @rhyz;
-          }
-          &_rhyz_czfw {
-            background: linear-gradient(45deg, @rhyz 50%, @czfw 50%);
-          }
-          &_rhfl {
-            background-color: @rhfl;
-          }
-          &_rhfl_czfw {
-            background: linear-gradient(45deg, @rhfl 50%, @czfw 50%);
-          }
-          &_czfw {
-            background-color: @czfw;
-          }
+        }
+        &_wcdz {
+          background-color: @wcdz;
+        }
+        &_rhyz {
+          background-color: @rhyz;
+        }
+        &_rhyz_czfw {
+          background: linear-gradient(45deg, @rhyz 50%, @czfw 50%);
+        }
+        &_rhfl {
+          background-color: @rhfl;
+        }
+        &_rhfl_czfw {
+          background: linear-gradient(45deg, @rhfl 50%, @czfw 50%);
+        }
+        &_czfw {
+          background-color: @czfw;
         }
       }
     }
   }
-  // .rybq {
-  //   position: absolute;
-  //   width: 100%;
-  //   height: 100%;
-  //   float: left; // display: inline-flex;
-  //   // justify-content: center;
-  //   // align-items: center;
-  // }
-  .rybq {
+}
+// .rybq {
+//   position: absolute;
+//   width: 100%;
+//   height: 100%;
+//   float: left; // display: inline-flex;
+//   // justify-content: center;
+//   // align-items: center;
+// }
+.rybq {
+  background-size: 20px 20px;
+  background-repeat: no-repeat;
+  background-position-y: 5px;
+  padding-left: 25px;
+  &_room {
+    // position: absolute;
+    // left: 0px;
+    // top: 0px;
+    width: 20px;
+    height: 20px;
     background-size: 20px 20px;
     background-repeat: no-repeat;
     background-position-y: 5px;
-    padding-left: 25px;
-    &_room {
-      // position: absolute;
-      // left: 0px;
-      // top: 0px;
-      width: 20px;
-      height: 20px;
-      background-size: 20px 20px;
-      background-repeat: no-repeat;
-      background-position-y: 5px;
-    }
-    &_sk {
-      background-image: url("~@/images/rfgl/rybq/sk.png");
-    }
-    &_sw {
-      background-image: url("~@/images/rfgl/rybq/sw.png");
-    }
-    &_xsqk {
-      background-image: url("~@/images/rfgl/rybq/xsqk.png");
-    }
-    &_jsb {
-      background-image: url("~@/images/rfgl/rybq/jsb.png");
-    }
-    &_zdsf {
-      background-image: url("~@/images/rfgl/rybq/zdsf.png");
-    }
-    &_czcsj {
-      background-image: url("~@/images/rfgl/rybq/czcsj.png");
-    }
-    &_hwzm {
-      background-image: url("~@/images/rfgl/rybq/h、w、zm.png");
-    }
-    &_gbzdry {
-      background-image: url("~@/images/rfgl/rybq/gbzdry.png");
-    }
-    &_sd {
-      background-image: url("~@/images/rfgl/rybq/sd.png");
-    }
-    &_fzry {
-      background-image: url("~@/images/rfgl/rybq/fzry.png");
-    }
-    &_hcsj {
-      background-image: url("~@/images/rfgl/rybq/hcsj.png");
-    }
-    &_jwry {
-      background-image: url("~@/images/rfgl/rybq/jwry.png");
-    }
   }
+  &_sk {
+    background-image: url("~@/images/rfgl/rybq/sk.png");
+  }
+  &_sw {
+    background-image: url("~@/images/rfgl/rybq/sw.png");
+  }
+  &_xsqk {
+    background-image: url("~@/images/rfgl/rybq/xsqk.png");
+  }
+  &_jsb {
+    background-image: url("~@/images/rfgl/rybq/jsb.png");
+  }
+  &_zdsf {
+    background-image: url("~@/images/rfgl/rybq/zdsf.png");
+  }
+  &_czcsj {
+    background-image: url("~@/images/rfgl/rybq/czcsj.png");
+  }
+  &_hwzm {
+    background-image: url("~@/images/rfgl/rybq/h、w、zm.png");
+  }
+  &_gbzdry {
+    background-image: url("~@/images/rfgl/rybq/gbzdry.png");
+  }
+  &_sd {
+    background-image: url("~@/images/rfgl/rybq/sd.png");
+  }
+  &_fzry {
+    background-image: url("~@/images/rfgl/rybq/fzry.png");
+  }
+  &_hcsj {
+    background-image: url("~@/images/rfgl/rybq/hcsj.png");
+  }
+  &_jwry {
+    background-image: url("~@/images/rfgl/rybq/jwry.png");
+  }
+}
 </style>
 
 <style>
