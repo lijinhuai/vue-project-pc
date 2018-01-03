@@ -1,5 +1,5 @@
 <template>
-  <ECharts ref="echarts" :options="option" auto-resize></ECharts>
+  <ECharts :options="option" auto-resize></ECharts>
 </template>
 
 <script>
@@ -117,3 +117,10 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+.echarts {
+  width: 100%;
+  height: 100%;
+}
+</style>

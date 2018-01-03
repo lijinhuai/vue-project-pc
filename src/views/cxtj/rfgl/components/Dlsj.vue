@@ -1,66 +1,63 @@
 <template>
-  <ECharts ref="echarts" :options="option" auto-resize :initOptions="initOptions"></ECharts>
+  <ECharts :options="option" auto-resize></ECharts>
 </template>
 
 <script>
-  import ECharts from 'vue-echarts/components/ECharts'
-  export default {
-    name: 'dlsj',
-    data () {
-      return {
-        option: {},
-        initOptions: {
-          width: '900px',
-          height: '400px'
-        }
-      }
-    },
-    components: {
-      ECharts
-    },
-    methods: {
-      showChart () {
-        this.option = {
-          title: {
-            text: '最近12个月用电量分布'
+import ECharts from 'vue-echarts/components/ECharts'
+export default {
+  name: 'dlsj',
+  data () {
+    return {
+      option: {}
+    }
+  },
+  components: {
+    ECharts
+  },
+  methods: {
+    showChart () {
+      this.option = {
+        title: {
+          text: '最近12个月用电量分布'
+        },
+        tooltip: {
+          trigger: 'axis',
+          axisPointer: {
+            type: 'cross'
+          }
+        },
+        xAxis: {
+          type: 'category',
+          boundaryGap: false,
+          data: [
+            '1月',
+            '2月',
+            '3月',
+            '4月',
+            '5月',
+            '6月',
+            '7月',
+            '8月',
+            '9月',
+            '10月',
+            '11月',
+            '12月'
+          ]
+        },
+        yAxis: {
+          type: 'value',
+          axisLabel: {
+            formatter: '{value} 度'
           },
-          tooltip: {
-            trigger: 'axis',
-            axisPointer: {
-              type: 'cross'
-            }
-          },
-          xAxis: {
-            type: 'category',
-            boundaryGap: false,
-            data: [
-              '1月',
-              '2月',
-              '3月',
-              '4月',
-              '5月',
-              '6月',
-              '7月',
-              '8月',
-              '9月',
-              '10月',
-              '11月',
-              '12月'
-            ]
-          },
-          yAxis: {
-            type: 'value',
-            axisLabel: {
-              formatter: '{value} 度'
-            },
-            axisPointer: {
-              snap: true
-            }
-          },
-          visualMap: {
-            show: false,
-            dimension: 0,
-            pieces: [{
+          axisPointer: {
+            snap: true
+          }
+        },
+        visualMap: {
+          show: false,
+          dimension: 0,
+          pieces: [
+            {
               lte: 6,
               color: 'green'
             },
@@ -83,9 +80,10 @@
               gt: 17,
               color: 'green'
             }
-            ]
-          },
-          series: [{
+          ]
+        },
+        series: [
+          {
             name: '用电量',
             type: 'line',
             smooth: true,
@@ -112,10 +110,18 @@
             //     ]
             //   ]
             // }
-          }]
-        }
-        this.$refs.echarts.resize()
+          }
+        ]
       }
     }
   }
+}
 </script>
+
+<style scoped>
+.echarts {
+  width: 100%;
+  height: 100%;
+}
+</style>
+

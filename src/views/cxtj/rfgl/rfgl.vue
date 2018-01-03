@@ -325,7 +325,6 @@ export default {
       this.queryForm.dztzm = dztzm
       this.searchRfglRoom()
     }
-    this.$route.params = {}
   },
   methods: {
     ok () {
@@ -342,6 +341,9 @@ export default {
           setTimeout(() => {
             this.$refs.dlsj.showChart()
             this.$refs.yssj.showChart()
+            var e = document.createEvent('Event')
+            e.initEvent('resize', true, true)
+            window.dispatchEvent(e)
           })
         })
         .catch(() => {})
