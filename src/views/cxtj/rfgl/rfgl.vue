@@ -184,6 +184,7 @@ import {
 import PersonPhoto from './components/PersonPhoto.vue'
 import Dlsj from './components/Dlsj.vue'
 import Yssj from './components/Yssj.vue'
+import Rybq from './components/Rybq.vue'
 export default {
   name: 'rfgl',
   data () {
@@ -197,8 +198,8 @@ export default {
         total: 0
       },
       queryForm: {
-        lm: '',
-        mnph: '',
+        lm: '龙轩路',
+        mnph: '1000',
         sh: '',
         sfzh: ''
       },
@@ -251,6 +252,19 @@ export default {
             width: '80px',
             render: (h, params) => {
               return h('span', params.index + 1)
+            }
+          },
+          {
+            title: '标签',
+            key: 'rybq',
+            width: '100px',
+            // <div class="rybq rybq_sk" @click="showThisTybq('sk')">涉恐</div>
+            render: (h, params) => {
+              return h(Rybq, {
+                props: {
+                  rybqList: params.row.rybqList
+                }
+              })
             }
           },
           {
@@ -310,7 +324,8 @@ export default {
   components: {
     PersonPhoto,
     Dlsj,
-    Yssj
+    Yssj,
+    Rybq
   },
   created () {},
   activated () {
