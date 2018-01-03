@@ -149,9 +149,9 @@ export default {
   },
   mounted () {
     this.initDict()
-    
+
     let hjdz = this.$route.params.hjdz
- 	  if (hjdz) {
+    if (hjdz) {
       this.queryForm.hjdz = hjdz
       this.yblsSyrkCx()
     }
@@ -164,17 +164,15 @@ export default {
           this.data = response.data.list
           this.pageInfo.total = response.data.total
         })
-        .catch(() => {
-        })
+        .catch(() => {})
     },
-    yblsSyrkCx(){
-    	fetchYblsRjbxxList(this.pageInfo, this.queryForm)
+    yblsSyrkCx () {
+      fetchYblsRjbxxList(this.pageInfo, this.queryForm)
         .then(response => {
           this.data = response.data.list
           this.pageInfo.total = response.data.total
         })
-        .catch(() => {
-        })
+        .catch(() => {})
     },
     initDict () {
       const _self = this

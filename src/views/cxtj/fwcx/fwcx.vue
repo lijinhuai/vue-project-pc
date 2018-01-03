@@ -164,17 +164,17 @@ export default {
   components: {
     Dept
   },
-  mounted(){
-  	let lm = this.$route.params.lm
- 	  let  mnph = this.$route.params.mnph
- 	 	if(lm){
- 	 			this.queryForm.lm = lm
- 	 	}
- 	 	if(mnph){
- 	 			this.queryForm.mnph = mnph
- 	 	}
-   
- 	  this.yblsSyfwCx()
+  mounted () {
+    let lm = this.$route.params.lm
+    let mnph = this.$route.params.mnph
+    if (lm) {
+      this.queryForm.lm = lm
+    }
+    if (mnph) {
+      this.queryForm.mnph = mnph
+    }
+
+    this.yblsSyfwCx()
   },
   methods: {
     search () {
@@ -183,17 +183,15 @@ export default {
           this.data = response.data.list
           this.pageInfo.total = response.data.total
         })
-        .catch(() => {
-        })
+        .catch(() => {})
     },
-    yblsSyfwCx(){
-    	fetchYblsFwjbxxList(this.pageInfo, this.queryForm)
+    yblsSyfwCx () {
+      fetchYblsFwjbxxList(this.pageInfo, this.queryForm)
         .then(response => {
           this.data = response.data.list
           this.pageInfo.total = response.data.total
         })
-        .catch(() => {
-        })
+        .catch(() => {})
     },
     changePage (value) {
       this.pageInfo.pageNum = value
