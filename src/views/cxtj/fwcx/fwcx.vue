@@ -68,6 +68,7 @@
 
 <script>
 import { fetchFwjbxxList } from '@/api/cxtj/fwcx'
+import { fetchYblsFwjbxxList } from '@/api/ybls_home/syfwcx'
 import Dept from '@/components/Dept.vue'
 export default {
   name: 'fwcx',
@@ -163,9 +164,30 @@ export default {
   components: {
     Dept
   },
+  mounted(){
+  	let lm = this.$route.params.lm
+ 	  let  mnph = this.$route.params.mnph
+ 	 	if(lm){
+ 	 			this.queryForm.lm = lm
+ 	 	}
+ 	 	if(mnph){
+ 	 			this.queryForm.mnph = mnph
+ 	 	}
+   
+ 	  this.yblsSyfwCx()
+  },
   methods: {
     search () {
       fetchFwjbxxList(this.pageInfo, this.queryForm)
+        .then(response => {
+          this.data = response.data.list
+          this.pageInfo.total = response.data.total
+        })
+        .catch(() => {
+        })
+    },
+    yblsSyfwCx(){
+    	fetchYblsFwjbxxList(this.pageInfo, this.queryForm)
         .then(response => {
           this.data = response.data.list
           this.pageInfo.total = response.data.total

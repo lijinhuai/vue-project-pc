@@ -74,7 +74,7 @@
               .then(() => {
                 _self.loading = false
                 this.$router.push({
-                  name: 'home_index'
+                  name: 'ybls_home'
                 })
               }).catch(() => {
                 _self.loading = false

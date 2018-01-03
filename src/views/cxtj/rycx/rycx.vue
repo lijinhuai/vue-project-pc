@@ -65,6 +65,7 @@
 import Dept from '@/components/Dept.vue'
 import { fetchDbDictList } from '@/api/dict'
 import { fetchRjbxxList } from '@/api/cxtj/rycx'
+import { fetchYblsRjbxxList } from '@/api/ybls_home/syrkcx'
 export default {
   name: 'rycx',
   data () {
@@ -148,10 +149,26 @@ export default {
   },
   mounted () {
     this.initDict()
+    
+    let hjdz = this.$route.params.hjdz
+ 	  if (hjdz) {
+      this.queryForm.hjdz = hjdz
+      this.yblsSyrkCx()
+    }
   },
+
   methods: {
     search () {
       fetchRjbxxList(this.pageInfo, this.queryForm)
+        .then(response => {
+          this.data = response.data.list
+          this.pageInfo.total = response.data.total
+        })
+        .catch(() => {
+        })
+    },
+    yblsSyrkCx(){
+    	fetchYblsRjbxxList(this.pageInfo, this.queryForm)
         .then(response => {
           this.data = response.data.list
           this.pageInfo.total = response.data.total

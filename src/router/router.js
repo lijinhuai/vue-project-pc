@@ -59,159 +59,159 @@ export const otherRouter = {
   name: 'otherRouter',
   component: Main,
   children: [{
-    path: 'home',
-    title: {
-      i18n: 'home'
+      path: 'home',
+      title: {
+        i18n: 'home'
+      },
+      name: 'home_index',
+      component: _import('home/home')
     },
-    name: 'home_index',
-    component: _import('home/home')
-  },
-  {
-    path: 'ownspace',
-    title: '个人中心',
-    name: 'ownspace_index',
-    component: _import('own-space/own-space')
-  },
-  {
-    path: 'message',
-    title: '消息中心',
-    name: 'message_index',
-    component: _import('message/message')
-  }
+    {
+      path: 'ownspace',
+      title: '个人中心',
+      name: 'ownspace_index',
+      component: _import('own-space/own-space')
+    },
+    {
+      path: 'message',
+      title: '消息中心',
+      name: 'message_index',
+      component: _import('message/message')
+    }
   ]
 }
 
 // 作为Main组件的子页面展示并且在左侧菜单显示的路由写在appRouter里
 export const appRouter = [{
-  path: '/sysmanage',
-  icon: 'ios-gear',
-  name: 'sysmanage',
-  title: '系统管理',
-  component: Main,
-  children: [{
-    path: 'usermanage',
-    icon: 'compose',
-    name: 'usermanage',
-    meta: {
-      privilege: 'USERMANAGE'
-    },
-    title: '用户管理',
-    component: _import('sysmanage/user/user-manage')
+    path: '/sysmanage',
+    icon: 'ios-gear',
+    name: 'sysmanage',
+    title: '系统管理',
+    component: Main,
+    children: [{
+        path: 'usermanage',
+        icon: 'compose',
+        name: 'usermanage',
+        meta: {
+          privilege: 'USERMANAGE'
+        },
+        title: '用户管理',
+        component: _import('sysmanage/user/user-manage')
+      },
+      {
+        path: 'rolemanage',
+        icon: 'compose',
+        name: 'rolemanage',
+        meta: {
+          privilege: 'ROLEMANAGE'
+        },
+        title: '角色管理',
+        component: _import('sysmanage/role/role-manage')
+      }
+    ]
   },
   {
-    path: 'rolemanage',
-    icon: 'compose',
-    name: 'rolemanage',
-    meta: {
-      privilege: 'ROLEMANAGE'
-    },
-    title: '角色管理',
-    component: _import('sysmanage/role/role-manage')
-  }
-  ]
-},
-{
-  path: '/cxtj',
-  icon: 'social-buffer',
-  name: 'cxtj',
-  title: '查询统计',
-  component: Main,
-  children: [{
-    path: 'rfgl',
-    icon: 'person-add',
-    name: 'rfgl',
-    meta: {
-      privilege: 'RFGL'
-    },
-    title: '人房关联',
-    component: _import('cxtj/rfgl/rfgl')
+    path: '/cxtj',
+    icon: 'social-buffer',
+    name: 'cxtj',
+    title: '查询统计',
+    component: Main,
+    children: [{
+        path: 'rfgl',
+        icon: 'person-add',
+        name: 'rfgl',
+        meta: {
+          privilege: 'RFGL'
+        },
+        title: '人房关联',
+        component: _import('cxtj/rfgl/rfgl')
+      },
+      {
+        path: 'rycx',
+        icon: 'person',
+        name: 'rycx',
+        meta: {
+          privilege: 'RYCX'
+        },
+        title: '人员查询',
+        component: _import('cxtj/rycx/rycx')
+      },
+      {
+        path: 'fwcx',
+        icon: 'home',
+        name: 'fwcx',
+        meta: {
+          privilege: 'FWCX'
+        },
+        title: '房屋查询',
+        component: _import('cxtj/fwcx/fwcx')
+      }
+    ]
   },
   {
-    path: 'rycx',
-    icon: 'person',
-    name: 'rycx',
-    meta: {
-      privilege: 'RYCX'
-    },
-    title: '人员查询',
-    component: _import('cxtj/rycx/rycx')
-  },
-  {
-    path: 'fwcx',
-    icon: 'home',
-    name: 'fwcx',
-    meta: {
-      privilege: 'FWCX'
-    },
-    title: '房屋查询',
-    component: _import('cxtj/fwcx/fwcx')
-  }
-  ]
-},
-{
-  path: '/mpgl',
-  icon: 'social-buffer',
-  name: 'mpgl',
-  title: '门牌管理',
-  component: Main,
-  children: [{
-    path: 'mpcx',
-    icon: 'person-add',
-    name: 'mpcx',
-    meta: {
-      privilege: 'MPCX'
-    },
-    title: '门牌查询',
-    component: _import('mpgl/mpcx/mpcx')
-  },
-  {
-    path: 'mpsq',
-    icon: 'person-add',
-    name: 'mpsq',
-    meta: {
-      privilege: 'MPSQ'
-    },
-    title: '门牌申请',
-    component: _import('mpgl/mpsq/mpsq')
-  },
-  {
-    path: 'mpsp',
-    icon: 'person-add',
-    name: 'mpsp',
-    title: '门牌审批',
-    meta: {
-      privilege: 'MPSP'
-    },
-    component: _import('mpgl/mpsp/mpsp')
-  }
+    path: '/mpgl',
+    icon: 'social-buffer',
+    name: 'mpgl',
+    title: '门牌管理',
+    component: Main,
+    children: [{
+        path: 'mpcx',
+        icon: 'person-add',
+        name: 'mpcx',
+        meta: {
+          privilege: 'MPCX'
+        },
+        title: '门牌查询',
+        component: _import('mpgl/mpcx/mpcx')
+      },
+      {
+        path: 'mpsq',
+        icon: 'person-add',
+        name: 'mpsq',
+        meta: {
+          privilege: 'MPSQ'
+        },
+        title: '门牌申请',
+        component: _import('mpgl/mpsq/mpsq')
+      },
+      {
+        path: 'mpsp',
+        icon: 'person-add',
+        name: 'mpsp',
+        title: '门牌审批',
+        meta: {
+          privilege: 'MPSP'
+        },
+        component: _import('mpgl/mpsp/mpsp')
+      }
 
-  ]
-},
-{
-  path: 'gzgl',
-  icon: 'social-buffer',
-  name: 'gzgl',
-  title: '感知管理',
-  children: [{
-    path: 'gzgl1',
-    icon: 'person-add',
-    title: '感知管理测试1',
-    name: 'gzgl1',
-    redirect: {
-      name: 'big_data'
-    }
+    ]
   },
   {
-    path: 'gzgl2',
-    icon: 'person-add',
-    title: '地图',
-    name: 'gzgl2',
-    redirect: {
-      name: 'amap'
-    }
+    path: 'gzgl',
+    icon: 'social-buffer',
+    name: 'gzgl',
+    title: '感知管理',
+    children: [{
+        path: 'gzgl1',
+        icon: 'person-add',
+        title: '感知管理测试1',
+        name: 'gzgl1',
+        redirect: {
+          name: 'big_data'
+        }
+      },
+      {
+        path: 'gzgl2',
+        icon: 'person-add',
+        title: '地图',
+        name: 'gzgl2',
+        redirect: {
+          name: 'amap'
+        }
+      }
+    ]
   }
-  ]
-}
 ]
 
 // 独占页面的应用
@@ -229,6 +229,13 @@ export const singlePageRouter = [{
   },
   name: 'amap',
   component: _import('map/map')
+}, {
+  path: '/ybls_home',
+  name: 'ybls_home',
+  meta: {
+    title: '一标六实首页'
+  },
+  component: _import('ybls_home/ybls_home')
 }]
 
 // 所有上面定义的路由都要写在下面的routers里
