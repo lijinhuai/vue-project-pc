@@ -1,14 +1,16 @@
 
 <template>
-<div>
-    <Table :columns="columns" :data="data"></Table>
-     <Page :total="100"></Page>
-</div>
+  <div>
+
+  </div>
 </template>
+
 <script>
 import expandRow from './components/table-expand.vue'
 export default {
-  components: { expandRow },
+  components: {
+    expandRow
+  },
   data () {
     return {
       columns: [
