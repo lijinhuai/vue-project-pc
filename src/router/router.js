@@ -64,7 +64,8 @@ export const otherRouter = {
       i18n: 'home'
     },
     name: 'home_index',
-    component: _import('home/home')
+      // component: _import('home/home')
+    component: _import('home-menu/home-menu')
   },
   {
     path: 'ownspace',
@@ -83,6 +84,28 @@ export const otherRouter = {
 
 // 作为Main组件的子页面展示并且在左侧菜单显示的路由写在appRouter里
 export const appRouter = [{
+  path: 'gzgl',
+  icon: 'social-buffer',
+  name: 'gzgl',
+  title: '感知管理',
+  children: [{
+    path: 'amapMenu',
+    icon: 'earth',
+    title: '智慧小区',
+    name: 'amapMenu',
+    redirect: {
+      name: 'amap'
+    }
+  }, {
+    path: 'gzgl1',
+    icon: 'person-add',
+    title: '测试1',
+    name: 'gzgl1',
+    redirect: {
+      name: 'big_data'
+    }
+  }]
+}, {
   path: '/sysmanage',
   icon: 'ios-gear',
   name: 'sysmanage',
@@ -186,31 +209,6 @@ export const appRouter = [{
   }
 
   ]
-},
-{
-  path: 'gzgl',
-  icon: 'social-buffer',
-  name: 'gzgl',
-  title: '感知管理',
-  children: [{
-    path: 'gzgl1',
-    icon: 'person-add',
-    title: '感知管理测试1',
-    name: 'gzgl1',
-    redirect: {
-      name: 'big_data'
-    }
-  },
-  {
-    path: 'gzgl2',
-    icon: 'person-add',
-    title: '地图',
-    name: 'gzgl2',
-    redirect: {
-      name: 'amap'
-    }
-  }
-  ]
 }
 ]
 
@@ -236,6 +234,13 @@ export const singlePageRouter = [{
     title: '一标六实首页'
   },
   component: _import('ybls_home/ybls_home')
+}, {
+  path: '/ybls',
+  name: 'ybls',
+  meta: {
+    title: '一标六实数据展示'
+  },
+  component: _import('map/components/Ybls')
 }]
 
 // 所有上面定义的路由都要写在下面的routers里

@@ -198,8 +198,8 @@ export default {
         total: 0
       },
       queryForm: {
-        lm: '龙轩路',
-        mnph: '1000',
+        lm: '',
+        mnph: '',
         sh: '',
         sfzh: ''
       },

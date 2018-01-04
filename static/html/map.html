@@ -65,7 +65,6 @@
       font-size: 32px;
       text-align: right;
       margin-right: 15px;
-      margin-top: 6px;
     }
 
 
@@ -231,6 +230,18 @@
       background-color: rgba(56, 48, 48, 0.6);
       height: 350px;
     }
+    /******* 地图颜色覆盖 **********/
+
+    .imap-popup-content-wrapper,
+    .imap-popup-tip {
+      background: rgba(20, 65, 170, 0.7);
+      /* box-shadow: 3px 4px 9px 2px #0075c2; */
+    }
+
+    .imap-window {
+      background-color: transparent;
+      color: #FFFFFF;
+    }
 
   </style>
 
@@ -248,19 +259,18 @@
         var name = $(this).attr("name");
         var checked = $(this).is(":checked");
 
-        // 选中动态感知
-        if (name == 'operator1' && checked) {
-
+        // 选中实有房屋
+        if (name == 'operator-house' && checked) {
+          showHouseLocations();
         }
 
-        // 取消选中动态感知
-        if (name == 'operator1' && !checked) {
-
+        // 取消选中实有房屋
+        if (name == 'operator-house' && !checked) {
+          hiddenHouseLocations();
         }
 
 
       });
-
 
     });
 
@@ -268,22 +278,20 @@
     function initData() {
 
       var token = Cookies.get("Admin-Token");
-      console.info("token:" + token);
 
       // 加载一标六实数据
-      loadData("http://localhost:8081/api/houses/amounts", token, function (data) {
-        console.info("data:" + JSON.stringify(data))
+      setInterval(loadData("http://localhost:8081/api/houses/amounts", token, function (data) {
         var code = data.code;
         if (code == 200) {
           var ybls = data.data;
-          countUp('syrk', 0, ybls.syrk);
-          countUp('syfw', 0, ybls.syfw);
-          countUp('sydw', 0, ybls.sydw);
-          countUp('syafss', 0, ybls.syafss);
-          countUp('syllzb', 0, ybls.syllzb);
-          countUp('syjq', 0, ybls.syjq);
+          countUp('syrk', ybls.syrk);
+          countUp('syfw', ybls.syfw);
+          countUp('sydw', ybls.sydw);
+          countUp('syafss', ybls.syafss);
+          countUp('syllzb', ybls.syllzb);
+          countUp('syjq', ybls.syjq);
         }
-      });
+      }), 1000 * 30)
 
       // 页面默认的定位信息数据加载
       loadDefaultLocations();
@@ -294,22 +302,69 @@
       });
     }
 
+
+
     // 页面默认的定位
     function loadDefaultLocations() {
 
-      // 加载默认地图展示的数据
-      loadData("http://localhost:8081/api/houses/locations", token, function (data) {
+      // 加载实有房屋
+      loadHouseLocations();
 
-        console.info("locations:" + JSON.stringify(data))
+      // 加载实有单位
+      loadDwLocations();
 
+    }
+
+    // 加载实有单位
+    function loadDwLocations() {
+      var token = Cookies.get("Admin-Token");
+      loadData("http://localhost:8081/api/dwxx/locations", token, function (data) {
+        console.info("实有单位:" + JSON.stringify(data))
         var code = data.code;
         if (code == 200) {
           var locations = data.data;
           for (var i = 0; i < locations.length; i++) {
-            addMarker(location[i].gpsjd, location[i].gpswd);
+            if (locations[i].gpsLat != "" && locations[i].gpslon != "") {
+              console.info("实有单位：data:" + locations[i].gpsLon + " : " + locations[i].gpsLat);
+              addMarker(locations[i].gpsLon, locations[i].gpsLat, locations[i].dwbh, "dwxx", locations[i]);
+            }
           }
         }
       });
+    }
+
+    // 加载实有房屋
+    function loadHouseLocations() {
+      var token = Cookies.get("Admin-Token");
+      loadData("http://localhost:8081/api/houses/locations", token, function (data) {
+        var code = data.code;
+        if (code == 200) {
+          var locations = data.data;
+          for (var i = 0; i < locations.length; i++) {
+            addMarker(locations[i].gpsjd, locations[i].gpswd, locations[i].cjbh, "house", locations[i]);
+          }
+        }
+      });
+    }
+
+    // 展示实有房屋位置
+    function showHouseLocations() {
+      var overlays = map.getOverlayLayer().getOverlays();
+      for (var i in overlays) {
+        if (overlays[i].type == "house") {
+          overlays[i].visible(true);
+        }
+      }
+    }
+
+    // 隐藏实有房屋位置
+    function hiddenHouseLocations() {
+      var overlays = map.getOverlayLayer().getOverlays();
+      for (var i in overlays) {
+        if (overlays[i].type == "house") {
+          overlays[i].visible(false);
+        }
+      }
     }
 
     // 异步加载数据
@@ -337,43 +392,94 @@
     }
 
     // 添加点标注
-    function addMarker(lng, lat) {
+    function addMarker(lng, lat, did, type, origin) {
 
-      console.info(lng + ", " + lat);
-
+      var path = locationPath();
       if (map) {
         var opts = new IMAP.MarkerOptions();
         opts.anchor = IMAP.Constants.BOTTOM_CENTER;
         opts.icon = new IMAP.Icon(
-          IMAP.MapConfig.API_REALM_NAME + "images/point_1.png", {
-            "size": new IMAP.Size(35, 30),
-            "offset": new IMAP.Pixel(1, 0)
+          path + "/static/image/" + type + "_16.png", {
+            "size": new IMAP.Size(16, 16),
+            "offset": new IMAP.Pixel(0, 0)
           }
         );
 
         var lnglat = new IMAP.LngLat(lng, lat);
-        if (lnglat) {
-          marker = new IMAP.Marker(lnglat, opts);
-          map.getOverlayLayer().addOverlay(marker, true);
-        }
+        marker = new IMAP.Marker(lnglat, opts);
+        marker.id = type + "_" + did;
+        marker.type = type;
+        map.getOverlayLayer().addOverlay(marker, false);
+
+
+        // 图标上添加点击事件
+        addMarkerClickEvt(type, origin, marker);
       }
     }
 
+    function addMarkerClickEvt(type, origin, marker) {
+
+      // 针对不同数据类型添加不同的 InfoWindow
+      var content = "";
+      if (type == "house") {
+        content = "房屋地址：" + origin.mlph;
+      } else if (type == "dwxx") {
+        content = "单位名称：" + origin.dwmc;
+      }
+
+      if (content != "") {
+        // 图标点击事件
+        marker.addEventListener(IMAP.Constants.CLICK, function (evt) {
+          this.openInfoWindow(
+            content, {
+              "size": new IMAP.Size(200, 30),
+              "offset": new IMAP.Pixel(0, -12),
+              "visible": false
+            }
+          );
+        });
+      }
+    }
+
+    // 展示详情
+    function showInfoWindow(type, origin) {
+      if (type == 'house') {
+        showHouseInfoWindow(origin);
+      }
+    }
+
+    // 展示房屋详情
+    function showHouseInfoWindow(origin) {
+      console.info(origin);
+    }
+
+    function locationPath() {
+      var href = window.document.location.href;
+      var pname = window.document.location.pathname;
+      var pos = href.indexOf(pname);
+      var path = href.substring(0, pos);
+      return path;
+    }
+
     //动态显示数据
-    function countUp(obj, start, end) {
-      var options = {  
+    function countUp(id, end) {
+      debugger
+      var oldCntStr = document.getElementById(id).innerText;
+      var oldCnt = oldCntStr.replace(/[,]/g, "");
+      debugger
+      var options = {
         useEasing: true,
-          useGrouping: true,
-          separator: ',',
-          decimal: '.',
+        useGrouping: true,
+        separator: ',',
+        decimal: '.',
       };
-      var obj = new CountUp(obj, start, end, 0, 2.5, options);  
+      var obj = new CountUp(id, oldCnt, end, 0, 2.5, options);
       obj.start();
     }
 
     //打开一标六实详细信息页面
     function openYblsDetail() {
-      window.open("http://localhost:8080/#/ybls_home");
+      window.open("http://localhost:8080/#/ybls");
     }
 
   </script>
@@ -449,7 +555,7 @@
         动态感知
       </label>
       <label class="operator-label">
-        <input class="operator-radio" type="checkbox" name="operator3" checked>
+        <input class="operator-radio" type="checkbox" name="operator-house" checked>
         <span class="operator-checkbox operator-input"></span>
         实有房屋
       </label>
