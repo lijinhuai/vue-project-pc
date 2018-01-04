@@ -206,7 +206,7 @@
       height: 62px;
       line-height: 25px;
       padding-top: 6px;
-      background-color: rgba(56, 48, 48, 0.6);
+      background-color:rgba(56,48,48,0.6);
       border-top-left-radius: 10px 10px;
       writing-mode: vertical-lr;
       letter-spacing: 5px;
@@ -242,7 +242,6 @@
       background-color: transparent;
       color: #FFFFFF;
     }
-
   </style>
 
   <script>
@@ -269,9 +268,17 @@
           hiddenHouseLocations();
         }
 
+        // 选中实有单位
+        if (name == 'operator-dwxx' && checked) {
+          showLocationsByType("dwxx");
+        }
+
+        // 取消选中实有单位
+        if (name == 'operator-dwxx' && !checked) {
+          hiddenLocationsByType("dwxx");
+        }
 
       });
-
     });
 
     // 页面初始化需要加载的数据
@@ -466,7 +473,6 @@
       debugger
       var oldCntStr = document.getElementById(id).innerText;
       var oldCnt = oldCntStr.replace(/[,]/g, "");
-      debugger
       var options = {
         useEasing: true,
         useGrouping: true,
@@ -650,5 +656,4 @@
 
   </script>
 </body>
-
 </html>
