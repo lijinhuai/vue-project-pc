@@ -90,6 +90,9 @@
             <el-dropdown-item>
               <div class="rybq rybq_jwry" @click="showThisTybq('jwry')">境外人员</div>
             </el-dropdown-item>
+            <el-dropdown-item>
+              <div class="rybq rybq_djlr" @click="showThisTybq('djlr')">独居人员</div>
+            </el-dropdown-item>
           </el-dropdown-menu>
         </el-dropdown>
         <div class="house-head">
@@ -563,11 +566,10 @@ export default {
   background-position-y: 5px;
   padding-left: 25px;
   &_room {
-    width: 25px;
-    height: 25px;
-    background-size: 25px 25px;
+    width: 32px;
+    height: 32px;
+    background-size: 32px 32px;
     background-repeat: no-repeat;
-    background-position-y: 5px;
     display: none;
     position: absolute;
     top: 5px;
@@ -608,6 +610,9 @@ export default {
   }
   &_jwry {
     background-image: url("~@/images/rfgl/rybq/jwry.png");
+  }
+  &_djlr {
+    background-image: url("~@/images/rfgl/rybq/djlr.png");
   }
 }
 </style>

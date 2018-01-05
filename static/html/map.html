@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html>
-
 <head>
 
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -235,18 +234,76 @@
     .imap-popup-content-wrapper,
     .imap-popup-tip {
       background: rgba(20, 65, 170, 0.7);
-      /* box-shadow: 3px 4px 9px 2px #0075c2; */
+      box-shadow: 3px 4px 9px 2px #0075c2;
     }
 
     .imap-window {
       background-color: transparent;
+      color:#FFFFFF;
+    }
+
+    .infowindow-container {
+			width: 280px;
+		}
+
+		.infowindow-container .infowindow-title {
+			position: relative;
+      background-color: rgba(20, 65, 170, 0.7);
+			border-bottom: 1px solid #CCC;
+			border-radius: 5px 5px 0 0;
+		}
+
+		.infowindow-container .infowindow-title-content {
+			display: inline-block;
       color: #FFFFFF;
+			font-size: 14px;
+			font-weight: bold;
+			line-height: 31px;
+			padding: 0 10px;
+		}
+
+		.infowindow-container .infowindow-title-close {
+			position: absolute;
+			top: 5px;
+			right: 10px;
+			transition-duration: 0.25s;
+      color: #FFFFFF;
+		}
+
+		.infowindow-container .infowindow-content {
+			font-size: 12px;
+			padding: 6px;
+			line-height: 20px;
+			background-color: rgba(20, 65, 170, 0.7);
+			height:67px;
+      color: #FFFFFF;
+		}
+
+		.infowindow-container .infowindow-content-image {
+			float: left;
+			margin-right: 10px;
+			width: 100px;
+			height: 60px;
+		}
+
+		.infowindow-container .infowindow-marker {
+			height: 0px;
+			width: 100%;
+			clear: both;
+			text-align: center;
+			position: relative;
+			top: -17px;
+			margin: 0px auto;
+		}
+
+    .infowindow-container .infowindow-marker i {
+        font-size: 32px;
+        color: rgba(20, 65, 170, 0.7);
     }
   </style>
 
   <script>
-    var token =
-      "eyJhbGciOiJIUzUxMiJ9.eyJhdXRob3JpdGllcyI6ImNvbS5ncmFuZGx5bm4uYm9vdGZyYW1lLmFwcGxpY2F0aW9uLnNlY3VyaXR5LmVudGl0eS5HcmFudGVkQXV0aG9yaXR5SW1wbEA3ZGQ4MmFjNCxjb20uZ3JhbmRseW5uLmJvb3RmcmFtZS5hcHBsaWNhdGlvbi5zZWN1cml0eS5lbnRpdHkuR3JhbnRlZEF1dGhvcml0eUltcGxAMzg4YjI3OGIiLCJzdWIiOiJhZG1pbiIsImV4cCI6MTUxNDk2NzkyNn0.9RQVwFEREysfz1Mt3YWSV2nv07YTnXmIO6_mfZStgl9fwQ-MhWTbVk-zikwTAcHQ1xu_-OBqeh3xSqpvD84ZfA";
+
     $(document).ready(function () {
 
       // 页面初始数据
@@ -278,6 +335,26 @@
           hiddenLocationsByType("dwxx");
         }
 
+        // 选中小区出入口
+        if (name == 'operator-xqxxx' && checked) {
+          showLocationsByType("xqxx");
+        }
+
+        // 取消选中小区出入口
+        if (name == 'operator-xqxx' && !checked) {
+          hiddenLocationsByType("xqxx");
+        }
+
+        // 选中实有安防设施
+        if (name == 'operator-camera' && checked) {
+          showLocationsByType("camera");
+        }
+
+        // 取消实有安防设施
+        if (name == 'operator-camera' && !checked) {
+          hiddenLocationsByType("camera");
+        }
+
       });
     });
 
@@ -287,18 +364,50 @@
       var token = Cookies.get("Admin-Token");
 
       // 加载一标六实数据
-      setInterval(loadData("http://localhost:8081/api/houses/amounts", token, function (data) {
-        var code = data.code;
-        if (code == 200) {
-          var ybls = data.data;
-          countUp('syrk', ybls.syrk);
-          countUp('syfw', ybls.syfw);
-          countUp('sydw', ybls.sydw);
-          countUp('syafss', ybls.syafss);
-          countUp('syllzb', ybls.syllzb);
-          countUp('syjq', ybls.syjq);
-        }
-      }), 1000 * 30)
+      // setInterval(loadData("http://localhost:8081/api/houses/amounts", token, function (data) {
+      //   var code = data.code;
+      //   if (code == 200) {
+      //     var ybls = data.data;
+      //     countUp('syrk', ybls.syrk);
+      //     countUp('syfw', ybls.syfw);
+      //     countUp('sydw', ybls.sydw);
+      //     countUp('syafss', ybls.syafss);
+      //     countUp('syllzb', ybls.syllzb);
+      //     countUp('syjq', ybls.syjq);
+      //   }
+      // }), 1000 * 30)
+
+      var url = 'http://localhost:8081/api/sse/houses/amounts?Authorization=' + token;
+      if (!!window.EventSource) {
+        var source = new EventSource(url);
+        source.addEventListener('message', function (e) {
+          var data = JSON.parse(e.data);
+          var code = data.code;
+          if (code == 200) {
+            var ybls = data.data;
+            countUp('syrk', ybls.syrk);
+            countUp('syfw', ybls.syfw);
+            countUp('sydw', ybls.sydw);
+            countUp('syafss', ybls.syafss);
+            countUp('syllzb', ybls.syllzb);
+            countUp('syjq', ybls.syjq);
+          }
+        }, true);
+
+        source.addEventListener('open', function (e) {
+          console.log("Connection opened");
+        }, true);
+
+        source.addEventListener('error', function (e) {
+          console.log("Connection error");
+        }, true);
+
+        source.addEventListener('close', function (e) {
+          console.log("Connection closed");
+        }, true);
+
+
+      }
 
       // 页面默认的定位信息数据加载
       loadDefaultLocations();
@@ -320,19 +429,55 @@
       // 加载实有单位
       loadDwLocations();
 
+      // 加载小区出入口
+      loadXqxxLocations();
+
+      // 加载安防措施
+      loadCameraLocations();
+
+    }
+
+    // 加载安防措施定位
+    function loadCameraLocations(){
+      var token = Cookies.get("Admin-Token");
+      loadData("http://localhost:8081/api/camera/locations", token, function(data){
+        var code = data.code;
+        if (code == 200) {
+          var locations = data.data;
+          for (var i = 0; i < locations.length; i++) {
+            if (locations[i].lng != "" && locations[i].lat != "") {
+              addMarker(locations[i].lng, locations[i].lat, locations[i].xh, "camera", locations[i]);
+            }
+          }
+        }
+      });
+    }
+
+    // 加载小区出入口定位
+    function loadXqxxLocations(){
+      var token = Cookies.get("Admin-Token");
+      loadData("http://localhost:8081/api/xqxx/locations", token, function(data){
+        var code = data.code;
+        if (code == 200) {
+          var locations = data.data;
+          for (var i = 0; i < locations.length; i++) {
+            if (locations[i].lon != "" && locations[i].lat != "") {
+              addMarker(locations[i].lon, locations[i].lat, locations[i].crkbh, "xqxx", locations[i]);
+            }
+          }
+        }
+      });
     }
 
     // 加载实有单位
     function loadDwLocations() {
       var token = Cookies.get("Admin-Token");
       loadData("http://localhost:8081/api/dwxx/locations", token, function (data) {
-        console.info("实有单位:" + JSON.stringify(data))
         var code = data.code;
         if (code == 200) {
           var locations = data.data;
           for (var i = 0; i < locations.length; i++) {
             if (locations[i].gpsLat != "" && locations[i].gpslon != "") {
-              console.info("实有单位：data:" + locations[i].gpsLon + " : " + locations[i].gpsLat);
               addMarker(locations[i].gpsLon, locations[i].gpsLat, locations[i].dwbh, "dwxx", locations[i]);
             }
           }
@@ -352,6 +497,26 @@
           }
         }
       });
+    }
+
+    // 展示某个类型的坐标信息
+    function showLocationsByType(type){
+      var overlays = map.getOverlayLayer().getOverlays();
+      for(var i in overlays){
+        if (overlays[i].type == type) {
+          overlays[i].visible(true);
+        }
+      }
+    }
+
+    // 隐藏某个类型的坐标信息
+    function hiddenLocationsByType(type){
+      var overlays = map.getOverlayLayer().getOverlays();
+      for(var i in overlays){
+        if (overlays[i].type == type) {
+          overlays[i].visible(false);
+        }
+      }
     }
 
     // 展示实有房屋位置
@@ -424,28 +589,76 @@
       }
     }
 
+    var _current_marker;
     function addMarkerClickEvt(type, origin, marker) {
 
       // 针对不同数据类型添加不同的 InfoWindow
       var content = "";
+      var token = Cookies.get("Admin-Token");
       if (type == "house") {
-        content = "房屋地址：" + origin.mlph;
+        content = assembleInfoWindowContent("实有房屋", "http://localhost:8081/api/houses/" + origin.cjbh +"/photo?Authorization=" +token, "地址：" + origin.mlph);
       } else if (type == "dwxx") {
-        content = "单位名称：" + origin.dwmc;
+        content = assembleInfoWindowContent("实有单位", "http://localhost:8081/api/dwxx/" + origin.dwbh + "/photo?Authorization=" +token ,"名称：" + origin.dwmc);
+      } else if (type == 'xqxx') {
+        content = assembleInfoWindowContent("小区出入口", "http://localhost:8081/api/xqxx/" + origin.crkbh + "/photo?Authorization=" +token ,"名称：" + origin.crkmc);
+      } else if (type == 'camera') {
+        content = assembleInfoWindowContent("实有安防设施", "http://localhost:8081/api/camera/" + origin.xh + "/photo?Authorization=" +token ,"名称：" + origin.name);
       }
 
-      if (content != "") {
         // 图标点击事件
-        marker.addEventListener(IMAP.Constants.CLICK, function (evt) {
-          this.openInfoWindow(
-            content, {
-              "size": new IMAP.Size(200, 30),
-              "offset": new IMAP.Pixel(0, -12),
-              "visible": false
+      if (content != "") {
+        marker.addEventListener(IMAP.Constants.CLICK, function(evt) {
+
+          // 如果其他 Marker 打开了消息框，则关闭
+          if (_current_marker) {
+            _current_marker.closeInfoWindow();
+          }
+
+          // 打开消息框
+          _current_marker = this;
+          var lnglat = this.getPosition();
+          this.openInfoWindow (
+            content,
+            {
+              size : new IMAP.Size(320, 110),
+              position: lnglat,
+              autoPan : false,
+              offset : new IMAP.Pixel(160, 75),
+              anchor:IMAP.Constants.CENTER,
+              type:IMAP.Constants.OVERLAY_INFOWINDOW_CUSTOM,
+              visible: true
             }
           );
         });
       }
+    }
+
+    function assembleInfoWindowContent (title, url, context) {
+      var content ="<div class=\"infowindow-container\">"
+      content = content + "<div class=\"infowindow-title\">"
+      content = content + "<div class=\"infowindow-title-content\">";
+      content = content + title;
+      content = content + "</div>";
+      content = content + "<span class=\"infowindow-title-close\" onclick=\"closeInfoWindow()\">";
+      content = content + "<i class=\"iconfont\">&#xe603;</i>"
+      content = content + "</span>";
+      content = content + "</div>";
+      content = content + "<div class=\"infowindow-content\">";
+      content = content + "<img class=\"infowindow-content-image\" src=\" " + url + "\"/>";
+      content = content + context;
+      content = content + "</div>";
+      content = content + "<div class=\"infowindow-marker\">";
+      content = content + "<i class=\"iconfont\">&#xe682;</i>";
+      content = content + "</div>";
+      content = content + "</div>";
+      return content;
+    }
+
+    // 关闭消息窗
+    function closeInfoWindow(){
+      if (map && _current_marker) {
+          _current_marker.closeInfoWindow();
+	    	}
     }
 
     // 展示详情
@@ -552,102 +765,102 @@
     </div>
   </div>
 
-  <!-- 地图操作按钮 -->
-  <div class="operator-container">
-    <div class="operator-ops">
-      <label class="operator-label">
-        <input class="operator-radio" type="checkbox" name="operator1" checked>
-        <span class="operator-checkbox operator-input"></span>
-        动态感知
-      </label>
-      <label class="operator-label">
-        <input class="operator-radio" type="checkbox" name="operator-house" checked>
-        <span class="operator-checkbox operator-input"></span>
-        实有房屋
-      </label>
-      <label class="operator-label">
-        <input class="operator-radio" type="checkbox" name="operator4">
-        <span class="operator-checkbox operator-input"></span>
-        实有单位
-      </label>
-      <label class="operator-label">
-        <input class="operator-radio" type="checkbox" name="operator5">
-        <span class="operator-checkbox operator-input"></span>
-        实有安防设施
-      </label>
-      <label class="operator-label">
-        <input class="operator-radio" type="checkbox" name="operator2">
-        <span class="operator-checkbox operator-input"></span>
-        实有力量
-      </label>
-      <label class="operator-label">
-        <input class="operator-radio" type="checkbox" name="operator6">
-        <span class="operator-checkbox operator-input"></span>
-        小区出入口
-      </label>
-      <label class="operator-label">
-        <input class="operator-radio" type="checkbox" name="operator7">
-        <span class="operator-checkbox operator-input"></span>
-        窨井盖
-      </label>
-    </div>
+<!-- 地图操作按钮 -->
+<div class="operator-container">
+  <div class="operator-ops">
+    <label class="operator-label">
+      <input class="operator-radio" type="checkbox" name="operator1" checked>
+      <span class="operator-checkbox operator-input"></span>
+      动态感知
+    </label>
+    <label class="operator-label">
+      <input class="operator-radio" type="checkbox" name="operator-house" checked>
+      <span class="operator-checkbox operator-input"></span>
+      实有房屋
+    </label>
+    <label class="operator-label">
+      <input class="operator-radio" type="checkbox" name="operator-dwxx" checked>
+      <span class="operator-checkbox operator-input"></span>
+      实有单位
+    </label>
+    <label class="operator-label">
+      <input class="operator-radio" type="checkbox" name="operator5" checked>
+      <span class="operator-checkbox operator-input"></span>
+      实有安防设施
+    </label>
+    <label class="operator-label">
+      <input class="operator-radio" type="checkbox" name="operator-camera">
+      <span class="operator-checkbox operator-input"></span>
+      实有力量
+    </label>
+    <label class="operator-label">
+      <input class="operator-radio" type="checkbox" name="operator-xqxx" checked>
+      <span class="operator-checkbox operator-input"></span>
+      小区出入口
+    </label>
+    <label class="operator-label">
+      <input class="operator-radio" type="checkbox" name="operator7">
+      <span class="operator-checkbox operator-input"></span>
+      窨井盖
+    </label>
   </div>
+</div>
 
-  <div class="detail-container">
-    <div class="detail-tab-container detail-tab-border">
-      <div class="detail-menu-box ">
-        <ul>
-          <li id="detail1" onclick="setTab('detail',1,5)" class="hover">
-            人脸
-          </li>
-          <li id="detail2" onclick="setTab('detail',2,5)">
-            开门
-          </li>
-          <li id="detail3" onclick="setTab('detail',3,5)">
-            过车
-          </li>
-          <li id="detail4" onclick="setTab('detail',4,5)">
-            WIFI
-          </li>
-          <li id="detail5" onclick="setTab('detail',5,5)">
-            消防
-          </li>
-        </ul>
-      </div>
-      <div class="detail-content-box">
-        <div id="con_detail_1">
+<div class="detail-container">
+  <div class="detail-tab-container detail-tab-border">
+    <div class="detail-menu-box ">
+      <ul>
+        <li id="detail1" onclick="setTab('detail',1,5)" class="hover">
           人脸
-        </div>
-        <div id="con_detail_2" style="display:none">
+        </li>
+        <li id="detail2" onclick="setTab('detail',2,5)" >
           开门
-        </div>
-        <div id="con_detail_3" style="display:none">
+        </li>
+        <li id="detail3" onclick="setTab('detail',3,5)">
           过车
-        </div>
-        <div id="con_detail_4" style="display:none">
+        </li>
+        <li id="detail4" onclick="setTab('detail',4,5)">
           WIFI
-        </div>
-        <div id="con_detail_5" style="display:none">
+        </li>
+        <li id="detail5" onclick="setTab('detail',5,5)">
           消防
-        </div>
+        </li>
+      </ul>
+    </div>
+    <div class="detail-content-box">
+      <div id="con_detail_1" >
+        人脸
+      </div>
+      <div id="con_detail_2" style="display:none">
+        开门
+      </div>
+      <div id="con_detail_3" style="display:none">
+        过车
+      </div>
+      <div id="con_detail_4" style="display:none">
+        WIFI
+      </div>
+      <div id="con_detail_5" style="display:none">
+        消防
+        <img src=“data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAAkCAYAAABIdFAMAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAHhJREFUeNo8zjsOxCAMBFB/KEAUFFR0Cbng3nQPw68ArZdAlOZppPFIBhH5EAB8b+Tlt9MYQ6i1BuqFaq1CKSVcxZ2Acs6406KUgpt5/LCKuVgz5BDCSb13ZO99ZOdcZGvt4mJjzMVKqcha68iIePB86GAiOv8CDADlIUQBs7MD3wAAAABJRU5ErkJggg==”/>
       </div>
     </div>
   </div>
-  <script type="text/javascript">
-    var map;
-
-    function initMap() {
-      map = new IMAP.Map("map", {
-        minZoom: 3,
-        maxZoom: 20,
-        // 设置地图初始化级别
-        zoom: 17,
-        // 设置地图中心点坐标
-        center: new IMAP.LngLat(121.3377285004, 30.7521905824),
-        // 设置地图缩放动画效果
-        animation: true
-      });
-    }
+</div>
+<script type="text/javascript">
+  var map;
+  function initMap(){
+    map=new IMAP.Map("map", {
+      minZoom: 3,
+      maxZoom: 20,
+      // 设置地图初始化级别
+      zoom : 17,
+      // 设置地图中心点坐标
+      center : new IMAP.LngLat(121.3377285004, 30.7521905824),
+      // 设置地图缩放动画效果
+      animation : true
+    });
+  }
 
     // 初始化地图
     initMap();

@@ -17,11 +17,10 @@ export default {
 
 <style lang="less" scoped>
 .rybq {
-  width: 25px;
-  height: 25px;
-  background-size: 25px 25px;
+  width: 32px;
+  height: 32px;
+  background-size: 32px 32px;
   background-repeat: no-repeat;
-  background-position-y: 5px;
   display: inline-block;
   &_sk {
     background-image: url("~@/images/rfgl/rybq/sk.png");
@@ -58,6 +57,9 @@ export default {
   }
   &_jwry {
     background-image: url("~@/images/rfgl/rybq/jwry.png");
+  }
+  &_djlr {
+    background-image: url("~@/images/rfgl/rybq/djlr.png");
   }
 }
 </style>
