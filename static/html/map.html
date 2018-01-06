@@ -153,10 +153,9 @@
 
     .detail-container {
       width: 300px;
-      height: 500px;
       position: absolute;
       top: 10%;
-      right: 50px;
+      right: 10px;
       z-index: 1000;
       margin-left: 10px;
     }
@@ -223,14 +222,169 @@
     .detail-content-box {
       margin-top: 0px;
       border-top: none;
-      padding: 20px;
+      padding: 3px 5px 3px 5px;
       border-left: 0;
       margin-left: 43px;
       background-color: rgba(56, 48, 48, 0.6);
-      height: 350px;
+      height: 400px;
     }
-    /******* 地图颜色覆盖 **********/
 
+    /************ 右侧菜菜单 - 子菜单 ***************/
+    .detail-sub-container {
+      border-top: 3px solid rgb(190, 18, 18);
+      width: 246px;
+    }
+
+    .detail-sub-container .detail-sub-menu-box {
+      height: 28px;
+      line-height: 28px;
+      position: relative;
+      border-bottom: 1px solid rgb(63, 70, 73);
+    }
+
+    .detail-sub-container ul {
+      margin: 0px;
+      padding: 0px;
+      list-style: none;
+      position: absolute;
+      top: 4px;
+      left: 0;
+      height: 25px;
+      text-align: center;
+    }
+
+    .detail-sub-container li {
+      float: left;
+      display: block;
+      cursor: pointer;
+      width: 60px;
+      color: #FFFFFF;
+      font-weight: bold;
+      margin-right: 2px;
+      height: 25px;
+      line-height: 25px;
+      background-color: rgb(190, 18, 18, 0);
+      font-size: 14px;
+    }
+
+    .detail-sub-container li.hover {
+      background-color: rgb(190, 18, 18);
+    }
+
+    .detail-sub-container .detail-sub-content-box {
+      padding-top: 8px;
+      height: 350px;
+      overflow-y: auto;
+    }
+
+    .detail-sub-container .detail-sub-content-box::-webkit-scrollbar {
+      width: 6px;
+      height: 2px;
+    }
+    .detail-sub-container .detail-sub-content-box::-webkit-scrollbar-thumb {
+      border-radius: 1px;
+      background: #535353;
+    }
+    .detail-sub-container .detail-sub-content-box::-webkit-scrollbar-track {
+      border-radius: 1px;
+      background: #EDEDED;
+    }
+
+    /************ 右侧菜菜单 - 子菜单 - 人脸 - 抓拍 ***************/
+    .con_subdetail_face_1_item {
+      display: block;
+      height: 90px;
+    }
+
+    .con_subdetail_face_1_item .item_avatar {
+      width:80px;
+      height:80px;
+      display: block;
+      float: left;
+    }
+
+    .con_subdetail_face_1_item .item_avatar img {
+      width:80px;
+      height:80px;
+    }
+
+    .con_subdetail_face_1_item .item_info {
+      display: block;
+      float: left;
+      margin-left: 5px;
+      color: #FFFFFF;
+      font-size: 14px;
+      line-height: 1.5rem;
+    }
+
+    /************ 右侧菜菜单 - 子菜单 - 人脸 - 比中 ***************/
+    .con_subdetail_face_2_item {
+      display: block;
+
+    }
+
+    .con_subdetail_face_2_item .item-title {
+      line-height: 25px;
+      height: 25px;
+    }
+
+    .con_subdetail_face_2_item .item-title {
+      line-height: 25px;
+      height: 25px;
+      font-size: 14px;
+      color: #FFFFFF;
+    }
+
+    .con_subdetail_face_2_item .item-title i {
+      float:left;
+      color:#0075c2;
+    }
+
+    .con_subdetail_face_2_item .item-title .item-title-name {
+      float:left;
+      margin-left: 5px;
+    }
+
+    .con_subdetail_face_2_item .item-title .item-title-time {
+      float: right;
+      color:#cecbcb;
+    }
+
+    .con_subdetail_face_2_item .item-content {
+      display: block;
+      height: 75px;
+      margin-bottom: 5px;
+    }
+
+    .con_subdetail_face_2_item .item_avatar {
+      width:70px;
+      height:70px;
+      display: block;
+      float: left;
+      margin-right: 8px;
+    }
+
+    .con_subdetail_face_2_item .item_avatar img {
+      width:70px;
+      height:70px;
+    }
+
+    .con_subdetail_face_2_item .item_info {
+      display: block;
+      float: left;
+      color: #FFFFFF;
+      font-size: 14px;
+      line-height: 1.5rem
+    }
+
+    .con_subdetail_face_2_item .item_info .item_info_contrast {
+      color: gold;
+      font-size: 24px;
+      margin-bottom: 2px;
+    }
+
+
+    /******* 地图颜色覆盖 **********/
     .imap-popup-content-wrapper,
     .imap-popup-tip {
       background: rgba(20, 65, 170, 0.7);
@@ -336,7 +490,7 @@
         }
 
         // 选中小区出入口
-        if (name == 'operator-xqxxx' && checked) {
+        if (name == 'operator-xqxx' && checked) {
           showLocationsByType("xqxx");
         }
 
@@ -360,30 +514,33 @@
 
     // 页面初始化需要加载的数据
     function initData() {
-
       var token = Cookies.get("Admin-Token");
 
-      // 加载一标六实数据
-      // setInterval(loadData("http://localhost:8081/api/houses/amounts", token, function (data) {
-      //   var code = data.code;
-      //   if (code == 200) {
-      //     var ybls = data.data;
-      //     countUp('syrk', ybls.syrk);
-      //     countUp('syfw', ybls.syfw);
-      //     countUp('sydw', ybls.sydw);
-      //     countUp('syafss', ybls.syafss);
-      //     countUp('syllzb', ybls.syllzb);
-      //     countUp('syjq', ybls.syjq);
-      //   }
-      // }), 1000 * 30)
+      createEventSource(successCallBack);
 
-      var url = 'http://localhost:8081/api/sse/houses/amounts?Authorization=' + token;
-      if (!!window.EventSource) {
-        var source = new EventSource(url);
-        source.addEventListener('message', function (e) {
-          var data = JSON.parse(e.data);
+      // 加载一标六实数据
+      setInterval(loadData("http://localhost:8081/api/houses/amounts", token, function (data) {
+        var code = data.code;
+        if (code == 200) {
+          var ybls = data.data;
+          countUp('syrk', ybls.syrk);
+          countUp('syfw', ybls.syfw);
+          countUp('sydw', ybls.sydw);
+          countUp('syafss', ybls.syafss);
+          countUp('syllzb', ybls.syllzb);
+          countUp('syjq', ybls.syjq);
+        }
+      }), 1000 * 30)
+
+      // 页面默认的定位信息数据加载
+      loadDefaultLocations();
+    }
+
+
+    function successCallBack(e){
+        var data = JSON.parse(e.data);
           var code = data.code;
-          if (code == 200) {
+          if (code == 200&&data.dataType=='YBLS') {
             var ybls = data.data;
             countUp('syrk', ybls.syrk);
             countUp('syfw', ybls.syfw);
@@ -392,8 +549,16 @@
             countUp('syllzb', ybls.syllzb);
             countUp('syjq', ybls.syjq);
           }
-        }, true);
+      }
 
+    function createEventSource(successCallBack){
+      var token = Cookies.get("Admin-Token");
+      var url = 'http://localhost:8081/api/sseEmitter/ybls?Authorization=' + token;
+      if (!!window.EventSource) {
+        var source = new EventSource(url);
+        source.addEventListener('message', function (e) {
+          successCallBack(e);
+        }, true);
         source.addEventListener('open', function (e) {
           console.log("Connection opened");
         }, true);
@@ -412,10 +577,109 @@
       // 页面默认的定位信息数据加载
       loadDefaultLocations();
 
-      // 右侧菜单人脸识别数据
-      loadData("http://localhost:8081/api/userInfo", token, function (data) {
-        // console.info("data:" +  JSON.stringify(data))
+      // 右侧菜单数据加载
+      loadDefaultMenuDatas();
+
+    }
+
+    // 右侧菜单数据加载
+    function loadDefaultMenuDatas (){
+
+      // 右侧菜单人脸识别数据 - 抓拍
+      loadFaceMsgData();
+
+      // 右侧菜单人脸识别数据 - 比中
+      loadFaceSimilarData();
+
+    }
+
+    // 加载抓拍数据 - 抓拍
+    function loadFaceSimilarData(){
+
+      var token = Cookies.get("Admin-Token");
+
+      // 右侧菜单人脸识别数据 - 比中
+      loadData("http://localhost:8081/api/face/similar", token, function (data) {
+        var code = data.code;
+        if (code == 200) {
+          var messages = data.data;
+          showMenuContentForFaceSimilar(messages);
+        }
       });
+    }
+
+    // 人脸数据(比中)内容展示
+    function showMenuContentForFaceSimilar(messages){
+
+      var token = Cookies.get("Admin-Token");
+
+      var faceSimilarHtml = "";
+      for(var i = 0; i< messages.length; i++) {
+
+        var carameName = messages[i].cameraName;
+        if (carameName.substring(0, 4) == '万盛金邸') {
+          carameName = carameName.substring(4);
+        }
+
+        faceSimilarHtml = faceSimilarHtml + "<div class=\"con_subdetail_face_2_item\">";
+        faceSimilarHtml = faceSimilarHtml + " <div class=\"item-title\">";
+        faceSimilarHtml = faceSimilarHtml + "   <i class=\"iconfont\">&#xe651;</i>";
+        faceSimilarHtml = faceSimilarHtml + "   <div class=\"item-title-name\">" + carameName + "</div>";
+        faceSimilarHtml = faceSimilarHtml + "   <div class=\"item-title-time\">"+ messages[i].timeBegin +"</div>";
+        faceSimilarHtml = faceSimilarHtml + " </div>";
+        faceSimilarHtml = faceSimilarHtml + " <div class=\"item-content\">";
+        faceSimilarHtml = faceSimilarHtml + "   <div class=\"item_avatar\">";
+        faceSimilarHtml = faceSimilarHtml + "     <img src=\"http://116.228.125.236:18181/" + messages[i].faceImageUrl + ".jpg\"></img>";
+        faceSimilarHtml = faceSimilarHtml + "   </div>";
+        faceSimilarHtml = faceSimilarHtml + "   <div class=\"item_avatar\">";
+        faceSimilarHtml = faceSimilarHtml + "     <img src=\"http://localhost:8081/api/face/similar/" + messages[i].hitZjhm + "/zp?Authorization=" + token +"\"></img>";
+        faceSimilarHtml = faceSimilarHtml + "   </div>";
+        faceSimilarHtml = faceSimilarHtml + "   <div class=\"item_info\">";
+        faceSimilarHtml = faceSimilarHtml + "     <div class=\"item_info_contrast\">" + messages[i].similarity + "</div>";
+        faceSimilarHtml = faceSimilarHtml + "     <div>" + messages[i].hitXm + "</div>";
+        faceSimilarHtml = faceSimilarHtml + "     <div title=\""+ messages[i].hitZjhm +"\"><img src=\"/static/image/sfz.jpg\" width=\"20\" /></div>";
+        faceSimilarHtml = faceSimilarHtml + "   </div>";
+        faceSimilarHtml = faceSimilarHtml + "  </div>";
+        faceSimilarHtml = faceSimilarHtml + "</div>";
+      }
+
+      $("#con_subdetail_face_2").html(faceSimilarHtml);
+    }
+
+    // 加载人脸数据 - 比中
+    function loadFaceMsgData(){
+
+      var token = Cookies.get("Admin-Token");
+
+      // 右侧菜单人脸识别数据 - 抓拍
+      loadData("http://localhost:8081/api/face/msg", token, function (data) {
+        var code = data.code;
+        if (code == 200) {
+          var messages = data.data;
+          showMenuContentForFaceMsg(messages);
+        }
+      });
+    }
+
+    // 人脸数据(抓拍)内容展示
+    function showMenuContentForFaceMsg(messages) {
+
+      var faceMsgHtml = "";
+      for(var i = 0; i< messages.length; i++) {
+
+        faceMsgHtml = faceMsgHtml + "<div class=\"con_subdetail_face_1_item\">";
+        faceMsgHtml = faceMsgHtml + " <div class=\"item_avatar\">";
+        faceMsgHtml = faceMsgHtml + "   <img src=\"http://116.228.125.236:18181/" + messages[i].faceImageUrl + ".jpg\" onerror=\"this.src='/static/image/default_nophoto.png'\"></img>";
+        faceMsgHtml = faceMsgHtml + " </div>";
+        faceMsgHtml = faceMsgHtml + " <div class=\"item_info\">";
+        faceMsgHtml = faceMsgHtml + "   <div>" + messages[i].cameraName + "</div>";
+        faceMsgHtml = faceMsgHtml + "   <div>" + messages[i].timeBegin + "</div>";
+        faceMsgHtml = faceMsgHtml + " </div>";
+        faceMsgHtml = faceMsgHtml + "</div>";
+
+      }
+
+      $("#con_subdetail_face_1").html(faceMsgHtml);
     }
 
 
@@ -563,6 +827,20 @@
       }
     }
 
+    // 子菜单切换
+    function setSubTab(prefix, model, index) {
+
+      console.info("setSubTab:" + prefix + ":" + model + ":" + index );
+
+      // 菜单展示效果
+      $("." + prefix + "_" + model).removeClass("hover");
+      $("#" + prefix + "_" + model + "_" + index).addClass("hover");
+
+      // 菜单对应内容切换
+      $(".con_" + prefix + "_" + model).css('display','none');
+      $("#con_" + prefix + "_" + model + "_" + index).css('display','block');
+    }
+
     // 添加点标注
     function addMarker(lng, lat, did, type, origin) {
 
@@ -605,7 +883,7 @@
         content = assembleInfoWindowContent("实有安防设施", "http://localhost:8081/api/camera/" + origin.xh + "/photo?Authorization=" +token ,"名称：" + origin.name);
       }
 
-        // 图标点击事件
+      // 图标点击事件
       if (content != "") {
         marker.addEventListener(IMAP.Constants.CLICK, function(evt) {
 
@@ -657,8 +935,8 @@
     // 关闭消息窗
     function closeInfoWindow(){
       if (map && _current_marker) {
-          _current_marker.closeInfoWindow();
-	    	}
+        _current_marker.closeInfoWindow();
+      }
     }
 
     // 展示详情
@@ -683,7 +961,6 @@
 
     //动态显示数据
     function countUp(id, end) {
-      debugger
       var oldCntStr = document.getElementById(id).innerText;
       var oldCnt = oldCntStr.replace(/[,]/g, "");
       var options = {
@@ -700,7 +977,7 @@
     function openYblsDetail() {
       window.open("http://localhost:8080/#/ybls");
     }
-
+}
   </script>
 </head>
 
@@ -784,12 +1061,12 @@
       实有单位
     </label>
     <label class="operator-label">
-      <input class="operator-radio" type="checkbox" name="operator5" checked>
+      <input class="operator-radio" type="checkbox" name="operator-camera" checked>
       <span class="operator-checkbox operator-input"></span>
       实有安防设施
     </label>
     <label class="operator-label">
-      <input class="operator-radio" type="checkbox" name="operator-camera">
+      <input class="operator-radio" type="checkbox" name="operator5">
       <span class="operator-checkbox operator-input"></span>
       实有力量
     </label>
@@ -799,7 +1076,7 @@
       小区出入口
     </label>
     <label class="operator-label">
-      <input class="operator-radio" type="checkbox" name="operator7">
+      <input class="operator-radio" type="checkbox" name="operator-xqxx1" checked>
       <span class="operator-checkbox operator-input"></span>
       窨井盖
     </label>
@@ -828,8 +1105,28 @@
       </ul>
     </div>
     <div class="detail-content-box">
+      <!-- 人脸标签页内容 -->
       <div id="con_detail_1" >
-        人脸
+        <div class="detail-sub-container">
+          <div class="detail-sub-tab-container detail-sub-tab-border">
+            <div class="detail-sub-menu-box ">
+              <ul>
+                <li class="subdetail_face hover" id="subdetail_face_1" onclick="setSubTab('subdetail', 'face', 1)">
+                  抓拍
+                </li>
+                <li class="subdetail_face" id="subdetail_face_2" onclick="setSubTab('subdetail', 'face', 2)">
+                  比中
+                </li>
+              </ul>
+            </div>
+            <div class="detail-sub-content-box">
+              <div class="con_subdetail_face" id="con_subdetail_face_1">
+              </div>
+              <div class="con_subdetail_face" id="con_subdetail_face_2" style="display:none">
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
       <div id="con_detail_2" style="display:none">
         开门
@@ -842,7 +1139,6 @@
       </div>
       <div id="con_detail_5" style="display:none">
         消防
-        <img src=“data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAAkCAYAAABIdFAMAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAHhJREFUeNo8zjsOxCAMBFB/KEAUFFR0Cbng3nQPw68ArZdAlOZppPFIBhH5EAB8b+Tlt9MYQ6i1BuqFaq1CKSVcxZ2Acs6406KUgpt5/LCKuVgz5BDCSb13ZO99ZOdcZGvt4mJjzMVKqcha68iIePB86GAiOv8CDADlIUQBs7MD3wAAAABJRU5ErkJggg==”/>
       </div>
     </div>
   </div>
