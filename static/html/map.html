@@ -396,6 +396,16 @@
       color:#FFFFFF;
     }
 
+    .imap-overlay-pane {
+        z-index: 800;
+    }
+
+    .imap-label {
+      border: 0px;
+      background: rgba(255, 255, 255, 0);
+    }
+
+    /************** INFOWINDOW 样式 *****************************/
     .infowindow-container {
 			width: 280px;
 		}
@@ -446,7 +456,7 @@
 			clear: both;
 			text-align: center;
 			position: relative;
-			top: -17px;
+			top: -18px;
 			margin: 0px auto;
 		}
 
@@ -454,9 +464,72 @@
         font-size: 32px;
         color: rgba(20, 65, 170, 0.7);
     }
+
+    /************** 动态感知窗样式 *****************************/
+    .dynamic-container {
+			width: 280px;
+		}
+
+		.dynamic-container .dynamic-title {
+			position: relative;
+      background-color: rgba(20, 65, 170, 0.7);
+			border-bottom: 1px solid #CCC;
+			border-radius: 5px 5px 0 0;
+		}
+
+		.dynamic-container .dynamic-title-content {
+			display: inline-block;
+      color: #FFFFFF;
+			font-size: 14px;
+			font-weight: bold;
+			line-height: 31px;
+			padding: 0 10px;
+		}
+
+		.dynamic-container .dynamic-title-close {
+			position: absolute;
+			top: 5px;
+			right: 10px;
+			transition-duration: 0.25s;
+      color: #FFFFFF;
+		}
+
+		.dynamic-container .dynamic-content {
+			font-size: 12px;
+			padding: 6px;
+			line-height: 20px;
+			background-color: rgba(20, 65, 170, 0.7);
+			height:80px;
+      color: #FFFFFF;
+		}
+
+		.dynamic-container .dynamic-content-image {
+			float: left;
+			margin-right: 10px;
+			width: 80px;
+			height: 80px;
+		}
+
+		.dynamic-container .dynamic-marker {
+			height: 0px;
+			width: 100%;
+			clear: both;
+			text-align: center;
+			position: relative;
+			top: -18px;
+			margin: 0px auto;
+		}
+
+    .dynamic-container .dynamic-marker i {
+        font-size: 32px;
+        color: rgba(20, 65, 170, 0.7);
+    }
   </style>
 
   <script>
+    var baseUrl = window.parent.document.getElementById("baseUrl").value
+    var picBaseUrl = "http://116.228.125.236:18181/";
+    var serviceUrl = locationPath();
 
     $(document).ready(function () {
 
@@ -519,7 +592,7 @@
       createEventSource(successCallBack);
 
       // 加载一标六实数据
-      setInterval(loadData("http://localhost:8081/api/houses/amounts", token, function (data) {
+      setInterval(loadData(baseUrl+"/houses/amounts", token, function (data) {
         var code = data.code;
         if (code == 200) {
           var ybls = data.data;
@@ -534,26 +607,32 @@
 
       // 页面默认的定位信息数据加载
       loadDefaultLocations();
+
+      // 右侧菜单数据加载
+      loadDefaultMenuDatas();
+
     }
 
 
     function successCallBack(e){
-        var data = JSON.parse(e.data);
-          var code = data.code;
-          if (code == 200&&data.dataType=='YBLS') {
-            var ybls = data.data;
-            countUp('syrk', ybls.syrk);
-            countUp('syfw', ybls.syfw);
-            countUp('sydw', ybls.sydw);
-            countUp('syafss', ybls.syafss);
-            countUp('syllzb', ybls.syllzb);
-            countUp('syjq', ybls.syjq);
-          }
-      }
+      var data = JSON.parse(e.data);
+        var code = data.code;
+        if (code == 200&&data.dataType=='YBLS') {
+          var ybls = data.data;
+          countUp('syrk', ybls.syrk);
+          countUp('syfw', ybls.syfw);
+          countUp('sydw', ybls.sydw);
+          countUp('syafss', ybls.syafss);
+          countUp('syllzb', ybls.syllzb);
+          countUp('syjq', ybls.syjq);
+        } else if (code == 200&&data.dataType=='YT') {
+          showDynamicData(data.data);
+        }
+    }
 
     function createEventSource(successCallBack){
       var token = Cookies.get("Admin-Token");
-      var url = 'http://localhost:8081/api/sseEmitter/ybls?Authorization=' + token;
+      var url = baseUrl+'/sseEmitter/YBLS,YT?Authorization=' + token;
       if (!!window.EventSource) {
         var source = new EventSource(url);
         source.addEventListener('message', function (e) {
@@ -570,15 +649,100 @@
         source.addEventListener('close', function (e) {
           console.log("Connection closed");
         }, true);
+      }
+    }
 
+    // 展示推送的动态感知数据 - 抓拍
+    function showDynamicData(message){
 
+      // 地图展示动态感知数据
+      if ($("#operator-dynamic").is(":checked")){
+        showDynamicDataInMap(message);
       }
 
-      // 页面默认的定位信息数据加载
-      loadDefaultLocations();
+      // 刷新右侧菜单中的抓拍信息
+      showDynamicDataInFaceMsgMenu(message);
+    }
 
-      // 右侧菜单数据加载
-      loadDefaultMenuDatas();
+    var _dynamic_marker;
+    // 地图展示动态感知数据
+    function showDynamicDataInMap(message){
+
+      // 地图展示动态感知 Marker
+      addMarkerWithLabel(message.cameraLng, message.cameraLat, message.cameraId, 'dynamic', message);
+
+    }
+
+    // 地图展示动态感知 Marker
+    function addMarkerWithLabel(lng, lat, did, type, origin) {
+      if (!map) {
+        return;
+      }
+
+      // 如果已经展示了动态数据，清除数据
+      if (_dynamic_marker) {
+        map.getOverlayLayer().removeOverlay(_dynamic_marker);
+      }
+
+      // marker options
+      var path = locationPath();
+      var opts = new IMAP.MarkerOptions();
+      opts.anchor = IMAP.Constants.BOTTOM_CENTER;
+      opts.icon = new IMAP.Icon(
+        path + "/static/image/dynamic_16.png", {
+          "size": new IMAP.Size(16, 16),
+          "offset": new IMAP.Pixel(0, 0)
+        }
+      );
+
+      // marker location
+      var lnglat = new IMAP.LngLat(lng, lat);
+      _dynamic_marker = new IMAP.Marker(lnglat, opts);
+      _dynamic_marker.id = type + "_" + did;
+      _dynamic_marker.type = type;
+      map.getOverlayLayer().addOverlay(_dynamic_marker, false);
+
+      var content = assembleLabelContentForDynamicData("动态感知", "http://116.228.125.236:18181/" + origin.faceImageUrl + ".jpg", origin.cameraName + "</br>" + origin.timeBegin);
+      // marker label
+      _dynamic_marker.setLabel (
+        content,
+        {
+          "anchor": IMAP.Constants.TOP_CENTER,
+          "visible": true,
+          "offset": new IMAP.Pixel(0, -140)
+        }
+      );
+    }
+
+    function assembleLabelContentForDynamicData (title, url, context) {
+      var content ="<div class=\"dynamic-container\">"
+      content = content + "<div class=\"dynamic-title\">"
+      content = content + "<div class=\"dynamic-title-content\">";
+      content = content + title;
+      content = content + "</div>";
+      // content = content + "<span class=\"infowindow-title-close\" onclick=\"closeInfoWindow()\">";
+      // content = content + "<i class=\"iconfont\">&#xe603;</i>"
+      // content = content + "</span>";
+      content = content + "</div>";
+      content = content + "<div class=\"dynamic-content\">";
+      content = content + "<img class=\"dynamic-content-image\" src=\" " + url + "\"/>";
+      content = content + context;
+      content = content + "</div>";
+      // content = content + "<div class=\"infowindow-marker\">";
+      // content = content + "<i class=\"iconfont\">&#xe682;</i>";
+      // content = content + "</div>";
+      content = content + "</div>";
+      return content;
+    }
+
+    // 刷新右侧菜单中的抓拍信息
+    function showDynamicDataInFaceMsgMenu(message) {
+
+      // 组装 HTML
+      var faceMsgItemHtml = assembleFaceMsgItem(message);
+
+      // 插入目标节点
+      $("#con_subdetail_face_1").prepend(faceMsgItemHtml);
 
     }
 
@@ -599,7 +763,7 @@
       var token = Cookies.get("Admin-Token");
 
       // 右侧菜单人脸识别数据 - 比中
-      loadData("http://localhost:8081/api/face/similar", token, function (data) {
+      loadData(baseUrl+"/face/similar", token, function (data) {
         var code = data.code;
         if (code == 200) {
           var messages = data.data;
@@ -629,10 +793,10 @@
         faceSimilarHtml = faceSimilarHtml + " </div>";
         faceSimilarHtml = faceSimilarHtml + " <div class=\"item-content\">";
         faceSimilarHtml = faceSimilarHtml + "   <div class=\"item_avatar\">";
-        faceSimilarHtml = faceSimilarHtml + "     <img src=\"http://116.228.125.236:18181/" + messages[i].faceImageUrl + ".jpg\"></img>";
+        faceSimilarHtml = faceSimilarHtml + "     <img src=\""+ picBaseUrl+ messages[i].faceImageUrl + ".jpg\"></img>";
         faceSimilarHtml = faceSimilarHtml + "   </div>";
         faceSimilarHtml = faceSimilarHtml + "   <div class=\"item_avatar\">";
-        faceSimilarHtml = faceSimilarHtml + "     <img src=\"http://localhost:8081/api/face/similar/" + messages[i].hitZjhm + "/zp?Authorization=" + token +"\"></img>";
+        faceSimilarHtml = faceSimilarHtml + "     <img src=\""+baseUrl+"/face/similar/" + messages[i].hitZjhm + "/zp?Authorization=" + token +"\"></img>";
         faceSimilarHtml = faceSimilarHtml + "   </div>";
         faceSimilarHtml = faceSimilarHtml + "   <div class=\"item_info\">";
         faceSimilarHtml = faceSimilarHtml + "     <div class=\"item_info_contrast\">" + messages[i].similarity + "</div>";
@@ -652,7 +816,7 @@
       var token = Cookies.get("Admin-Token");
 
       // 右侧菜单人脸识别数据 - 抓拍
-      loadData("http://localhost:8081/api/face/msg", token, function (data) {
+      loadData(baseUrl+"/face/msg", token, function (data) {
         var code = data.code;
         if (code == 200) {
           var messages = data.data;
@@ -666,20 +830,24 @@
 
       var faceMsgHtml = "";
       for(var i = 0; i< messages.length; i++) {
-
-        faceMsgHtml = faceMsgHtml + "<div class=\"con_subdetail_face_1_item\">";
-        faceMsgHtml = faceMsgHtml + " <div class=\"item_avatar\">";
-        faceMsgHtml = faceMsgHtml + "   <img src=\"http://116.228.125.236:18181/" + messages[i].faceImageUrl + ".jpg\" onerror=\"this.src='/static/image/default_nophoto.png'\"></img>";
-        faceMsgHtml = faceMsgHtml + " </div>";
-        faceMsgHtml = faceMsgHtml + " <div class=\"item_info\">";
-        faceMsgHtml = faceMsgHtml + "   <div>" + messages[i].cameraName + "</div>";
-        faceMsgHtml = faceMsgHtml + "   <div>" + messages[i].timeBegin + "</div>";
-        faceMsgHtml = faceMsgHtml + " </div>";
-        faceMsgHtml = faceMsgHtml + "</div>";
-
+        faceMsgHtml = faceMsgHtml + assembleFaceMsgItem(messages[i]);
       }
 
       $("#con_subdetail_face_1").html(faceMsgHtml);
+    }
+
+    function assembleFaceMsgItem(message){
+      var faceMsgItemHtml = "";
+      faceMsgItemHtml = faceMsgItemHtml + "<div class=\"con_subdetail_face_1_item\">";
+      faceMsgItemHtml = faceMsgItemHtml + " <div class=\"item_avatar\">";
+      faceMsgItemHtml = faceMsgItemHtml + "   <img src=\""+picBaseUrl + message.faceImageUrl + ".jpg\" onerror=\"this.src='/static/image/default_nophoto.png'\"></img>";
+      faceMsgItemHtml = faceMsgItemHtml + " </div>";
+      faceMsgItemHtml = faceMsgItemHtml + " <div class=\"item_info\">";
+      faceMsgItemHtml = faceMsgItemHtml + "   <div>" + message.cameraName + "</div>";
+      faceMsgItemHtml = faceMsgItemHtml + "   <div>" + message.timeBegin + "</div>";
+      faceMsgItemHtml = faceMsgItemHtml + " </div>";
+      faceMsgItemHtml = faceMsgItemHtml + "</div>";
+      return faceMsgItemHtml;
     }
 
 
@@ -704,7 +872,7 @@
     // 加载安防措施定位
     function loadCameraLocations(){
       var token = Cookies.get("Admin-Token");
-      loadData("http://localhost:8081/api/camera/locations", token, function(data){
+      loadData(baseUrl+"/camera/locations", token, function(data){
         var code = data.code;
         if (code == 200) {
           var locations = data.data;
@@ -720,7 +888,7 @@
     // 加载小区出入口定位
     function loadXqxxLocations(){
       var token = Cookies.get("Admin-Token");
-      loadData("http://localhost:8081/api/xqxx/locations", token, function(data){
+      loadData(baseUrl+"/xqxx/locations", token, function(data){
         var code = data.code;
         if (code == 200) {
           var locations = data.data;
@@ -736,7 +904,7 @@
     // 加载实有单位
     function loadDwLocations() {
       var token = Cookies.get("Admin-Token");
-      loadData("http://localhost:8081/api/dwxx/locations", token, function (data) {
+      loadData(baseUrl+"/dwxx/locations", token, function (data) {
         var code = data.code;
         if (code == 200) {
           var locations = data.data;
@@ -752,7 +920,7 @@
     // 加载实有房屋
     function loadHouseLocations() {
       var token = Cookies.get("Admin-Token");
-      loadData("http://localhost:8081/api/houses/locations", token, function (data) {
+      loadData(baseUrl+"/houses/locations", token, function (data) {
         var code = data.code;
         if (code == 200) {
           var locations = data.data;
@@ -874,13 +1042,13 @@
       var content = "";
       var token = Cookies.get("Admin-Token");
       if (type == "house") {
-        content = assembleInfoWindowContent("实有房屋", "http://localhost:8081/api/houses/" + origin.cjbh +"/photo?Authorization=" +token, "地址：" + origin.mlph);
+        content = assembleInfoWindowContent("实有房屋", baseUrl+"/houses/" + origin.cjbh +"/photo?Authorization=" +token, "地址：" + origin.mlph);
       } else if (type == "dwxx") {
-        content = assembleInfoWindowContent("实有单位", "http://localhost:8081/api/dwxx/" + origin.dwbh + "/photo?Authorization=" +token ,"名称：" + origin.dwmc);
+        content = assembleInfoWindowContent("实有单位", baseUrl+"/dwxx/" + origin.dwbh + "/photo?Authorization=" +token ,"名称：" + origin.dwmc);
       } else if (type == 'xqxx') {
-        content = assembleInfoWindowContent("小区出入口", "http://localhost:8081/api/xqxx/" + origin.crkbh + "/photo?Authorization=" +token ,"名称：" + origin.crkmc);
+        content = assembleInfoWindowContent("小区出入口", baseUrl+"/xqxx/" + origin.crkbh + "/photo?Authorization=" +token ,"名称：" + origin.crkmc);
       } else if (type == 'camera') {
-        content = assembleInfoWindowContent("实有安防设施", "http://localhost:8081/api/camera/" + origin.xh + "/photo?Authorization=" +token ,"名称：" + origin.name);
+        content = assembleInfoWindowContent("实有安防设施", baseUrl+"/camera/" + origin.xh + "/photo?Authorization=" +token ,"名称：" + origin.name);
       }
 
       // 图标点击事件
@@ -975,7 +1143,7 @@
 
     //打开一标六实详细信息页面
     function openYblsDetail() {
-      window.open("http://localhost:8080/#/ybls");
+      window.open(serviceUrl+"/#/ybls");
     }
   </script>
 </head>
@@ -1045,7 +1213,7 @@
 <div class="operator-container">
   <div class="operator-ops">
     <label class="operator-label">
-      <input class="operator-radio" type="checkbox" name="operator1" checked>
+      <input class="operator-radio" type="checkbox" id="operator-dynamic" name="operator-dynamic" checked>
       <span class="operator-checkbox operator-input"></span>
       动态感知
     </label>
