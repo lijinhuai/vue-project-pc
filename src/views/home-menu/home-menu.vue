@@ -6,7 +6,12 @@
         <div class="row_content">
           <div v-for="cell in row.children" :key="cell.index" class="cell">
             <div class="cell_body" @click="toRouter(cell.name)">
-              <ali-icon :type="cell.icon" size="45"></ali-icon>
+              <template v-if="cell.icon=='earth'||cell.icon=='person'">
+              <ali-icon :type="cell.icon" :size="45" color="white"></ali-icon>
+              </template>
+              <template v-else>
+              <ali-icon :type="cell.icon" :size="40" color="white"></ali-icon>
+              </template>
               <!-- <Icon :type="cell.icon" size="50" :key="cell.id"></Icon> -->
             </div>
             <div class="cell_footer">{{cell.title}}</div>
@@ -48,7 +53,7 @@ export default {
   // background-color: #29528d;
   .wraper {
     // background-color: #a2b7d2;
-    background: linear-gradient(45deg, #95aac5, #aec6e8);
+    // background: linear-gradient(45deg, #95aac5, #aec6e8);
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -60,16 +65,20 @@ export default {
       width: 100%;
       &_title {
         width: 40px;
-        height: 120px;
-        background-color: #f56c6c;
-        position: relative;
-        right: 20px;
-        border-radius: 10%;
-        padding: 10px;
+        text-shadow: 1px 1px 11px #999;
+        border-left: 3px solid #409eff;
         text-align: center;
-        display: flex;
-        align-items: center;
-        font-weight: 450;
+        // width: 40px;
+        // height: 120px;
+        // background-color: #f56c6c;
+        // position: relative;
+        // right: 20px;
+        // border-radius: 10%;
+        // padding: 10px;
+        // text-align: center;
+        // display: flex;
+        // align-items: center;
+        // font-weight: 450;
       }
       &_content {
         width: 100%;
@@ -78,7 +87,7 @@ export default {
         align-items: center;
         flex-wrap: wrap;
         .cell {
-          width: 60px;
+          width: 80px;
           height: 80px;
           margin: 10px;
           &:hover {
@@ -86,16 +95,24 @@ export default {
           }
           &_body {
             text-align: center;
-            height: 60px;
-            background-color: #6fb1f9;
+            height: 80px;
+            background-color: #3e82ff;
             border-radius: 50%;
-            padding-top: 7px;
+            padding-top: 16px;
+            // text-align: center;
+            // height: 60px;
+            // background-color: #6fb1f9;
+            // border-radius: 50%;
+            // padding-top: 7px;
           }
           &_footer {
-            height: 20px;
-            // background-color: #fafbf9;
             text-align: center;
-            font-weight: 400;
+            font-family: cursive;
+            padding: 6px;
+            // height: 20px;
+            // // background-color: #fafbf9;
+            // text-align: center;
+            // font-weight: 400;
           }
         }
       }

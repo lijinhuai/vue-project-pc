@@ -240,7 +240,7 @@ export const singlePageRouter = [{
   meta: {
     title: '一标六实数据展示'
   },
-  component: _import('map/components/Ybls')
+  component: _import('ybls_home/ybls_home')
 }]
 
 // 所有上面定义的路由都要写在下面的routers里
