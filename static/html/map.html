@@ -104,7 +104,7 @@
     }
 
     .operator-container .operator-ops {
-      width: 880px;
+      width: 900px;
       border-top: 5px solid #0CD6D3;
       margin: 0 auto;
       padding-left: 10px;
@@ -467,58 +467,70 @@
 
     /************** 动态感知窗样式 *****************************/
     .dynamic-container {
-			width: 280px;
-		}
+      background-image: url("/static/image/marker_dynamic_bg.png");
+      background-repeat:no-repeat;
+      background-size:100% 100%;
+      -moz-background-size:100% 100%;
+      width: 200px;
+    }
 
-		.dynamic-container .dynamic-title {
-			position: relative;
-      background-color: rgba(20, 65, 170, 0.7);
-			border-bottom: 1px solid #CCC;
-			border-radius: 5px 5px 0 0;
-		}
+    .dynamic-container .dynamic-title {
+      position: relative;
+      /* background-color: rgba(20, 65, 170, 0.7); */
+      /* border-bottom: 1px solid #CCC; */
+      border-radius: 5px 5px 0 0;
+    }
 
-		.dynamic-container .dynamic-title-content {
-			display: inline-block;
+    .dynamic-container .dynamic-title-content {
+      display: inline-block;
       color: #FFFFFF;
-			font-size: 14px;
-			font-weight: bold;
-			line-height: 31px;
-			padding: 0 10px;
-		}
+      font-size: 14px;
+      font-weight: bold;
+      line-height: 31px;
+      padding: 0 10px;
+    }
 
-		.dynamic-container .dynamic-title-close {
-			position: absolute;
-			top: 5px;
-			right: 10px;
-			transition-duration: 0.25s;
+    .dynamic-container .dynamic-title-close {
+      position: absolute;
+      top: 5px;
+      right: 10px;
+      transition-duration: 0.25s;
       color: #FFFFFF;
-		}
+    }
 
-		.dynamic-container .dynamic-content {
-			font-size: 12px;
-			padding: 6px;
-			line-height: 20px;
-			background-color: rgba(20, 65, 170, 0.7);
-			height:80px;
+    .dynamic-container .dynamic-content {
+      font-size: 12px;
+      padding: 0px 6px 8px;
+      line-height: 20px;
+      /* background-color: rgba(20, 65, 170, 0.7); */
+      height:80px;
       color: #FFFFFF;
-		}
+      margin-left: 8px;
+      margin-top: -3px;
+    }
 
-		.dynamic-container .dynamic-content-image {
-			float: left;
-			margin-right: 10px;
-			width: 80px;
-			height: 80px;
-		}
+    .dynamic-container .dynamic-content-image {
+      float: left;
+      margin-right: 10px;
+      width: 80px;
+      height: 80px;
+      border-radius: 3px;
+      box-shadow: 0 0 0px 1px rgb(8, 181, 255)
+    }
 
-		.dynamic-container .dynamic-marker {
-			height: 0px;
-			width: 100%;
-			clear: both;
-			text-align: center;
-			position: relative;
-			top: -18px;
-			margin: 0px auto;
-		}
+    .dynamic-container .dynamic-content-info {
+      white-space: normal;
+    }
+
+    .dynamic-container .dynamic-marker {
+      height: 0px;
+      width: 100%;
+      clear: both;
+      text-align: center;
+      position: relative;
+      top: -18px;
+      margin: 0px auto;
+    }
 
     .dynamic-container .dynamic-marker i {
         font-size: 32px;
@@ -527,7 +539,7 @@
   </style>
 
   <script>
-    var baseUrl = window.parent.document.getElementById("baseUrl").value
+    var baseUrl = window.parent.document.getElementById("baseUrl").value;
     var picBaseUrl = "http://116.228.125.236:18181/";
     var serviceUrl = locationPath();
 
@@ -582,8 +594,30 @@
           hiddenLocationsByType("camera");
         }
 
+        // 取消动态感知
+        if (name == 'operator-dynamic' && !checked) {
+          hiddenDynamicData();
+        }
+
+        // 选中WIFI嗅探
+        if (name == 'operator-wifi' && checked) {
+          showLocationsByType("wifi");
+        }
+
+        // 取消WIFI嗅探
+        if (name == 'operator-wifi' && !checked) {
+          hiddenLocationsByType("wifi");
+        }
+
       });
     });
+
+    // 取消动态感知
+    function hiddenDynamicData (){
+      if (map && _dynamic_marker) {
+        map.getOverlayLayer().removeOverlay(_dynamic_marker);
+      }
+    }
 
     // 页面初始化需要加载的数据
     function initData() {
@@ -709,7 +743,7 @@
         {
           "anchor": IMAP.Constants.TOP_CENTER,
           "visible": true,
-          "offset": new IMAP.Pixel(0, -140)
+          "offset": new IMAP.Pixel(0, -134)
         }
       );
     }
@@ -726,7 +760,9 @@
       content = content + "</div>";
       content = content + "<div class=\"dynamic-content\">";
       content = content + "<img class=\"dynamic-content-image\" src=\" " + url + "\"/>";
+      content = content + "<div class=\"dynamic-content-info\">"
       content = content + context;
+      content = content + "</div>"
       content = content + "</div>";
       // content = content + "<div class=\"infowindow-marker\">";
       // content = content + "<i class=\"iconfont\">&#xe682;</i>";
@@ -867,6 +903,43 @@
       // 加载安防措施
       loadCameraLocations();
 
+      // 加载 WIFI 嗅探设备
+      loadWifiDeviceLocations();
+
+      loadVehicleStat();
+      loadVehiclePassRecords();
+    }
+
+    // 加载过车统计数据
+    function loadVehicleStat() {
+      var token = Cookies.get("Admin-Token");
+      loadData("http://localhost:8081/api/xqtc/stat", token, function(data){
+        console.info("data:" + JSON.stringify(data));
+      });
+    }
+
+    // 加载过车统计数据
+    function loadVehiclePassRecords() {
+      var token = Cookies.get("Admin-Token");
+      loadData("http://localhost:8081/api/xqtc/records", token, function(data){
+        console.info("data:" + JSON.stringify(data));
+      });
+    }
+
+    // 加载 WIFI 嗅探设备
+    function loadWifiDeviceLocations() {
+      var token = Cookies.get("Admin-Token");
+      loadData("http://localhost:8081/api/wifi/locations", token, function(data){
+        var code = data.code;
+        if (code == 200) {
+          var locations = data.data;
+          for (var i = 0; i < locations.length; i++) {
+            if (locations[i].longitude != "" && locations[i].latitude != "") {
+              addMarker(locations[i].longitude, locations[i].latitude, locations[i].equipmentNum, "wifi", locations[i]);
+            }
+          }
+        }
+      });
     }
 
     // 加载安防措施定位
@@ -1243,9 +1316,9 @@
       小区出入口
     </label>
     <label class="operator-label">
-      <input class="operator-radio" type="checkbox" name="operator-xqxx1" checked>
+      <input class="operator-radio" type="checkbox" name="operator-wifi" checked>
       <span class="operator-checkbox operator-input"></span>
-      窨井盖
+      WIFI嗅探
     </label>
   </div>
 </div>
@@ -1299,7 +1372,33 @@
         开门
       </div>
       <div id="con_detail_3" style="display:none">
-        过车
+        <div class="con_vehicle_pass">
+          <div class="con_vehicle_pass_stat">
+            <div class="con_vehicle_pass_stat_total">
+              <div style="width:40%">车辆登记数：</div>
+              <div style="width:60%">122</div>
+            </div>
+            <div>
+              <div style="width:40%">今日进入：</div>
+              <div style="width:60%">300</div>
+            </div>
+            <div>
+              <div style="width:40%">今日外出</div>
+              <div style="width:60%">200</div>
+            </div>
+          </div>
+          <div class="con_vehicle_pass_record">
+            <div class="con_subdetail_face_1_item">
+              <div class="item_avatar">
+                <img src="http://116.228.125.236:18181.jpg" onerror="this.src='/static/image/default_nophoto.png'"></img>";
+              </div>
+              <div class="item_info">
+                <div>name</div>
+                <div>time</div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
       <div id="con_detail_4" style="display:none">
         WIFI
