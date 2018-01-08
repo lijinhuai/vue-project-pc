@@ -1,11 +1,11 @@
 import fetch from '@/utils/fetch'
 
-export function yblsXbxxData () {
+export function yblsTjData () {
   const params = {
 
   }
   return fetch({
-    url: '/yblsData/xbxx',
+    url: '/houses/amounts',
     method: 'get',
     params: params
   })

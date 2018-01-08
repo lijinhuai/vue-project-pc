@@ -527,7 +527,7 @@
 
     #con_detail_4 .con_wifi_items {
       display: block;
-      height: 400px;
+      height: 380px;
       overflow-y: auto;
     }
 
@@ -545,7 +545,7 @@
     }
 
     #con_detail_4 .con_wifi_items .con_wifi_item {
-      height: 50px;
+      height: 80px;
       line-height: 1.8rem;
       margin-bottom: 15px;
       margin-top: 5px;
@@ -562,6 +562,14 @@
       display: inline-block;
       text-align: left;
     }
+
+    #con_detail_4 .con_wifi_items .word_break {
+      word-break: keep-all;
+      white-space: nowrap;
+      /* overflow: hidden; */
+      /* text-overflow: ellipsis; */
+    }
+    
 
    
 
@@ -977,6 +985,45 @@
       // 右侧菜单过车数据
       loadVehiclePassData();
 
+      // WIFI 记录数据
+      loadWifiData();
+
+    }
+
+    // WIFI 记录数据
+    function loadWifiData(){
+      var token = Cookies.get("Admin-Token");
+      loadData( baseUrl + "/wifi/records", token, function(data){
+        var code = data.code;
+        if (code == 200) {
+          var messages = data.data;
+          showWifiData(messages);
+        }
+      });
+    }
+
+    // 展示 WIFI 数据
+    function showWifiData(messages){
+      
+      var wifiDataHtml = "";
+      for(var i = 0; i< messages.length; i++) {
+        wifiDataHtml = wifiDataHtml + "<div class=\"con_wifi_item\">";
+        wifiDataHtml = wifiDataHtml + " <div>";
+        wifiDataHtml = wifiDataHtml + "   <div class=\"con_wifi_item_left\">MAC：</div>";
+        wifiDataHtml = wifiDataHtml + "   <div class=\"con_wifi_item_right\">" + messages[i].mac + "</div>";
+        wifiDataHtml = wifiDataHtml + " </div>";
+        wifiDataHtml = wifiDataHtml + " <div>";
+        wifiDataHtml = wifiDataHtml + "   <div class=\"con_wifi_item_left\">时间：</div>";
+        wifiDataHtml = wifiDataHtml + "   <div class=\"con_wifi_item_right\">" + messages[i].startTime + "</div>";
+        wifiDataHtml = wifiDataHtml + " </div>";
+        wifiDataHtml = wifiDataHtml + " <div>";
+        wifiDataHtml = wifiDataHtml + "   <div class=\"con_wifi_item_left\">ESSID：</div>";
+        wifiDataHtml = wifiDataHtml + "   <div class=\"con_wifi_item_right word_break\">" + messages[i].essid + "</div>";
+        wifiDataHtml = wifiDataHtml + " </div>";
+        wifiDataHtml = wifiDataHtml + "</div>";
+
+      }
+      $("#con_detail_4 .con_wifi_items").html(wifiDataHtml);
     }
 
     // 加载右侧菜单过车数据
@@ -1005,7 +1052,6 @@
     function loadVehiclePassRecords() {
       var token = Cookies.get("Admin-Token");
       loadData(baseUrl + "/xqtc/records", token, function(data){
-        console.info(JSON.stringify(data))
         var code = data.code;
         if (code == 200) {
           var messages = data.data;
@@ -1679,96 +1725,7 @@
             </div>
           </div>
           <div class="con_wifi_items">
-            <div class="con_wifi_item">
-                <div>
-                  <div class="con_wifi_item_left">MAC：</div>
-                  <div class="con_wifi_item_right">48-23-DB-8A-19-74</div>
-              </div>
-              <div>
-                  <div class="con_wifi_item_left">时间：</div>
-                  <div class="con_wifi_item_right">2018-01-08 18:35:00</div>
-              </div>
-            </div>
-            <div class="con_wifi_item">
-                <div>
-                  <div class="con_wifi_item_left">MAC：</div>
-                  <div class="con_wifi_item_right">48-23-DB-8A-19-74</div>
-              </div>
-              <div>
-                  <div class="con_wifi_item_left">时间：</div>
-                  <div class="con_wifi_item_right">2018-01-08 18:35:00</div>
-              </div>
-            </div>
-            <div class="con_wifi_item">
-                <div>
-                  <div class="con_wifi_item_left">MAC：</div>
-                  <div class="con_wifi_item_right">48-23-DB-8A-19-74</div>
-              </div>
-              <div>
-                  <div class="con_wifi_item_left">时间：</div>
-                  <div class="con_wifi_item_right">2018-01-08 18:35:00</div>
-              </div>
-            </div>
-            <div class="con_wifi_item">
-                <div>
-                  <div class="con_wifi_item_left">MAC：</div>
-                  <div class="con_wifi_item_right">48-23-DB-8A-19-74</div>
-              </div>
-              <div>
-                  <div class="con_wifi_item_left">时间：</div>
-                  <div class="con_wifi_item_right">2018-01-08 18:35:00</div>
-              </div>
-            </div>
-            <div class="con_wifi_item">
-                <div>
-                  <div class="con_wifi_item_left">MAC：</div>
-                  <div class="con_wifi_item_right">48-23-DB-8A-19-74</div>
-              </div>
-              <div>
-                  <div class="con_wifi_item_left">时间：</div>
-                  <div class="con_wifi_item_right">2018-01-08 18:35:00</div>
-              </div>
-            </div>
-            <div class="con_wifi_item">
-                <div>
-                  <div class="con_wifi_item_left">MAC：</div>
-                  <div class="con_wifi_item_right">48-23-DB-8A-19-74</div>
-              </div>
-              <div>
-                  <div class="con_wifi_item_left">时间：</div>
-                  <div class="con_wifi_item_right">2018-01-08 18:35:00</div>
-              </div>
-            </div>
-            <div class="con_wifi_item">
-                <div>
-                  <div class="con_wifi_item_left">MAC：</div>
-                  <div class="con_wifi_item_right">48-23-DB-8A-19-74</div>
-              </div>
-              <div>
-                  <div class="con_wifi_item_left">时间：</div>
-                  <div class="con_wifi_item_right">2018-01-08 18:35:00</div>
-              </div>
-            </div>
-            <div class="con_wifi_item">
-                <div>
-                  <div class="con_wifi_item_left">MAC：</div>
-                  <div class="con_wifi_item_right">48-23-DB-8A-19-74</div>
-              </div>
-              <div>
-                  <div class="con_wifi_item_left">时间：</div>
-                  <div class="con_wifi_item_right">2018-01-08 18:35:00</div>
-              </div>
-            </div>
-            <div class="con_wifi_item">
-                <div>
-                  <div class="con_wifi_item_left">MAC：</div>
-                  <div class="con_wifi_item_right">48-23-DB-8A-19-74</div>
-              </div>
-              <div>
-                  <div class="con_wifi_item_left">时间：</div>
-                  <div class="con_wifi_item_right">2018-01-08 18:35:00</div>
-              </div>
-            </div>
+          </div>
         </div>
         </div>
       </div>

@@ -4,3 +4,4 @@
 /ROOT/
 /test/unit/coverage/
 /static/*
+/src/assets/**/*.js

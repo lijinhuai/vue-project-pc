@@ -245,7 +245,7 @@ export const singlePageRouter = [{
   meta: {
     title: '一标六实数据展示'
   },
-  component: _import('map/components/ybls')
+  component: _import('gzgl/components/ybls')
 }]
 
 // 所有上面定义的路由都要写在下面的routers里
