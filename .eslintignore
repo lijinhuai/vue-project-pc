@@ -2,6 +2,5 @@
 /config/
 /dist/
 /ROOT/
-**/*.js
 /test/unit/coverage/
 /static/*

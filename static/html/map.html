@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html>
-
 <head>
 
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -17,8 +16,27 @@
   <script src="../js/countUp.js"></script>
 
   <style>
-    /************ 左侧统计 ***************/
 
+    .head-container {
+      width: 100%;
+      height: 50px;
+      background: rgba(3,40,53,0.31);
+      box-shadow: inset 0 0 25px #0dc2fd;
+      color: #fff;
+      position: fixed;
+      top: 0px;
+      left: 0;
+      z-index: 1000;
+    }
+
+    .head-container .head_logo {
+      width: 322px;
+      height: 50px;
+      background: url("/static/image/js_logo1.png");
+      position: fixed;
+    }
+
+    /************ 左侧统计 ***************/
     .stat-container {
       width: 300px;
       height: 300px;
@@ -205,7 +223,7 @@
       height: 62px;
       line-height: 25px;
       padding-top: 6px;
-      background-color: rgba(56, 48, 48, 0.6);
+      background-color:rgba(56,48,48,0.6);
       border-top-left-radius: 10px 10px;
       writing-mode: vertical-lr;
       letter-spacing: 5px;
@@ -229,8 +247,8 @@
       background-color: rgba(56, 48, 48, 0.6);
       height: 400px;
     }
-    /************ 右侧菜菜单 - 子菜单 ***************/
 
+    /************ 右侧菜菜单 - 子菜单 ***************/
     .detail-sub-container {
       border-top: 3px solid rgb(190, 18, 18);
       width: 246px;
@@ -282,33 +300,31 @@
       width: 6px;
       height: 2px;
     }
-
     .detail-sub-container .detail-sub-content-box::-webkit-scrollbar-thumb {
       border-radius: 1px;
       background: #535353;
     }
-
     .detail-sub-container .detail-sub-content-box::-webkit-scrollbar-track {
       border-radius: 1px;
       background: #EDEDED;
     }
-    /************ 右侧菜菜单 - 子菜单 - 人脸 - 抓拍 ***************/
 
+    /************ 右侧菜菜单 - 子菜单 - 人脸 - 抓拍 ***************/
     .con_subdetail_face_1_item {
       display: block;
       height: 90px;
     }
 
     .con_subdetail_face_1_item .item_avatar {
-      width: 80px;
-      height: 80px;
+      width:80px;
+      height:80px;
       display: block;
       float: left;
     }
 
     .con_subdetail_face_1_item .item_avatar img {
-      width: 80px;
-      height: 80px;
+      width:80px;
+      height:80px;
     }
 
     .con_subdetail_face_1_item .item_info {
@@ -319,10 +335,11 @@
       font-size: 14px;
       line-height: 1.5rem;
     }
-    /************ 右侧菜菜单 - 子菜单 - 人脸 - 比中 ***************/
 
+    /************ 右侧菜菜单 - 子菜单 - 人脸 - 比中 ***************/
     .con_subdetail_face_2_item {
       display: block;
+
     }
 
     .con_subdetail_face_2_item .item-title {
@@ -338,18 +355,18 @@
     }
 
     .con_subdetail_face_2_item .item-title i {
-      float: left;
-      color: #0075c2;
+      float:left;
+      color:#0075c2;
     }
 
     .con_subdetail_face_2_item .item-title .item-title-name {
-      float: left;
+      float:left;
       margin-left: 5px;
     }
 
     .con_subdetail_face_2_item .item-title .item-title-time {
       float: right;
-      color: #cecbcb;
+      color:#cecbcb;
     }
 
     .con_subdetail_face_2_item .item-content {
@@ -359,16 +376,16 @@
     }
 
     .con_subdetail_face_2_item .item_avatar {
-      width: 70px;
-      height: 70px;
+      width:70px;
+      height:70px;
       display: block;
       float: left;
       margin-right: 8px;
     }
 
     .con_subdetail_face_2_item .item_avatar img {
-      width: 70px;
-      height: 70px;
+      width:70px;
+      height:70px;
     }
 
     .con_subdetail_face_2_item .item_info {
@@ -384,8 +401,173 @@
       font-size: 24px;
       margin-bottom: 2px;
     }
-    /******* 地图颜色覆盖 **********/
 
+    /************ 右侧菜菜单 - 过车 ***************/
+    #con_detail_3 .con_vehicle_pass {
+      display: block;
+      height: 400px;
+      overflow-y: auto;
+    }
+
+    #con_detail_3 .con_vehicle_pass::-webkit-scrollbar {
+      width: 6px;
+      height: 2px;
+    }
+    #con_detail_3 .con_vehicle_pass::-webkit-scrollbar-thumb {
+      border-radius: 1px;
+      background: #535353;
+    }
+    #con_detail_3 .con_vehicle_pass::-webkit-scrollbar-track {
+      border-radius: 1px;
+      background: #EDEDED;
+    }
+
+    #con_detail_3 .con_vehicle_pass_stat {
+      width: 100%;
+      height: 110px;
+      color: #cecbcb;
+      font-size: 14px;
+      padding-top: 10px;
+      line-height: 1.6rem;
+      background: rgba(3,40,53,0.87);
+      box-shadow: inset 0 0 20px #0dc2fd;
+      margin-bottom: 6px;
+      margin-top: 6px;
+    }
+
+    #con_detail_3 .con_vehicle_pass_stat .con_vehicle_pass_stat_total {
+      display: block;
+      font-size: 16px;
+      color: #FFFFFF;
+    }
+
+    #con_detail_3 .con_vehicle_pass_stat .con_vehicle_pass_stat_left {
+      width: 45%;
+      display: inline-block;
+      text-align: right;
+    }
+
+    #con_detail_3 .con_vehicle_pass_stat .con_vehicle_pass_stat_right {
+      width: 45%;
+      display: inline-block;
+    }
+
+    #con_detail_3 .con_vehicle_pass_record {
+      display: block;
+    }
+
+    #con_detail_3 .con_vehicle_pass_record_item {
+      height: 72px;
+      margin-bottom: 6px;
+    }
+
+    #con_detail_3 .con_vehicle_pass_record_item .item_photo {
+      width: 128px;
+      height: 72px;
+      display: inline-block;
+    }
+
+    #con_detail_3 .con_vehicle_pass_record_item .item_photo img {
+      width: 128px;
+      height: 72px;
+      display: inline-block;
+    }
+
+    #con_detail_3 .con_vehicle_pass_record_item .item_info {
+      display: block;
+      float: right;
+      height: 70px;
+      width: 108px;
+      color: #cecbcb;
+      font-size: 14px;
+      line-height: 1.2rem;
+    }
+
+    #con_detail_3 .item_info .item_info_plate {
+      color: #007FFF;
+      font-size: 20px;
+      margin-bottom: 6px;
+      margin-top: 3px;
+    }
+
+    #con_detail_3 .item_info .item_info_plate_yellow {
+      color: yellow !important;
+    }
+
+    #con_detail_3 .item_info .item_info_status_entry {
+      background-color: #685dff !important;
+    }
+
+    #con_detail_3 .item_info .item_info_status {
+      color: #FFFFFF;
+      background-color: #7a1b1b;
+      width: 29px;
+      height: 20px;
+      line-height: 20px;
+      padding: 0px 5px;
+    }
+
+    /************ 右侧菜菜单 - 过车 ***************/
+    #con_detail_4 .con_wifi_records {
+      display: block;
+      color:#FFFFFF;
+    }
+
+    #con_detail_4 .con_wifi_operator {
+      height: 25px;
+      line-height: 25px;
+    }
+
+    #con_detail_4 .con_wifi_more {
+      float: right;
+      margin-right: 5px;
+      color: #cecbcb;
+      font-size: 14px;
+    }
+
+    #con_detail_4 .con_wifi_items {
+      display: block;
+      height: 400px;
+      overflow-y: auto;
+    }
+
+    #con_detail_4 .con_wifi_items::-webkit-scrollbar {
+      width: 6px;
+      height: 2px;
+    }
+    #con_detail_4 .con_wifi_items::-webkit-scrollbar-thumb {
+      border-radius: 1px;
+      background: #535353;
+    }
+    #con_detail_4 .con_wifi_items::-webkit-scrollbar-track {
+      border-radius: 1px;
+      background: #EDEDED;
+    }
+
+    #con_detail_4 .con_wifi_items .con_wifi_item {
+      height: 50px;
+      line-height: 1.8rem;
+      margin-bottom: 15px;
+      margin-top: 5px;
+    }
+
+    #con_detail_4 .con_wifi_items .con_wifi_item_left {
+      width: 25%;
+      display: inline-block;
+      text-align: right;
+    }
+
+    #con_detail_4 .con_wifi_items .con_wifi_item_right {
+      width: 65%;
+      display: inline-block;
+      text-align: left;
+    }
+
+   
+
+
+
+    /******* 地图颜色覆盖 **********/
     .imap-popup-content-wrapper,
     .imap-popup-tip {
       background: rgba(20, 65, 170, 0.7);
@@ -394,84 +576,84 @@
 
     .imap-window {
       background-color: transparent;
-      color: #FFFFFF;
+      color:#FFFFFF;
     }
 
     .imap-overlay-pane {
-      z-index: 800;
+        z-index: 800;
     }
 
     .imap-label {
       border: 0px;
       background: rgba(255, 255, 255, 0);
     }
+
     /************** INFOWINDOW 样式 *****************************/
-
     .infowindow-container {
-      width: 280px;
-    }
+			width: 280px;
+		}
 
-    .infowindow-container .infowindow-title {
-      position: relative;
+		.infowindow-container .infowindow-title {
+			position: relative;
       background-color: rgba(20, 65, 170, 0.7);
-      border-bottom: 1px solid #CCC;
-      border-radius: 5px 5px 0 0;
-    }
+			border-bottom: 1px solid #CCC;
+			border-radius: 5px 5px 0 0;
+		}
 
-    .infowindow-container .infowindow-title-content {
-      display: inline-block;
+		.infowindow-container .infowindow-title-content {
+			display: inline-block;
       color: #FFFFFF;
-      font-size: 14px;
-      font-weight: bold;
-      line-height: 31px;
-      padding: 0 10px;
-    }
+			font-size: 14px;
+			font-weight: bold;
+			line-height: 31px;
+			padding: 0 10px;
+		}
 
-    .infowindow-container .infowindow-title-close {
-      position: absolute;
-      top: 5px;
-      right: 10px;
-      transition-duration: 0.25s;
+		.infowindow-container .infowindow-title-close {
+			position: absolute;
+			top: 5px;
+			right: 10px;
+			transition-duration: 0.25s;
       color: #FFFFFF;
-    }
+		}
 
-    .infowindow-container .infowindow-content {
-      font-size: 12px;
-      padding: 6px;
-      line-height: 20px;
-      background-color: rgba(20, 65, 170, 0.7);
-      height: 67px;
+		.infowindow-container .infowindow-content {
+			font-size: 12px;
+			padding: 6px;
+			line-height: 20px;
+			background-color: rgba(20, 65, 170, 0.7);
+			height:67px;
       color: #FFFFFF;
-    }
+		}
 
-    .infowindow-container .infowindow-content-image {
-      float: left;
-      margin-right: 10px;
-      width: 100px;
-      height: 60px;
-    }
+		.infowindow-container .infowindow-content-image {
+			float: left;
+			margin-right: 10px;
+			width: 100px;
+			height: 60px;
+		}
 
-    .infowindow-container .infowindow-marker {
-      height: 0px;
-      width: 100%;
-      clear: both;
-      text-align: center;
-      position: relative;
-      top: -18px;
-      margin: 0px auto;
-    }
+		.infowindow-container .infowindow-marker {
+			height: 0px;
+			width: 100%;
+			clear: both;
+			text-align: center;
+			position: relative;
+			top: -18px;
+			margin: 0px auto;
+		}
 
     .infowindow-container .infowindow-marker i {
-      font-size: 32px;
-      color: rgba(20, 65, 170, 0.7);
+        font-size: 32px;
+        color: rgba(20, 65, 170, 0.7);
     }
-    /************** 动态感知窗样式 *****************************/
 
+    /************** 动态感知窗样式 *****************************/
     .dynamic-container {
       background-image: url("/static/image/marker_dynamic_bg.png");
-      background-repeat: no-repeat;
-      background-size: 100% 100%;
-      -moz-background-size: 100% 100%;
+      background-repeat:no-repeat;
+      background-size:100% 100%;
+      -moz-background-size:100% 100%;
       width: 200px;
     }
 
@@ -504,7 +686,7 @@
       padding: 0px 6px 8px;
       line-height: 20px;
       /* background-color: rgba(20, 65, 170, 0.7); */
-      height: 80px;
+      height:80px;
       color: #FFFFFF;
       margin-left: 8px;
       margin-top: -3px;
@@ -534,10 +716,9 @@
     }
 
     .dynamic-container .dynamic-marker i {
-      font-size: 32px;
-      color: rgba(20, 65, 170, 0.7);
+        font-size: 32px;
+        color: rgba(20, 65, 170, 0.7);
     }
-
   </style>
 
   <script>
@@ -615,7 +796,7 @@
     });
 
     // 取消动态感知
-    function hiddenDynamicData() {
+    function hiddenDynamicData (){
       if (map && _dynamic_marker) {
         map.getOverlayLayer().removeOverlay(_dynamic_marker);
       }
@@ -628,7 +809,7 @@
       createEventSource(successCallBack);
 
       // 加载一标六实数据
-      setInterval(loadData(baseUrl + "/houses/amounts", token, function (data) {
+      setInterval(loadData(baseUrl+"/houses/amounts", token, function (data) {
         var code = data.code;
         if (code == 200) {
           var ybls = data.data;
@@ -650,25 +831,25 @@
     }
 
 
-    function successCallBack(e) {
+    function successCallBack(e){
       var data = JSON.parse(e.data);
-      var code = data.code;
-      if (code == 200 && data.dataType == 'YBLS') {
-        var ybls = data.data;
-        countUp('syrk', ybls.syrk);
-        countUp('syfw', ybls.syfw);
-        countUp('sydw', ybls.sydw);
-        countUp('syafss', ybls.syafss);
-        countUp('syllzb', ybls.syllzb);
-        countUp('syjq', ybls.syjq);
-      } else if (code == 200 && data.dataType == 'YT') {
-        showDynamicData(data.data);
-      }
+        var code = data.code;
+        if (code == 200&&data.dataType=='YBLS') {
+          var ybls = data.data;
+          countUp('syrk', ybls.syrk);
+          countUp('syfw', ybls.syfw);
+          countUp('sydw', ybls.sydw);
+          countUp('syafss', ybls.syafss);
+          countUp('syllzb', ybls.syllzb);
+          countUp('syjq', ybls.syjq);
+        } else if (code == 200&&data.dataType=='YT') {
+          showDynamicData(data.data);
+        }
     }
 
-    function createEventSource(successCallBack) {
+    function createEventSource(successCallBack){
       var token = Cookies.get("Admin-Token");
-      var url = baseUrl + '/sseEmitter/YBLS,YT?Authorization=' + token;
+      var url = baseUrl+'/sseEmitter/YBLS,YT?Authorization=' + token;
       if (!!window.EventSource) {
         var source = new EventSource(url);
         source.addEventListener('message', function (e) {
@@ -685,16 +866,14 @@
         source.addEventListener('close', function (e) {
           console.log("Connection closed");
         }, true);
-      } else {
-        console.warn("您的浏览器不支持Server-Sent Events")
       }
     }
 
     // 展示推送的动态感知数据 - 抓拍
-    function showDynamicData(message) {
+    function showDynamicData(message){
 
       // 地图展示动态感知数据
-      if ($("#operator-dynamic").is(":checked")) {
+      if ($("#operator-dynamic").is(":checked")){
         showDynamicDataInMap(message);
       }
 
@@ -704,7 +883,7 @@
 
     var _dynamic_marker;
     // 地图展示动态感知数据
-    function showDynamicDataInMap(message) {
+    function showDynamicDataInMap(message){
 
       // 地图展示动态感知 Marker
       addMarkerWithLabel(message.cameraLng, message.cameraLat, message.cameraId, 'dynamic', message);
@@ -740,11 +919,11 @@
       _dynamic_marker.type = type;
       map.getOverlayLayer().addOverlay(_dynamic_marker, false);
 
-      var content = assembleLabelContentForDynamicData("动态感知", "http://116.228.125.236:18181/" + origin.faceImageUrl +
-        ".jpg", origin.cameraName + "</br>" + origin.timeBegin);
+      var content = assembleLabelContentForDynamicData("动态感知", picBaseUrl + "/face/" + origin.faceImageUrl + ".jpg", origin.cameraName + "</br>" + origin.timeBegin);
       // marker label
-      _dynamic_marker.setLabel(
-        content, {
+      _dynamic_marker.setLabel (
+        content,
+        {
           "anchor": IMAP.Constants.TOP_CENTER,
           "visible": true,
           "offset": new IMAP.Pixel(0, -134)
@@ -752,8 +931,8 @@
       );
     }
 
-    function assembleLabelContentForDynamicData(title, url, context) {
-      var content = "<div class=\"dynamic-container\">"
+    function assembleLabelContentForDynamicData (title, url, context) {
+      var content ="<div class=\"dynamic-container\">"
       content = content + "<div class=\"dynamic-title\">"
       content = content + "<div class=\"dynamic-title-content\">";
       content = content + title;
@@ -787,7 +966,7 @@
     }
 
     // 右侧菜单数据加载
-    function loadDefaultMenuDatas() {
+    function loadDefaultMenuDatas (){
 
       // 右侧菜单人脸识别数据 - 抓拍
       loadFaceMsgData();
@@ -795,15 +974,112 @@
       // 右侧菜单人脸识别数据 - 比中
       loadFaceSimilarData();
 
+      // 右侧菜单过车数据
+      loadVehiclePassData();
+
+    }
+
+    // 加载右侧菜单过车数据
+    function loadVehiclePassData () {
+
+      // 加载过车数据统计
+      loadVehicleStat();
+
+      // 加载过车记录数据
+      loadVehiclePassRecords();
+    }
+
+    // 加载过车统计数据
+    function loadVehicleStat() {
+      var token = Cookies.get("Admin-Token");
+      loadData( baseUrl + "/xqtc/stat", token, function(data){
+        var code = data.code;
+        if (code == 200) {
+          var message = data.data;
+          showVehiclePassStatData(message);
+        }
+      });
+    }
+
+    // 加载过车统计数据
+    function loadVehiclePassRecords() {
+      var token = Cookies.get("Admin-Token");
+      loadData(baseUrl + "/xqtc/records", token, function(data){
+        console.info(JSON.stringify(data))
+        var code = data.code;
+        if (code == 200) {
+          var messages = data.data;
+          showVehiclePassStatRecords(messages);
+        }
+      });
+    }
+
+    // 展示过车统计记录
+    function showVehiclePassStatRecords(messages) {
+      var passRecordsHtml = "";
+      for(var i = 0; i< messages.length; i++) {
+        console.info(JSON.stringify(messages[i]))
+
+        var dtime = messages[i].tm.substring(5);
+        var dpic = "";
+        var din = "";
+        if (messages[i].status == "进入") {
+          dpic = messages[i].inimg;
+          din = "item_info_status_entry";
+        } else {
+          dpic = messages[i].outimg;
+        }
+
+        var pcolor = "";
+        if (messages[i].platecolor != "蓝色") {
+          pcolor = "item_info_plate_yellow";
+        }
+
+        passRecordsHtml = passRecordsHtml + "<div class=\"con_vehicle_pass_record_item\">";
+        passRecordsHtml = passRecordsHtml + " <div class=\"item_photo\">";
+        passRecordsHtml = passRecordsHtml + "   <img src=\"" + picBaseUrl + "/car/" + dpic + "\"></img>";
+        passRecordsHtml = passRecordsHtml + " </div>";
+        passRecordsHtml = passRecordsHtml + " <div class=\"item_info\">";
+        passRecordsHtml = passRecordsHtml + "   <div class=\"item_info_plate " + pcolor + "\">" + messages[i].plateid + "</div>";
+        passRecordsHtml = passRecordsHtml + "   <div>" + dtime + "</div>";
+        passRecordsHtml = passRecordsHtml + "   <div class=\"item_info_status " + din + "\">" + messages[i].status + "</div>";
+        passRecordsHtml = passRecordsHtml + "  </div>";
+        passRecordsHtml = passRecordsHtml + "</div>";
+      }
+      $("#con_detail_3 .con_vehicle_pass_record").html(passRecordsHtml);
+    }
+
+    // 展示过车统计数据
+    function showVehiclePassStatData(message) {
+
+      var passStatHtml = "";
+      passStatHtml = passStatHtml + "  <div class=\"con_vehicle_pass_stat_total\">";
+      passStatHtml = passStatHtml + "    <div class=\"con_vehicle_pass_stat_left\">车辆登记数：</div>";
+      passStatHtml = passStatHtml + "    <div class=\"con_vehicle_pass_stat_right\">" + message.v_total + "</div>";
+      passStatHtml = passStatHtml + "  </div>";
+      passStatHtml = passStatHtml + "  <div>";
+      passStatHtml = passStatHtml + "    <div class=\"con_vehicle_pass_stat_left\">今日进入：</div>";
+      passStatHtml = passStatHtml + "    <div class=\"con_vehicle_pass_stat_right\">" + message.v_entry + "</div>";
+      passStatHtml = passStatHtml + "  </div>";
+      passStatHtml = passStatHtml + "  <div>";
+      passStatHtml = passStatHtml + "    <div class=\"con_vehicle_pass_stat_left\">今日外出：</div>";
+      passStatHtml = passStatHtml + "    <div class=\"con_vehicle_pass_stat_right\">" + message.v_exit + "</div>";
+      passStatHtml = passStatHtml + "  </div>";
+      passStatHtml = passStatHtml + "  <div>";
+      passStatHtml = passStatHtml + "    <div class=\"con_vehicle_pass_stat_left\">滞留数：</div>";
+      passStatHtml = passStatHtml + "    <div class=\"con_vehicle_pass_stat_right\">" + message.v_detention + "</div>";
+      passStatHtml = passStatHtml + "  </div>";
+
+      $("#con_detail_3 .con_vehicle_pass_stat").html(passStatHtml);
     }
 
     // 加载抓拍数据 - 抓拍
-    function loadFaceSimilarData() {
+    function loadFaceSimilarData(){
 
       var token = Cookies.get("Admin-Token");
 
       // 右侧菜单人脸识别数据 - 比中
-      loadData(baseUrl + "/face/similar", token, function (data) {
+      loadData(baseUrl+"/face/similar", token, function (data) {
         var code = data.code;
         if (code == 200) {
           var messages = data.data;
@@ -813,12 +1089,12 @@
     }
 
     // 人脸数据(比中)内容展示
-    function showMenuContentForFaceSimilar(messages) {
+    function showMenuContentForFaceSimilar(messages){
 
       var token = Cookies.get("Admin-Token");
 
       var faceSimilarHtml = "";
-      for (var i = 0; i < messages.length; i++) {
+      for(var i = 0; i< messages.length; i++) {
 
         var carameName = messages[i].cameraName;
         if (carameName.substring(0, 4) == '万盛金邸') {
@@ -829,23 +1105,19 @@
         faceSimilarHtml = faceSimilarHtml + " <div class=\"item-title\">";
         faceSimilarHtml = faceSimilarHtml + "   <i class=\"iconfont\">&#xe651;</i>";
         faceSimilarHtml = faceSimilarHtml + "   <div class=\"item-title-name\">" + carameName + "</div>";
-        faceSimilarHtml = faceSimilarHtml + "   <div class=\"item-title-time\">" + messages[i].timeBegin + "</div>";
+        faceSimilarHtml = faceSimilarHtml + "   <div class=\"item-title-time\">"+ messages[i].timeBegin +"</div>";
         faceSimilarHtml = faceSimilarHtml + " </div>";
         faceSimilarHtml = faceSimilarHtml + " <div class=\"item-content\">";
         faceSimilarHtml = faceSimilarHtml + "   <div class=\"item_avatar\">";
-        faceSimilarHtml = faceSimilarHtml + "     <img src=\"" + picBaseUrl + messages[i].faceImageUrl +
-          ".jpg\"></img>";
+        faceSimilarHtml = faceSimilarHtml + "     <img src=\""+ picBaseUrl + "/face/" + messages[i].faceImageUrl + ".jpg\"></img>";
         faceSimilarHtml = faceSimilarHtml + "   </div>";
         faceSimilarHtml = faceSimilarHtml + "   <div class=\"item_avatar\">";
-        faceSimilarHtml = faceSimilarHtml + "     <img src=\"" + baseUrl + "/face/similar/" + messages[i].hitZjhm +
-          "/zp?Authorization=" + token + "\"></img>";
+        faceSimilarHtml = faceSimilarHtml + "     <img src=\""+baseUrl+"/face/similar/" + messages[i].hitZjhm + "/zp?Authorization=" + token +"\"></img>";
         faceSimilarHtml = faceSimilarHtml + "   </div>";
         faceSimilarHtml = faceSimilarHtml + "   <div class=\"item_info\">";
-        faceSimilarHtml = faceSimilarHtml + "     <div class=\"item_info_contrast\">" + messages[i].similarity +
-          "</div>";
+        faceSimilarHtml = faceSimilarHtml + "     <div class=\"item_info_contrast\">" + messages[i].similarity + "</div>";
         faceSimilarHtml = faceSimilarHtml + "     <div>" + messages[i].hitXm + "</div>";
-        faceSimilarHtml = faceSimilarHtml + "     <div title=\"" + messages[i].hitZjhm +
-          "\"><img src=\"/static/image/sfz.jpg\" width=\"20\" /></div>";
+        faceSimilarHtml = faceSimilarHtml + "     <div title=\""+ messages[i].hitZjhm +"\"><img src=\"/static/image/sfz.jpg\" width=\"20\" /></div>";
         faceSimilarHtml = faceSimilarHtml + "   </div>";
         faceSimilarHtml = faceSimilarHtml + "  </div>";
         faceSimilarHtml = faceSimilarHtml + "</div>";
@@ -855,12 +1127,12 @@
     }
 
     // 加载人脸数据 - 比中
-    function loadFaceMsgData() {
+    function loadFaceMsgData(){
 
       var token = Cookies.get("Admin-Token");
 
       // 右侧菜单人脸识别数据 - 抓拍
-      loadData(baseUrl + "/face/msg", token, function (data) {
+      loadData(baseUrl+"/face/msg", token, function (data) {
         var code = data.code;
         if (code == 200) {
           var messages = data.data;
@@ -873,19 +1145,18 @@
     function showMenuContentForFaceMsg(messages) {
 
       var faceMsgHtml = "";
-      for (var i = 0; i < messages.length; i++) {
+      for(var i = 0; i< messages.length; i++) {
         faceMsgHtml = faceMsgHtml + assembleFaceMsgItem(messages[i]);
       }
 
       $("#con_subdetail_face_1").html(faceMsgHtml);
     }
 
-    function assembleFaceMsgItem(message) {
+    function assembleFaceMsgItem(message){
       var faceMsgItemHtml = "";
       faceMsgItemHtml = faceMsgItemHtml + "<div class=\"con_subdetail_face_1_item\">";
       faceMsgItemHtml = faceMsgItemHtml + " <div class=\"item_avatar\">";
-      faceMsgItemHtml = faceMsgItemHtml + "   <img src=\"" + picBaseUrl + message.faceImageUrl +
-        ".jpg\" onerror=\"this.src='/static/image/default_nophoto.png'\"></img>";
+      faceMsgItemHtml = faceMsgItemHtml + "   <img src=\"" + picBaseUrl + "/face/" + message.faceImageUrl + ".jpg\" onerror=\"this.src='/static/image/default_nophoto.png'\"></img>";
       faceMsgItemHtml = faceMsgItemHtml + " </div>";
       faceMsgItemHtml = faceMsgItemHtml + " <div class=\"item_info\">";
       faceMsgItemHtml = faceMsgItemHtml + "   <div>" + message.cameraName + "</div>";
@@ -915,37 +1186,18 @@
       // 加载 WIFI 嗅探设备
       loadWifiDeviceLocations();
 
-      loadVehicleStat();
-      loadVehiclePassRecords();
-    }
-
-    // 加载过车统计数据
-    function loadVehicleStat() {
-      var token = Cookies.get("Admin-Token");
-      loadData("http://localhost:8081/api/xqtc/stat", token, function (data) {
-        console.info("data:" + JSON.stringify(data));
-      });
-    }
-
-    // 加载过车统计数据
-    function loadVehiclePassRecords() {
-      var token = Cookies.get("Admin-Token");
-      loadData("http://localhost:8081/api/xqtc/records", token, function (data) {
-        console.info("data:" + JSON.stringify(data));
-      });
     }
 
     // 加载 WIFI 嗅探设备
     function loadWifiDeviceLocations() {
       var token = Cookies.get("Admin-Token");
-      loadData("http://localhost:8081/api/wifi/locations", token, function (data) {
+      loadData("http://localhost:8081/api/wifi/locations", token, function(data){
         var code = data.code;
         if (code == 200) {
           var locations = data.data;
           for (var i = 0; i < locations.length; i++) {
             if (locations[i].longitude != "" && locations[i].latitude != "") {
-              addMarker(locations[i].longitude, locations[i].latitude, locations[i].equipmentNum, "wifi", locations[
-                i]);
+              addMarker(locations[i].longitude, locations[i].latitude, locations[i].equipmentNum, "wifi", locations[i]);
             }
           }
         }
@@ -953,9 +1205,9 @@
     }
 
     // 加载安防措施定位
-    function loadCameraLocations() {
+    function loadCameraLocations(){
       var token = Cookies.get("Admin-Token");
-      loadData(baseUrl + "/camera/locations", token, function (data) {
+      loadData(baseUrl+"/camera/locations", token, function(data){
         var code = data.code;
         if (code == 200) {
           var locations = data.data;
@@ -969,9 +1221,9 @@
     }
 
     // 加载小区出入口定位
-    function loadXqxxLocations() {
+    function loadXqxxLocations(){
       var token = Cookies.get("Admin-Token");
-      loadData(baseUrl + "/xqxx/locations", token, function (data) {
+      loadData(baseUrl+"/xqxx/locations", token, function(data){
         var code = data.code;
         if (code == 200) {
           var locations = data.data;
@@ -987,7 +1239,7 @@
     // 加载实有单位
     function loadDwLocations() {
       var token = Cookies.get("Admin-Token");
-      loadData(baseUrl + "/dwxx/locations", token, function (data) {
+      loadData(baseUrl+"/dwxx/locations", token, function (data) {
         var code = data.code;
         if (code == 200) {
           var locations = data.data;
@@ -1003,7 +1255,7 @@
     // 加载实有房屋
     function loadHouseLocations() {
       var token = Cookies.get("Admin-Token");
-      loadData(baseUrl + "/houses/locations", token, function (data) {
+      loadData(baseUrl+"/houses/locations", token, function (data) {
         var code = data.code;
         if (code == 200) {
           var locations = data.data;
@@ -1015,9 +1267,9 @@
     }
 
     // 展示某个类型的坐标信息
-    function showLocationsByType(type) {
+    function showLocationsByType(type){
       var overlays = map.getOverlayLayer().getOverlays();
-      for (var i in overlays) {
+      for(var i in overlays){
         if (overlays[i].type == type) {
           overlays[i].visible(true);
         }
@@ -1025,9 +1277,9 @@
     }
 
     // 隐藏某个类型的坐标信息
-    function hiddenLocationsByType(type) {
+    function hiddenLocationsByType(type){
       var overlays = map.getOverlayLayer().getOverlays();
-      for (var i in overlays) {
+      for(var i in overlays){
         if (overlays[i].type == type) {
           overlays[i].visible(false);
         }
@@ -1081,15 +1333,15 @@
     // 子菜单切换
     function setSubTab(prefix, model, index) {
 
-      console.info("setSubTab:" + prefix + ":" + model + ":" + index);
+      console.info("setSubTab:" + prefix + ":" + model + ":" + index );
 
       // 菜单展示效果
       $("." + prefix + "_" + model).removeClass("hover");
       $("#" + prefix + "_" + model + "_" + index).addClass("hover");
 
       // 菜单对应内容切换
-      $(".con_" + prefix + "_" + model).css('display', 'none');
-      $("#con_" + prefix + "_" + model + "_" + index).css('display', 'block');
+      $(".con_" + prefix + "_" + model).css('display','none');
+      $("#con_" + prefix + "_" + model + "_" + index).css('display','block');
     }
 
     // 添加点标注
@@ -1119,29 +1371,24 @@
     }
 
     var _current_marker;
-
     function addMarkerClickEvt(type, origin, marker) {
 
       // 针对不同数据类型添加不同的 InfoWindow
       var content = "";
       var token = Cookies.get("Admin-Token");
       if (type == "house") {
-        content = assembleInfoWindowContent("实有房屋", baseUrl + "/houses/" + origin.cjbh + "/photo?Authorization=" +
-          token, "地址：" + origin.mlph);
+        content = assembleInfoWindowContent("实有房屋", baseUrl+"/houses/" + origin.cjbh +"/photo?Authorization=" +token, "地址：" + origin.mlph);
       } else if (type == "dwxx") {
-        content = assembleInfoWindowContent("实有单位", baseUrl + "/dwxx/" + origin.dwbh + "/photo?Authorization=" + token,
-          "名称：" + origin.dwmc);
+        content = assembleInfoWindowContent("实有单位", baseUrl+"/dwxx/" + origin.dwbh + "/photo?Authorization=" +token ,"名称：" + origin.dwmc);
       } else if (type == 'xqxx') {
-        content = assembleInfoWindowContent("小区出入口", baseUrl + "/xqxx/" + origin.crkbh + "/photo?Authorization=" +
-          token, "名称：" + origin.crkmc);
+        content = assembleInfoWindowContent("小区出入口", baseUrl+"/xqxx/" + origin.crkbh + "/photo?Authorization=" +token ,"名称：" + origin.crkmc);
       } else if (type == 'camera') {
-        content = assembleInfoWindowContent("实有安防设施", baseUrl + "/camera/" + origin.xh + "/photo?Authorization=" +
-          token, "名称：" + origin.name);
+        content = assembleInfoWindowContent("实有安防设施", baseUrl+"/camera/" + origin.xh + "/photo?Authorization=" +token ,"名称：" + origin.name);
       }
 
       // 图标点击事件
       if (content != "") {
-        marker.addEventListener(IMAP.Constants.CLICK, function (evt) {
+        marker.addEventListener(IMAP.Constants.CLICK, function(evt) {
 
           // 如果其他 Marker 打开了消息框，则关闭
           if (_current_marker) {
@@ -1151,14 +1398,15 @@
           // 打开消息框
           _current_marker = this;
           var lnglat = this.getPosition();
-          this.openInfoWindow(
-            content, {
-              size: new IMAP.Size(320, 110),
+          this.openInfoWindow (
+            content,
+            {
+              size : new IMAP.Size(320, 110),
               position: lnglat,
-              autoPan: false,
-              offset: new IMAP.Pixel(160, 75),
-              anchor: IMAP.Constants.CENTER,
-              type: IMAP.Constants.OVERLAY_INFOWINDOW_CUSTOM,
+              autoPan : false,
+              offset : new IMAP.Pixel(160, 75),
+              anchor:IMAP.Constants.CENTER,
+              type:IMAP.Constants.OVERLAY_INFOWINDOW_CUSTOM,
               visible: true
             }
           );
@@ -1166,8 +1414,8 @@
       }
     }
 
-    function assembleInfoWindowContent(title, url, context) {
-      var content = "<div class=\"infowindow-container\">"
+    function assembleInfoWindowContent (title, url, context) {
+      var content ="<div class=\"infowindow-container\">"
       content = content + "<div class=\"infowindow-title\">"
       content = content + "<div class=\"infowindow-title-content\">";
       content = content + title;
@@ -1188,7 +1436,7 @@
     }
 
     // 关闭消息窗
-    function closeInfoWindow() {
+    function closeInfoWindow(){
       if (map && _current_marker) {
         _current_marker.closeInfoWindow();
       }
@@ -1230,14 +1478,17 @@
 
     //打开一标六实详细信息页面
     function openYblsDetail() {
-      window.open(serviceUrl + "/#/ybls");
+      window.open(serviceUrl+"/#/ybls");
     }
-
   </script>
 </head>
 
 <body>
   <div id="map" class="map_contaner"></div>
+  <div class="head-container">
+      <div class="head_logo" src="s/tc_case.html"></div>
+  </div>
+
   <!-- 一标六尺 -->
   <div class="stat-container">
     <div class="stat-box">
@@ -1297,148 +1548,250 @@
     </div>
   </div>
 
-  <!-- 地图操作按钮 -->
-  <div class="operator-container">
-    <div class="operator-ops">
-      <label class="operator-label">
-        <input class="operator-radio" type="checkbox" id="operator-dynamic" name="operator-dynamic" checked>
-        <span class="operator-checkbox operator-input"></span>
-        动态感知
-      </label>
-      <label class="operator-label">
-        <input class="operator-radio" type="checkbox" name="operator-house" checked>
-        <span class="operator-checkbox operator-input"></span>
-        实有房屋
-      </label>
-      <label class="operator-label">
-        <input class="operator-radio" type="checkbox" name="operator-dwxx" checked>
-        <span class="operator-checkbox operator-input"></span>
-        实有单位
-      </label>
-      <label class="operator-label">
-        <input class="operator-radio" type="checkbox" name="operator-camera" checked>
-        <span class="operator-checkbox operator-input"></span>
-        实有安防设施
-      </label>
-      <label class="operator-label">
-        <input class="operator-radio" type="checkbox" name="operator5">
-        <span class="operator-checkbox operator-input"></span>
-        实有力量
-      </label>
-      <label class="operator-label">
-        <input class="operator-radio" type="checkbox" name="operator-xqxx" checked>
-        <span class="operator-checkbox operator-input"></span>
-        小区出入口
-      </label>
-      <label class="operator-label">
-        <input class="operator-radio" type="checkbox" name="operator-wifi" checked>
-        <span class="operator-checkbox operator-input"></span>
-        WIFI嗅探
-      </label>
-    </div>
+<!-- 地图操作按钮 -->
+<div class="operator-container">
+  <div class="operator-ops">
+    <label class="operator-label">
+      <input class="operator-radio" type="checkbox" id="operator-dynamic" name="operator-dynamic" checked>
+      <span class="operator-checkbox operator-input"></span>
+      动态感知
+    </label>
+    <label class="operator-label">
+      <input class="operator-radio" type="checkbox" name="operator-house" checked>
+      <span class="operator-checkbox operator-input"></span>
+      实有房屋
+    </label>
+    <label class="operator-label">
+      <input class="operator-radio" type="checkbox" name="operator-dwxx" checked>
+      <span class="operator-checkbox operator-input"></span>
+      实有单位
+    </label>
+    <label class="operator-label">
+      <input class="operator-radio" type="checkbox" name="operator-camera" checked>
+      <span class="operator-checkbox operator-input"></span>
+      实有安防设施
+    </label>
+    <label class="operator-label">
+      <input class="operator-radio" type="checkbox" name="operator5">
+      <span class="operator-checkbox operator-input"></span>
+      实有力量
+    </label>
+    <label class="operator-label">
+      <input class="operator-radio" type="checkbox" name="operator-xqxx" checked>
+      <span class="operator-checkbox operator-input"></span>
+      小区出入口
+    </label>
+    <label class="operator-label">
+      <input class="operator-radio" type="checkbox" name="operator-wifi" checked>
+      <span class="operator-checkbox operator-input"></span>
+      WIFI嗅探
+    </label>
   </div>
+</div>
 
-  <div class="detail-container">
-    <div class="detail-tab-container detail-tab-border">
-      <div class="detail-menu-box ">
-        <ul>
-          <li id="detail1" onclick="setTab('detail',1,5)" class="hover">
-            人脸
-          </li>
-          <li id="detail2" onclick="setTab('detail',2,5)">
-            开门
-          </li>
-          <li id="detail3" onclick="setTab('detail',3,5)">
-            过车
-          </li>
-          <li id="detail4" onclick="setTab('detail',4,5)">
-            WIFI
-          </li>
-          <li id="detail5" onclick="setTab('detail',5,5)">
-            消防
-          </li>
-        </ul>
-      </div>
-      <div class="detail-content-box">
-        <!-- 人脸标签页内容 -->
-        <div id="con_detail_1">
-          <div class="detail-sub-container">
-            <div class="detail-sub-tab-container detail-sub-tab-border">
-              <div class="detail-sub-menu-box ">
-                <ul>
-                  <li class="subdetail_face hover" id="subdetail_face_1" onclick="setSubTab('subdetail', 'face', 1)">
-                    抓拍
-                  </li>
-                  <li class="subdetail_face" id="subdetail_face_2" onclick="setSubTab('subdetail', 'face', 2)">
-                    比中
-                  </li>
-                </ul>
-              </div>
-              <div class="detail-sub-content-box">
-                <div class="con_subdetail_face" id="con_subdetail_face_1">
-                </div>
-                <div class="con_subdetail_face" id="con_subdetail_face_2" style="display:none">
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div id="con_detail_2" style="display:none">
+<div class="detail-container">
+  <div class="detail-tab-container detail-tab-border">
+    <div class="detail-menu-box ">
+      <ul>
+        <li id="detail1" onclick="setTab('detail',1,5)" class="hover">
+          人脸
+        </li>
+        <li id="detail2" onclick="setTab('detail',2,5)" >
           开门
-        </div>
-        <div id="con_detail_3" style="display:none">
-          <div class="con_vehicle_pass">
-            <div class="con_vehicle_pass_stat">
-              <div class="con_vehicle_pass_stat_total">
-                <div style="width:40%">车辆登记数：</div>
-                <div style="width:60%">122</div>
-              </div>
-              <div>
-                <div style="width:40%">今日进入：</div>
-                <div style="width:60%">300</div>
-              </div>
-              <div>
-                <div style="width:40%">今日外出</div>
-                <div style="width:60%">200</div>
-              </div>
+        </li>
+        <li id="detail3" onclick="setTab('detail',3,5)">
+          过车
+        </li>
+        <li id="detail4" onclick="setTab('detail',4,5)">
+          WIFI
+        </li>
+        <li id="detail5" onclick="setTab('detail',5,5)">
+          消防
+        </li>
+      </ul>
+    </div>
+    <div class="detail-content-box">
+      <!-- 人脸标签页内容 -->
+      <div id="con_detail_1" >
+        <div class="detail-sub-container">
+          <div class="detail-sub-tab-container detail-sub-tab-border">
+            <div class="detail-sub-menu-box ">
+              <ul>
+                <li class="subdetail_face hover" id="subdetail_face_1" onclick="setSubTab('subdetail', 'face', 1)">
+                  抓拍
+                </li>
+                <li class="subdetail_face" id="subdetail_face_2" onclick="setSubTab('subdetail', 'face', 2)">
+                  比中
+                </li>
+              </ul>
             </div>
-            <div class="con_vehicle_pass_record">
-              <div class="con_subdetail_face_1_item">
-                <div class="item_avatar">
-                  <img src="http://116.228.125.236:18181.jpg" onerror="this.src='/static/image/default_nophoto.png'"></img>";
-                </div>
-                <div class="item_info">
-                  <div>name</div>
-                  <div>time</div>
-                </div>
+            <div class="detail-sub-content-box">
+              <div class="con_subdetail_face" id="con_subdetail_face_1">
+              </div>
+              <div class="con_subdetail_face" id="con_subdetail_face_2" style="display:none">
               </div>
             </div>
           </div>
         </div>
-        <div id="con_detail_4" style="display:none">
-          WIFI
+      </div>
+      <div id="con_detail_2" style="display:none">
+        开门
+      </div>
+      <div id="con_detail_3" style="display:none">
+        <div class="con_vehicle_pass">
+          <div class="con_vehicle_pass_stat">
+            <div class="con_vehicle_pass_stat_total">
+              <div class="con_vehicle_pass_stat_left">车辆登记数：</div>
+              <div class="con_vehicle_pass_stat_right">122</div>
+            </div>
+            <div>
+              <div class="con_vehicle_pass_stat_left">今日进入：</div>
+              <div class="con_vehicle_pass_stat_right">300</div>
+            </div>
+            <div>
+              <div class="con_vehicle_pass_stat_left">今日外出：</div>
+              <div class="con_vehicle_pass_stat_right">200</div>
+            </div>
+            <div>
+              <div class="con_vehicle_pass_stat_left">滞留数：</div>
+              <div class="con_vehicle_pass_stat_right">200</div>
+            </div>
+          </div>
+          <div class="con_vehicle_pass_record">
+            <div class="con_vehicle_pass_record_item">
+              <div class="item_photo">
+                <img src="http://116.228.125.236:18181/20171223/kOnMI-cOLGe+nQvpi3suCQ==@1.jpg"></img>
+              </div>
+              <div class="item_info">
+                <div class="item_info_plate">苏EE18G2</div>
+                <div>13:19:00</div>
+				        <div class="item_info_status">离开</div>
+              </div>
+            </div>
+          </div>
         </div>
-        <div id="con_detail_5" style="display:none">
-          消防
+      </div>
+      <div id="con_detail_4" style="display:none">
+        <div class="con_wifi_records">
+          <div class="con_wifi_operator">
+            <div class="con_wifi_more">
+              更多>>
+            </div>
+          </div>
+          <div class="con_wifi_items">
+            <div class="con_wifi_item">
+                <div>
+                  <div class="con_wifi_item_left">MAC：</div>
+                  <div class="con_wifi_item_right">48-23-DB-8A-19-74</div>
+              </div>
+              <div>
+                  <div class="con_wifi_item_left">时间：</div>
+                  <div class="con_wifi_item_right">2018-01-08 18:35:00</div>
+              </div>
+            </div>
+            <div class="con_wifi_item">
+                <div>
+                  <div class="con_wifi_item_left">MAC：</div>
+                  <div class="con_wifi_item_right">48-23-DB-8A-19-74</div>
+              </div>
+              <div>
+                  <div class="con_wifi_item_left">时间：</div>
+                  <div class="con_wifi_item_right">2018-01-08 18:35:00</div>
+              </div>
+            </div>
+            <div class="con_wifi_item">
+                <div>
+                  <div class="con_wifi_item_left">MAC：</div>
+                  <div class="con_wifi_item_right">48-23-DB-8A-19-74</div>
+              </div>
+              <div>
+                  <div class="con_wifi_item_left">时间：</div>
+                  <div class="con_wifi_item_right">2018-01-08 18:35:00</div>
+              </div>
+            </div>
+            <div class="con_wifi_item">
+                <div>
+                  <div class="con_wifi_item_left">MAC：</div>
+                  <div class="con_wifi_item_right">48-23-DB-8A-19-74</div>
+              </div>
+              <div>
+                  <div class="con_wifi_item_left">时间：</div>
+                  <div class="con_wifi_item_right">2018-01-08 18:35:00</div>
+              </div>
+            </div>
+            <div class="con_wifi_item">
+                <div>
+                  <div class="con_wifi_item_left">MAC：</div>
+                  <div class="con_wifi_item_right">48-23-DB-8A-19-74</div>
+              </div>
+              <div>
+                  <div class="con_wifi_item_left">时间：</div>
+                  <div class="con_wifi_item_right">2018-01-08 18:35:00</div>
+              </div>
+            </div>
+            <div class="con_wifi_item">
+                <div>
+                  <div class="con_wifi_item_left">MAC：</div>
+                  <div class="con_wifi_item_right">48-23-DB-8A-19-74</div>
+              </div>
+              <div>
+                  <div class="con_wifi_item_left">时间：</div>
+                  <div class="con_wifi_item_right">2018-01-08 18:35:00</div>
+              </div>
+            </div>
+            <div class="con_wifi_item">
+                <div>
+                  <div class="con_wifi_item_left">MAC：</div>
+                  <div class="con_wifi_item_right">48-23-DB-8A-19-74</div>
+              </div>
+              <div>
+                  <div class="con_wifi_item_left">时间：</div>
+                  <div class="con_wifi_item_right">2018-01-08 18:35:00</div>
+              </div>
+            </div>
+            <div class="con_wifi_item">
+                <div>
+                  <div class="con_wifi_item_left">MAC：</div>
+                  <div class="con_wifi_item_right">48-23-DB-8A-19-74</div>
+              </div>
+              <div>
+                  <div class="con_wifi_item_left">时间：</div>
+                  <div class="con_wifi_item_right">2018-01-08 18:35:00</div>
+              </div>
+            </div>
+            <div class="con_wifi_item">
+                <div>
+                  <div class="con_wifi_item_left">MAC：</div>
+                  <div class="con_wifi_item_right">48-23-DB-8A-19-74</div>
+              </div>
+              <div>
+                  <div class="con_wifi_item_left">时间：</div>
+                  <div class="con_wifi_item_right">2018-01-08 18:35:00</div>
+              </div>
+            </div>
         </div>
+        </div>
+      </div>
+      <div id="con_detail_5" style="display:none">
+        消防
       </div>
     </div>
   </div>
-  <script type="text/javascript">
-    var map;
-
-    function initMap() {
-      map = new IMAP.Map("map", {
-        minZoom: 3,
-        maxZoom: 20,
-        // 设置地图初始化级别
-        zoom: 17,
-        // 设置地图中心点坐标
-        center: new IMAP.LngLat(121.3377285004, 30.7521905824),
-        // 设置地图缩放动画效果
-        animation: true
-      });
-    }
+</div>
+<script type="text/javascript">
+  var map;
+  function initMap(){
+    map=new IMAP.Map("map", {
+      minZoom: 3,
+      maxZoom: 20,
+      // 设置地图初始化级别
+      zoom : 17,
+      // 设置地图中心点坐标
+      center : new IMAP.LngLat(121.3377285004, 30.7521905824),
+      // 设置地图缩放动画效果
+      animation : true
+    });
+  }
 
     // 初始化地图
     initMap();
@@ -1447,5 +1800,4 @@
 
   </script>
 </body>
-
 </html>
