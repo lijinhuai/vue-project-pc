@@ -950,7 +950,7 @@
       // content = content + "</span>";
       content = content + "</div>";
       content = content + "<div class=\"dynamic-content\">";
-      content = content + "<img class=\"dynamic-content-image\" src=\" " + url + "\"/>";
+      content = content + "<img class=\"dynamic-content-image\" src=\" " + url + "\" onerror=\"this.src='/static/image/default_nophoto.png'\"/>";
       content = content + "<div class=\"dynamic-content-info\">"
       content = content + context;
       content = content + "</div>"
@@ -1064,7 +1064,6 @@
     function showVehiclePassStatRecords(messages) {
       var passRecordsHtml = "";
       for(var i = 0; i< messages.length; i++) {
-        console.info(JSON.stringify(messages[i]))
 
         var dtime = messages[i].tm.substring(5);
         var dpic = "";
@@ -1379,8 +1378,6 @@
     // 子菜单切换
     function setSubTab(prefix, model, index) {
 
-      console.info("setSubTab:" + prefix + ":" + model + ":" + index );
-
       // 菜单展示效果
       $("." + prefix + "_" + model).removeClass("hover");
       $("#" + prefix + "_" + model + "_" + index).addClass("hover");
@@ -1471,7 +1468,7 @@
       content = content + "</span>";
       content = content + "</div>";
       content = content + "<div class=\"infowindow-content\">";
-      content = content + "<img class=\"infowindow-content-image\" src=\" " + url + "\"/>";
+      content = content + "<img class=\"infowindow-content-image\" src=\" " + url + "\" onerror=\"this.src='/static/image/default_nophoto.png'\" />";
       content = content + context;
       content = content + "</div>";
       content = content + "<div class=\"infowindow-marker\">";
@@ -1497,7 +1494,7 @@
 
     // 展示房屋详情
     function showHouseInfoWindow(origin) {
-      console.info(origin);
+      // console.info(origin);
     }
 
     function locationPath() {
@@ -1680,8 +1677,8 @@
           </div>
         </div>
       </div>
-      <div id="con_detail_2" style="display:none">
-        开门
+      <div id="con_detail_2" style="display:none;color:#FFFFFF; margin-top: 25px; text-align: center;">
+        暂无数据
       </div>
       <div id="con_detail_3" style="display:none">
         <div class="con_vehicle_pass">
@@ -1727,10 +1724,9 @@
           <div class="con_wifi_items">
           </div>
         </div>
-        </div>
       </div>
-      <div id="con_detail_5" style="display:none">
-        消防
+      <div id="con_detail_5" style="display:none; color:#FFFFFF; margin-top: 25px; text-align: center;">
+        暂无数据
       </div>
     </div>
   </div>
