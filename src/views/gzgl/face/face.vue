@@ -1,5 +1,5 @@
 <template>
-  <FormTable :columns="columns" :fetchList="search()">
+  <FormTable :columns="columns" :fetchList="search()" :queryForm="queryForm">
     <Row slot="form">
       <Col span="8">
       </Col>
@@ -17,11 +17,11 @@
         </div>
       </FormItem>
       </Col>
-      <!-- <Col span="8">
+      <Col span="8">
       <FormItem label="过人时间：" prop="searchDateArr">
         <Date-picker type="datetimerange" v-model="queryForm.searchDateArr" format="yyyy-MM-dd HH:mm" placement="bottom-start" placeholder="选择日期" style="width: 180px;"></Date-picker>
       </FormItem>
-      </Col> -->
+      </Col>
     </Row>
   </FormTable>
 </template>

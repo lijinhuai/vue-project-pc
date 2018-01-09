@@ -35,7 +35,6 @@ export default {
   name: 'formTable',
   data () {
     return {
-      queryForm: {},
       data: [],
       pageInfo: {
         pageNum: 1,
@@ -50,6 +49,9 @@ export default {
     },
     fetchList: {
       type: Function
+    },
+    queryForm: {
+      type: Object
     }
   },
   methods: {
