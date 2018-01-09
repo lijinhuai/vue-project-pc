@@ -18,8 +18,30 @@
       </FormItem>
       </Col>
       <Col span="8">
+      <FormItem label="年龄范围：" prop="rec_age_range">
+        <div style="display:inline-block;width:180px;">
+          <Select v-model="queryForm.rec_age_range" style="width:180px" filterable clearable>
+            <Option value="0">小孩</Option>
+            <Option value="1">青年</Option>
+            <Option value="2">中年</Option>
+            <Option value="3">老年</Option>
+          </Select>
+        </div>
+      </FormItem>
+      </Col>
+      <Col span="8">
+      <FormItem label="性别：" prop="rec_gender">
+        <div style="display:inline-block;width:180px;">
+          <Select v-model="queryForm.rec_gender" style="width:180px" filterable clearable>
+            <Option value="1">男</Option>
+            <Option value="2">女</Option>
+          </Select>
+        </div>
+      </FormItem>
+      </Col>
+      <Col span="16">
       <FormItem label="过人时间：" prop="searchDateArr">
-        <Date-picker type="datetimerange" v-model="queryForm.searchDateArr" format="yyyy-MM-dd HH:mm" placement="bottom-start" placeholder="选择日期" style="width: 180px;"></Date-picker>
+        <Date-picker type="datetimerange" format="yyyy-MM-dd HH:mm" @on-change="queryForm.searchDateArr=$event" placement="bottom-start" placeholder="选择日期" style="width: 200%"></Date-picker>
       </FormItem>
       </Col>
     </Row>
@@ -33,7 +55,9 @@ export default {
   name: 'face',
   data () {
     return {
-      queryForm: {},
+      queryForm: {
+        searchDateArr: ['', '']
+      },
       columns: [
         {
           title: '人脸照片ID',
