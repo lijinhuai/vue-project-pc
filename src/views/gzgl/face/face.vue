@@ -2,8 +2,6 @@
   <FormTable :columns="columns" :fetchList="search()" :queryForm="queryForm">
     <Row slot="form">
       <Col span="8">
-      </Col>
-      <Col span="8">
       <FormItem label="摄像头ID：" prop="camera_id">
         <div style="display:inline-block;width:180px;">
           <Input v-model="queryForm.camera_id"></Input>

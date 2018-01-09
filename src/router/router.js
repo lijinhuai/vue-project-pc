@@ -106,7 +106,7 @@ export const appRouter = [{
   }, {
     path: 'car',
     icon: 'person-add',
-    title: '过车比对',
+    title: '车辆识别',
     name: 'car',
     component: _import('gzgl/car/car')
   }]
