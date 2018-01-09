@@ -58,7 +58,7 @@ service.interceptors.response.use(
     const res = error.response
     Message.error(error.message)
     // 403:非法的token或者过期了;
-    if (res.status === 403) {
+    if (res.status && res.status === 403) {
       MessageBox.confirm('认证超期，可以取消继续留在该页面，或者重新登录', '确定登出', {
         confirmButtonText: '重新登录',
         cancelButtonText: '取消',

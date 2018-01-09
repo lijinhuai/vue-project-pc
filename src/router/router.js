@@ -98,17 +98,17 @@ export const appRouter = [{
       name: 'amap'
     }
   }, {
-    path: 'rlzp',
+    path: 'face',
     icon: 'person-add',
     title: '人脸抓拍',
-    name: 'rlzp',
-    component: _import('sysmanage/user/user-manage')
+    name: 'face',
+    component: _import('gzgl/face/face')
   }, {
-    path: 'rlzp',
+    path: 'car',
     icon: 'person-add',
     title: '过车比对',
-    name: 'rlzp',
-    component: _import('sysmanage/user/user-manage')
+    name: 'car',
+    component: _import('gzgl/car/car')
   }]
 }, {
   path: '/sysmanage',

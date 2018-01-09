@@ -1,62 +1,81 @@
 <template>
-  <div>
-    <Card>
-      <p slot="title">
-        <Icon type="navicon"></Icon>
-        检索条件
-      </p>
-      <div>
-        <Form ref="queryForm" :model="queryForm" :label-width="100" label-position="right" inline>
-          <Row>
-            <Col span="8">
-            <FormItem label="姓名：" prop="xm">
-              <div style="display:inline-block;width:180px;">
-                <Input v-model="queryForm.xm"></Input>
-              </div>
-            </FormItem>
-            </Col>
-            <Col span="8">
-            <FormItem label="民族：" prop="mzdm">
-              <div style="display:inline-block;width:180px;">
-                <Select v-model="queryForm.mzdm" style="width:180px" filterable clearable>
-                      <Option v-for="dict in dictList.mz" :key="dict.index" :value="dict.key">{{dict.value}}</Option>
-                    </Select>
-              </div>
-            </FormItem>
-            </Col>
-            <Col span="8">
-            <FormItem label="公民身份证号：" prop="zjhm">
-              <div style="display:inline-block;width:180px;">
-                <Input v-model="queryForm.zjhm"></Input>
-              </div>
-            </FormItem>
-            </Col>
-            <Col span="8">
-            <FormItem label="户籍地址：" prop="hjdz">
-              <div style="display:inline-block;width:180px;">
-                <Input v-model="queryForm.hjdz"></Input>
-              </div>
-            </FormItem>
-            </Col>
-          </Row>
-          <Row>
-            <Col span="12" offset="8">
-            <Form-item>
-              <Button type="primary" @click="search">查询</Button>
-            </Form-item>
-            </Col>
-          </Row>
-        </Form>
-      </div>
-    </Card>
-    <div v-show="data.length>0">
-      <Table size="small" :columns="columns" :data="data">
-      </Table>
-      <div style="margin: 10px;overflow: hidden">
-        <div style="float: right;">
-          <Page :current="pageInfo.pageNum" :total="pageInfo.total" :page-size="pageInfo.pageSize" @on-change="changePage"></Page>
+  <FormTable :columns="columns" :fetchList="search()">
+    <Row slot="form">
+      <Col span="8">
+      </Col>
+      <Col span="8">
+      <FormItem label="摄像头ID：" prop="camera_id">
+        <div style="display:inline-block;width:180px;">
+          <Input v-model="queryForm.camera_id"></Input>
         </div>
-      </div>
-    </div>
-  </div>
+      </FormItem>
+      </Col>
+      <Col span="8">
+      <FormItem label="摄像头名称：" prop="name">
+        <div style="display:inline-block;width:180px;">
+          <Input v-model="queryForm.name"></Input>
+        </div>
+      </FormItem>
+      </Col>
+      <!-- <Col span="8">
+      <FormItem label="过人时间：" prop="searchDateArr">
+        <Date-picker type="datetimerange" v-model="queryForm.searchDateArr" format="yyyy-MM-dd HH:mm" placement="bottom-start" placeholder="选择日期" style="width: 180px;"></Date-picker>
+      </FormItem>
+      </Col> -->
+    </Row>
+  </FormTable>
 </template>
+
+<script>
+import FormTable from '@/components/FormTable.vue'
+import { fetchFaceList } from '@/api/recognition/recognition'
+export default {
+  name: 'face',
+  data () {
+    return {
+      queryForm: {},
+      columns: [
+        {
+          title: '人脸照片ID',
+          key: 'face_image_id'
+        },
+        {
+          title: '摄像头ID',
+          key: 'camera_id'
+        },
+        {
+          title: '摄像头名称',
+          key: 'name'
+        },
+        {
+          title: '过人时间',
+          key: 'time_begin'
+        },
+        {
+          title: '性别',
+          key: 'rec_gender'
+        },
+        {
+          title: '年龄范围',
+          key: 'rec_age_range'
+        }
+      ]
+    }
+  },
+  components: {
+    FormTable
+  },
+  methods: {
+    search () {
+      return fetchFaceList
+    }
+  }
+}
+</script>
+
+<style lang="less" scoped>
+.ivu-form-item {
+  margin-bottom: 5px;
+}
+</style>
+
