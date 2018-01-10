@@ -52,26 +52,6 @@ export default {
       },
       columns: [
         {
-          title: '摄像头ID',
-          key: 'camera_id'
-        },
-        {
-          title: '摄像头名称',
-          key: 'name'
-        },
-        {
-          title: '过人时间',
-          key: 'time_begin'
-        },
-        {
-          title: '性别',
-          key: 'rec_gender'
-        },
-        {
-          title: '年龄范围',
-          key: 'rec_age_range'
-        },
-        {
           title: '图片',
           key: 'action',
           render: (h, params) => {
@@ -96,6 +76,26 @@ export default {
               })
             }
           }
+        },
+        {
+          title: '过人时间',
+          key: 'time_begin'
+        },
+        {
+          title: '性别',
+          key: 'rec_gender'
+        },
+        {
+          title: '年龄范围',
+          key: 'rec_age_range'
+        },
+        {
+          title: '眼镜',
+          key: 'rec_glasses'
+        },
+        {
+          title: '摄像头名称',
+          key: 'name'
         }
       ]
     }

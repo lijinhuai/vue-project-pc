@@ -5,9 +5,12 @@
         <div class="row_title">{{row.title}}</div>
         <div class="row_content">
           <div v-for="cell in row.children" :key="cell.index" class="cell">
-            <div class="cell_body" @click="toRouter(cell.name)">
+            <div class="cell_body" v-bind:style="cell.style" @click="toRouter(cell.name)">
               <template v-if="cell.icon=='community'||cell.icon=='person'||cell.icon=='car-recognition'">
               <IconFont :type="cell.icon" :size="45" color="white"></IconFont>
+              </template>
+              <template v-else-if="cell.icon=='person-recognition'">
+              <IconFont :type="cell.icon" :size="35" color="white"></IconFont>
               </template>
               <template v-else>
               <IconFont :type="cell.icon" :size="40" color="white"></IconFont>
@@ -49,11 +52,7 @@ export default {
   width: 100%;
   height: 100%;
   padding: 30px;
-  // background: linear-gradient(45deg, #29528d, #5a8dcf);
-  // background-color: #29528d;
   .wraper {
-    // background-color: #a2b7d2;
-    // background: linear-gradient(45deg, #95aac5, #aec6e8);
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -68,17 +67,6 @@ export default {
         text-shadow: 1px 1px 11px #999;
         border-left: 3px solid #409eff;
         text-align: center;
-        // width: 40px;
-        // height: 120px;
-        // background-color: #f56c6c;
-        // position: relative;
-        // right: 20px;
-        // border-radius: 10%;
-        // padding: 10px;
-        // text-align: center;
-        // display: flex;
-        // align-items: center;
-        // font-weight: 450;
       }
       &_content {
         width: 100%;
@@ -87,32 +75,23 @@ export default {
         align-items: center;
         flex-wrap: wrap;
         .cell {
-          width: 80px;
-          height: 80px;
+          width: 70px;
+          height: 70px;
           margin: 10px;
           &:hover {
             cursor: pointer;
           }
           &_body {
             text-align: center;
-            height: 80px;
-            background-color: #3e82ff;
+            height: 70px;
+            background-color:  #409eff;;
             border-radius: 50%;
             padding-top: 16px;
-            // text-align: center;
-            // height: 60px;
-            // background-color: #6fb1f9;
-            // border-radius: 50%;
-            // padding-top: 7px;
           }
           &_footer {
             text-align: center;
             font-family: cursive;
             padding: 6px;
-            // height: 20px;
-            // // background-color: #fafbf9;
-            // text-align: center;
-            // font-weight: 400;
           }
         }
       }

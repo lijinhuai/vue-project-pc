@@ -5,6 +5,7 @@ const _import = require('./_import_' + process.env.NODE_ENV)
 
 /**
  * icon : the icon show in the sidebar
+ * style : the style of the icon
  * title : the name show in the sidebar
  * meta : { title: 'titleName' }  the title show in the Browser
  * meta : { privilege: ['privilegeName'] }  will control the page privilege
@@ -100,12 +101,14 @@ export const appRouter = [{
   }, {
     path: 'face',
     icon: 'face-recognition',
+    style: 'background-color: #93ca08;',
     title: '人脸抓拍',
     name: 'face',
     component: _import('gzgl/face/face')
   }, {
     path: 'car',
     icon: 'car-recognition',
+    style: 'background-color: #2b85e4;',
     title: '车辆识别',
     name: 'car',
     component: _import('gzgl/car/car')
@@ -147,6 +150,7 @@ export const appRouter = [{
   children: [{
     path: 'rfgl',
     icon: 'person-house',
+    style: 'background-color:#f55a49;',
     name: 'rfgl',
     meta: {
       privilege: 'RFGL'
@@ -157,6 +161,7 @@ export const appRouter = [{
   {
     path: 'rycx',
     icon: 'person',
+    style: 'background-color: #a36ded;',
     name: 'rycx',
     meta: {
       privilege: 'RYCX'
@@ -167,6 +172,7 @@ export const appRouter = [{
   {
     path: 'fwcx',
     icon: 'house',
+    style: 'background-color:#ff3e99;',
     name: 'fwcx',
     meta: {
       privilege: 'FWCX'

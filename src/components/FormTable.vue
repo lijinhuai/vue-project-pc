@@ -1,5 +1,5 @@
 <template>
-<div>
+  <div>
     <Card>
       <p slot="title">
         <Icon type="navicon"></Icon>
@@ -8,6 +8,11 @@
       <div>
         <Form ref="queryForm" :model="queryForm" :label-width="100" label-position="right" inline>
           <slot name="form"></slot>
+          <el-collapse v-show="advanced" accordion>
+            <el-collapse-item title="高级搜索">
+              <slot name="advancedForm"></slot>
+            </el-collapse-item>
+          </el-collapse>
           <Row>
             <Col span="12" offset="8">
             <Form-item>
@@ -52,6 +57,10 @@ export default {
     },
     queryForm: {
       type: Object
+    },
+    advanced: {
+      type: Boolean,
+      default: false
     }
   },
   methods: {
@@ -70,3 +79,19 @@ export default {
   }
 }
 </script>
+<style lang="less">
+.el-collapse-item {
+  .el-collapse-item__wrap {
+    overflow: visible;
+  }
+}
+.ivu-form {
+  .ivu-row {
+    .ivu-col {
+      .ivu-form-item {
+        margin-bottom: 5px;
+      }
+    }
+  }
+}
+</style>

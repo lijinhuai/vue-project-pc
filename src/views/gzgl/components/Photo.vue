@@ -11,6 +11,11 @@
       <Carousel ref="carousel" v-model="value" v-if="visible" :arrow="arrow">
         <Carousel-item v-for="item in uploadList" :key="item.index">
           <img :src="item.src" style="width: 100%">
+          <template v-if="item.message!=''">
+          <div style="width:100%;position: relative;top: -10px;left: 0px;text-align:center;">
+            <span style="color:#2d8cf0;font-size:20px;">{{item.message}}</span>
+          </div>
+          </template>
         </Carousel-item>
       </Carousel>
       <div slot="footer">
