@@ -1,14 +1,14 @@
 <template>
   <FormTable :columns="columns" :fetchList="search()" :queryForm="queryForm">
     <Row slot="form">
-      <Col span="8">
+      <Col span="12">
       <FormItem label="号牌号码：" prop="plateid">
         <div style="display:inline-block;width:180px;">
           <Input v-model="queryForm.plateid"></Input>
         </div>
       </FormItem>
       </Col>
-      <Col span="8">
+      <Col span="12">
       <FormItem label="号牌颜色：" prop="platecolor">
         <div style="display:inline-block;width:180px;">
           <Select v-model="queryForm.platecolor" style="width:180px" filterable clearable>
@@ -21,28 +21,14 @@
         </div>
       </FormItem>
       </Col>
-      <Col span="8">
-      <FormItem label="进入通道：" prop="inroadname">
-        <div style="display:inline-block;width:180px;">
-          <Input v-model="queryForm.inroadname"></Input>
-        </div>
-      </FormItem>
-      </Col>
-      <Col span="8">
-      <FormItem label="出场通道：" prop="outroadname">
-        <div style="display:inline-block;width:180px;">
-          <Input v-model="queryForm.outroadname"></Input>
-        </div>
-      </FormItem>
-      </Col>
-      <Col span="16">
+      <Col span="12">
       <FormItem label="进入时间：" prop="intimeArr">
-        <Date-picker type="datetimerange" format="yyyy-MM-dd HH:mm" @on-change="queryForm.intimeArr=$event" placement="bottom-start" placeholder="选择日期" style="width: 200%"></Date-picker>
+        <Date-picker ref="intime" type="datetimerange" format="yyyy-MM-dd HH:mm" :value="queryForm.intimeArr" @on-change="queryForm.intimeArr=$event" placement="bottom-start" placeholder="选择日期" style="width: 150%;"></Date-picker>
       </FormItem>
       </Col>
-      <Col span="16">
+      <Col span="12">
       <FormItem label="出场时间：" prop="outtimeArr">
-        <Date-picker type="datetimerange" format="yyyy-MM-dd HH:mm" @on-change="queryForm.outtimeArr=$event" placement="bottom-start" placeholder="选择日期" style="width: 200%"></Date-picker>
+        <Date-picker ref="outtime" type="datetimerange" format="yyyy-MM-dd HH:mm" :value="queryForm.outtimeArr" @on-change="queryForm.outtimeArr=$event" placement="bottom-start" placeholder="选择日期" style="width: 150%;"></Date-picker>
       </FormItem>
       </Col>
     </Row>
@@ -51,6 +37,7 @@
 
 <script>
 import FormTable from '@/components/FormTable.vue'
+import Photo from '../components/Photo.vue'
 import { fetchCarList } from '@/api/recognition/recognition'
 export default {
   name: 'face',
@@ -71,7 +58,8 @@ export default {
         },
         {
           title: '进入时间',
-          key: 'intime'
+          key: 'intime',
+          width: '180px;'
         },
         {
           title: '进入通道',
@@ -79,7 +67,8 @@ export default {
         },
         {
           title: '出场时间',
-          key: 'outtime'
+          key: 'outtime',
+          width: '180px;'
         },
         {
           title: '出场通道',
@@ -88,6 +77,32 @@ export default {
         {
           title: '小区名称',
           key: 'parkname'
+        },
+        {
+          title: '图片',
+          key: 'action',
+          render: (h, params) => {
+            if (
+              params.row.photoList == null ||
+              params.row.photoList.length === 0
+            ) {
+              return h(
+                'span',
+                {
+                  attrs: {
+                    style: 'color:#9ea7b4'
+                  }
+                },
+                '暂无照片'
+              )
+            } else {
+              return h(Photo, {
+                props: {
+                  uploadList: params.row.photoList
+                }
+              })
+            }
+          }
         }
       ]
     }
@@ -99,6 +114,16 @@ export default {
     search () {
       return fetchCarList
     }
+  },
+  mounted () {
+    const start = new Date(new Date(new Date().toLocaleDateString()).getTime())
+    const end = new Date(
+      new Date(new Date().toLocaleDateString()).getTime() + 24 * 60 * 60 * 1000
+    )
+    this.queryForm.intimeArr = [start, end]
+    this.$refs.intime.emitChange(this.queryForm.intimeArr)
+    this.queryForm.outtimeArr = [start, end]
+    this.$refs.outtime.emitChange(this.queryForm.outtimeArr)
   }
 }
 </script>

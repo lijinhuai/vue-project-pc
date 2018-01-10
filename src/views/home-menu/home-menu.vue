@@ -6,11 +6,11 @@
         <div class="row_content">
           <div v-for="cell in row.children" :key="cell.index" class="cell">
             <div class="cell_body" @click="toRouter(cell.name)">
-              <template v-if="cell.icon=='earth'||cell.icon=='person'">
-              <ali-icon :type="cell.icon" :size="45" color="white"></ali-icon>
+              <template v-if="cell.icon=='community'||cell.icon=='person'||cell.icon=='car-recognition'">
+              <IconFont :type="cell.icon" :size="45" color="white"></IconFont>
               </template>
               <template v-else>
-              <ali-icon :type="cell.icon" :size="40" color="white"></ali-icon>
+              <IconFont :type="cell.icon" :size="40" color="white"></IconFont>
               </template>
               <!-- <Icon :type="cell.icon" size="50" :key="cell.id"></Icon> -->
             </div>
@@ -23,7 +23,7 @@
 </template>
 
 <script>
-import aliIcon from './components/Icon'
+import IconFont from '@/components/IconFont'
 export default {
   computed: {
     menuList () {
@@ -32,7 +32,7 @@ export default {
     }
   },
   components: {
-    'ali-icon': aliIcon
+    IconFont
   },
   methods: {
     toRouter (routerName) {

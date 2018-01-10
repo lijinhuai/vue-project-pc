@@ -84,14 +84,14 @@ export const otherRouter = {
 
 // 作为Main组件的子页面展示并且在左侧菜单显示的路由写在appRouter里
 export const appRouter = [{
-  path: '/gzgl',
-  icon: 'earth',
-  name: 'gzgl',
+  path: '/perception',
+  icon: 'perception',
+  name: 'perception',
   title: '感知管理',
   component: Main,
   children: [{
     path: 'amapMenu',
-    icon: 'earth',
+    icon: 'community',
     title: '智慧小区',
     name: 'amapMenu',
     redirect: {
@@ -99,20 +99,20 @@ export const appRouter = [{
     }
   }, {
     path: 'face',
-    icon: 'person-add',
+    icon: 'face-recognition',
     title: '人脸抓拍',
     name: 'face',
     component: _import('gzgl/face/face')
   }, {
     path: 'car',
-    icon: 'person-add',
+    icon: 'car-recognition',
     title: '车辆识别',
     name: 'car',
     component: _import('gzgl/car/car')
   }]
 }, {
   path: '/sysmanage',
-  icon: 'ios-gear',
+  icon: 'sysmanage',
   name: 'sysmanage',
   title: '系统管理',
   component: Main,
@@ -139,14 +139,14 @@ export const appRouter = [{
   ]
 },
 {
-  path: '/cxtj',
-  icon: 'social-buffer',
-  name: 'cxtj',
+  path: '/analysis',
+  icon: 'analysis',
+  name: 'analysis',
   title: '查询统计',
   component: Main,
   children: [{
     path: 'rfgl',
-    icon: 'person-add',
+    icon: 'person-house',
     name: 'rfgl',
     meta: {
       privilege: 'RFGL'
@@ -166,7 +166,7 @@ export const appRouter = [{
   },
   {
     path: 'fwcx',
-    icon: 'home',
+    icon: 'house',
     name: 'fwcx',
     meta: {
       privilege: 'FWCX'
@@ -178,13 +178,13 @@ export const appRouter = [{
 },
 {
   path: '/mpgl',
-  icon: 'social-buffer',
+  icon: 'house-number',
   name: 'mpgl',
   title: '门牌管理',
   component: Main,
   children: [{
     path: 'mpcx',
-    icon: 'person-add',
+    icon: 'house-number',
     name: 'mpcx',
     meta: {
       privilege: 'MPCX'
@@ -194,7 +194,7 @@ export const appRouter = [{
   },
   {
     path: 'mpsq',
-    icon: 'person-add',
+    icon: 'house-number',
     name: 'mpsq',
     meta: {
       privilege: 'MPSQ'
@@ -204,7 +204,7 @@ export const appRouter = [{
   },
   {
     path: 'mpsp',
-    icon: 'person-add',
+    icon: 'house-number',
     name: 'mpsp',
     title: '门牌审批',
     meta: {

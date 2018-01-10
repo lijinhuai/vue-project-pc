@@ -4,7 +4,7 @@
 </svg>
 </template>
 <script>
-import '@/assets/icon/iconfont.js'
+import '@/assets/iconfont/iconfont.js'
 const prefixCls = 'icon'
 export default {
   props: {
