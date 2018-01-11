@@ -112,7 +112,17 @@ export const appRouter = [{
     title: '车辆识别',
     name: 'car',
     component: _import('gzgl/car/car')
-  }]
+  },
+  {
+    path: 'searchMenu',
+    icon: 'search',
+    title: '一键搜',
+    name: 'searchMenu',
+    redirect: {
+      name: 'search'
+    }
+  }
+  ]
 }, {
   path: '/sysmanage',
   icon: 'sysmanage',
@@ -218,7 +228,6 @@ export const appRouter = [{
     },
     component: _import('mpgl/mpsp/mpsp')
   }
-
   ]
 }
 ]
@@ -259,6 +268,13 @@ export const singlePageRouter = [{
     title: '一人一档'
   },
   component: _import('archives/index')
+}, {
+  path: '/search',
+  name: 'search',
+  meta: {
+    title: '一键搜'
+  },
+  component: _import('yjs/yjs')
 }]
 
 // 所有上面定义的路由都要写在下面的routers里

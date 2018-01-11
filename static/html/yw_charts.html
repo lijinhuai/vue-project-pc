@@ -1,0 +1,1031 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<link rel="stylesheet" href="../css/ionicons.min.css" />
+	<style>
+		body{
+			margin: 0;
+			padding: 0;
+		}
+		body::-webkit-scrollbar{
+			width: 0px;
+		}
+		.main_container{
+			background: url("/static/image//bg-container.jpg") ;
+			background-size:cover ;
+			height:900px;
+			
+		}
+		.header{
+			width: 100%;
+			height: 40px;
+			background: -webkit-gradient(linear, left top, left bottom, from(rgba(22, 27, 73, .3)), to(rgba(51, 59, 137, .3)));
+			box-shadow: 0px 3px 12px black;
+		}
+		.menu{
+			width: 80%;
+			height: 40px;
+			position: relative;
+			
+			float: left;
+		}
+		.menu_tab1{
+			position: relative;
+			width: 10%;
+			height: 30px;
+			float: left;
+			margin-left: 1%;
+			margin-top: 5px;
+			cursor: pointer;
+		}
+		.menu_tab2{
+			position: relative;
+			width: 6%;
+			height: 30px;
+			float: left;
+			margin-left:10%;
+			margin-top: 10px;
+			cursor: pointer;
+		}
+		
+		 span{
+			color: whitesmoke;
+			font-size: 20px;
+			
+		}
+		.content1{
+			width: 100%;
+			float: left;
+		}
+		.content2{
+			width: 100%;
+			float: left;
+		}
+		.xb{
+			background:rgba(62, 69, 131, .1);
+			border-radius:5px;
+			width: 45%;
+			height: 300px;
+			margin: 20px 0 0 40px;
+			box-shadow:0 0 12px rgba(0, 0, 7, .1);
+			float: left;
+		}
+		.nl{
+			background:rgba(62, 69, 131, .1);
+			border-radius:5px;
+			width: 45%;
+			height: 300px;
+			margin: 20px 40px 0 0;
+			box-shadow:0 0 12px rgba(0, 0, 7, .1);
+			float: right;
+		}
+		.mzsj{
+			background:rgba(62, 69, 131, .1);
+			border-radius:5px;
+			width: 45%;
+			height: 350px;
+			margin: 20px 40px 0 0;
+			box-shadow:0 0 12px rgba(0, 0, 7, .1);
+			float: right;
+		}
+		.hjry{
+			background:rgba(62, 69, 131, .1);
+			border-radius:5px;
+			width: 45%;
+			height: 350px;
+			margin: 20px 0 0 40px;
+			box-shadow:0 0 12px rgba(0, 0, 7, .1);
+			float: left;
+		}
+		.content_header{
+			background:rgba(62, 69, 131, .32);
+			height:52px;
+			line-height: 52px;
+			
+		}
+		h5{
+			color: white;
+			margin: 0 0 0 20px;
+			font-size: 14px;
+			
+		}
+		.xb_boy_window{
+			width: 200px;
+			height: 150px;
+			margin: 20px 0 0 60px;
+			float: left;
+		}
+		.xb_girl_window{
+			width: 200px;
+			height: 150px;
+			margin: 20px 60px 0 0;
+			float: right;
+		}
+		.xb_boy{
+			width: 100px;
+			height: 100px;
+			border: 1px solid #384191;
+			border-radius: 50%;
+			background: rgba(91, 103, 174, .2);
+			margin: 0 auto;
+			cursor: pointer;
+		}
+		.xb_girl{
+			width: 100px;
+			height: 100px;
+			border: 1px solid #703a96;
+			border-radius: 50%;
+			background: rgba(91, 103, 174, .2);
+			margin: 0 auto;
+			cursor: pointer;
+		}
+		/******************************************/
+		.bubble {
+	width: 100%;
+	height: 300px;
+	margin: 0 auto;
+	position: relative;
+	overflow: hidden
+}
+
+
+
+.bubble_min {
+	background: #eaedfc;
+	border-radius: 50%;
+	position: absolute;
+	opacity: .5
+}
+
+.bubble_min:nth-child(1) {
+	width: 20px;
+	height: 20px;
+	top: 100px;
+	left: 40px
+}
+
+.bubble_min:nth-child(2) {
+	width: 90px;
+	height: 90px;
+	top: 130px;
+	left: 110px
+}
+
+.bubble_min:nth-child(3) {
+	width: 50px;
+	height: 50px;
+	top: 90px;
+	left: 180px
+}
+
+.bubble_min:nth-child(4) {
+	width: 30px;
+	height: 30px;
+	top: 250px;
+	left: 300px
+}
+
+.bubble_min:nth-child(5) {
+	width: 30px;
+	height: 30px;
+	top: 110px;
+	right: 200px
+}
+
+.bubble_min:nth-child(6) {
+	width: 110px;
+	height: 110px;
+	top: 120px;
+	right: 100px
+}
+
+.bubble_min:nth-child(7) {
+	width: 20px;
+	height: 20px;
+	top: 220px;
+	right: 30px
+}
+
+.bubble_list {
+	width: 80%;
+	height: inherit;
+	margin: 0 auto;
+	position: relative
+}
+
+.bubble_item {
+	border-radius: 50%;
+	position: absolute;
+	display: table
+}
+
+.bubble_item p {
+	width: inherit;
+	text-align: center;
+	vertical-align: middle;
+	display: table-cell;
+	color: #fff
+}
+
+.bubble_item p span {
+	display: block
+}
+
+.bubble_item:nth-child(1) p span {
+	font-size: 16px
+}
+
+.bubble_item:nth-child(2) p span {
+	font-size: 16px
+}
+
+.bubble_item:nth-child(3) p span {
+	font-size: 16px
+}
+
+.bubble_item:nth-child(4) p span {
+	font-size: 16px
+}
+
+.bubble_item:nth-child(5) p span {
+	font-size: 16px
+}
+
+.bubble_item:nth-child(6) p span {
+	font-size: 16px
+}
+
+.bubble_item p i {
+	display: block;
+	font-family: Arial;
+	margin-top: 5px
+}
+
+.bubble_item:nth-child(1) p i {
+	font-size: 16px
+}
+
+.bubble_item:nth-child(2) p i {
+	font-size: 16px
+}
+
+.bubble_item:nth-child(3) p i {
+	font-size: 16px
+}
+
+.bubble_item:nth-child(4) p i {
+	font-size: 16px
+}
+
+.bubble_item:nth-child(5) p i {
+	font-size: 16px
+}
+
+.bubble_item:nth-child(6) p i {
+	font-size: 16px
+}
+
+.bubble_item:nth-child(1) {
+	width: 115px;
+	height: 115px;
+	top: 0px;
+	left: -50px;
+	background: rgba(238, 190, 0, .9);
+	z-index: 1;
+	cursor: pointer;
+}
+
+
+
+.bubble_item:nth-child(2) {
+	width: 95px;
+	height: 95px;
+	top: 105px;
+	left: -10px;
+	background: rgba(63, 178, 138, .9);
+	z-index: 2;
+	cursor: pointer;
+}
+
+
+
+.bubble_item:nth-child(3) {
+	width: 110px;
+	height: 110px;
+	top: 50px;
+	left: 80px;
+	background: rgba(82, 168, 230, .9);
+	z-index: 3;
+	cursor: pointer;
+}
+
+
+
+.bubble_item:nth-child(4) {
+	width: 120px;
+	height: 120px;
+	top: 25px;
+	right: 210px;
+	background: rgba(107, 119, 224, .9);
+	z-index: 2;
+	cursor: pointer;
+}
+
+
+
+.bubble_item:nth-child(5) {
+	width: 110px;
+	height: 110px;
+	top: 10px;
+	right: 90px;
+	background: rgba(104, 185, 83, .9);
+	z-index: 1;
+	cursor: pointer;
+}
+
+
+
+.bubble_item:nth-child(6) {
+	width: 115px;
+	height: 115px;
+	top: 110px;
+	right: -20px;
+	background: rgba(245, 138, 138, 0.9);
+	z-index: 2;
+	cursor: pointer;
+}
+
+.bubble_item:nth-child(7) {
+	width: 115px;
+	height: 115px;
+	top: 40px;
+	right: 20px;
+	background: rgba(239, 162, 25, .9);
+	z-index: 3;
+	cursor: pointer;
+}
+.bubble_item:nth-child(8) {
+	width: 85px;
+	height: 85px;
+	top: 140px;
+	left: 90px;
+	background: rgba(132, 101, 148, 0.9);
+	z-index: 2;
+	cursor: pointer;
+}
+.bubble_item:nth-child(9) {
+	width: 115px;
+	height: 115px;
+	top: 160px;
+	right: 180px;
+	background: rgba(212, 150, 172, 0.9);
+	z-index: 1;
+	cursor: pointer;
+}
+.bubble_item:nth-child(10) {
+	width: 105px;
+	height: 105px;
+	top: 210px;
+	right: 20px;
+	background: rgba(124, 99, 195, 0.9);
+	z-index: 2;
+	cursor: pointer;
+}
+.bubble_item:nth-child(11) {
+	width: 95px;
+	height: 95px;
+	top: 210px;
+	left: 30px;
+	background: rgba(144, 116, 66, 0.9);
+	z-index: 3;
+	cursor: pointer;
+}
+.bubble_item:nth-child(12) {
+	width: 115px;
+	height: 115px;
+	top: 150px;
+	left: 300px;
+	background: rgba(75, 214, 183, 0.9);
+	z-index: 2;
+	cursor: pointer;
+}
+.ani_auto {
+	-webkit-animation-timing-function: linear;
+	-webkit-animation-fill-mode: both;
+	-webkit-animation-iteration-count: infinite;
+	-moz-animation-timing-function: linear;
+	-moz-animation-fill-mode: both;
+	-moz-animation-iteration-count: infinite;
+	animation-timing-function: linear;
+	animation-fill-mode: both;
+	animation-iteration-count: infinite
+}
+
+.ani_time_8 {
+	-webkit-animation-duration: 8s;
+	-moz-animation-duration: 8s;
+	animation-duration: 8s
+}
+
+.ani_time_10 {
+	-webkit-animation-duration: 10s;
+	-moz-animation-duration: 10s;
+	animation-duration: 10s
+}
+
+.ani_time_12 {
+	-webkit-animation-duration: 12s;
+	-moz-animation-duration: 12s;
+	animation-duration: 12s
+}
+
+.ani_top_bottom {
+	-webkit-animation-name: ani_bubble_top_bottom;
+	-moz-animation-name: ani_bubble_top_bottom;
+	animation-name: ani_bubble_top_bottom
+}
+
+@-webkit-keyframes ani_bubble_top_bottom {
+	0%,
+	100%,
+	50% {
+		-webkit-transform: translateY(0)
+	}
+	25% {
+		-webkit-transform: translateY(15px)
+	}
+	75% {
+		-webkit-transform: translateY(-15px)
+	}
+}
+
+@-moz-keyframes ani_bubble_top_bottom {
+	0%,
+	100%,
+	50% {
+		-moz-transform: translateY(0)
+	}
+	25% {
+		-moz-transform: translateY(15px)
+	}
+	75% {
+		-moz-transform: translateY(-15px)
+	}
+}
+
+@keyframes ani_bubble_top_bottom {
+	0%,
+	100%,
+	50% {
+		transform: translateY(0)
+	}
+	25% {
+		transform: translateY(15px)
+	}
+	75% {
+		transform: translateY(-15px)
+	}
+}
+
+.ani_bottom_top {
+	-webkit-animation-name: ani_bubble_bottom_top;
+	-moz-animation-name: ani_bubble_bottom_top;
+	animation-name: ani_bubble_bottom_top
+}
+
+@-webkit-keyframes ani_bubble_bottom_top {
+	0%,
+	100%,
+	50% {
+		-webkit-transform: translateY(0)
+	}
+	25% {
+		-webkit-transform: translateY(-15px)
+	}
+	75% {
+		-webkit-transform: translateY(15px)
+	}
+}
+
+@-moz-keyframes ani_bubble_bottom_top {
+	0%,
+	100%,
+	50% {
+		-moz-transform: translateY(0)
+	}
+	25% {
+		-moz-transform: translateY(-15px)
+	}
+	75% {
+		-moz-transform: translateY(15px)
+	}
+}
+
+@keyframes ani_bubble_bottom_top {
+	0%,
+	100%,
+	50% {
+		transform: translateY(0)
+	}
+	25% {
+		transform: translateY(-15px)
+	}
+	75% {
+		transform: translateY(15px)
+	}
+}
+
+.ani_top_top {
+	-webkit-animation-name: ani_bubble_top_top;
+	-moz-animation-name: ani_bubble_top_top;
+	animation-name: ani_bubble_top_top
+}
+
+@-webkit-keyframes ani_bubble_top_top {
+	0%,
+	100%,
+	50% {
+		-webkit-transform: translateY(0)
+	}
+	25% {
+		-webkit-transform: translateY(15px)
+	}
+	75% {
+		-webkit-transform: translateY(-15px)
+	}
+}
+
+@-moz-keyframes ani_bubble_top_top {
+	0%,
+	100%,
+	50% {
+		-moz-transform: translateY(0)
+	}
+	25% {
+		-moz-transform: translateY(15px)
+	}
+	75% {
+		-moz-transform: translateY(-15px)
+	}
+}
+
+@keyframes ani_bubble_top_top {
+	0% {
+		transform: translateY(250px)
+	}
+	100% {
+		transform: translateY(-250px)
+	}
+}
+		
+		
+	</style>
+	<body>
+		<div class="main_container">
+			<div class="header">
+				<div class="menu">
+						<div class="menu_tab1"onclick="back_before()">
+							<span>实有人口</span>
+						</div>
+						<!--<div class="menu_tab2" onclick="changeTab('2')">
+							<span>实有房屋</span>
+						</div>-->
+				</div>
+			</div>
+			<div class="content1" style="transition: 1s;">
+				<div class="syrk_div" >
+				<div class="xb">
+					<div class="content_header">
+						<h5>性别数据</h5>
+					</div>
+					<div class="xb_content">
+						<div title="男" class="xb_boy_window">
+							<div class="xb_boy" onclick="toRyxx_xb('1')">
+								<img src="/static/image/male7.png" width="60%" style="margin: 20px 0 0 20px;" />
+							</div>
+							<div  id="malesj" style="color: #6374ff;font-size: 24px;font-weight: 1000;margin: 10px 0 0 70px;">0</div>
+						</div>
+						<div title="女" class="xb_girl_window">
+							<div class="xb_girl">
+								<img src="/static/image/female.png" width="60%" style="margin: 20px 0 0 20px;" />
+							</div>
+							<div  id="femalesj" style="color: #bf4ed9;font-size: 24px;font-weight: 1000;margin: 10px 0 0 70px;">0</div>
+						</div>
+						<div style="width: 80%;height: 50px;float: left;margin-left: 60px;">
+							<div class="malepercent" style="width: 0%;height: 50px;background: url(../image/pic-male.png) repeat;float: left;">
+							</div>
+							<div class="femalepercent" style="width: 0%;height: 50px;background: url(../image/pic-female.png) repeat;float: left;">
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="nl">
+					<div class="content_header">
+						<h5>年龄数据</h5>
+					</div>
+					<div class="nl_content">
+						<div id="syrk_nl_charts" style="width: 100%;height: 250px;">
+						</div>
+					</div>
+				</div>
+				<div class="mzsj">
+					<div class="content_header">
+						<h5>民族数据</h5>
+					</div>
+					<div>
+						<div class="bubble">
+							<div class="bubble_min ani_auto ani_top_top ani_time_8"></div>
+							<div class="bubble_min ani_auto ani_top_top ani_time_10"></div>
+							<div class="bubble_min ani_auto ani_top_top ani_time_12"></div>
+							<div class="bubble_min ani_auto ani_top_top ani_time_10"></div>
+							<div class="bubble_min ani_auto ani_top_top ani_time_12"></div>
+							<div class="bubble_min ani_auto ani_top_top ani_time_10"></div>
+							<div class="bubble_min ani_auto ani_top_top ani_time_8"></div>
+							<div class="bubble_list">
+								<div class="bubble_item ani_auto ani_time_10 ani_bottom_top">
+									<p>
+										<span>瑶族</span> 
+										<i id="yz">0</i>
+									</p>
+								</div>
+								<div class="bubble_item ani_auto ani_time_8 ani_bottom_top">
+									<p>
+										<span>蒙古族</span> 
+										<i id="mgz">0</i>
+									</p>
+								</div>
+								<div class="bubble_item ani_auto ani_time_12 ani_top_bottom">
+									<p>
+										<span>水族</span> 
+										<i id="sz">0</i>
+									</p>
+								</div>
+								<div class="bubble_item ani_auto ani_time_8 ani_top_bottom">
+									<p>
+										<span>回族</span> 
+										<i id="hzsj">0</i>
+									</p>
+								</div>
+								<div class="bubble_item ani_auto ani_time_10 ani_bottom_top">
+									<p>
+										<span>朝鲜族</span>
+										<i id="cxz">0</i>
+									</p>
+								</div>
+								<div class="bubble_item ani_auto ani_time_12 ani_top_bottom">
+									<p>
+										<span>土家族</span> 
+										<i id="tjz">0</i>
+									</p>
+								</div>
+								<div class="bubble_item ani_auto ani_time_8 ani_bottom_top">
+									<p>
+										<span>满族</span> 
+										<i id="mz">0</i>
+									</p>
+								</div>
+								<div class="bubble_item ani_auto ani_time_12 ani_top_bottom">
+									<p>
+										<span>苗族</span> 
+										<i id="mzsj">0</i>
+									</p>
+								</div>
+								<div class="bubble_item ani_auto ani_time_10 ani_bottom_top">
+									<p>
+										<span>壮族</span> 
+										<i id="zz">0</i>
+									</p>
+								</div>
+								<div class="bubble_item ani_auto ani_time_12 ani_top_bottom">
+									<p>
+										<span>羌族</span> 
+										<i id="qz">0</i>
+									</p>
+								</div>
+								<div class="bubble_item ani_auto ani_time_8 ani_top_bottom">
+									<p>
+										<span>侗族</span> 
+										<i id="dz">0</i>
+									</p>
+								</div>
+								<div class="bubble_item ani_auto ani_time_10 ani_top_bottom">
+									<p>
+										<span>汉族</span> 
+										<i id="hz">0</i>
+									</p>
+								</div>
+							</div>
+						</div>
+					</div>
+					</div>
+					<div class="hjry">
+						<div class="content_header">
+							<h5>户籍人员</h5>
+						</div>
+						<div id="syrk_hjry_charts" style="width: 100%;height: 250px;"></div>
+					</div>
+					<div class="djlr">
+						<span></span>
+					</div>
+				</div>
+				</div>
+			</div>
+		</div>
+	</body>
+	<script src="../js/jquery.min.js"></script>
+  	<script src="../js/echarts.min.js"></script>
+  	<script src="../js/js.cookie-2.2.0.min.js"></script>
+  	<script src="../js/countUp.js"></script>
+  		<script>
+  			var baseUrl = window.parent.document.getElementById("baseUrl").value;
+  			
+  			
+  			$(document).ready(function () {
+  				
+			      // 页面初始数据
+					initData();
+      });
+   
+       function initData(){
+       		
+       	var token = Cookies.get("Admin-Token");
+
+      	createEventSource(successCallBack);
+      	
+       	setInterval(loadData(baseUrl+"/houses/syrkamounts", token, function (data) {
+        var code = data.code;
+        if (code == 200) {
+          var syrk = data.data;
+          countUp('malesj',syrk.male);
+       	  countUp('femalesj',syrk.female);
+       	  countUp('hz',syrk.hz);
+       	  countUp('yz',syrk.yz);
+       	  countUp('mgz',syrk.mgz);
+       	  countUp('sz',syrk.sz);
+       	  countUp('hzsj',syrk.hzsj);
+       	  countUp('cxz',syrk.cxz);
+       	  countUp('tjz',syrk.tjz);
+       	  countUp('mz',syrk.mz);
+       	  countUp('mzsj',syrk.mzsj);
+       	  countUp('zz',syrk.zz);
+       	  countUp('qz',syrk.qz);
+       	  countUp('dz',syrk.dz);
+       	  var malepercent = syrk.malepercent+'%';
+       	  var femalepercent = syrk.femalepercent+'%';
+       	  $(".malepercent").css("width",malepercent);
+       	  $(".femalepercent").css("width",femalepercent)
+        }
+      }), 1000)
+       }
+       
+       // 异步加载数据
+    function loadData(url, token, callback) {
+      $.ajax({
+        headers: {
+          Authorization: token
+        },
+        type: "get",
+        url: url,
+        success: function (data) {
+          callback(data);
+        }
+      });
+    }
+       
+	        //动态显示数据
+	    function countUp(id, end) {
+	      var oldCntStr = document.getElementById(id).innerText;
+	      var oldCnt = oldCntStr.replace(/[,]/g, "");
+	      var options = {
+	        useEasing: true,
+	        useGrouping: true,
+	        separator: ',',
+	        decimal: '.',
+	      };
+	      var obj = new CountUp(id, oldCnt, end, 0, 2.5, options);
+	      obj.start();
+	    }	
+	    
+	     function createEventSource(successCallBack){
+      var token = Cookies.get("Admin-Token");
+      var url = baseUrl+'/sseEmitter/YBLS,YT?Authorization=' + token;
+      if (!!window.EventSource) {
+        var source = new EventSource(url);
+        source.addEventListener('message', function (e) {
+          successCallBack(e);
+        }, true);
+        source.addEventListener('open', function (e) {
+          console.log("Connection opened");
+        }, true);
+
+        source.addEventListener('error', function (e) {
+          console.log("Connection error");
+        }, true);
+
+        source.addEventListener('close', function (e) {
+          console.log("Connection closed");
+        }, true);
+      }
+    }
+	     
+	     function successCallBack(e){
+      var data = JSON.parse(e.data);
+        var code = data.code;
+        if (code == 200&&data.dataType=='YBLS') {
+          var xb = data.data;
+          countUp('malesj', xb.male);
+          countUp('femalesj', xb.female);
+        } else if (code == 200&&data.dataType=='YT') {
+          showDynamicData(data.data);
+        }
+    }
+
+		function back_before(){
+			window.history.go(-1);
+		}
+		
+		function toRyxx_xb(num){
+			var path = locationPath();
+			if(num=='1'){
+				parent.location.href=path+"/#/cxtj/rycx?id=1"
+			}
+			if(num == '2'){
+				parent.location.href=path+"/#/cxtj/rycx?1"
+			}
+			
+		}
+		
+		function locationPath() {
+		      var href = window.document.location.href;
+		      var pname = window.document.location.pathname;
+		      var pos = href.indexOf(pname);
+		      var path = href.substring(0, pos);
+		      return path;
+		   }
+  		</script>
+	<script>
+		var nl = echarts.init(document.getElementById('syrk_nl_charts'));
+		var hjry = echarts.init(document.getElementById('syrk_hjry_charts'));
+		option4 = {
+	 		title: {
+
+                textStyle: {
+                    color: 'white',
+                    fontSize: 14
+                },
+                left: '10%'
+            },
+            color: ['#3398DB'],
+            tooltip: {
+                trigger: 'axis',
+                axisPointer: {            // 坐标轴指示器，坐标轴触发有效
+                    type: 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
+                }
+            },
+            grid: {
+                left: '3%',
+                right: '3%',
+                bottom: '5%',
+                top: '12%',
+                containLabel: true
+            },
+            xAxis: [
+                {
+                    type: 'category',
+                    data: ['19岁以下', '19到25岁', '26到35岁', '36到45岁', '46到55岁', '55岁以上'],
+                    axisTick: {
+                        alignWithLabel: true
+                    },
+                    axisLine: {
+                        lineStyle: {
+                            color: 'white',
+                            width: 1,   //这里是坐标轴的宽度,可以去掉
+                        }
+                    }
+                }
+            ],
+            yAxis: [
+                {
+                    splitLine: {show: false},
+                    type: 'value',
+                    axisLine: {
+                        lineStyle: {
+                            color: 'white',
+                            width: 1,   //这里是坐标轴的宽度,可以去掉
+                        }
+                    }
+                }
+            ],
+            tooltip: {},
+            series: [
+                {
+                    name: '数目',
+                    type: 'bar',
+                    data: [200,400,424,654,342,123],
+                    barWidth: 40,
+                    itemStyle: {
+                        normal: {
+                            color: function (params) {
+                                //首先定义一个数组
+                                var colorList = [
+                                    '#10A4E7', '#186FF0', 'bisque', 'burlywood', 'lightcyan',
+                                    'darksalmon', '#0AAF9F', '#E89589','#186FF0', 'burlywood','darksalmon'
+                                ];
+                                return colorList[params.dataIndex]
+                            },
+                            //以下为是否显示
+                            label: {
+                                show: true,
+                                position: 'top'
+                            }
+
+                        }
+                    },
+
+                },
+            ]
+};		
+
+option = {
+				
+			    tooltip: {
+			        trigger: 'axis',
+			        axisPointer: {
+			            type: 'shadow'
+			        }
+			    },
+			    grid: {
+			        left: '3%',
+			        right: '10%',
+			        bottom: '3%',
+			        top:'10%',
+			        containLabel: true
+			    },
+			    xAxis: {
+			    	splitLine:{show: false},
+			        type: 'value',
+			        boundaryGap: [0, 0.01],
+			        axisLabel: {
+			        show: true,
+			        textStyle: {
+			            color: 'white'
+			        }
+				   },
+				    axisLine:{
+				        lineStyle:{
+				            color:'white',
+				              width:1,   //这里是坐标轴的宽度,可以去掉
+				        }
+				    }
+			    },
+			    yAxis: {
+					type: 'category',
+					data: ['户籍人员','来沪人员','境外人员'],
+					axisLabel: {
+				        show: true,
+				        textStyle: {
+				            color: 'white'
+				        }
+				   },
+				   axisLine:{
+				        lineStyle:{
+				            color:'white',
+				              width:1,   //这里是坐标轴的宽度,可以去掉
+				        }
+				    }
+			    },
+			    series: [
+			        {
+			            name: '',
+			            type: 'bar',
+			            data: [3426, 601, 160],
+			            barWidth : 30,
+			            itemStyle:{
+			                    normal:{
+			                       color: function (params) {
+                                //首先定义一个数组
+                                var colorList = [
+                                    '#10A4E7', 'burlywood', 'lightcyan',
+                                    'darksalmon', '#0AAF9F', '#E89589','#186FF0', 'burlywood','darksalmon'
+                                ];
+                                return colorList[params.dataIndex]
+                            }
+			                    }
+			               },
+			            label: {
+			                normal: {
+			                    show: true,
+			                    position: 'right'
+			                }
+			            },  
+			        }
+			    ]
+				};
+				
+nl.setOption(option4);
+hjry.setOption(option);
+	</script>
+</html>

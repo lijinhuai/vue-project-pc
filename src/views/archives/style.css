@@ -879,7 +879,7 @@
 .body .grain {
   -webkit-transform: scale(1) !important;
           transform: scale(1) !important;
-  background-image: url("https://s3-us-west-2.amazonaws.com/s.cdpn.io/217233/overlay.png");
+  background-image: url("~@/images/archives/overlay.png");
   left: 0;
   right: 0;
   margin: auto;

@@ -1,5 +1,5 @@
 <template>
-  <!-- <FormTable :columns="columns" :fetchList="search()" :queryForm="queryForm" advanced>
+  <FormTable :columns="columns" :fetchList="search()" :queryForm="queryForm" advanced>
     <Row slot="form">
       <Col span="12">
       <FormItem label="号牌号码：" prop="plateid">
@@ -53,8 +53,36 @@
       </FormItem>
       </Col>
     </Row>
-  </FormTable> -->
-  <FormCard></FormCard>
+  </FormTable>
+  <!-- <FormCard :columns="columns" :fetchList="search()" :queryForm="queryForm">
+    <Row slot="form">
+      <Col span="12">
+      <FormItem label="号牌号码：" prop="plateid">
+        <div style="display:inline-block;width:180px;">
+          <Input v-model="queryForm.plateid"></Input>
+        </div>
+      </FormItem>
+      </Col>
+      <Col span="12">
+      <FormItem label="号牌颜色：" prop="platecolor">
+        <div style="display:inline-block;width:180px;">
+          <Select v-model="queryForm.platecolor" style="width:180px" filterable clearable>
+                        <Option value="蓝色">蓝色</Option>
+                        <Option value="黄色">黄色</Option>
+                        <Option value="绿色">绿色</Option>
+                        <Option value="白色">白色</Option>
+                        <Option value="其他">其他</Option>
+                      </Select>
+        </div>
+      </FormItem>
+      </Col>
+      <Col span="12">
+      <FormItem label="过车时间：" prop="searchDateArr">
+        <Date-picker ref="searchDate" type="datetimerange" format="yyyy-MM-dd HH:mm" :value="queryForm.searchDateArr" @on-change="queryForm.searchDateArr=$event" placement="bottom-start" placeholder="选择日期" style="width: 150%;"></Date-picker>
+      </FormItem>
+      </Col>
+    </Row>
+  </FormCard> -->
 </template>
 
 <script>
@@ -124,22 +152,9 @@ export default {
           }
         },
         {
-          title: '进入时间',
-          key: 'intime',
+          title: '时间',
+          key: 'tm',
           width: '180px;'
-        },
-        {
-          title: '进入通道',
-          key: 'inroadname'
-        },
-        {
-          title: '出场时间',
-          key: 'outtime',
-          width: '180px;'
-        },
-        {
-          title: '出场通道',
-          key: 'outroadname'
         },
         {
           title: '小区名称',

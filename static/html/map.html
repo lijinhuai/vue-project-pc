@@ -2488,7 +2488,12 @@
     function openYblsDetail() {
       window.open(serviceUrl+"/#/ybls");
     }
-
+    function showYblsDetail_chart(id){
+    	if(id == 'syrk'){
+    		window.location.href='yw_charts.html'
+    	}
+    	
+    }
     //打开一人一档页面
     function openArchives(zjhm){
       window.open(serviceUrl+"/#/archives?zjhm="+zjhm);
@@ -2513,7 +2518,7 @@
       <div class="stat-info pull-left">
         实有人口
       </div>
-      <a href="javascript:;" onclick="openYblsDetail('syrk');">
+      <a href="javascript:;" onclick="showYblsDetail_chart('syrk');">
         <div class="stat-num pull-right" id="syrk">0</div>
       </a>
     </div>
@@ -2543,7 +2548,7 @@
         <i class="iconfont">&#xe9a7;</i>
       </span>
       <div class="stat-info pull-left">实有安防措施</div>
-      <div class="stat-num pull-right" id="syafss">0</div>
+      <div class="stat-num pull-right" id="syafss">25</div>
     </div>
 
     <div class="stat-box">
@@ -2676,7 +2681,7 @@
           </div>
         </div>
       </div>
-      <div id="con_detail_5">
+      <div id="con_detail_5" style="display:none">
         <div class="detail-sub-container">
           <div class="detail-sub-tab-container detail-sub-tab-border">
             <div class="detail-sub-menu-box ">
