@@ -17,7 +17,7 @@
 			background: url("/static/image//bg-container.jpg") ;
 			background-size:cover ;
 			height:900px;
-			
+
 		}
 		.header{
 			width: 100%;
@@ -29,7 +29,7 @@
 			width: 80%;
 			height: 40px;
 			position: relative;
-			
+
 			float: left;
 		}
 		.menu_tab1{
@@ -50,11 +50,11 @@
 			margin-top: 10px;
 			cursor: pointer;
 		}
-		
+
 		 span{
 			color: whitesmoke;
 			font-size: 20px;
-			
+
 		}
 		.content1{
 			width: 100%;
@@ -104,13 +104,13 @@
 			background:rgba(62, 69, 131, .32);
 			height:52px;
 			line-height: 52px;
-			
+
 		}
 		h5{
 			color: white;
 			margin: 0 0 0 20px;
 			font-size: 14px;
-			
+
 		}
 		.xb_boy_window{
 			width: 200px;
@@ -580,8 +580,8 @@
 		transform: translateY(-250px)
 	}
 }
-		
-		
+
+
 	</style>
 	<body>
 		<div class="main_container">
@@ -647,25 +647,25 @@
 							<div class="bubble_list">
 								<div class="bubble_item ani_auto ani_time_10 ani_bottom_top">
 									<p>
-										<span>瑶族</span> 
+										<span>瑶族</span>
 										<i id="yz">0</i>
 									</p>
 								</div>
 								<div class="bubble_item ani_auto ani_time_8 ani_bottom_top">
 									<p>
-										<span>蒙古族</span> 
+										<span>蒙古族</span>
 										<i id="mgz">0</i>
 									</p>
 								</div>
 								<div class="bubble_item ani_auto ani_time_12 ani_top_bottom">
 									<p>
-										<span>水族</span> 
+										<span>水族</span>
 										<i id="sz">0</i>
 									</p>
 								</div>
 								<div class="bubble_item ani_auto ani_time_8 ani_top_bottom">
 									<p>
-										<span>回族</span> 
+										<span>回族</span>
 										<i id="hzsj">0</i>
 									</p>
 								</div>
@@ -677,43 +677,43 @@
 								</div>
 								<div class="bubble_item ani_auto ani_time_12 ani_top_bottom">
 									<p>
-										<span>土家族</span> 
+										<span>土家族</span>
 										<i id="tjz">0</i>
 									</p>
 								</div>
 								<div class="bubble_item ani_auto ani_time_8 ani_bottom_top">
 									<p>
-										<span>满族</span> 
+										<span>满族</span>
 										<i id="mz">0</i>
 									</p>
 								</div>
 								<div class="bubble_item ani_auto ani_time_12 ani_top_bottom">
 									<p>
-										<span>苗族</span> 
+										<span>苗族</span>
 										<i id="mzsj">0</i>
 									</p>
 								</div>
 								<div class="bubble_item ani_auto ani_time_10 ani_bottom_top">
 									<p>
-										<span>壮族</span> 
+										<span>壮族</span>
 										<i id="zz">0</i>
 									</p>
 								</div>
 								<div class="bubble_item ani_auto ani_time_12 ani_top_bottom">
 									<p>
-										<span>羌族</span> 
+										<span>羌族</span>
 										<i id="qz">0</i>
 									</p>
 								</div>
 								<div class="bubble_item ani_auto ani_time_8 ani_top_bottom">
 									<p>
-										<span>侗族</span> 
+										<span>侗族</span>
 										<i id="dz">0</i>
 									</p>
 								</div>
 								<div class="bubble_item ani_auto ani_time_10 ani_top_bottom">
 									<p>
-										<span>汉族</span> 
+										<span>汉族</span>
 										<i id="hz">0</i>
 									</p>
 								</div>
@@ -741,20 +741,20 @@
   	<script src="../js/countUp.js"></script>
   		<script>
   			var baseUrl = window.parent.document.getElementById("baseUrl").value;
-  			
-  			
+
+
   			$(document).ready(function () {
-  				
+
 			      // 页面初始数据
 					initData();
       });
-   
+
        function initData(){
-       		
+
        	var token = Cookies.get("Admin-Token");
 
       	createEventSource(successCallBack);
-      	
+
        	setInterval(loadData(baseUrl+"/houses/syrkamounts", token, function (data) {
         var code = data.code;
         if (code == 200) {
@@ -780,7 +780,7 @@
         }
       }), 1000)
        }
-       
+
        // 异步加载数据
     function loadData(url, token, callback) {
       $.ajax({
@@ -794,7 +794,7 @@
         }
       });
     }
-       
+
 	        //动态显示数据
 	    function countUp(id, end) {
 	      var oldCntStr = document.getElementById(id).innerText;
@@ -807,8 +807,8 @@
 	      };
 	      var obj = new CountUp(id, oldCnt, end, 0, 2.5, options);
 	      obj.start();
-	    }	
-	    
+	    }
+
 	     function createEventSource(successCallBack){
       var token = Cookies.get("Admin-Token");
       var url = baseUrl+'/sseEmitter/YBLS,YT?Authorization=' + token;
@@ -830,7 +830,7 @@
         }, true);
       }
     }
-	     
+
 	     function successCallBack(e){
       var data = JSON.parse(e.data);
         var code = data.code;
@@ -846,18 +846,18 @@
 		function back_before(){
 			window.history.go(-1);
 		}
-		
+
 		function toRyxx_xb(num){
 			var path = locationPath();
 			if(num=='1'){
-				parent.location.href=path+"/#/cxtj/rycx?id=1"
+				parent.location.href=path+"/#/analysis/rycx?id=1"
 			}
 			if(num == '2'){
-				parent.location.href=path+"/#/cxtj/rycx?1"
+				parent.location.href=path+"/#/analysis/rycx?1"
 			}
-			
+
 		}
-		
+
 		function locationPath() {
 		      var href = window.document.location.href;
 		      var pname = window.document.location.pathname;
@@ -947,10 +947,10 @@
 
                 },
             ]
-};		
+};
 
 option = {
-				
+
 			    tooltip: {
 			        trigger: 'axis',
 			        axisPointer: {
@@ -1020,11 +1020,11 @@ option = {
 			                    show: true,
 			                    position: 'right'
 			                }
-			            },  
+			            },
 			        }
 			    ]
 				};
-				
+
 nl.setOption(option4);
 hjry.setOption(option);
 	</script>
