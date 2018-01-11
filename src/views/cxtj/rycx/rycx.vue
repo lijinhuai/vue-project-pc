@@ -158,7 +158,7 @@ export default {
     }
 
     let id = this.$route.query.id
-    if (id === 1) {
+    if (id === '1') {
       this.MapSyrkCx()
     } else {
     }
