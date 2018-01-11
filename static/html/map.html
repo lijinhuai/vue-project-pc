@@ -629,6 +629,7 @@
       display: block;
       height: 380px;
       overflow-y: auto;
+      font-size: 14px;
     }
 
     #con_detail_4 .con_wifi_items::-webkit-scrollbar {
@@ -670,6 +671,120 @@
       white-space: nowrap;
       /* overflow: hidden; */
       /* text-overflow: ellipsis; */
+    }
+
+    /*********** 消防 - 消防栓 ******************/
+    #con_subdetail_xf_1 .con_xf_xfs_record_item {
+      height: 72px;
+      margin-bottom: 6px;
+      font-size: 14px;
+    }
+
+    #con_subdetail_xf_1 .con_xf_xfs_record_item i {
+      float: left;
+      display: block;
+      color: #F61653;
+      margin-top: 3px;
+    }
+
+    #con_subdetail_xf_1 .con_xf_xfs_record_item .item_photo {
+      width: 108px;
+      height: 72px;
+      display: inline-block;
+    }
+
+    #con_subdetail_xf_1 .con_xf_xfs_record_item .item_photo img {
+      width: 108px;
+      height: 72px;
+      display: inline-block;
+    }
+
+    #con_subdetail_xf_1 .con_xf_xfs_record_item .item_info {
+      display: block;
+      float: left;
+      height: 70px;
+      width: 118px;
+      color: #cecbcb;
+      font-size: 14px;
+      line-height: 1.2rem;
+    }
+
+    #con_subdetail_xf_1 .item_info .item_info_name {
+      color: whitesmoke;
+      margin-bottom: 6px;
+      margin-top: 3px;
+      font-family: monospace;
+      text-align: left;
+      width: 110px;
+      /* word-break: keep-all;
+      white-space: nowrap; */
+      overflow: hidden;
+    }
+
+    #con_subdetail_xf_1 .item_info .item_info_status {
+      color: #FFFFFF;
+      background-color: #00cd47;
+      width: 29px;
+      height: 20px;
+      line-height: 20px;
+      padding: 0px 5px;
+    }
+
+    /*********** 消防 - 窨井盖 ******************/
+    #con_subdetail_xf_2 .con_xf_yjg_record_item {
+      height: 72px;
+      margin-bottom: 6px;
+      font-size: 14px;
+    }
+
+    #con_subdetail_xf_2 .con_xf_yjg_record_item i {
+      float: left;
+      display: block;
+      color: #F61653;
+      margin-top: 3px;
+    }
+
+    #con_subdetail_xf_2 .con_xf_yjg_record_item .item_photo {
+      width: 108px;
+      height: 72px;
+      display: inline-block;
+    }
+
+    #con_subdetail_xf_2 .con_xf_yjg_record_item .item_photo img {
+      width: 108px;
+      height: 72px;
+      display: inline-block;
+    }
+
+    #con_subdetail_xf_2 .con_xf_yjg_record_item .item_info {
+      display: block;
+      float: left;
+      height: 70px;
+      width: 118px;
+      color: #cecbcb;
+      font-size: 14px;
+      line-height: 1.2rem;
+    }
+
+    #con_subdetail_xf_2 .item_info .item_info_name {
+      color: whitesmoke;
+      margin-bottom: 6px;
+      margin-top: 3px;
+      font-family: monospace;
+      text-align: left;
+      width: 110px;
+      /* word-break: keep-all;
+      white-space: nowrap; */
+      overflow: hidden;
+    }
+
+    #con_subdetail_xf_2 .item_info .item_info_status {
+      color: #FFFFFF;
+      background-color: #00cd47;
+      width: 29px;
+      height: 20px;
+      line-height: 20px;
+      padding: 0px 5px;
     }
     
     /******* 地图颜色覆盖 **********/
@@ -1309,7 +1424,68 @@
       // WIFI 记录数据
       loadWifiData();
 
+      // 窨井盖数据
+      loadYjgData();
+
     }
+
+    // 窨井盖数据
+   function loadYjgData(){
+    var token = Cookies.get("Admin-Token");
+    loadData(baseUrl+"/xqxx/yjg/locations", token, function(data){
+      var code = data.code;
+      if (code == 200) {
+        var messages = data.data;
+          showYjgData(messages);
+        }
+      });
+    }
+
+
+    // 右侧菜单中消防栓数据展示
+    function showYjgData(messages){
+
+      var token = Cookies.get("Admin-Token");
+      var yjgDataHtml = "";
+      for(var i = 0; i< messages.length; i++) {
+        yjgDataHtml = yjgDataHtml + "<div class=\"con_xf_yjg_record_item\" data-pic=\"" + messages[i].crkbh + "\">";
+        yjgDataHtml = yjgDataHtml + "  <i class=\"iconfont\">&#xe651;</i>";
+        yjgDataHtml = yjgDataHtml + "  <div class=\"item_photo\" onclick=\"showYjgPicDialog(this)\">";
+        yjgDataHtml = yjgDataHtml + "    <img src=\"" + baseUrl + "/xqxx/" + messages[i].crkbh + "/photo?Authorization=" + token + "\" onerror=\"this.src='/static/image/default_nophoto.png'\">";
+        yjgDataHtml = yjgDataHtml + "  </div>";
+        yjgDataHtml = yjgDataHtml + "  <div class=\"item_info\">";
+        yjgDataHtml = yjgDataHtml + "    <div class=\"item_info_name \">" + messages[i].crkmc + "</div>";
+        yjgDataHtml = yjgDataHtml + "    <div class=\"item_info_status\">正常</div>";
+        yjgDataHtml = yjgDataHtml + "  </div>";
+        yjgDataHtml = yjgDataHtml + "</div>";
+      }
+
+      $("#con_detail_5 #con_subdetail_xf_2").html(yjgDataHtml);
+    }
+
+    function showYjgPicDialog(obj){
+      
+      var pic = $(obj).parent(".con_xf_yjg_record_item").data("pic");
+      var content = assembleXfsDialogContent(pic);
+
+      if (_layer_index) {
+        layer.close(_layer_index);
+      }
+
+      _layer_index =layer.open({
+        "type": 1,
+        "shade": false,
+        "title": false,
+        "area": ['768px', '432px'],
+        "content": content,
+        "moveType": 1,
+        "skin": 'layer-custom',
+        "cancel": function(){
+          layer.close(_layer_index);
+        }
+      });
+    }
+
 
     // WIFI 记录数据
     function loadWifiData(){
@@ -1926,8 +2102,65 @@
               addMarker(locations[i].lon, locations[i].lat, locations[i].crkbh, "xfs", locations[i]);
             }
           }
+
+          // 右侧菜单中消防栓数据展示
+          showXfsData(locations);
         }
       });
+    }
+
+    // 右侧菜单中消防栓数据展示
+    function showXfsData(messages){
+
+      var token = Cookies.get("Admin-Token");
+      
+      var xfsDataHtml = "";
+      for(var i = 0; i< messages.length; i++) {
+        xfsDataHtml = xfsDataHtml + "<div class=\"con_xf_xfs_record_item\" data-pic=\"" + messages[i].crkbh + "\">";
+        xfsDataHtml = xfsDataHtml + "  <i class=\"iconfont\">&#xe651;</i>";
+        xfsDataHtml = xfsDataHtml + "  <div class=\"item_photo\" onclick=\"showXfsPicDialog(this)\">";
+        xfsDataHtml = xfsDataHtml + "    <img src=\"" + baseUrl + "/xqxx/" + messages[i].crkbh + "/photo?Authorization=" + token + "\" onerror=\"this.src='/static/image/default_nophoto.png'\">";
+        xfsDataHtml = xfsDataHtml + "  </div>";
+        xfsDataHtml = xfsDataHtml + "  <div class=\"item_info\">";
+        xfsDataHtml = xfsDataHtml + "    <div class=\"item_info_name \">" + messages[i].crkmc + "</div>";
+        xfsDataHtml = xfsDataHtml + "    <div class=\"item_info_status\">正常</div>";
+        xfsDataHtml = xfsDataHtml + "  </div>";
+        xfsDataHtml = xfsDataHtml + "</div>";
+      }
+
+      $("#con_detail_5 #con_subdetail_xf_1").html(xfsDataHtml);
+    }
+
+    function showXfsPicDialog(obj){
+      
+      var pic = $(obj).parent(".con_xf_xfs_record_item").data("pic");
+      var content = assembleXfsDialogContent(pic);
+
+      if (_layer_index) {
+        layer.close(_layer_index);
+      }
+
+      _layer_index =layer.open({
+        "type": 1,
+        "shade": false,
+        "title": false,
+        "area": ['768px', '432px'],
+        "content": content,
+        "moveType": 1,
+        "skin": 'layer-custom',
+        "cancel": function(){
+          layer.close(_layer_index);
+        }
+      });
+    }
+
+    function assembleXfsDialogContent(dpic) {
+      var token = Cookies.get("Admin-Token");
+      var content = "";
+      content = content + "<div class=\"dialog-vehicle-pass-container\">";
+      content = content + "<img src=\"" + baseUrl + "/xqxx/" + dpic + "/photo?Authorization=" + token + "\" onerror=\"this.src='/static/image/default_nophoto.png'\"></img>";
+      content = content + "</div>";
+      return content;
     }
 
     // 加载 WIFI 嗅探设备
@@ -2434,8 +2667,27 @@
           </div>
         </div>
       </div>
-      <div id="con_detail_5" style="display:none; color:#FFFFFF; margin-top: 25px; text-align: center;">
-        暂无数据
+      <div id="con_detail_5">
+        <div class="detail-sub-container">
+          <div class="detail-sub-tab-container detail-sub-tab-border">
+            <div class="detail-sub-menu-box ">
+              <ul>
+                <li class="subdetail_xf hover" id="subdetail_xf_1" onclick="setSubTab('subdetail', 'xf', 1)"> 
+                  消防栓
+                </li>
+                <li class="subdetail_xf" id="subdetail_xf_2" onclick="setSubTab('subdetail', 'xf', 2)">
+                  窨井盖
+                </li>
+              </ul>
+            </div>
+            <div class="detail-sub-content-box">
+              <div class="con_subdetail_xf" id="con_subdetail_xf_1">
+              </div>
+              <div class="con_subdetail_xf" id="con_subdetail_xf_2">
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
