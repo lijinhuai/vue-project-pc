@@ -252,6 +252,13 @@ export const singlePageRouter = [{
     title: '一标六实数据展示'
   },
   component: _import('gzgl/components/ybls')
+}, {
+  path: '/archives',
+  name: 'archives',
+  meta: {
+    title: '一人一档'
+  },
+  component: _import('archives/index')
 }]
 
 // 所有上面定义的路由都要写在下面的routers里

@@ -321,6 +321,10 @@
       background: #033447;
     }
 
+    .can-click:hover{
+      cursor: pointer;
+    }
+
     /************ 右侧菜菜单 - 子菜单 - 人脸 - 抓拍 ***************/
     .con_subdetail_face_1_item {
       display: block;
@@ -786,7 +790,7 @@
       line-height: 20px;
       padding: 0px 5px;
     }
-    
+
     /******* 地图颜色覆盖 **********/
     .imap-popup-content-wrapper,
     .imap-popup-tip {
@@ -951,8 +955,8 @@
 
     .dialog-face-msg-container .img-1 {
       display:inline-block;
-      width:200px; 
-      height:200px; 
+      width:200px;
+      height:200px;
       margin-right:10px;
     }
 
@@ -975,8 +979,8 @@
 
     .dialog-face-similar-container .img-1 {
       display:inline-block;
-      width:200px; 
-      height:200px; 
+      width:200px;
+      height:200px;
       margin-right:10px;
     }
 
@@ -1009,8 +1013,8 @@
 
     .dialog-face-similar-container .msg-1 {
       display:inline-block;
-      width:200px; 
-      height:80px; 
+      width:200px;
+      height:80px;
       margin-right:10px;
       text-align: left;
       font-size: 14px;
@@ -1057,7 +1061,7 @@
     .layer-custom .layui-layer-content {
       overflow: hidden;
     }
-    
+
 
   </style>
 
@@ -1073,7 +1077,7 @@
 
       // 页面地图数据切换事件绑定
       initOperatorMenuEvent();
-      
+
       // 右侧菜单上的按钮事件绑定
       initDetailContainerDomEvent();
     });
@@ -1144,7 +1148,7 @@
         }
       });
     }
-    
+
     // 右侧菜单上的按钮事件绑定
     var _data_interval;
     function initDetailContainerDomEvent() {
@@ -1163,7 +1167,7 @@
 
           // 加载数据
           loadFaceSimilarData();
-          _data_interval = window.setInterval("loadFaceSimilarData()", 5000);  
+          _data_interval = window.setInterval("loadFaceSimilarData()", 5000);
         }
 
         if ($("#subdetail_face_3").hasClass("hover")) {
@@ -1172,7 +1176,7 @@
 
           // 加载数据
           loadFaceSimilarAlarmData();
-          _data_interval = window.setInterval("loadFaceSimilarAlarmData()", 5000); 
+          _data_interval = window.setInterval("loadFaceSimilarAlarmData()", 5000);
         }
       })
 
@@ -1189,7 +1193,7 @@
 
         // 加载数据
         loadFaceSimilarData();
-         _data_interval = window.setInterval("loadFaceSimilarData()", 5000);  
+         _data_interval = window.setInterval("loadFaceSimilarData()", 5000);
       })
 
       // 人脸标签页 - 比中报警子标签点击
@@ -1200,7 +1204,7 @@
 
         // 加载数据
         loadFaceSimilarAlarmData();
-        _data_interval = window.setInterval("loadFaceSimilarAlarmData()", 5000); 
+        _data_interval = window.setInterval("loadFaceSimilarAlarmData()", 5000);
       })
 
       // 过车标签页
@@ -1211,7 +1215,7 @@
 
         // 加载数据
         loadVehiclePassData();
-        _data_interval = window.setInterval("loadVehiclePassData()", 5000); 
+        _data_interval = window.setInterval("loadVehiclePassData()", 5000);
       })
 
       // WIFI 标签页
@@ -1222,7 +1226,7 @@
 
         // 加载数据
         loadWifiData();
-        _data_interval = window.setInterval("loadWifiData()", 5000); 
+        _data_interval = window.setInterval("loadWifiData()", 5000);
       })
 
     }
@@ -1464,7 +1468,7 @@
     }
 
     function showYjgPicDialog(obj){
-      
+
       var pic = $(obj).parent(".con_xf_yjg_record_item").data("pic");
       var content = assembleXfsDialogContent(pic);
 
@@ -1501,7 +1505,7 @@
 
     // 展示 WIFI 数据
     function showWifiData(messages){
-      
+
       var wifiDataHtml = "";
       for(var i = 0; i< messages.length; i++) {
         wifiDataHtml = wifiDataHtml + "<div class=\"con_wifi_item\">";
@@ -1592,7 +1596,7 @@
     }
 
     function showVehicleVehiclePicDialog(obj){
-      
+
       var pic = $(obj).parent(".con_vehicle_pass_record_item").data("pic");
       var content = assembleVehiclePicDialogContent(pic);
 
@@ -1676,7 +1680,7 @@
 
     // 展示增量数据
     function showMenuContentForFaceSimilarAlarmItem(messages){
-      
+
       var token = Cookies.get("Admin-Token");
 
       // 倒序获取数据
@@ -1727,7 +1731,7 @@
         var dcount = tcount - 10;
         for (var i = 0; i< dcount; i++) {
           $("#con_subdetail_face_3 .con_subdetail_face_3_item").eq(-1).remove();
-        } 
+        }
       }
     }
 
@@ -1852,8 +1856,8 @@
         var dcount = tcount - 10;
         for (var i = 0; i< dcount; i++) {
           $("#con_subdetail_face_2 .con_subdetail_face_2_item").eq(-1).remove();
-        } 
-      }   
+        }
+      }
     }
 
     // 人脸数据(小区)内容展示
@@ -1888,7 +1892,7 @@
         faceSimilarHtml = faceSimilarHtml + "   <div class=\"item_info\">";
         faceSimilarHtml = faceSimilarHtml + "     <div class=\"item_info_contrast\">" + messages[i].similarity + "</div>";
         faceSimilarHtml = faceSimilarHtml + "     <div>" + messages[i].hitXm + "</div>";
-        faceSimilarHtml = faceSimilarHtml + "     <div title=\""+ messages[i].hitZjhm +"\"><img src=\"/static/image/sfz.jpg\" width=\"20\" /></div>";
+        faceSimilarHtml = faceSimilarHtml + "     <div class=\"can-click\" title=\""+ messages[i].hitZjhm +"\" onclick=\"openArchives("+ messages[i].hitZjhm +")\"><img src=\"/static/image/sfz.jpg\" width=\"20\" /></div>";
         faceSimilarHtml = faceSimilarHtml + "   </div>";
         faceSimilarHtml = faceSimilarHtml + "  </div>";
         faceSimilarHtml = faceSimilarHtml + "</div>";
@@ -2113,7 +2117,7 @@
     function showXfsData(messages){
 
       var token = Cookies.get("Admin-Token");
-      
+
       var xfsDataHtml = "";
       for(var i = 0; i< messages.length; i++) {
         xfsDataHtml = xfsDataHtml + "<div class=\"con_xf_xfs_record_item\" data-pic=\"" + messages[i].crkbh + "\">";
@@ -2132,7 +2136,7 @@
     }
 
     function showXfsPicDialog(obj){
-      
+
       var pic = $(obj).parent(".con_xf_xfs_record_item").data("pic");
       var content = assembleXfsDialogContent(pic);
 
@@ -2292,13 +2296,13 @@
         success: function (data) {
           callback(data);
         },
-        error: function (XMLHttpRequest, textStatus, errorThrown) { 
+        error: function (XMLHttpRequest, textStatus, errorThrown) {
           var status = XMLHttpRequest.status;
           if (status == 403) {
             var loc = locationPath();
             window.parent.location.href = loc;
           }
-        } 
+        }
       });
     }
 
@@ -2483,6 +2487,11 @@
     //打开一标六实详细信息页面
     function openYblsDetail() {
       window.open(serviceUrl+"/#/ybls");
+    }
+
+    //打开一人一档页面
+    function openArchives(zjhm){
+      window.open(serviceUrl+"/#/archives?zjhm="+zjhm);
     }
   </script>
 </head>
@@ -2672,7 +2681,7 @@
           <div class="detail-sub-tab-container detail-sub-tab-border">
             <div class="detail-sub-menu-box ">
               <ul>
-                <li class="subdetail_xf hover" id="subdetail_xf_1" onclick="setSubTab('subdetail', 'xf', 1)"> 
+                <li class="subdetail_xf hover" id="subdetail_xf_1" onclick="setSubTab('subdetail', 'xf', 1)">
                   消防栓
                 </li>
                 <li class="subdetail_xf" id="subdetail_xf_2" onclick="setSubTab('subdetail', 'xf', 2)">

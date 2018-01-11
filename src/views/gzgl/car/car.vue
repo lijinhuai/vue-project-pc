@@ -1,5 +1,5 @@
 <template>
-  <FormTable :columns="columns" :fetchList="search()" :queryForm="queryForm" advanced>
+  <!-- <FormTable :columns="columns" :fetchList="search()" :queryForm="queryForm" advanced>
     <Row slot="form">
       <Col span="12">
       <FormItem label="号牌号码：" prop="plateid">
@@ -53,11 +53,13 @@
       </FormItem>
       </Col>
     </Row>
-  </FormTable>
+  </FormTable> -->
+  <FormCard></FormCard>
 </template>
 
 <script>
 import FormTable from '@/components/FormTable.vue'
+import FormCard from './components/FormCard.vue'
 import Photo from '../components/Photo.vue'
 import { fetchCarList } from '@/api/recognition/recognition'
 export default {
@@ -147,7 +149,7 @@ export default {
     }
   },
   components: {
-    FormTable
+    FormTable, FormCard
   },
   methods: {
     search () {
