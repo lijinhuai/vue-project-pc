@@ -846,7 +846,7 @@
 			padding: 6px;
 			line-height: 20px;
 			background-color: rgba(20, 65, 170, 0.7);
-			height:67px;
+			height:77px;
       color: #FFFFFF;
 		}
 
@@ -854,7 +854,7 @@
 			float: left;
 			margin-right: 10px;
 			width: 100px;
-			height: 60px;
+			height: 70px;
 		}
 
 		.infowindow-container .infowindow-marker {
@@ -1716,7 +1716,7 @@
         faceSimilarHtml = faceSimilarHtml + "   <div class=\"item_info\">";
         faceSimilarHtml = faceSimilarHtml + "     <div class=\"item_info_contrast\">" + messages[i].similarity + "</div>";
         faceSimilarHtml = faceSimilarHtml + "     <div>" + messages[i].hitXm + "</div>";
-        faceSimilarHtml = faceSimilarHtml + "     <div title=\""+ messages[i].hitZjhm +"\"><img src=\"/static/image/sfz.jpg\" width=\"20\" /></div>";
+        faceSimilarHtml = faceSimilarHtml + "     <div class=\"can-click\" title=\""+ messages[i].hitZjhm +"\" onclick=\"openArchives('"+ messages[i].hitZjhm +"')\"><img src=\"/static/image/sfz.jpg\" width=\"20\" /></div>";
         faceSimilarHtml = faceSimilarHtml + "   </div>";
         faceSimilarHtml = faceSimilarHtml + "  </div>";
         faceSimilarHtml = faceSimilarHtml + "</div>";
@@ -1767,7 +1767,7 @@
         faceSimilarHtml = faceSimilarHtml + "   <div class=\"item_info\">";
         faceSimilarHtml = faceSimilarHtml + "     <div class=\"item_info_contrast\">" + messages[i].similarity + "</div>";
         faceSimilarHtml = faceSimilarHtml + "     <div>" + messages[i].hitXm + "</div>";
-        faceSimilarHtml = faceSimilarHtml + "     <div title=\""+ messages[i].hitZjhm +"\"><img src=\"/static/image/sfz.jpg\" width=\"20\" /></div>";
+        faceSimilarHtml = faceSimilarHtml + "     <div class=\"can-click\" title=\""+ messages[i].hitZjhm +"\" onclick=\"openArchives('"+ messages[i].hitZjhm +"')\"><img src=\"/static/image/sfz.jpg\" width=\"20\" /></div>";
         faceSimilarHtml = faceSimilarHtml + "   </div>";
         faceSimilarHtml = faceSimilarHtml + "  </div>";
         faceSimilarHtml = faceSimilarHtml + "</div>";
@@ -1841,7 +1841,7 @@
         faceSimilarHtml = faceSimilarHtml + "   <div class=\"item_info\">";
         faceSimilarHtml = faceSimilarHtml + "     <div class=\"item_info_contrast\">" + messages[i].similarity + "</div>";
         faceSimilarHtml = faceSimilarHtml + "     <div>" + messages[i].hitXm + "</div>";
-        faceSimilarHtml = faceSimilarHtml + "     <div title=\""+ messages[i].hitZjhm +"\"><img src=\"/static/image/sfz.jpg\" width=\"20\" /></div>";
+        faceSimilarHtml = faceSimilarHtml + "     <div class=\"can-click\" title=\""+ messages[i].hitZjhm +"\" onclick=\"openArchives('"+ messages[i].hitZjhm +"')\"><img src=\"/static/image/sfz.jpg\" width=\"20\" /></div>";
         faceSimilarHtml = faceSimilarHtml + "   </div>";
         faceSimilarHtml = faceSimilarHtml + "  </div>";
         faceSimilarHtml = faceSimilarHtml + "</div>";
@@ -1892,7 +1892,7 @@
         faceSimilarHtml = faceSimilarHtml + "   <div class=\"item_info\">";
         faceSimilarHtml = faceSimilarHtml + "     <div class=\"item_info_contrast\">" + messages[i].similarity + "</div>";
         faceSimilarHtml = faceSimilarHtml + "     <div>" + messages[i].hitXm + "</div>";
-        faceSimilarHtml = faceSimilarHtml + "     <div class=\"can-click\" title=\""+ messages[i].hitZjhm +"\" onclick=\"openArchives("+ messages[i].hitZjhm +")\"><img src=\"/static/image/sfz.jpg\" width=\"20\" /></div>";
+        faceSimilarHtml = faceSimilarHtml + "     <div class=\"can-click\" title=\""+ messages[i].hitZjhm +"\" onclick=\"openArchives('"+ messages[i].hitZjhm +"')\"><img src=\"/static/image/sfz.jpg\" width=\"20\" /></div>";
         faceSimilarHtml = faceSimilarHtml + "   </div>";
         faceSimilarHtml = faceSimilarHtml + "  </div>";
         faceSimilarHtml = faceSimilarHtml + "</div>";
@@ -2347,6 +2347,10 @@
         marker.id = type + "_" + did;
         marker.type = type;
         map.getOverlayLayer().addOverlay(marker, false);
+        if(type=='house'){
+          marker.setLabel(origin.dlbh+"号",{"anchor":IMAP.Constants.BOTTOM_CENTER,"fontColor":"rgba(255,255,255,.6)","offset": new IMAP.Pixel(0, -15)});
+        }
+
 
 
         // 图标上添加点击事件
@@ -2361,7 +2365,7 @@
       var content = "";
       var token = Cookies.get("Admin-Token");
       if (type == "house") {
-        content = assembleInfoWindowContent("实有房屋", baseUrl+"/houses/" + origin.cjbh +"/photo?Authorization=" +token, "地址：" + origin.mlph);
+        content = assembleInfoWindowContent("实有房屋", baseUrl+"/houses/" + origin.cjbh +"/photo?Authorization=" +token, "地址：" + origin.mlph+"<br/>经度："+origin.gpsjd+"<br/>纬度："+origin.gpswd);
       } else if (type == "dwxx") {
         content = assembleInfoWindowContent("实有单位", baseUrl+"/dwxx/" + origin.dwbh + "/photo?Authorization=" +token , "简称：" + origin.dwjc + "&nbsp;<a style=\"color:#86d9fb\" href=\"javascript:void(0);\">详情</a><br/>名称：" + origin.dwmc);
       } else if (type == 'xqxx') {
@@ -2492,7 +2496,7 @@
     	if(id == 'syrk'){
     		window.location.href='yw_charts.html'
     	}
-    	
+
     }
     //打开一人一档页面
     function openArchives(zjhm){
