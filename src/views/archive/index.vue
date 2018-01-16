@@ -8,34 +8,34 @@
         <div class="data-container">
           <img style="width: 150px;opacity: 0.9;position: relative;left: 75px;margin-top: 20px;" src="@/images/archives/T5101813600002017081019.jpg"></img>
           <div style="margin-left:60px;">
-            <span>姓名：</span> 张三 <span style="background-color: #1588ef; padding: 5px; font-size: 12px; border-radius: 3px; margin-left: 30px;">户籍人员</span>
+            <span>姓名：</span> {{personalInfo.xm}} <span style="background-color: #1588ef; padding: 5px; font-size: 12px; border-radius: 3px; margin-left: 30px;">{{personalInfo.syrklbhz}}</span>
           </div>
           <div style="margin-left:60px;">
-            <span>性别：</span> 男
+            <span>性别：</span> {{personalInfo.xbhz}}
           </div>
           <div style="margin-left:30px;">
-            <span>证件号码：</span> 310228196809091234
+            <span>证件号码：</span> {{personalInfo.zjhm}}
           </div>
           <div style="margin-left:60px;">
-            <span>民族：</span> 汉族
-          </div>
-          <div style="margin-left:60px;">
-            <span>国籍：</span> 中国
+            <span>民族：</span> {{personalInfo.mzhz}}
           </div>
           <div style="margin-left:30px;">
-            <span>文化程度：</span> 初级中学
+            <span>文化程度：</span> {{personalInfo.whcdhz}}
           </div>
           <div style="margin-left:30px;">
-            <span>婚姻状况：</span> 已婚
+            <span>婚姻状况：</span> {{personalInfo.hyzkhz}}
+          </div>
+          <div style="margin-left:30px;">
+            <span>服务处所：</span> {{personalInfo.fwcs}}
           </div>
           <div style="margin-left:30px;">
             <span>人物标签：</span> <span style="background-color: #1588ef; padding: 5px; font-size: 12px; border-radius: 3px;">在逃人员</span>
           </div>
           <div style="margin-left:30px;">
-            <span>户籍地址：</span> 山阳镇九龙村汀南2400号
+            <span>户籍地址：</span> {{personalInfo.hjdz}}
           </div>
           <div style="margin-left:30px;">
-            <span>居住地址：</span> 龙轩路866弄21号1101室
+            <span>居住地址：</span> {{personalInfo.jzdz}}
           </div>
         </div>
       </div>
@@ -313,8 +313,38 @@
 </template>
 
 <script>
+import { fetchPersonalInfo } from '@/api/archive/archive'
 export default {
-  name: 'archives'
+  name: 'archive',
+  data () {
+    return {
+      personalInfo: {
+        syrklbhz: '',
+        zjhm: '',
+        xm: '',
+        xbhz: '',
+        mzhz: '',
+        whcdhz: '',
+        hyzkhz: '',
+        fwcs: '',
+        hjdz: '',
+        jzdz: '',
+        jzfwid: '',
+        hh: ''
+      }
+    }
+  },
+  methods: {
+    fetchPersonalInfo (zjhm) {
+      fetchPersonalInfo(zjhm).then(response => {
+        this.personalInfo = response.data
+      })
+    }
+  },
+  mounted () {
+    let zjhm = this.$route.query.zjhm
+    this.fetchPersonalInfo(zjhm)
+  }
 }
 </script>
 

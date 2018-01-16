@@ -262,12 +262,12 @@ export const singlePageRouter = [{
   },
   component: _import('gzgl/components/ybls')
 }, {
-  path: '/archives',
-  name: 'archives',
+  path: '/archive',
+  name: 'archive',
   meta: {
     title: '一人一档'
   },
-  component: _import('archives/index')
+  component: _import('archive/index')
 }, {
   path: '/search',
   name: 'search',

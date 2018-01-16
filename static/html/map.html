@@ -1089,6 +1089,7 @@
     .dialog-vehicle-owner-container .img {
       width: 256px;
       height: 144px;
+      padding: 10px;
       display: inline-block;
     }
 
@@ -1665,7 +1666,7 @@
         "type": 1,
         "shade": false,
         "title": false,
-        "area": ['550px', '180px'],
+        "area": ['600px', '180px'],
         "content": content,
         "moveType": 1,
         "cancel": function(){
@@ -1821,7 +1822,7 @@
         faceSimilarHtml = faceSimilarHtml + "   <div class=\"item_info\">";
         faceSimilarHtml = faceSimilarHtml + "     <div class=\"item_info_contrast\">" + messages[i].similarity + "</div>";
         faceSimilarHtml = faceSimilarHtml + "     <div>" + messages[i].hitXm + "</div>";
-        faceSimilarHtml = faceSimilarHtml + "     <div class=\"can-click\" title=\""+ messages[i].hitZjhm +"\" onclick=\"openArchives('"+ messages[i].hitZjhm +"')\"><img src=\"/static/image/sfz.jpg\" width=\"20\" /></div>";
+        faceSimilarHtml = faceSimilarHtml + "     <div class=\"can-click\" title=\""+ messages[i].hitZjhm +"\" onclick=\"openArchive('"+ messages[i].hitZjhm +"')\"><img src=\"/static/image/sfz.jpg\" width=\"20\" /></div>";
         faceSimilarHtml = faceSimilarHtml + "   </div>";
         faceSimilarHtml = faceSimilarHtml + "  </div>";
         faceSimilarHtml = faceSimilarHtml + "</div>";
@@ -1872,7 +1873,7 @@
         faceSimilarHtml = faceSimilarHtml + "   <div class=\"item_info\">";
         faceSimilarHtml = faceSimilarHtml + "     <div class=\"item_info_contrast\">" + messages[i].similarity + "</div>";
         faceSimilarHtml = faceSimilarHtml + "     <div>" + messages[i].hitXm + "</div>";
-        faceSimilarHtml = faceSimilarHtml + "     <div class=\"can-click\" title=\""+ messages[i].hitZjhm +"\" onclick=\"openArchives('"+ messages[i].hitZjhm +"')\"><img src=\"/static/image/sfz.jpg\" width=\"20\" /></div>";
+        faceSimilarHtml = faceSimilarHtml + "     <div class=\"can-click\" title=\""+ messages[i].hitZjhm +"\" onclick=\"openArchive('"+ messages[i].hitZjhm +"')\"><img src=\"/static/image/sfz.jpg\" width=\"20\" /></div>";
         faceSimilarHtml = faceSimilarHtml + "   </div>";
         faceSimilarHtml = faceSimilarHtml + "  </div>";
         faceSimilarHtml = faceSimilarHtml + "</div>";
@@ -1946,7 +1947,7 @@
         faceSimilarHtml = faceSimilarHtml + "   <div class=\"item_info\">";
         faceSimilarHtml = faceSimilarHtml + "     <div class=\"item_info_contrast\">" + messages[i].similarity + "</div>";
         faceSimilarHtml = faceSimilarHtml + "     <div>" + messages[i].hitXm + "</div>";
-        faceSimilarHtml = faceSimilarHtml + "     <div class=\"can-click\" title=\""+ messages[i].hitZjhm +"\" onclick=\"openArchives('"+ messages[i].hitZjhm +"')\"><img src=\"/static/image/sfz.jpg\" width=\"20\" /></div>";
+        faceSimilarHtml = faceSimilarHtml + "     <div class=\"can-click\" title=\""+ messages[i].hitZjhm +"\" onclick=\"openArchive('"+ messages[i].hitZjhm +"')\"><img src=\"/static/image/sfz.jpg\" width=\"20\" /></div>";
         faceSimilarHtml = faceSimilarHtml + "   </div>";
         faceSimilarHtml = faceSimilarHtml + "  </div>";
         faceSimilarHtml = faceSimilarHtml + "</div>";
@@ -1997,7 +1998,7 @@
         faceSimilarHtml = faceSimilarHtml + "   <div class=\"item_info\">";
         faceSimilarHtml = faceSimilarHtml + "     <div class=\"item_info_contrast\">" + messages[i].similarity + "</div>";
         faceSimilarHtml = faceSimilarHtml + "     <div>" + messages[i].hitXm + "</div>";
-        faceSimilarHtml = faceSimilarHtml + "     <div class=\"can-click\" title=\""+ messages[i].hitZjhm +"\" onclick=\"openArchives('"+ messages[i].hitZjhm +"')\"><img src=\"/static/image/sfz.jpg\" width=\"20\" /></div>";
+        faceSimilarHtml = faceSimilarHtml + "     <div class=\"can-click\" title=\""+ messages[i].hitZjhm +"\" onclick=\"openArchive('"+ messages[i].hitZjhm +"')\"><img src=\"/static/image/sfz.jpg\" width=\"20\" /></div>";
         faceSimilarHtml = faceSimilarHtml + "   </div>";
         faceSimilarHtml = faceSimilarHtml + "  </div>";
         faceSimilarHtml = faceSimilarHtml + "</div>";
@@ -2328,8 +2329,8 @@
         if (code == 200) {
           var locations = data.data;
           for (var i = 0; i < locations.length; i++) {
-            if (locations[i].gpsLat != "" && locations[i].gpslon != "") {
-              addMarker(locations[i].gpsLon, locations[i].gpsLat, locations[i].dwbh, "dwxx", locations[i]);
+            if (locations[i].gdLat != "" && locations[i].gdlon != "") {
+              addMarker(locations[i].gdLon, locations[i].gdLat, locations[i].dwbh, "dwxx", locations[i]);
             }
           }
         }
@@ -2604,8 +2605,8 @@
 
     }
     //打开一人一档页面
-    function openArchives(zjhm){
-      window.open(serviceUrl+"/#/archives?zjhm="+zjhm);
+    function openArchive(zjhm){
+      window.open(serviceUrl+"/#/archive?zjhm="+zjhm);
     }
   </script>
 </head>
