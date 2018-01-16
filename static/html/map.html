@@ -527,11 +527,18 @@
       color: lightgrey;
     }
 
-    #con_detail_3 .con_vehicle_pass_stat .con_vehicle_pass_stat_right {
-      width: 45%;
+    #con_detail_3 .con_vehicle_pass_stat .con_vehicle_pass_stat_center {
+      width: 22%;
       display: inline-block;
       color: #00cd47;
       font-size: 18px;
+    }
+
+    #con_detail_3 .con_vehicle_pass_stat .con_vehicle_pass_stat_right {
+      width: 28%;
+      display: inline-block;
+      color: #e0c85c;
+      font-size: 14px;
     }
 
     #con_detail_3 .con_vehicle_pass_record {
@@ -607,6 +614,26 @@
       height: 20px;
       line-height: 20px;
       padding: 0px 5px;
+      display:inline-block;
+    }
+
+    #con_detail_3 .item_info .item_info_clly {
+      color: #FFFFFF;
+      width: 29px;
+      height: 20px;
+      line-height: 20px;
+      padding: 0px 5px;
+      display:inline-block;
+      margin-left: 10px;
+    }
+
+    #con_detail_3 .item_info .item_info_clly_xq {
+      color: black !important;
+      background-color: #ef910a;
+    }
+
+    #con_detail_3 .item_info .item_info_clly_xq:hover {
+      cursor: pointer;
     }
 
     /************ 右侧菜菜单 - 过车 ***************/
@@ -946,7 +973,7 @@
 
     /********* 图片详情对话框 ******************************/
     .layui-layer {
-      background-color: rgba(42,61,93, 0.75);
+      background-color: rgba(42,61,93, 0.8);
     }
 
     .dialog-face-msg-container {
@@ -1048,6 +1075,34 @@
     .dialog-vehicle-pass-container img {
       width: 100%;
       height: 100%;
+    }
+
+    .dialog-vehicle-owner-container {
+      width: 100%;
+      height: 100%;
+      display: flex;
+    }
+    .dialog-vehicle-owner-container * {
+      box-sizing: border-box;
+    }
+
+    .dialog-vehicle-owner-container .img {
+      width: 256px;
+      height: 144px;
+      display: inline-block;
+    }
+
+    .dialog-vehicle-owner-container img {
+      width: 100%;
+      height: 100%;
+    }
+
+    .dialog-vehicle-owner-container .msg {
+      font-size: 14px;
+      color:white;
+      line-height: 2rem;
+      padding: 10px;
+      display: inline-block;
     }
 
     .icon-custom {
@@ -1581,18 +1636,64 @@
           pcolor = "item_info_plate_yellow";
         }
 
-        passRecordsHtml = passRecordsHtml + "<div class=\"con_vehicle_pass_record_item\" data-pic=\"" + dpic +"\">";
+        passRecordsHtml = passRecordsHtml + "<div class=\"con_vehicle_pass_record_item\" data-pic=\"" + dpic +"\" data-cphm=\"" + messages[i].cphm +"\" data-lxdh=\"" + messages[i].lxdh +"\" data-ssxq=\"" + messages[i].ssxq +"\" data-dz=\"" + messages[i].dz +"\">";
         passRecordsHtml = passRecordsHtml + " <div class=\"item_photo\" onclick=\"showVehicleVehiclePicDialog(this)\">";
         passRecordsHtml = passRecordsHtml + "   <img src=\"" + picBaseUrl + "/car/" + dpic + "\" onerror=\"this.src='/static/image/default_nophoto.png'\"></img>";
         passRecordsHtml = passRecordsHtml + " </div>";
         passRecordsHtml = passRecordsHtml + " <div class=\"item_info\">";
         passRecordsHtml = passRecordsHtml + "   <div class=\"item_info_plate " + pcolor + "\">" + messages[i].plateid + "</div>";
         passRecordsHtml = passRecordsHtml + "   <div>" + dtime + "</div>";
-        passRecordsHtml = passRecordsHtml + "   <div class=\"item_info_status " + din + "\">" + messages[i].status + "</div>";
+        passRecordsHtml = passRecordsHtml + "   <div class=\"item_info_status " + din + "\">" + messages[i].status+ "</div>";
+        if(messages[i].clly=='小区'){
+          passRecordsHtml = passRecordsHtml + "   <div class=\"item_info_clly item_info_clly_xq\" onclick=\"showXqVehicleOwnersInfoDialog(this)\">" + messages[i].clly + "</div>";
+        }
         passRecordsHtml = passRecordsHtml + "  </div>";
         passRecordsHtml = passRecordsHtml + "</div>";
       }
       $("#con_detail_3 .con_vehicle_pass_record").html(passRecordsHtml);
+    }
+
+    function showXqVehicleOwnersInfoDialog(obj){
+
+      var content = assembleXqVehicleOwnersInfoDialogContent(obj);
+
+      if (_layer_index) {
+        layer.close(_layer_index);
+      }
+
+      _layer_index =layer.open({
+        "type": 1,
+        "shade": false,
+        "title": false,
+        "area": ['550px', '180px'],
+        "content": content,
+        "moveType": 1,
+        "cancel": function(){
+          layer.close(_layer_index);
+        }
+      });
+    }
+
+    function assembleXqVehicleOwnersInfoDialogContent(obj,data) {
+      debugger
+      var pic = $(obj).parent('.item_info').parent(".con_vehicle_pass_record_item").data("pic");
+      var cphm = $(obj).parent('.item_info').parent(".con_vehicle_pass_record_item").data("cphm");
+      var lxdh = $(obj).parent('.item_info').parent(".con_vehicle_pass_record_item").data("lxdh");
+      var ssxq = $(obj).parent('.item_info').parent(".con_vehicle_pass_record_item").data("ssxq");
+      var dz = $(obj).parent('.item_info').parent(".con_vehicle_pass_record_item").data("dz");
+      var content = "";
+      content = content + "<div class='dialog-vehicle-owner-container'>";
+      content = content + "<div class='img'>";
+      content = content + "<img src='" + picBaseUrl + "/car/" + pic + "' onerror=\"this.src='/static/image/default_nophoto.png'\">";
+      content = content + "</div>";
+      content = content + "<div class='msg'>";
+      content = content + "<div>车牌号码：" + cphm + "</div>";
+      content = content + "<div>联系电话：" + lxdh + "</div>";
+      content = content + "<div>所属小区：" + ssxq + "</div>";
+      content = content + "<div>居住地址：" + dz + "</div>";
+      content = content + "</div>";
+      content = content + "</div>";
+      return content;
     }
 
     function showVehicleVehiclePicDialog(obj){
@@ -1632,19 +1733,23 @@
       var passStatHtml = "";
       passStatHtml = passStatHtml + "  <div class=\"con_vehicle_pass_stat_total\">";
       passStatHtml = passStatHtml + "    <div class=\"con_vehicle_pass_stat_left\">车辆登记数：</div>";
-      passStatHtml = passStatHtml + "    <div class=\"con_vehicle_pass_stat_right\">" + message.v_total + "</div>";
+      passStatHtml = passStatHtml + "    <div class=\"con_vehicle_pass_stat_center\">" + message.v_total + "</div>";
+      passStatHtml = passStatHtml + "    <div class=\"con_vehicle_pass_stat_right\">| 外来车辆</div>";
       passStatHtml = passStatHtml + "  </div>";
       passStatHtml = passStatHtml + "  <div>";
       passStatHtml = passStatHtml + "    <div class=\"con_vehicle_pass_stat_left\">今日进入：</div>";
-      passStatHtml = passStatHtml + "    <div class=\"con_vehicle_pass_stat_right\">" + message.v_entry + "</div>";
+      passStatHtml = passStatHtml + "    <div class=\"con_vehicle_pass_stat_center\">" + message.v_entry + "</div>";
+      passStatHtml = passStatHtml + "    <div class=\"con_vehicle_pass_stat_right\">" + message.v_foreign_entry + "</div>";
       passStatHtml = passStatHtml + "  </div>";
       passStatHtml = passStatHtml + "  <div>";
       passStatHtml = passStatHtml + "    <div class=\"con_vehicle_pass_stat_left\">今日外出：</div>";
-      passStatHtml = passStatHtml + "    <div class=\"con_vehicle_pass_stat_right\">" + message.v_exit + "</div>";
+      passStatHtml = passStatHtml + "    <div class=\"con_vehicle_pass_stat_center\">" + message.v_exit + "</div>";
+      passStatHtml = passStatHtml + "    <div class=\"con_vehicle_pass_stat_right\">" + message.v_foreign_exit + "</div>";
       passStatHtml = passStatHtml + "  </div>";
       passStatHtml = passStatHtml + "  <div>";
       passStatHtml = passStatHtml + "    <div class=\"con_vehicle_pass_stat_left\">滞留数：</div>";
-      passStatHtml = passStatHtml + "    <div class=\"con_vehicle_pass_stat_right\">" + message.v_detention + "</div>";
+      passStatHtml = passStatHtml + "    <div class=\"con_vehicle_pass_stat_center\">" + message.v_detention + "</div>";
+      passStatHtml = passStatHtml + "    <div class=\"con_vehicle_pass_stat_right\">" + message.v_foreign_detention + "</div>";
       passStatHtml = passStatHtml + "  </div>";
 
       $("#con_detail_3 .con_vehicle_pass_stat").html(passStatHtml);

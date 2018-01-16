@@ -24,21 +24,22 @@
         </el-collapse-item>
       </el-collapse>
       <!-- <p >
-            <Icon type="navicon"></Icon>
-            检索条件
-          </p> -->
+              <Icon type="navicon"></Icon>
+              检索条件
+            </p> -->
     </Card>
     </Col>
     <Col span="24">
     <div v-show="data.length>0">
       <div class="card-container">
         <Card class="card" v-for="item in data" :key="item.id">
-          <div class="image-container">
-            <img class="image" v-for="photo in item.photoList" :key="photo.id" :src="photo.src" />
-          </div>
-          <div class="card-footer">
-            <div class="hphm hphm_blue" v-bind:class="{hphm_yellow:item.platecolor=='黄色'}">{{item.plateid}}</div>
-            <div class="time"> {{item.intime}}</div>
+          <div class="car-container">
+            <img class="image" :src="item.photo.src" />
+            <div class="info">
+              <div class="hphm hphm_blue item" v-bind:class="{hphm_yellow:item.platecolor=='黄色'}">{{item.plateid}}</div>
+              <div class="item"> {{item.tm}}</div>
+              <div class="status item" v-bind:class="{status_in:item.status=='进入',status_out:item.status=='外出'}"> {{item.status}}</div>
+            </div>
           </div>
         </Card>
       </div>
@@ -60,7 +61,7 @@ export default {
       data: [],
       pageInfo: {
         pageNum: 1,
-        pageSize: 6,
+        pageSize: 8,
         total: 0
       }
     }
@@ -113,34 +114,46 @@ export default {
   }
 }
 .card-container {
-  display: flex;
-  // justify-content: center;
+  display: flex; // justify-content: center;
   flex-wrap: wrap;
   .card {
-    width: 32%;
-    height: 200px;
+    width: 24%;
+    height: 150px;
     display: inline-block;
     margin: 5px;
-    .image-container {
-      width: 100%;
+    .car-container {
       .image {
-        width: 50%;
         height: 100px;
-      }
-    }
-    .card-footer {
-      padding: 0 10px 0 10px;
-      .hphm {
-        font-size: 16px;
-        padding: 1px;
         display: inline-block;
-        &_blue {
-          background-color: #0a5eef;
-          color: whitesmoke;
+      }
+      .info {
+        width: 100px;
+        display: inline-block;
+        .item {
+          margin: 5px 5px 5px 5px;
         }
-        &_yellow {
-          color: black;
-          background-color: #ef910a;
+        .status {
+          display: inline-block;
+          padding: 2px;
+          &_in {
+            background-color: green;
+          }
+          &_out {
+            background-color: red;
+          }
+        }
+        .hphm {
+          font-size: 16px;
+          padding: 1px;
+          display: inline-block;
+          &_blue {
+            background-color: #0a5eef;
+            color: whitesmoke;
+          }
+          &_yellow {
+            color: black;
+            background-color: #ef910a;
+          }
         }
       }
     }
