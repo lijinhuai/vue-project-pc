@@ -54,7 +54,7 @@
       </Col>
     </Row>
   </FormTable> -->
-  <FormCard :columns="columns" :fetchList="search()" :queryForm="queryForm">
+  <FormCard ref="formCard" :columns="columns" :fetchList="search()" :queryForm="queryForm">
     <Row slot="form">
       <Col span="12">
       <FormItem label="号牌号码：" prop="plateid">
@@ -179,6 +179,7 @@ export default {
     )
     this.queryForm.searchDateArr = [start, end]
     this.$refs.searchDate.emitChange(this.queryForm.searchDateArr)
+    this.$refs.formCard.search()
   }
 }
 </script>

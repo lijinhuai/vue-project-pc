@@ -61,7 +61,7 @@ export default {
       data: [],
       pageInfo: {
         pageNum: 1,
-        pageSize: 8,
+        pageSize: 12,
         total: 0
       }
     }
@@ -117,34 +117,37 @@ export default {
   display: flex; // justify-content: center;
   flex-wrap: wrap;
   .card {
-    width: 24%;
+    width: 24.5%;
     height: 150px;
     display: inline-block;
-    margin: 5px;
+    margin: 2px;
     .car-container {
       .image {
         height: 100px;
+        width: 180px;
+        padding: 0 5px;
         display: inline-block;
       }
       .info {
-        width: 100px;
+        width: 95px;
         display: inline-block;
         .item {
           margin: 5px 5px 5px 5px;
         }
         .status {
+          color: white;
           display: inline-block;
-          padding: 2px;
+          padding: 0 5px;
           &_in {
-            background-color: green;
+            background-color: #00cd47;
           }
           &_out {
-            background-color: red;
+            background-color: #f12608;
           }
         }
         .hphm {
-          font-size: 16px;
-          padding: 1px;
+          font-size: 14px;
+          padding: 0 5px;
           display: inline-block;
           &_blue {
             background-color: #0a5eef;
