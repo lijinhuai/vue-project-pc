@@ -416,6 +416,8 @@
 <script>
 import { fetchArchive } from '@/api/archive/archive'
 import ECharts from 'vue-echarts/components/ECharts'
+import 'echarts/lib/chart/line'
+import 'echarts/lib/component/tooltip'
 export default {
   name: 'archive',
   data () {

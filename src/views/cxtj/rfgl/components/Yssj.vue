@@ -4,6 +4,8 @@
 
 <script>
 import ECharts from 'vue-echarts/components/ECharts'
+import 'echarts/lib/chart/line'
+import 'echarts/lib/component/tooltip'
 export default {
   name: 'yssj',
   data () {

@@ -2598,9 +2598,15 @@
     function openYblsDetail() {
       window.open(serviceUrl+"/#/ybls");
     }
+    
     function showYblsDetail_chart(id){
+    	var path = locationPath();
     	if(id == 'syrk'){
-    		window.location.href='yw_charts.html'
+    		parent.location.href='yw_charts.html'
+    	}else if(id == 'syfw'){
+    		parent.location.href ='shfw.html'
+    	}else if(id == 'sydw'){
+    		parent.location.href ='sydw.html'
     	}
 
     }
@@ -2638,7 +2644,7 @@
         <i class="iconfont">&#xe600;</i>
       </span>
       <div class="stat-info pull-left">实有房屋</div>
-      <a href="javascript:;" onclick="openYblsDetail('syfw');">
+      <a href="javascript:;" onclick="showYblsDetail_chart('syfw');">
         <div class="stat-num pull-right" id="syfw">0</div>
       </a>
     </div>
@@ -2648,7 +2654,7 @@
         <i class="iconfont">&#xe616;</i>
       </span>
       <div class="stat-info pull-left">实有单位</div>
-      <a href="javascript:;" onclick="openYblsDetail('sydw');">
+      <a href="javascript:;" onclick="showYblsDetail_chart('sydw');">
         <div class="stat-num pull-right" id="sydw">0</div>
       </a>
     </div>
