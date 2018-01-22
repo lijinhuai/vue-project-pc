@@ -236,9 +236,15 @@
           <div class='outer_five__piece'></div>
           <div class='outer_five__piece'></div>
           <div class='outer_five__piece'></div>
-          <div class='outer_five__piece'></div>
         </div>
         <div class='pieces'>
+          <div class='future_ui__piece' @click="showModal('house')">
+            <span>宽带开户</span>
+            <div class='line'></div>
+            <div class='tip'>
+              Broadband Info!
+            </div>
+          </div>
           <div class='future_ui__piece' @click="showModal('house')">
             <span>住房信息</span>
             <div class='line'></div>

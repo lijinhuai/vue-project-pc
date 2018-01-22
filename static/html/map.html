@@ -1609,9 +1609,12 @@
           countUp('syrk', ybls.syrk);
           countUp('syfw', ybls.syfw);
           countUp('sydw', ybls.sydw);
-          countUp('syafss', 34);
+          countUp('syafss', ybls.syafss);
           countUp('syllzb', ybls.syllzb);
           countUp('syjq', ybls.syjq);
+          countUp('hjry', ybls.hjry);
+          countUp('lhry', ybls.lhry);
+          countUp('jwry', ybls.jwry);
           drawBarChart();
         }
       }), 1000 * 30)
@@ -1673,9 +1676,12 @@
         countUp('syrk', ybls.syrk);
         countUp('syfw', ybls.syfw);
         countUp('sydw', ybls.sydw);
-        countUp('syafss', 34);
+        countUp('syafss', ybls.syafss);
         countUp('syllzb', ybls.syllzb);
         countUp('syjq', ybls.syjq);
+        countUp('hjry', ybls.hjry);
+        countUp('lhry', ybls.lhry);
+        countUp('jwry', ybls.jwry);
       } else if (code == 200 && data.dataType == 'YT') {
         showDynamicData(data.data);
       }
@@ -2022,7 +2028,6 @@
     }
 
     function assembleXqVehicleOwnersInfoDialogContent(obj, data) {
-      debugger
       var pic = $(obj).parent('.item_info').parent(".con_vehicle_pass_record_item").data("pic");
       var cphm = $(obj).parent('.item_info').parent(".con_vehicle_pass_record_item").data("cphm");
       var lxdh = $(obj).parent('.item_info').parent(".con_vehicle_pass_record_item").data("lxdh");
@@ -3005,11 +3010,11 @@
     function showYblsDetail_chart(id) {
       var path = locationPath();
       if (id == 'syrk') {
-        parent.location.href = 'yw_charts.html'
+        location.href = 'yw_charts.html'
       } else if (id == 'syfw') {
-        parent.location.href = 'shfw.html'
+        location.href = 'shfw.html'
       } else if (id == 'sydw') {
-        parent.location.href = 'sydw.html'
+        location.href = 'sydw.html'
       }
 
     }
@@ -3129,21 +3134,21 @@
             <p>
               <span>来沪</span>
               <br/>
-              <i>1059</i>
+              <i id="lhry">0</i>
             </p>
           </div>
           <div class="bubble_item ani_auto ani_time_10 ani_bottom_top">
             <p>
               <span>户籍</span>
               <br/>
-              <i>3779</i>
+              <i id="hjry">0</i>
             </p>
           </div>
           <div class="bubble_item ani_auto ani_time_10 ani_bottom_top">
             <p>
               <span>境外</span>
               <br/>
-              <i>17</i>
+              <i id="jwry">0</i>
             </p>
           </div>
         </div>
