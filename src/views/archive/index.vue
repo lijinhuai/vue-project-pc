@@ -368,7 +368,7 @@
       </div>
     </Modal>
     <Modal v-model="modal.modal_vehicle" width="90%" height="100%" :styles="{top: '30px'}">
-      <div style="margin: 30px auto; display:flex;flex-direction: column;justify-content: space-evenly;">
+      <div style="margin: 30px auto; display:flex;flex-direction: column;justify-content: space-around;">
         <div style="display: flex;justify-content: space-evenly;">
         <div class="home-ranking-list" style="width: 320px; height: 250px;">
           <h4><label>车辆信息</label> <label style="float: right; font-size: 14px; text-decoration: underline; color: #00d294;">违法信息</label></h4>
@@ -586,10 +586,10 @@ export default {
   font-size: 14px !important;
 }
 .data-container span {
-  font-size: 14px !important;
-  font-weight: bold;
+  font-size: 14px;
+  font-weight: normal;
   line-height: 2rem;
-  color: rgba(255, 255, 255, 0.7);
+  color: hsla(0, 0%, 100%, 0.7);
 }
 .data-contents-height {
   box-sizing: border-box;
