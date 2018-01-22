@@ -34,7 +34,7 @@
             <span>服务处所：</span> {{archive.personalInfo.fwcs}}
           </div>
           <div style="margin-left:30px;">
-            <span>人物标签：</span> <span style="background-color: #1588ef; padding: 5px; font-size: 12px; border-radius: 3px;">在逃人员</span>
+            <span>人物标签：</span> <span style="background-color: #1588ef; padding: 5px; font-size: 12px; border-radius: 3px;">志愿者</span>
           </div>
           <div style="margin-left:30px;">
             <span>户籍地址：</span> {{archive.personalInfo.hjdz}}
@@ -326,9 +326,9 @@
         </div>
       </div>
     </div>
-    <Modal v-model="modal.modal_house" width="90%" height="100%" :styles="{top: '30px'}">
-      <div style="margin: 30px auto; display:flex;justify-content: space-evenly;">
-        <div class="home-ranking-list" style="width: 380px;">
+    <Modal v-model="modal.modal_house" height="100%" :styles="{top: '30px',left: '160px',width: 'calc(100vw - 400px)'}">
+      <div style="margin: 30px auto; display:flex;">
+        <div class="home-ranking-list" style="width: 300px;">
           <h4><label>住房信息</label> <label style="float: right;  font-size: 14px; text-decoration: underline; color: #00d294;">层户结构</label></h4>
           <ul class="data-contents-height">
             <li><label>房屋地址</label> <span>
@@ -347,7 +347,8 @@
                               人户分离</span></li>
           </ul>
         </div>
-        <div class="home-ranking-list" style="width: 300px;">
+        <div style="width: 300px;">
+          <div class="home-ranking-list" style="height: 230px;">
           <h4><label>水电煤信息</label> <label style="float: right;    text-decoration: underline; color: #00d294;">2018-01</label></h4>
           <ul class="data-contents-height">
             <li><b>1</b><label style=" padding-left: 20px;">水</label> <span class="r">
@@ -364,6 +365,21 @@
             </li>
           </ul>
         </div>
+        <div class="home-ranking-list" style="height: 230px;margin-top:10px;">
+          <h4><label>宽带开户</label> <label style="float: right;    text-decoration: underline; color: #00d294;"></label></h4>
+          <ul class="data-contents-height"  v-for="kdkf in archive.houseInfo.kdkhList" :key="kdkf.index">
+            <li><label style=" padding-left: 20px;">宽带账号</label> <span class="r">
+                             {{kdkf.prodInstNum}}
+              </span>
+            </li>
+            <li><label style=" padding-left: 20px;">联系人</label> <span class="r">
+                              {{kdkf.acntName}}
+              </span>
+            </li>
+          </ul>
+        </div>
+        </div>
+
         <div class="home-ranking-list" style="width: 300px;">
           <h4><label>同户人员</label></h4>
           <ul class="data-contents-height">
@@ -373,9 +389,9 @@
         </div>
       </div>
     </Modal>
-    <Modal v-model="modal.modal_vehicle" width="90%" height="100%" :styles="{top: '30px'}">
-      <div style="margin: 30px auto; display:flex;flex-direction: column;justify-content: space-around;">
-        <div style="display: flex;justify-content: space-evenly;">
+    <Modal v-model="modal.modal_vehicle" height="100%" :styles="{top: '30px',left: '160px',width: 'calc(100vw - 400px)'}">
+      <div style="margin: 30px auto; display:flex;flex-direction: column;">
+        <div style="display: flex;">
         <div class="home-ranking-list" style="width: 320px; height: 250px;">
           <h4><label>车辆信息</label> <label style="float: right; font-size: 14px; text-decoration: underline; color: #00d294;">违法信息</label></h4>
           <ul class="data-contents-height">
@@ -408,8 +424,8 @@
           </div>
         </div>
         </div>
-        <div style="display: flex;justify-content: space-evenly;margin-top:20px;">
-        <div class="home-ranking-list" style="width: 600px;">
+        <div style="display: flex;margin-top:20px;">
+        <div class="home-ranking-list" style="width: 640px;">
           <h4><label>车辆进出时段趋势分析</label></h4>
           <ECharts :options="this.archive.vehicleInfo.option" auto-resize style="height:250px;margin-top: -30px;"></ECharts>
         </div>
@@ -599,13 +615,15 @@ export default {
 }
 .data-contents-height {
   box-sizing: border-box;
-  height: 350px;
+  /* height: 350px; */
 }
 .home-ranking-list {
   background: rgba(29, 51, 121, 0.5);
   border-radius: 4px;
   box-shadow: 0 0 16px 8px rgba(3, 2, 8, 0.1);
+   margin-right:15px;
 }
+
 .home-ranking-list h4 {
   background: rgba(58, 123, 255, 0.2);
   height: 48px;
@@ -618,7 +636,6 @@ export default {
 }
 .home-ranking-list ul li {
   font-size: 14px;
-  height: 46px;
   line-height: 46px;
   border-bottom: 1px solid rgba(67, 104, 199, 0.2);
   color: #3690ff;
@@ -792,8 +809,13 @@ export default {
 </style>
 
 <style lang="less">
+.ivu-modal-mask{
+  background:transparent;
+}
 .ivu-modal-content {
   background: rgba(29, 51, 121, 0.5);
+  height: 90vh;
+  border-radius: 0px;
   .ivu-modal-body {
     padding: 5px 40px;
   }
