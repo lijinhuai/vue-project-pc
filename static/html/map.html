@@ -12,12 +12,18 @@
   <link rel="stylesheet" type="text/css" href="http://117.184.195.173:25002/jsmap/1.0/demo/apidemos/sourceLinks/style.css">
   <script type="text/javascript" src="http://117.184.195.173:25002/jsmap/1.0/demo/scripts/jsurl.js"></script>
 
+  <link rel="stylesheet" type="text/css" href="../js/toastr/toastr.min.css">
+
   <script src="../js/jquery.min.js"></script>
   <script src="../js/js.cookie-2.2.0.min.js"></script>
   <script src="../js/layer/layer.js"></script>
   <script src="../js/jquery.base64.js"></script>
   <script src="../js/countUp.js"></script>
   <script src="../js/echarts.bar.min.js"></script>
+  <script src="../js/jquery.gallery.js"></script>
+  <script src="../js/modernizr.custom.js"></script>
+
+  <script src="../js/toastr/toastr.min.js"></script>
 
   <style>
     .head-container {
@@ -347,7 +353,7 @@
 
     .operator-container {
       position: absolute;
-      bottom: 10px;
+      top: 50px;
       text-align: center;
       z-index: 900;
       display: block;
@@ -417,7 +423,7 @@
     .detail-container {
       width: 300px;
       position: absolute;
-      top: 20%;
+      top: 15%;
       right: 20px;
       z-index: 1000;
     }
@@ -1412,6 +1418,104 @@
     .layer-custom .layui-layer-content {
       overflow: hidden;
     }
+    /* ******车辆****** */
+
+    .vehicle-container {
+      position: absolute;
+      width: 100%;
+      height: 145px;
+      bottom: 15px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: center;
+    }
+
+    .vehicle-container .vehicle-box {
+      width: 50%;
+      z-index: 1000;
+    }
+
+    .vehicle-container .vehicle-box .box-title {
+      height: 25px;
+      background-color: rgba(2, 48, 65, 0.7)
+    }
+
+    .vehicle-container .vehicle-box .box-footer {
+      height: 25px;
+      background-color: rgba(2, 48, 65, 0.7)
+    }
+
+    .vehicle-container .vehicle-box .box-content {
+      height: calc(100% - 25px);
+      background-color: rgba(5, 48, 64, .8);
+      padding-top: 10px;
+      border-image-source: url(../image/line1.png);
+      border-style: solid;
+      border-width: 1px 1px;
+      border-image-slice: 1 fill;
+      border-image-outset: initial;
+      border-image-repeat: initial;
+    }
+
+    .dg-container {
+      width: 100%;
+      height: 150px;
+      position: relative;
+    }
+
+    .dg-wrapper {
+      width: 202px;
+      height: 120px;
+      margin: 0 auto;
+      position: relative;
+      -webkit-transform-style: preserve-3d;
+      -moz-transform-style: preserve-3d;
+      -o-transform-style: preserve-3d;
+      -ms-transform-style: preserve-3d;
+      transform-style: preserve-3d;
+      -webkit-perspective: 1000px;
+      -moz-perspective: 1000px;
+      -o-perspective: 1000px;
+      -ms-perspective: 1000px;
+      perspective: 1000px;
+    }
+
+    .dg-wrapper a {
+      width: 202px;
+      height: 90px;
+      display: block;
+      position: absolute;
+      left: 0;
+      top: 0;
+      box-shadow: 0px 5px 10px rgba(33, 150, 243, 0.8);
+    }
+
+    .dg-wrapper a.dg-transition {
+      -webkit-transition: all 0.5s ease-in-out;
+      -moz-transition: all 0.5s ease-in-out;
+      -o-transition: all 0.5s ease-in-out;
+      -ms-transition: all 0.5s ease-in-out;
+      transition: all 0.5s ease-in-out;
+    }
+
+    .dg-wrapper a img {
+      display: block;
+      width: 200px;
+      /* height: 90px; */
+    }
+
+    .dg-wrapper a div {
+      text-align: center;
+      color: rgb(40, 190, 247);
+      font-size: 16px;
+      width: 100%;
+      display: none;
+      margin-top: 10px;
+    }
+
+    .dg-wrapper a.dg-center div {
+      display: block;
+    }
 
   </style>
 
@@ -1430,6 +1534,12 @@
 
       // 右侧菜单上的按钮事件绑定
       initDetailContainerDomEvent();
+
+      loadVehiclePassRecordsAlone();
+      setInterval(function () {
+        loadVehiclePassRecordsAlone();
+      }, 1000 * 30)
+
     });
 
     function initOperatorMenuEvent() {
@@ -1684,12 +1794,32 @@
         countUp('jwry', ybls.jwry);
       } else if (code == 200 && data.dataType == 'YT') {
         showDynamicData(data.data);
+      } else if (code == 200 && data.dataType == 'CLBK') {
+        for (var i = 0; i < data.data.length; i++) {
+          toastr.options = {
+            "closeButton": true,
+            "debug": false,
+            "progressBar": false,
+            "positionClass": "toast-bottom-right",
+            "onclick": null,
+            "showDuration": "300",
+            "hideDuration": "1000",
+            "timeOut": "0",
+            "extendedTimeOut": "0",
+            "showEasing": "swing",
+            "hideEasing": "linear",
+            "showMethod": "fadeIn",
+            "hideMethod": "fadeOut"
+          }
+          toastr.warning(data.data[i].plateid +" "+ data.data[i].parkname, "布控报警消息!")
+        }
+
       }
     }
 
     function createEventSource(successCallBack) {
       var token = Cookies.get("Admin-Token");
-      var url = baseUrl + '/sseEmitter/YBLS,YT?Authorization=' + token;
+      var url = baseUrl + '/sseEmitter/YBLS,YT,CLBK?Authorization=' + token;
       if (!!window.EventSource) {
         var source = new EventSource(url);
         source.addEventListener('message', function (e) {
@@ -1962,6 +2092,18 @@
       });
     }
 
+    // 加载过车统计数据
+    function loadVehiclePassRecordsAlone() {
+      var token = Cookies.get("Admin-Token");
+      loadData(baseUrl + "/xqtc/records", token, function (data) {
+        var code = data.code;
+        if (code == 200) {
+          var messages = data.data;
+          showVehiclePassStatRecordsAlone(messages)
+        }
+      });
+    }
+
     // 展示过车统计记录
     function showVehiclePassStatRecords(messages) {
       var passRecordsHtml = "";
@@ -2004,6 +2146,35 @@
         passRecordsHtml = passRecordsHtml + "</div>";
       }
       $("#con_detail_3 .con_vehicle_pass_record").html(passRecordsHtml);
+    }
+
+    // 展示底部过车统计记录
+    function showVehiclePassStatRecordsAlone(messages) {
+      var html = '';
+      // $('#dg-container').destroy();
+      $('#dg-wrapper').html('');
+      for (var i = 0; i < messages.length; i++) {
+        var data = messages[i];
+        var dtime = data.tm.substring(10);
+        var dpic = "";
+        var din = "";
+        if (data.status == "进入") {
+          dpic = data.inimg;
+          din = "item_info_status_entry";
+        } else {
+          dpic = data.outimg;
+        }
+        html += "<a><img src=\"" + picBaseUrl + "/car/" + dpic +
+          "\" onerror=\"this.src='/static/image/default_nophoto.png'\">" +
+          "<div>" + data.plateid + " " + dtime + "</div>" +
+          "</a>";
+      }
+      $('#dg-wrapper').append(html);
+
+      $('#dg-container').gallery({
+        autoplay: true,
+        interval: 3000
+      });
     }
 
     function showXqVehicleOwnersInfoDialog(obj) {
@@ -3299,6 +3470,21 @@
         </div>
       </div>
       <img src="../image/line2.png" style="width: 1px;height: 420px;position: absolute;top: 0px;right: 41px;">
+    </div>
+  </div>
+
+  <div class="vehicle-container">
+    <div class="vehicle-box">
+      <!-- <div class="box-title"></div> -->
+      <div class="box-content">
+        <div class="container">
+          <section id="dg-container" class="dg-container">
+            <div id="dg-wrapper" class="dg-wrapper">
+            </div>
+          </section>
+        </div>
+      </div>
+      <div class="box-footer"></div>
     </div>
   </div>
   <script type="text/javascript">
