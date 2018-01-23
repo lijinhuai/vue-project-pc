@@ -34,7 +34,8 @@
             <span>服务处所：</span> {{archive.personalInfo.fwcs}}
           </div>
           <div style="margin-left:30px;">
-            <span>人物标签：</span> <span style="background-color: #1588ef; padding: 5px; font-size: 12px; border-radius: 3px;">志愿者</span>
+            <span>人物标签：</span> <span v-for="rybq in archive.personalInfo.rybqList" :key="rybq.index" style="background-color: #1588ef; padding: 5px; font-size: 12px; border-radius: 3px;">
+                {{rybq.name}}</span> &nbsp;
           </div>
           <div style="margin-left:30px;">
             <span>户籍地址：</span> {{archive.personalInfo.hjdz}}
@@ -273,7 +274,7 @@
               Unit Information!
             </div>
           </div>
-          <div class='future_ui__piece' @click="showModal()">
+          <div class='future_ui__piece' @click="showModal('hospital')">
             <span>就诊记录</span>
             <div class='line'></div>
             <div class='tip'>
@@ -343,8 +344,14 @@
                               {{archive.houseInfo.fzlxdh}}</span></li>
             <li><label>居住类型</label> <span>
                               {{archive.houseInfo.jzlxText}}</span></li>
-            <li><label>房屋标签</label> <span style="background-color: tomato; padding: 5px; font-size: 12px; border-radius: 3px; color: whitesmoke;font-weight: bold;">
-                              人户分离</span></li>
+            <li><label>房屋标签</label>
+                              <span style="background-color: tomato; padding: 5px; font-size: 12px; border-radius: 3px; color: whitesmoke;font-weight: bold;">
+                              {{archive.houseInfo.flagRhflText}}
+                              </span>
+                              &nbsp;
+                              <span style="background-color: tomato; padding: 5px; font-size: 12px; border-radius: 3px; color: whitesmoke;font-weight: bold;">
+                              {{archive.houseInfo.jzfwlxText}}</span>
+                              </li>
           </ul>
         </div>
         <div style="width: 300px;">
@@ -392,7 +399,7 @@
     <Modal v-model="modal.modal_vehicle" height="100%" :styles="{top: '30px',left: '160px',width: 'calc(100vw - 400px)'}">
       <div style="margin: 30px auto; display:flex;flex-direction: column;">
         <div style="display: flex;">
-        <div class="home-ranking-list" style="width: 320px; height: 250px;">
+        <div class="home-ranking-list" style="width: 320px;">
           <h4><label>车辆信息</label> <label style="float: right; font-size: 14px; text-decoration: underline; color: #00d294;">违法信息</label></h4>
           <ul class="data-contents-height">
             <li><label>车牌号码</label> <span style="background-color: #1857dc; padding: 5px; font-size: 14px; border-radius: 3px; color: whitesmoke;font-weight: bold;">
@@ -405,23 +412,8 @@
                         {{archive.vehicleInfo.dz}}</span></li>
           </ul>
         </div>
-        <div class="home-ranking-list" style="width: 300px; height: 250px;">
-          <h4><label>出入信息</label> <label style="float: right; font-size: 14px; text-decoration: underline; color: #00d294;">进出记录</label></h4>
-          <div class="bubble">
-            <div class="bubble_min ani_auto ani_top_top ani_time_8"></div>
-            <div class="bubble_min ani_auto ani_top_top ani_time_12"></div>
-            <div class="bubble_min ani_auto ani_top_top ani_time_10"></div>
-            <div class="bubble_min ani_auto ani_top_top ani_time_12"></div>
-            <div class="bubble_min ani_auto ani_top_top ani_time_8"></div>
-            <div class="bubble_list">
-              <div class="bubble_item ani_auto ani_8 ani_top_bottom">
-                <p><span>出行</span> <i>{{archive.vehicleInfo.outCount}}次</i></p>
-              </div>
-              <div class="bubble_item ani_auto ani_time_10 ani_bottom_top">
-                <p><span>进入</span> <i>{{archive.vehicleInfo.inCount}}次</i></p>
-              </div>
-            </div>
-          </div>
+        <div class="home-ranking-list" style="width: 300px;">
+          <h4><label>住院信息</label> <label style="float: right; font-size: 14px; text-decoration: underline; color: #00d294;">进出记录</label></h4>
         </div>
         </div>
         <div style="display: flex;margin-top:20px;">
@@ -429,6 +421,18 @@
           <h4><label>车辆进出时段趋势分析</label></h4>
           <ECharts :options="this.archive.vehicleInfo.option" auto-resize style="height:250px;margin-top: -30px;"></ECharts>
         </div>
+        </div>
+      </div>
+    </Modal>
+    <Modal v-model="modal.modal_hospital" height="100%" :styles="{top: '30px',left: '160px',width: 'calc(100vw - 400px)'}">
+      <div style="margin: 30px auto; display:flex;flex-direction: column;">
+        <div class="home-ranking-list" style="width: 100%;">
+          <h4><label>门诊信息</label> </h4>
+            <Table :columns="mzInfoColumn" :data="archive.mzInfoList"></Table>
+        </div>
+        <div class="home-ranking-list" style="width: 100%;margin-top:10px;">
+          <h4><label>住院信息</label> </h4>
+          <Table :columns="zyInfoColumn" :data="archive.zyInfoList"></Table>
         </div>
       </div>
     </Modal>
@@ -475,12 +479,47 @@ export default {
         },
         vehicleInfo: {
           option: {}
-        }
+        },
+        zyInfoColumn: [],
+        zyInfoList: []
       },
       modal: {
         modal_house: false,
-        modal_vehicle: false
-      }
+        modal_vehicle: false,
+        modal_hospital: false
+      },
+      mzInfoColumn: [
+        {
+          title: '就诊时间',
+          key: 'jzsj'
+        },
+        {
+          title: '诊断医生姓名',
+          key: 'zdysxm'
+        },
+        {
+          title: '疾病诊断名称',
+          key: 'jbzdmc'
+        }
+      ],
+      zyInfoColumn: [
+        {
+          title: '入院时间',
+          key: 'rysj'
+        },
+        {
+          title: '入院科室名称',
+          key: 'ryksmc'
+        },
+        {
+          title: '入院诊断名称',
+          key: 'ryzdmc'
+        },
+        {
+          title: '入院病区名称',
+          key: 'rybqmc'
+        }
+      ]
     }
   },
   components: {
@@ -553,6 +592,9 @@ export default {
       if (modal === 'vehicle') {
         this.modal.modal_vehicle = true
       }
+      if (modal === 'hospital') {
+        this.modal.modal_hospital = true
+      }
     }
   },
   mounted () {
@@ -621,7 +663,7 @@ export default {
   background: rgba(29, 51, 121, 0.5);
   border-radius: 4px;
   box-shadow: 0 0 16px 8px rgba(3, 2, 8, 0.1);
-   margin-right:15px;
+  margin-right: 15px;
 }
 
 .home-ranking-list h4 {
@@ -809,8 +851,8 @@ export default {
 </style>
 
 <style lang="less">
-.ivu-modal-mask{
-  background:transparent;
+.ivu-modal-mask {
+  background: transparent;
 }
 .ivu-modal-content {
   background: rgba(29, 51, 121, 0.5);
@@ -822,6 +864,20 @@ export default {
   .ivu-modal-footer {
     display: none;
   }
+}
+
+.ivu-table {
+  color: white;
+  background-color: transparent;
+  th {
+    background-color: transparent;
+  }
+  td {
+    background-color: transparent;
+  }
+}
+tr.ivu-table-row-hover td {
+  background-color: rgba(255, 255, 255, 0.2);
 }
 </style>
 
