@@ -866,18 +866,32 @@ export default {
   }
 }
 
+.ivu-table-wrapper {
+  border: 0px;
+}
 .ivu-table {
   color: white;
   background-color: transparent;
+  &:before {
+    background-color: transparent;
+  }
+  &:after {
+    background-color: transparent;
+  }
   th {
     background-color: transparent;
+    border-bottom: 1px solid rgba(67, 104, 199, 0.2);
   }
   td {
     background-color: transparent;
+    border-bottom: 1px solid rgba(67, 104, 199, 0.2);
   }
 }
 tr.ivu-table-row-hover td {
   background-color: rgba(255, 255, 255, 0.2);
+}
+table {
+  border-color: rgba(67, 104, 199, 0.2);
 }
 </style>
 
