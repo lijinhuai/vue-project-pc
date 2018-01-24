@@ -7,6 +7,7 @@
   <title>基础地图展示</title>
 
   <meta name="renderer" content="webkit">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
   <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
   <meta tabindex="">
   <link rel="stylesheet" type="text/css" href="http://117.184.195.173:25002/jsmap/1.0/demo/apidemos/sourceLinks/style.css">
@@ -1189,7 +1190,7 @@
 
     .infowindow-container .infowindow-title {
       position: relative;
-      background-color: rgba(20, 65, 170, 0.7);
+      background-color: rgba(20, 65, 170, 0.8);
       border-bottom: 1px solid #CCC;
       border-radius: 5px 5px 0 0;
     }
@@ -1215,7 +1216,7 @@
       font-size: 12px;
       padding: 6px;
       line-height: 20px;
-      background-color: rgba(20, 65, 170, 0.7);
+      background-color: rgba(20, 65, 170, 0.8);
       height: 77px;
       color: #FFFFFF;
     }
@@ -1462,12 +1463,15 @@
       overflow: hidden;
     }
     /* ******车辆****** */
+    /* .vehicle-container * {
+      box-sizing: border-box;
+    } */
 
     .vehicle-container {
       position: absolute;
       width: 100%;
       height: 145px;
-      bottom: 15px;
+      bottom: 20px;
       margin: 0 auto;
       display: flex;
       justify-content: center;
@@ -1797,7 +1801,11 @@
 
       var option = {
         grid: {
-          left: 50
+          left: 50,
+          x: 0,
+          y: 0,
+          x2: 0,
+          y2: 0,
         },
         title: {
           show: false
@@ -2228,7 +2236,8 @@
         } else {
           dpic = data.outimg;
         }
-        html += "<a><img src=\"" + picBaseUrl + "/car/" + dpic +
+        html += "<a class=\"can-click\" data-pic=\"" + dpic +
+          "\" onclick=\"showVehicleVehiclePicDialogAlone(this)\"><img src=\"" + picBaseUrl + "/car/" + dpic +
           "\" onerror=\"this.src='/static/image/default_nophoto.png'\">" +
           "<div>" + data.plateid + " " + dtime + "</div>" +
           "</a>";
@@ -2283,6 +2292,30 @@
       content = content + "</div>";
       return content;
     }
+
+    function showVehicleVehiclePicDialogAlone(obj) {
+
+      var pic = $(obj).data("pic");
+      var content = assembleVehiclePicDialogContent(pic);
+
+      if (_layer_index) {
+        layer.close(_layer_index);
+      }
+
+      _layer_index = layer.open({
+        "type": 1,
+        "shade": false,
+        "title": false,
+        "area": ['768px', '432px'],
+        "content": content,
+        "moveType": 1,
+        "skin": 'layer-custom',
+        "cancel": function () {
+          layer.close(_layer_index);
+        }
+      });
+    }
+
 
     function showVehicleVehiclePicDialog(obj) {
 
@@ -3510,7 +3543,7 @@
     </div>
 
     <div class="stat-row" style="height: 120px;">
-      <div id="chart" style="width: 100%;height:200%;"></div>
+      <div id="chart" style="width: 100%;height:100%;"></div>
     </div>
 
   </div>
