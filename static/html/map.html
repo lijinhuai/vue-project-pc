@@ -3200,6 +3200,7 @@
       });
     }
 
+
     // 展示某个类型的坐标信息
     function showLocationsByType(type) {
       var overlays = map.getOverlayLayer().getOverlays();
@@ -3337,7 +3338,7 @@
           "<br/>纬度：" + origin.gpswd);
       } else if (type == "dwxx") {
         content = assembleInfoWindowContent("实有单位", baseUrl + "/dwxx/" + origin.dwbh + "/photo?Authorization=" + token,
-          "简称：" + origin.dwjc + "&nbsp;&nbsp;&nbsp;&nbsp;<a style=\"color:#86d9fb\">详&nbsp;&nbsp情</a><br/>名称：" +
+          "简称：" + origin.dwjc + "&nbsp;&nbsp;&nbsp;&nbsp;<a style=\"color:#86d9fb\" target=\"_blank\" href=\"javascript:;void(0)\" onlick=\"openDwxx();\">详&nbsp;&nbsp情</a><br/>名称：" +
           origin.dwmc);
       } else if (type == 'xqxx') {
         content = assembleInfoWindowContent("小区出入口", baseUrl + "/xqxx/" + origin.crkbh + "/photo?Authorization=" +
@@ -3484,9 +3485,14 @@
       window.open(serviceUrl + "/#/archive?zjhm=" + zjhm);
     }
 
+    //打开单位信息页面
+    function openDwxx(zjhm) {
+      window.open('dwxx.html');
+    }
+
     // 返回首页
     function openHome() {
-      window.parent.location.href = serviceUrl+"#/home" ;
+      window.parent.location.href = serviceUrl + "#/home";
     }
 
   </script>
