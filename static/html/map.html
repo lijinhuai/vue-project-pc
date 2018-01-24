@@ -55,7 +55,7 @@
     .stat-container {
       width: 220px;
       position: absolute;
-      top: 10%;
+      top: 15%;
       z-index: 1000;
       margin-left: 10px;
       display: flex;
@@ -364,7 +364,7 @@
     .operator-container .operator-ops {
       /* width: 40%; */
       border-right: 6px solid #ffd700;
-      margin-right: 10px;
+      margin-right: 5px;
       color: #0dc2fd;
       /* box-shadow: inset 0 0 11px 0px #0dc2fd; */
       background-color: rgba(2, 48, 65, 0.7);
@@ -1562,6 +1562,77 @@
 
     .dg-wrapper a.dg-center div {
       display: block;
+    }
+    /**** 终端操作 ****/
+
+    .data-contents-height {
+      box-sizing: border-box;
+      width: 253px;
+      height: 140px;
+      z-index: 1000;
+      position: absolute;
+      bottom: 10px;
+      right: 60px;
+    }
+
+    .mobile-ranking-list {
+      /* background: rgba(29,51,121,.5); */
+      overflow: hidden;
+      border-radius: 4px;
+      box-shadow: 0 0 16px 8px rgba(3, 2, 8, .1);
+    }
+
+    .user-behavior-line {
+      position: relative;
+      width: 200px;
+      margin: 0 auto;
+    }
+
+    .user-behavior-line b:first-child {
+      padding-top: 0px;
+    }
+
+    .user-behavior-line b {
+      border-bottom: 1px dashed #4368c7;
+      padding: 22px 0;
+      height: 1px;
+      width: 100%;
+      display: block;
+    }
+
+    .user-behavior-line span {
+      position: absolute;
+      bottom: 1px;
+      width: 30px;
+      border-radius: 4px 4px 0 0;
+      text-align: center;
+      padding-top: 5px;
+      box-sizing: border-box;
+      color: #fff;
+      font-size: 12px;
+    }
+
+    .mobile-user-behavior ol {
+      padding-top: 5px;
+      display: flex;
+      justify-content: center;
+    }
+
+    .mobile-user-behavior ol li {
+      padding: 0 10px;
+      color: rgba(255, 255, 255, .7);
+      display: flex;
+      align-items: center;
+      font-size: 12px;
+    }
+
+    .mobile-user-behavior ol li i {
+      display: inline-block;
+      width: 12px;
+      height: 12px;
+      border-radius: 2px;
+      margin-right: 4px;
+      background: #3690ff;
     }
 
   </style>
@@ -3260,10 +3331,13 @@
       var token = Cookies.get("Admin-Token");
       if (type == "house") {
         content = assembleInfoWindowContent("实有房屋", baseUrl + "/houses/" + origin.cjbh + "/photo?Authorization=" +
-          token, "地址：" + origin.mlph + "<br/>经度：" + origin.gpsjd + "<br/>纬度：" + origin.gpswd);
+          token, "地址：" + origin.mlph +
+          "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a style=\"color:#86d9fb\" target=\"_blank\" href=\"" +
+          serviceUrl + "/#/analysis/rfgl?mlph=" + origin.mlph + "\">详&nbsp;&nbsp情</a>" + "<br/>经度：" + origin.gpsjd +
+          "<br/>纬度：" + origin.gpswd);
       } else if (type == "dwxx") {
         content = assembleInfoWindowContent("实有单位", baseUrl + "/dwxx/" + origin.dwbh + "/photo?Authorization=" + token,
-          "简称：" + origin.dwjc + "&nbsp;<a style=\"color:#86d9fb\" href=\"javascript:void(0);\">详情</a><br/>名称：" +
+          "简称：" + origin.dwjc + "&nbsp;&nbsp;&nbsp;&nbsp;<a style=\"color:#86d9fb\">详&nbsp;&nbsp情</a><br/>名称：" +
           origin.dwmc);
       } else if (type == 'xqxx') {
         content = assembleInfoWindowContent("小区出入口", baseUrl + "/xqxx/" + origin.crkbh + "/photo?Authorization=" +
@@ -3410,6 +3484,11 @@
       window.open(serviceUrl + "/#/archive?zjhm=" + zjhm);
     }
 
+    // 返回首页
+    function openHome() {
+      window.parent.location.href = serviceUrl+"#/home" ;
+    }
+
   </script>
 </head>
 
@@ -3545,7 +3624,17 @@
     <div class="stat-row" style="height: 120px;">
       <div id="chart" style="width: 100%;height:100%;"></div>
     </div>
+  </div>
 
+
+  <!-- 首页操作按钮 -->
+  <div class="operator-container" style="left: 5px;">
+    <div class="operator-ops" style="border-left: 6px solid #ffd700; border-right: 0px; float: left;">
+      <label class="operator-label" onclick="openHome();" style="background-image: url(../image/checkbox1_on.png); margin-left: 6px;">
+        <span class="operator-checkbox operator-input"></span>
+        首页
+      </label>
+    </div>
   </div>
 
   <!-- 地图操作按钮 -->
@@ -3704,6 +3793,27 @@
       </div>
       <div class="box-footer"></div>
     </div>
+  </div>
+
+  <!-- 终端操作统计 -->
+  <div class="data-contents-height mobile-user-behavior mobile-ranking-list ">
+    <div class="user-behavior-line">
+      <b></b>
+      <b></b>
+      <b></b>
+      <span style="height: 38%; left: 25px; background: rgb(3, 139, 255);">440</span>
+      <span style="height: 85%; left: 85px; background: rgb(217, 175, 10);">980</span>
+      <span style="height: 18%; right: 25px; background: rgb(11, 193, 165);">102</span>
+    </div>
+    <ol>
+      <li>
+        <i></i>新增</li>
+      <li>
+        <i style="background: #d9af0a;"></i>修改</li>
+      <li>
+        <i style="background: #0bc1a5;"></i>注销</li>
+    </ol>
+  </div>
   </div>
   <script type="text/javascript">
     var map;

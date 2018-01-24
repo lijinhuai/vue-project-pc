@@ -204,7 +204,8 @@ export default {
         lm: '',
         mnph: '',
         sh: '',
-        sfzh: ''
+        sfzh: '',
+        mlph: ''
       },
       columns: [
         {
@@ -343,6 +344,11 @@ export default {
       this.queryForm.dztzm = dztzm
       this.searchRfglRoom()
     }
+    let mlph = this.$route.query.mlph
+    if (mlph) {
+      this.queryForm.mlph = mlph
+      this.searchRfglRoom()
+    }
   },
   methods: {
     ok () {
@@ -414,6 +420,7 @@ export default {
         this.queryForm.lm = ''
         this.queryForm.mnph = ''
         this.queryForm.sh = ''
+        this.queryForm.mlph = ''
       }
       this.queryForm.dztzm = ''
     },
