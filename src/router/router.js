@@ -275,7 +275,31 @@ export const singlePageRouter = [{
     title: '一键搜'
   },
   component: _import('yjs/yjs')
-}]
+}, {
+  path: '/company',
+  name: 'company',
+  meta: {
+    title: '实有单位'
+  },
+  component: _import('single/company/company')
+},
+{
+  path: '/equipment',
+  name: 'equipment',
+  meta: {
+    title: '实有装备力量'
+  },
+  component: _import('single/equipment/equipment')
+},
+{
+  path: '/case',
+  name: 'case',
+  meta: {
+    title: '实有警情'
+  },
+  component: _import('single/case/case')
+}
+]
 
 // 所有上面定义的路由都要写在下面的routers里
 export const routers = [

@@ -55,7 +55,7 @@
     .stat-container {
       width: 220px;
       position: absolute;
-      top: 15%;
+      top: 13%;
       z-index: 1000;
       margin-left: 10px;
       display: flex;
@@ -517,6 +517,14 @@
     .detail-menu-box li.icon-af.hover {
       background-image: url(../image/icon_af_on.png);
     }
+
+    .detail-menu-box li.icon-bk {
+      background-image: url(../image/icon_control.png);
+    }
+
+    .detail-menu-box li.icon-bk.hover {
+      background-image: url(../image/icon_control_on.png);
+    }
     /* .detail-menu-box li.hover {
       background-image: linear-gradient(45deg, rgba(230, 11, 84, 0.66), #ff2468);
     } */
@@ -739,7 +747,7 @@
       float: left;
       word-break: keep-all;
       white-space: nowrap;
-      width: 90px;
+      width: 80px;
       overflow: hidden;
     }
 
@@ -977,7 +985,7 @@
     #con_detail_3 .item_info .item_info_clly_xq:hover {
       cursor: pointer;
     }
-    /************ 右侧菜菜单 - 过车 ***************/
+    /************ 右侧菜菜单 - WIFI ***************/
 
     #con_detail_4 .con_wifi_records {
       display: block;
@@ -1160,6 +1168,39 @@
       height: 20px;
       line-height: 20px;
       padding: 0px 5px;
+    }
+    /************ 右侧菜菜单 - 布控报警 ***************/
+
+    #con_detail_6 .con_control {
+      display: block;
+      overflow-y: auto;
+      height: 375px;
+    }
+
+    #con_detail_6 .con_control .con_control_item .item_info {
+      padding: 0px 0px 20px 20px;
+    }
+
+    #con_detail_6 .con_control .con_control_item div {
+      text-align: left;
+      line-height: 1.5rem;
+      font-size: 14px;
+      color: #b2bbc1
+    }
+
+    #con_detail_6 .con_control::-webkit-scrollbar {
+      width: 6px;
+      height: 2px;
+    }
+
+    #con_detail_6 .con_control::-webkit-scrollbar-thumb {
+      border-radius: 1px;
+      background: #2b85e4;
+    }
+
+    #con_detail_6 .con_control::-webkit-scrollbar-track {
+      border-radius: 1px;
+      background: #033447;
     }
     /******* 地图颜色覆盖 **********/
 
@@ -1850,7 +1891,7 @@
           countUp('sydw', ybls.sydw);
           countUp('syafss', ybls.syafss);
           countUp('syllzb', ybls.syllzb);
-          countUp('syjq', ybls.syjq);
+          countUp('syjq', 8);
           countUp('hjry', ybls.hjry);
           countUp('lhry', ybls.lhry);
           countUp('jwry', ybls.jwry);
@@ -1921,7 +1962,7 @@
         countUp('sydw', ybls.sydw);
         countUp('syafss', ybls.syafss);
         countUp('syllzb', ybls.syllzb);
-        countUp('syjq', ybls.syjq);
+        countUp('syjq',8);
         countUp('hjry', ybls.hjry);
         countUp('lhry', ybls.lhry);
         countUp('jwry', ybls.jwry);
@@ -1944,7 +1985,8 @@
             "showMethod": "fadeIn",
             "hideMethod": "fadeOut"
           }
-          toastr.warning(data.data[i].plateid + " " + data.data[i].parkname, "布控报警消息!")
+          toastr.warning(data.data[i].plateid + " " + data.data[i].parkname, "布控报警消息!");
+          loadControlData();
         }
 
       }
@@ -2096,6 +2138,9 @@
       // 窨井盖数据
       loadYjgData();
 
+      // 布控报警数据
+      loadControlData();
+
     }
 
     // 窨井盖数据
@@ -2108,6 +2153,38 @@
           showYjgData(messages);
         }
       });
+    }
+
+    // 布控数据
+    function loadControlData() {
+      var token = Cookies.get("Admin-Token");
+      loadData(baseUrl + "/vehicles/controls", token, function (data) {
+        var code = data.code;
+        if (code == 200) {
+          var messages = data.data;
+          showControlData(messages);
+        }
+      });
+    }
+    // 右侧菜单中布控数据展示
+    function showControlData(messages) {
+
+      var token = Cookies.get("Admin-Token");
+      var bkDataHtml = "";
+      for (var i = 0; i < messages.length; i++) {
+        bkDataHtml = bkDataHtml + "<div class=\"con_control_item\">";
+        bkDataHtml = bkDataHtml + " <div class=\"item-content\">";
+        bkDataHtml = bkDataHtml + "   <div class=\"item_info\">";
+        bkDataHtml = bkDataHtml + "     <div>报警时间：" + messages[i].bjsj + "</div>";
+        bkDataHtml = bkDataHtml + "     <div>布控车辆：" + messages[i].hphm + "</div>";
+        bkDataHtml = bkDataHtml + "     <div>出现时间：" + messages[i].uploadtime + "</div>";
+        bkDataHtml = bkDataHtml + "     <div>出现地点：" + messages[i].parkname + "</div>";
+        bkDataHtml = bkDataHtml + "   </div>";
+        bkDataHtml = bkDataHtml + "  </div>";
+        bkDataHtml = bkDataHtml + "</div>";
+      }
+
+      $("#con_detail_6 .con_control").html(bkDataHtml);
     }
 
 
@@ -3338,7 +3415,9 @@
           "<br/>纬度：" + origin.gpswd);
       } else if (type == "dwxx") {
         content = assembleInfoWindowContent("实有单位", baseUrl + "/dwxx/" + origin.dwbh + "/photo?Authorization=" + token,
-          "简称：" + origin.dwjc + "&nbsp;&nbsp;&nbsp;&nbsp;<a style=\"color:#86d9fb\" target=\"_blank\" href=\"javascript:;void(0)\" onlick=\"openDwxx();\">详&nbsp;&nbsp情</a><br/>名称：" +
+          "简称：" + origin.dwjc +
+          "&nbsp;&nbsp;&nbsp;&nbsp;<a style=\"color:#86d9fb\" target=\"_blank\" href=\"javascript:;void(0)\" onclick=\"openDwxx(" +
+          origin.dwbh + ");\">详&nbsp;&nbsp情</a><br/>名称：" +
           origin.dwmc);
       } else if (type == 'xqxx') {
         content = assembleInfoWindowContent("小区出入口", baseUrl + "/xqxx/" + origin.crkbh + "/photo?Authorization=" +
@@ -3477,6 +3556,10 @@
         location.href = 'shfw.html'
       } else if (id == 'sydw') {
         location.href = 'sydw.html'
+      } else if (id == 'syll') {
+        window.open(serviceUrl + "/#/equipment");
+      } else if (id == 'syjq') {
+        window.open(serviceUrl + "/#/case");
       }
 
     }
@@ -3486,8 +3569,8 @@
     }
 
     //打开单位信息页面
-    function openDwxx(zjhm) {
-      window.open('dwxx.html');
+    function openDwxx(dwbh) {
+      window.open(serviceUrl + "/#/company?dwbh=" + dwbh);
     }
 
     // 返回首页
@@ -3578,7 +3661,9 @@
           <!-- <i class="iconfont">&#xe63d;</i> -->
           <img src="../image/syllzb_icon.png">
         </span>
-        <div class="stat-num num-syllzb" id="syllzb">0</div>
+        <a href="javascript:;" style="text-decoration: none;" onclick="showYblsDetail_chart('syll');">
+          <div class="stat-num num-syllzb" id="syllzb">0</div>
+        </a>
         <div class="stat-info">实有力量</div>
       </div>
 
@@ -3589,7 +3674,9 @@
           <img src="../image/syjq_icon.png">
           <!-- <i class="iconfont">&#xe63e;</i> -->
         </span>
-        <div class="stat-num num-syjq" id="syjq">0</div>
+        <a href="javascript:;" style="text-decoration: none;" onclick="showYblsDetail_chart('syjq');">
+          <div class="stat-num num-syjq" id="syjq">0</div>
+        </a>
         <div class="stat-info">实有警情</div>
       </div>
     </div>
@@ -3688,15 +3775,17 @@
     <div class="detail-tab-container detail-tab-border">
       <div class="detail-menu-box ">
         <ul>
-          <li class="icon-rlsb hover" id="detail1" onclick="setTab('detail',1,5)">
+          <li class="icon-rlsb hover" id="detail1" onclick="setTab('detail',1,6)">
           </li>
-          <li class="icon-km" id="detail2" onclick="setTab('detail',2,5)">
+          <li class="icon-km" id="detail2" onclick="setTab('detail',2,6)">
           </li>
-          <li class="icon-gc" id="detail3" onclick="setTab('detail',3,5)">
+          <li class="icon-gc" id="detail3" onclick="setTab('detail',3,6)">
           </li>
-          <li class="icon-wifi" id="detail4" onclick="setTab('detail',4,5)">
+          <li class="icon-wifi" id="detail4" onclick="setTab('detail',4,6)">
           </li>
-          <li class="icon-af" id="detail5" onclick="setTab('detail',5,5)">
+          <li class="icon-af" id="detail5" onclick="setTab('detail',5,6)">
+          </li>
+          <li class="icon-bk" id="detail6" onclick="setTab('detail',6,6)">
           </li>
         </ul>
       </div>
@@ -3779,6 +3868,11 @@
                 </div>
               </div>
             </div>
+          </div>
+        </div>
+        <div class="con_detail" id="con_detail_6" style="display:none">
+          <div class="detail-title">布控报警</div>
+          <div class="con_control">
           </div>
         </div>
       </div>

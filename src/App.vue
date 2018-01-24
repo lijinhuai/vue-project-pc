@@ -5,30 +5,32 @@
 </template>
 
 <script>
-  export default {
-    data () {
-      return {
-        theme: this.$store.state.app.themeColor
-      }
-    },
-    mounted () {},
-    beforeDestroy () {},
-    methods: {}
-  }
+export default {
+  data () {
+    return {
+      theme: this.$store.state.app.themeColor
+    }
+  },
+  mounted () {},
+  beforeDestroy () {},
+  methods: {}
+}
 </script>
 
 <style>
-  * {
-    font-size: 14px;
-  }
-  html,body{
-    width: 100%;
-    height: 100%;
-    background: #f0f0f0;
-    overflow: hidden;
+* {
+  font-size: 14px;
+  box-sizing: border-box;
 }
-  .app-main {
-    width: 100%;
-    height: 100%;
-  }
+html,
+body {
+  width: 100%;
+  height: 100%;
+  background: #f0f0f0;
+  overflow: hidden;
+}
+.app-main {
+  width: 100%;
+  height: 100%;
+}
 </style>
