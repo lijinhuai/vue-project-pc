@@ -31,7 +31,7 @@
           </div>
           <div style="margin-left:30px;">
             <span>人物标签：</span> <span v-for="rybq in company.fr.rybqList" :key="rybq.index" style="background-color: #1588ef; padding: 5px; font-size: 12px; border-radius: 3px;">
-                    {{rybq.name}}</span> &nbsp;
+                      {{rybq.name}}</span> &nbsp;
           </div>
           <div style="margin-left:30px;">
             <span>户籍地址：</span> {{company.fr.hjdz}}
@@ -51,57 +51,57 @@
           <li>
             <label>单位名称</label>
             <span>
-                {{company.dwxx.dwmc}}</span>
+                  {{company.dwxx.dwmc}}</span>
           </li>
           <li>
             <label>单位简称</label>
             <span>
-                {{company.dwxx.dwjc}}</span>
+                  {{company.dwxx.dwjc}}</span>
           </li>
           <li>
             <label>组织机构</label>
             <span>
-                {{company.dwxx.zzjgdm}}</span>
+                  {{company.dwxx.zzjgdm}}</span>
           </li>
           <li>
             <label>营业执照</label>
             <span>
-                {{company.dwxx.yyzzbh}}</span>
+                  {{company.dwxx.yyzzbh}}</span>
           </li>
           <li>
             <label>经营地址</label>
             <span>
-                {{company.dwxx.jydz}}</span>
+                  {{company.dwxx.jydz}}</span>
           </li>
           <li>
             <label>注册地址</label>
             <span>
-                {{company.dwxx.zcdz}}</span>
+                  {{company.dwxx.zcdz}}</span>
           </li>
           <li>
             <label>法人代表</label>
             <span>
-                {{company.dwxx.frdb}}</span>
+                  {{company.dwxx.frdb}}</span>
           </li>
           <li>
             <label>法人电话</label>
             <span>
-                {{company.dwxx.frlxdh}}</span>
+                  {{company.dwxx.frlxdh}}</span>
           </li>
           <li>
             <label>法人证件</label>
             <span>
-                {{company.dwxx.frzjhm}}</span>
+                  {{company.dwxx.frzjhm}}</span>
           </li>
           <li>
             <label>治安责任人</label>
             <span>
-                {{company.dwxx.zazrr}}</span>
+                  {{company.dwxx.zazrr}}</span>
           </li>
           <li>
             <label>联系电话</label>
             <span>
-                {{company.dwxx.lxdh}}</span>
+                  {{company.dwxx.lxdh}}</span>
           </li>
         </ul>
       </div>
@@ -110,17 +110,17 @@
           <label>从业人员</label>
         </h4>
         <ul class="data-contents-height" style=" padding: 0px 20px;">
-            <li v-for="(ry,index) in company.cyry" :key="ry.index">
-              <Poptip trigger="hover" :content="ry.lxdh">
+          <li v-for="(ry,index) in company.cyry" :key="ry.index">
+            <Poptip trigger="hover" :content="ry.lxdh">
               <b style="width:15px;display:inline-block;">{{index+1}}</b>
               <label style="width:62px; padding-left: 20px;display:inline-block;">{{ry.xm}}</label>
               <label style=" padding-left: 20px;">{{ry.xbhz}}</label>
-              <span style=" padding-left: 20px;">
-                <strong>{{ry.zjhm}}</strong>
-              </span>
-              <span class="r">{{ry.zzdz}}</span>
-              </Poptip>
-            </li>
+              <span style="width:160px; padding-left: 20px;display:inline-block;">
+                  <strong>{{ry.zjhm}}</strong>
+                </span>
+              <span style="padding-left:10px;">{{ry.zzdz}}</span>
+            </Poptip>
+          </li>
         </ul>
       </div>
     </div>
