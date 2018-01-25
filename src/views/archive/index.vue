@@ -7,11 +7,12 @@
         </div>
         <div class="data-container">
           <template v-if="archive.personalInfo.photo!=null">
-          <img style="width: 150px;opacity: 0.9;position: relative;left: 85px;margin-top: 20px;" :src="archive.personalInfo.photo.photoBase64" />
-          </template>
-          <template v-else>
-            <img style="width: 150px;opacity: 0.9;position: relative;left: 85px;margin-top: 20px;" />
-          </template>
+            <img style="width: 150px;opacity: 0.9;position: relative;left: 85px;margin-top: 20px;" :src="archive.personalInfo.photo.photoBase64" />
+</template>
+
+<template v-else>
+  <img style="width: 150px;opacity: 0.9;position: relative;left: 85px;margin-top: 20px;" />
+</template>
           <div style="margin-left:60px;">
             <span>姓名：</span> {{archive.personalInfo.xm}} <span style="background-color: #1588ef; padding: 5px; font-size: 12px; border-radius: 3px; margin-left: 30px;">{{archive.personalInfo.syrklbhz}}</span>
           </div>
@@ -400,7 +401,7 @@
       <div style="margin: 30px auto; display:flex;flex-direction: column;">
         <div style="display: flex;">
         <div class="home-ranking-list" style="width: 320px;">
-          <h4><label>车辆信息</label> <label style="float: right; font-size: 14px; text-decoration: underline; color: #00d294;">违法信息</label></h4>
+          <h4><label>小区登记车辆</label> <label style="float: right; font-size: 14px; text-decoration: underline; color: #00d294;">违法信息</label></h4>
           <ul class="data-contents-height">
             <li><label>车牌号码</label> <span style="background-color: #1857dc; padding: 5px; font-size: 14px; border-radius: 3px; color: whitesmoke;font-weight: bold;">
                         {{archive.vehicleInfo.cphm}}</span></li>
@@ -412,8 +413,23 @@
                         {{archive.vehicleInfo.dz}}</span></li>
           </ul>
         </div>
-        <div class="home-ranking-list" style="width: 300px;">
-          <h4><label>住院信息</label> <label style="float: right; font-size: 14px; text-decoration: underline; color: #00d294;">进出记录</label></h4>
+         <div class="home-ranking-list" style="width: 300px; height: 260px;">
+          <h4><label>出入信息</label> <label style="float: right; font-size: 14px; text-decoration: underline; color: #00d294;">进出记录</label></h4>
+          <div class="bubble">
+            <div class="bubble_min ani_auto ani_top_top ani_time_8"></div>
+            <div class="bubble_min ani_auto ani_top_top ani_time_12"></div>
+            <div class="bubble_min ani_auto ani_top_top ani_time_10"></div>
+            <div class="bubble_min ani_auto ani_top_top ani_time_12"></div>
+            <div class="bubble_min ani_auto ani_top_top ani_time_8"></div>
+            <div class="bubble_list">
+              <div class="bubble_item ani_auto ani_8 ani_top_bottom">
+                <p><span>出行</span> <i>{{archive.vehicleInfo.outCount}}次</i></p>
+              </div>
+              <div class="bubble_item ani_auto ani_time_10 ani_bottom_top">
+                <p><span>进入</span> <i>{{archive.vehicleInfo.inCount}}次</i></p>
+              </div>
+            </div>
+          </div>
         </div>
         </div>
         <div style="display: flex;margin-top:20px;">
@@ -665,7 +681,6 @@ export default {
   box-shadow: 0 0 16px 8px rgba(3, 2, 8, 0.1);
   margin-right: 15px;
 }
-
 .home-ranking-list h4 {
   background: rgba(58, 123, 255, 0.2);
   height: 48px;
@@ -865,7 +880,6 @@ export default {
     display: none;
   }
 }
-
 .ivu-table-wrapper {
   border: 0px;
 }
