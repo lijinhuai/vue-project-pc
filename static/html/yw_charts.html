@@ -770,6 +770,95 @@
     initData();
   });
 
+  function loadRyCjlx() {
+    var token = Cookies.get("Admin-Token");
+    loadData(baseUrl + "/houses/amounts", token, function (data) {
+      var code = data.code;
+      if (code == 200) {
+        var ybls = data.data;
+
+        var hjry = echarts.init(document.getElementById('syrk_hjry_charts'));
+        option = {
+
+          tooltip: {
+            trigger: 'axis',
+            axisPointer: {
+              type: 'shadow'
+            }
+          },
+          grid: {
+            left: '3%',
+            right: '10%',
+            bottom: '3%',
+            top: '10%',
+            containLabel: true
+          },
+          xAxis: {
+            splitLine: {
+              show: false
+            },
+            type: 'value',
+            boundaryGap: [0, 0.01],
+            axisLabel: {
+              show: true,
+              textStyle: {
+                color: 'white'
+              }
+            },
+            axisLine: {
+              lineStyle: {
+                color: 'white',
+                width: 1, //这里是坐标轴的宽度,可以去掉
+              }
+            }
+          },
+          yAxis: {
+            type: 'category',
+            data: ['户籍人员', '来沪人员', '境外人员'],
+            axisLabel: {
+              show: true,
+              textStyle: {
+                color: 'white'
+              }
+            },
+            axisLine: {
+              lineStyle: {
+                color: 'white',
+                width: 1, //这里是坐标轴的宽度,可以去掉
+              }
+            }
+          },
+          series: [{
+            name: '',
+            type: 'bar',
+            data: [ybls.hjry, ybls.lhry, ybls.jwry],
+            barWidth: 30,
+            itemStyle: {
+              normal: {
+                color: function (params) {
+                  //首先定义一个数组
+                  var colorList = [
+                    '#10A4E7', 'burlywood', 'lightcyan',
+                    'darksalmon', '#0AAF9F', '#E89589', '#186FF0', 'burlywood', 'darksalmon'
+                  ];
+                  return colorList[params.dataIndex]
+                }
+              }
+            },
+            label: {
+              normal: {
+                show: true,
+                position: 'right'
+              }
+            },
+          }]
+        };
+
+        hjry.setOption(option);
+      }
+    })
+  }
+
   function initData() {
 
     var token = Cookies.get("Admin-Token");
@@ -798,6 +887,8 @@
         $(".femalepercent").css("width", femalepercent)
       }
     })
+
+    loadRyCjlx();
   }
 
   // 异步加载数据
@@ -855,7 +946,7 @@
 </script>
 <script>
   var nl = echarts.init(document.getElementById('syrk_nl_charts'));
-  var hjry = echarts.init(document.getElementById('syrk_hjry_charts'));
+
   option4 = {
     title: {
 
@@ -932,84 +1023,9 @@
     }, ]
   };
 
-  option = {
 
-    tooltip: {
-      trigger: 'axis',
-      axisPointer: {
-        type: 'shadow'
-      }
-    },
-    grid: {
-      left: '3%',
-      right: '10%',
-      bottom: '3%',
-      top: '10%',
-      containLabel: true
-    },
-    xAxis: {
-      splitLine: {
-        show: false
-      },
-      type: 'value',
-      boundaryGap: [0, 0.01],
-      axisLabel: {
-        show: true,
-        textStyle: {
-          color: 'white'
-        }
-      },
-      axisLine: {
-        lineStyle: {
-          color: 'white',
-          width: 1, //这里是坐标轴的宽度,可以去掉
-        }
-      }
-    },
-    yAxis: {
-      type: 'category',
-      data: ['户籍人员', '来沪人员', '境外人员'],
-      axisLabel: {
-        show: true,
-        textStyle: {
-          color: 'white'
-        }
-      },
-      axisLine: {
-        lineStyle: {
-          color: 'white',
-          width: 1, //这里是坐标轴的宽度,可以去掉
-        }
-      }
-    },
-    series: [{
-      name: '',
-      type: 'bar',
-      data: [3799, 1083, 17],
-      barWidth: 30,
-      itemStyle: {
-        normal: {
-          color: function (params) {
-            //首先定义一个数组
-            var colorList = [
-              '#10A4E7', 'burlywood', 'lightcyan',
-              'darksalmon', '#0AAF9F', '#E89589', '#186FF0', 'burlywood', 'darksalmon'
-            ];
-            return colorList[params.dataIndex]
-          }
-        }
-      },
-      label: {
-        normal: {
-          show: true,
-          position: 'right'
-        }
-      },
-    }]
-  };
 
   nl.setOption(option4);
-  hjry.setOption(option);
 
 </script>
 
