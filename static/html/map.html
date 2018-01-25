@@ -1993,7 +1993,6 @@
         }
 
       } else if (code == 200 && data.dataType == 'RYBK') {
-        for (var i = 0; i < data.data.length; i++) {
           toastr.options = {
             "closeButton": true,
             "debug": false,
@@ -2009,14 +2008,13 @@
             "showMethod": "fadeIn",
             "hideMethod": "fadeOut"
           }
-          toastr.warning(data.data[i].plateid + " " + data.data[i].parkname, "人员布控报警消息!");
-          loadControlData();
+          toastr.warning(data.data.xm + " " + data.data.parkname, "人员布控报警消息!");
       }
     }
 
     function createEventSource(successCallBack) {
       var token = Cookies.get("Admin-Token");
-      var url = baseUrl + '/sseEmitter/YBLS,YT,CLBK?Authorization=' + token;
+      var url = baseUrl + '/sseEmitter/YBLS,YT,CLBK,RYBK?Authorization=' + token;
       if (!!window.EventSource) {
         var source = new EventSource(url);
         source.addEventListener('message', function (e) {
