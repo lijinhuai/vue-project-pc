@@ -298,6 +298,14 @@ export const singlePageRouter = [{
     title: '实有警情'
   },
   component: _import('single/case/case')
+},
+{
+  path: '/security',
+  name: 'security',
+  meta: {
+    title: '实有安防'
+  },
+  component: _import('single/security/security')
 }
 ]
 

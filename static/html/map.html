@@ -83,7 +83,7 @@
 
     .stat-box {
       width: 50%;
-      height:96px;
+      height: 96px;
       margin: 0 auto;
       padding: 10px 5px 5px 5px;
       overflow-x: visible;
@@ -1988,10 +1988,29 @@
             "showMethod": "fadeIn",
             "hideMethod": "fadeOut"
           }
-          toastr.warning(data.data[i].plateid + " " + data.data[i].parkname, "布控报警消息!");
+          toastr.warning(data.data[i].plateid + " " + data.data[i].parkname, "车辆布控报警消息!");
           loadControlData();
         }
 
+      } else if (code == 200 && data.dataType == 'RYBK') {
+        for (var i = 0; i < data.data.length; i++) {
+          toastr.options = {
+            "closeButton": true,
+            "debug": false,
+            "progressBar": false,
+            "positionClass": "toast-bottom-right",
+            "onclick": null,
+            "showDuration": "300",
+            "hideDuration": "1000",
+            "timeOut": "0",
+            "extendedTimeOut": "0",
+            "showEasing": "swing",
+            "hideEasing": "linear",
+            "showMethod": "fadeIn",
+            "hideMethod": "fadeOut"
+          }
+          toastr.warning(data.data[i].plateid + " " + data.data[i].parkname, "人员布控报警消息!");
+          loadControlData();
       }
     }
 
@@ -2154,15 +2173,15 @@
         var code = data.code;
         if (code == 200) {
           var messages = data.data;
-          for(var i=0;i<=messages.length;i++){
-            if(messages[i].type=='1'){
-              countUp('xz',messages[i].cnt)
+          for (var i = 0; i <= messages.length; i++) {
+            if (messages[i].type == '1') {
+              countUp('xz', messages[i].cnt)
             }
-            if(messages[i].type=='3'){
-              countUp('xg',messages[i].cnt)
+            if (messages[i].type == '3') {
+              countUp('xg', messages[i].cnt)
             }
-            if(messages[i].type=='4'){
-              countUp('zx',messages[i].cnt)
+            if (messages[i].type == '4') {
+              countUp('zx', messages[i].cnt)
             }
           }
 
@@ -3587,6 +3606,8 @@
         window.open(serviceUrl + "/#/equipment");
       } else if (id == 'syjq') {
         window.open(serviceUrl + "/#/case");
+      } else if (id == 'syaf') {
+        window.open(serviceUrl + "/#/security");
       }
 
     }
@@ -3677,7 +3698,9 @@
           <img src="../image/syafss_icon.png">
           <!-- <i class="iconfont">&#xe9a7;</i> -->
         </span>
-        <div class="stat-num num-syafss" id="syafss">0</div>
+        <a href="javascript:;" style="text-decoration: none;" onclick="showYblsDetail_chart('syaf');">
+          <div class="stat-num num-syafss" id="syafss">0</div>
+        </a>
         <div class="stat-info">实有安防</div>
       </div>
     </div>

@@ -3,7 +3,7 @@
     <div class='grain'>
       <div class="datas-container behavior-install-container trend">
         <div class="trend-ope trend clearfix">
-          <h4 style="color: rgba(255, 255, 255, 0.8);margin: 0 40px 0 20px;"  class="l">法人代表</h4>
+          <h4 style="color: rgba(255, 255, 255, 0.8);margin: 0 40px 0 20px;" class="l">法人代表</h4>
         </div>
         <div class="data-container">
           <img style="width: 150px;opacity: 0.9;position: relative;left: 75px;margin-top: 20px;" v-if="company.fr.photo" :src="company.fr.photo.photoBase64"></img>
@@ -31,7 +31,7 @@
           </div>
           <div style="margin-left:30px;">
             <span>人物标签：</span> <span v-for="rybq in company.fr.rybqList" :key="rybq.index" style="background-color: #1588ef; padding: 5px; font-size: 12px; border-radius: 3px;">
-                  {{rybq.name}}</span> &nbsp;
+                    {{rybq.name}}</span> &nbsp;
           </div>
           <div style="margin-left:30px;">
             <span>户籍地址：</span> {{company.fr.hjdz}}
@@ -51,57 +51,57 @@
           <li>
             <label>单位名称</label>
             <span>
-              {{company.dwxx.dwmc}}</span>
+                {{company.dwxx.dwmc}}</span>
           </li>
           <li>
             <label>单位简称</label>
             <span>
-              {{company.dwxx.dwjc}}</span>
+                {{company.dwxx.dwjc}}</span>
           </li>
           <li>
             <label>组织机构</label>
             <span>
-              {{company.dwxx.zjjgdm}}</span>
+                {{company.dwxx.zzjgdm}}</span>
           </li>
           <li>
             <label>营业执照</label>
             <span>
-              {{company.dwxx.yyzzbh}}</span>
+                {{company.dwxx.yyzzbh}}</span>
           </li>
           <li>
             <label>经营地址</label>
             <span>
-              {{company.dwxx.jydz}}</span>
+                {{company.dwxx.jydz}}</span>
           </li>
           <li>
             <label>注册地址</label>
             <span>
-              {{company.dwxx.zcdz}}</span>
+                {{company.dwxx.zcdz}}</span>
           </li>
           <li>
             <label>法人代表</label>
             <span>
-              {{company.dwxx.frdb}}</span>
+                {{company.dwxx.frdb}}</span>
           </li>
           <li>
             <label>法人电话</label>
             <span>
-              {{company.dwxx.frlxdh}}</span>
+                {{company.dwxx.frlxdh}}</span>
           </li>
           <li>
             <label>法人证件</label>
             <span>
-              {{company.dwxx.frzjhm}}</span>
+                {{company.dwxx.frzjhm}}</span>
           </li>
           <li>
             <label>治安责任人</label>
             <span>
-              {{company.dwxx.zazrr}}</span>
+                {{company.dwxx.zazrr}}</span>
           </li>
           <li>
             <label>联系电话</label>
             <span>
-              {{company.dwxx.lxdh}}</span>
+                {{company.dwxx.lxdh}}</span>
           </li>
         </ul>
       </div>
@@ -110,15 +110,17 @@
           <label>从业人员</label>
         </h4>
         <ul class="data-contents-height" style=" padding: 0px 20px;">
-          <li v-for="(ry,index) in company.cyry" :key="ry.index">
-            <b style="width:15px;display:inline-block;">{{index+1}}</b>
-            <label style="width:62px; padding-left: 20px;display:inline-block;">{{ry.xm}}</label>
-            <label style=" padding-left: 20px;">{{ry.xbhz}}</label>
-            <span style=" padding-left: 20px;">
-              <strong>{{ry.zjhm}}</strong>
-            </span>
-            <span class="r">{{ry.zzdz}}</span>
-          </li>
+            <li v-for="(ry,index) in company.cyry" :key="ry.index">
+              <Poptip trigger="hover" :content="ry.lxdh">
+              <b style="width:15px;display:inline-block;">{{index+1}}</b>
+              <label style="width:62px; padding-left: 20px;display:inline-block;">{{ry.xm}}</label>
+              <label style=" padding-left: 20px;">{{ry.xbhz}}</label>
+              <span style=" padding-left: 20px;">
+                <strong>{{ry.zjhm}}</strong>
+              </span>
+              <span class="r">{{ry.zzdz}}</span>
+              </Poptip>
+            </li>
         </ul>
       </div>
     </div>
@@ -163,7 +165,7 @@ export default {
 
 <style scoped>
 @import "~@/views/archive/style.css";
-ul.data-contents-height  {
+ul.data-contents-height {
   overflow: auto;
   height: 550px;
 }
@@ -171,17 +173,14 @@ ul.data-contents-height  {
   width: 6px;
   height: 2px;
 }
-
 .data-contents-height::-webkit-scrollbar-thumb {
   border-radius: 1px;
   background: #2b85e4;
 }
-
 .data-contents-height::-webkit-scrollbar-track {
   border-radius: 1px;
   background: #033447;
 }
-
 .dataPic-container.compare .datas-container.trend {
   width: 60%;
 }
