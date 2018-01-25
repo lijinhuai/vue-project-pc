@@ -6,7 +6,7 @@
           <h4 style="color: rgba(255, 255, 255, 0.8);margin: 0 40px 0 20px;"  class="l">法人代表</h4>
         </div>
         <div class="data-container">
-          <img style="width: 150px;opacity: 0.9;position: relative;left: 75px;margin-top: 20px;" :src="company.fr.photo.photoBase64"></img>
+          <img style="width: 150px;opacity: 0.9;position: relative;left: 75px;margin-top: 20px;" v-if="company.fr.photo" :src="company.fr.photo.photoBase64"></img>
           <div style="margin-left:60px;">
             <span>姓名：</span> {{company.fr.xm}}
             <span style="background-color: #1857dc; padding: 5px; font-size: 12px; border-radius: 3px; margin-left: 30px;">{{company.fr.syrklbhz}}</span>
@@ -21,10 +21,10 @@
             <span>民族：</span> {{company.fr.mzhz}}
           </div>
           <div style="margin-left:30px;">
-            <span>文化程度：</span> {{company.fr.whcd}}
+            <span>文化程度：</span> {{company.fr.whcdhz}}
           </div>
           <div style="margin-left:30px;">
-            <span>婚姻状况：</span> {{company.fr.hyzk}}
+            <span>婚姻状况：</span> {{company.fr.hyzkhz}}
           </div>
           <div style="margin-left:30px;">
             <span>服务处所：</span> {{company.fr.fwcs}}
@@ -47,7 +47,7 @@
         <h4>
           <label>单位信息</label>
         </h4>
-        <ul class="data-contents-height" style=" padding: 0px 20px; height: 500px;">
+        <ul class="data-contents-height" style=" padding: 0px 20px;">
           <li>
             <label>单位名称</label>
             <span>
@@ -109,10 +109,10 @@
         <h4>
           <label>从业人员</label>
         </h4>
-        <ul class="data-contents-height" style=" padding: 0px 20px; height: 500px;">
+        <ul class="data-contents-height" style=" padding: 0px 20px;">
           <li v-for="(ry,index) in company.cyry" :key="ry.index">
-            <b>{{index+1}}</b>
-            <label style="width:42px; padding-left: 20px;display:inline-block;">{{ry.xm}}</label>
+            <b style="width:15px;display:inline-block;">{{index+1}}</b>
+            <label style="width:62px; padding-left: 20px;display:inline-block;">{{ry.xm}}</label>
             <label style=" padding-left: 20px;">{{ry.xbhz}}</label>
             <span style=" padding-left: 20px;">
               <strong>{{ry.zjhm}}</strong>
@@ -163,6 +163,25 @@ export default {
 
 <style scoped>
 @import "~@/views/archive/style.css";
+ul.data-contents-height  {
+  overflow: auto;
+  height: 550px;
+}
+.data-contents-height::-webkit-scrollbar {
+  width: 6px;
+  height: 2px;
+}
+
+.data-contents-height::-webkit-scrollbar-thumb {
+  border-radius: 1px;
+  background: #2b85e4;
+}
+
+.data-contents-height::-webkit-scrollbar-track {
+  border-radius: 1px;
+  background: #033447;
+}
+
 .dataPic-container.compare .datas-container.trend {
   width: 60%;
 }

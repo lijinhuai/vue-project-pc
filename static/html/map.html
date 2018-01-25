@@ -83,8 +83,9 @@
 
     .stat-box {
       width: 50%;
+      height:96px;
       margin: 0 auto;
-      padding: 5px 5px 5px 5px;
+      padding: 10px 5px 5px 5px;
       overflow-x: visible;
       background-color: rgba(2, 48, 65, 0.7);
       position: relative;
@@ -803,6 +804,7 @@
       display: block;
       overflow-y: auto;
       height: 375px;
+      border-top: 1px solid tomato;
     }
 
     #con_detail_2 .con_door .con_door_item .item_info {
@@ -1175,6 +1177,7 @@
       display: block;
       overflow-y: auto;
       height: 375px;
+      border-top: 1px solid tomato;
     }
 
     #con_detail_6 .con_control .con_control_item .item_info {
@@ -1962,7 +1965,7 @@
         countUp('sydw', ybls.sydw);
         countUp('syafss', ybls.syafss);
         countUp('syllzb', ybls.syllzb);
-        countUp('syjq',8);
+        countUp('syjq', 8);
         countUp('hjry', ybls.hjry);
         countUp('lhry', ybls.lhry);
         countUp('jwry', ybls.jwry);
@@ -2141,6 +2144,30 @@
       // 布控报警数据
       loadControlData();
 
+      loadRyCjlx();
+
+    }
+
+    function loadRyCjlx() {
+      var token = Cookies.get("Admin-Token");
+      loadData(baseUrl + "/rjbxx/countCjlx", token, function (data) {
+        var code = data.code;
+        if (code == 200) {
+          var messages = data.data;
+          for(var i=0;i<=messages.length;i++){
+            if(messages[i].type=='1'){
+              countUp('xz',messages[i].cnt)
+            }
+            if(messages[i].type=='3'){
+              countUp('xg',messages[i].cnt)
+            }
+            if(messages[i].type=='4'){
+              countUp('zx',messages[i].cnt)
+            }
+          }
+
+        }
+      });
     }
 
     // 窨井盖数据
@@ -3416,8 +3443,8 @@
       } else if (type == "dwxx") {
         content = assembleInfoWindowContent("实有单位", baseUrl + "/dwxx/" + origin.dwbh + "/photo?Authorization=" + token,
           "简称：" + origin.dwjc +
-          "&nbsp;&nbsp;&nbsp;&nbsp;<a style=\"color:#86d9fb\" target=\"_blank\" href=\"javascript:;void(0)\" onclick=\"openDwxx(" +
-          origin.dwbh + ");\">详&nbsp;&nbsp情</a><br/>名称：" +
+          "&nbsp;&nbsp;&nbsp;&nbsp;<a style=\"color:#86d9fb\" target=\"_blank\" href=\"javascript:;void(0)\" onclick=\"openDwxx(\'" +
+          origin.dwbh + "\');\">详&nbsp;&nbsp情</a><br/>名称：" +
           origin.dwmc);
       } else if (type == 'xqxx') {
         content = assembleInfoWindowContent("小区出入口", baseUrl + "/xqxx/" + origin.crkbh + "/photo?Authorization=" +
@@ -3901,9 +3928,9 @@
       <b></b>
       <b></b>
       <b></b>
-      <span style="height: 38%; left: 25px; background: rgb(3, 139, 255);">440</span>
-      <span style="height: 85%; left: 85px; background: rgb(217, 175, 10);">980</span>
-      <span style="height: 18%; right: 25px; background: rgb(11, 193, 165);">102</span>
+      <span style="height: 38%; left: 25px; background: rgb(3, 139, 255);" id="xz">0</span>
+      <span style="height: 85%; left: 85px; background: rgb(217, 175, 10);" id="xg">0</span>
+      <span style="height: 18%; right: 25px; background: rgb(11, 193, 165);" id="zx">0</span>
     </div>
     <ol>
       <li>

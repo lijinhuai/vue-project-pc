@@ -127,11 +127,11 @@ export default {
                 value: 41
               },
               {
-                name: '保洁',
-                value: 31
+                name: '协管员',
+                value: 21
               },
               {
-                name: '管理员',
+                name: '社区民警',
                 value: 10
               },
               {
