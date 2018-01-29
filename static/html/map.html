@@ -1636,7 +1636,7 @@
     .dialog-vehicle-owner-container .msg {
       font-size: 14px;
       color: white;
-      line-height: 2rem;
+      line-height: 1.65rem;
       padding: 10px;
       display: inline-block;
     }
@@ -2509,10 +2509,10 @@
       for (var i = 0; i < messages.length; i++) {
         ywgyDataHtml = ywgyDataHtml + "<div class=\"con_xf_ywgy_record_item\">";
         ywgyDataHtml = ywgyDataHtml + "  <div class=\"item_info\">";
-        ywgyDataHtml = ywgyDataHtml + "    <div class=\"item_info_name \">" + messages[i].servicename + "</div>";
+        ywgyDataHtml = ywgyDataHtml + "    <div class=\"item_info_name \">万盛金邸</div>";
+        ywgyDataHtml = ywgyDataHtml + "    <div class=\"item_info_name \">" + messages[i].village + "</div>";
         ywgyDataHtml = ywgyDataHtml + "    <div class=\"item_info_name \"><i class=\"iconfont\">&#xe651;</i>&nbsp;" +
           messages[i].location + "</div>";
-        ywgyDataHtml = ywgyDataHtml + "    <div class=\"item_info_name \">" + messages[i].village + "</div>";
         ywgyDataHtml = ywgyDataHtml + "    <div class=\"item_info_status\">正常</div>";
         ywgyDataHtml = ywgyDataHtml + "  </div>";
         ywgyDataHtml = ywgyDataHtml + "</div>";
@@ -2633,7 +2633,7 @@
 
         passRecordsHtml = passRecordsHtml + "<div class=\"con_vehicle_pass_record_item\" data-pic=\"" + dpic +
           "\" data-cphm=\"" + messages[i].cphm + "\" data-lxdh=\"" + messages[i].lxdh + "\" data-ssxq=\"" + messages[i]
-          .ssxq + "\" data-dz=\"" + messages[i].dz + "\">";
+          .ssxq + "\" data-dz=\"" + messages[i].dz + "\" data-clbh=\"" + messages[i].clbh + "\">";
         passRecordsHtml = passRecordsHtml + " <div class=\"item_photo\" onclick=\"showVehicleVehiclePicDialog(this)\">";
         passRecordsHtml = passRecordsHtml + "   <img src=\"" + picBaseUrl + "/car/" + dpic +
           "\" onerror=\"this.src='/static/image/default_nophoto.png'\"></img>";
@@ -2712,6 +2712,7 @@
       var lxdh = $(obj).parent('.item_info').parent(".con_vehicle_pass_record_item").data("lxdh");
       var ssxq = $(obj).parent('.item_info').parent(".con_vehicle_pass_record_item").data("ssxq");
       var dz = $(obj).parent('.item_info').parent(".con_vehicle_pass_record_item").data("dz");
+      var clbh = $(obj).parent('.item_info').parent(".con_vehicle_pass_record_item").data("clbh");
       var content = "";
       content = content + "<div class='dialog-vehicle-owner-container'>";
       content = content + "<div class='img'>";
@@ -2723,6 +2724,7 @@
       content = content + "<div>联系电话：" + lxdh + "</div>";
       content = content + "<div>所属小区：" + ssxq + "</div>";
       content = content + "<div>居住地址：" + dz + "</div>";
+      content = content + "<div>车位编号：" + clbh + "</div>";
       content = content + "</div>";
       content = content + "</div>";
       return content;

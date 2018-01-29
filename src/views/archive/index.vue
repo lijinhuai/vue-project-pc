@@ -407,8 +407,8 @@
                         {{archive.vehicleInfo.cphm}}</span></li>
             <li><label>联系电话</label> <span>
                         {{archive.vehicleInfo.lxdh}}</span></li>
-            <li><label>小区名称</label> <span>
-                        {{archive.vehicleInfo.ssxq}}</span></li>
+            <li><label>车位编号</label> <span>
+                        {{archive.vehicleInfo.clbh}}</span></li>
             <li><label>居住地址</label> <span>
                         {{archive.vehicleInfo.dz}}</span></li>
           </ul>
@@ -623,6 +623,9 @@ export default {
               type: 'cross'
             }
           },
+          grid: {
+            right: '1%'
+          },
           xAxis: {
             data: this.archive.vehicleInfo.chart.labels,
             axisLine: {
@@ -639,6 +642,9 @@ export default {
               textStyle: {
                 color: '#fff' // 坐标值得具体的颜色
               }
+            },
+            splitLine: {
+              show: false
             }
           },
           series: [
