@@ -367,11 +367,11 @@
 
     .operator-container .operator-ops {
       /* width: 40%; */
-      border-right: 6px solid #ffd700;
       margin-right: 5px;
       color: #0dc2fd;
       /* box-shadow: inset 0 0 11px 0px #0dc2fd; */
       background-color: rgba(2, 48, 65, 0.7);
+      position: relative;
     }
 
     .operator-container .operator-label {
@@ -389,6 +389,69 @@
       background-position: center 0;
       height: 18px;
       width: 65px;
+    }
+
+    .operator-container .operator-label.off {
+      color: #595c5e;
+      background-image: url(/static/image/checkbox3.png);
+    }
+
+    .operator-container .operator-label.on {
+      background-image: url(/static/image/checkbox3_on.png);
+    }
+
+
+
+    .operator-container .operator-content {
+      width: 500px;
+    }
+
+    .operator-container .operator-content.on {
+      animation: operator-show .5s;
+      animation-fill-mode: forwards;
+
+    }
+
+    .operator-container .operator-content.off {
+      animation: operator-hide .5s;
+      animation-fill-mode: forwards;
+    }
+
+    @-webkit-keyframes operator-hide {
+      0% {
+        position: absolute;
+        right: 0px;
+        opacity: 1
+      }
+      100% {
+        position: absolute;
+        right: -500px;
+        opacity: 0
+      }
+    }
+
+    @-webkit-keyframes operator-show {
+      0% {
+        position: absolute;
+        right: -500px;
+        opacity: 0
+      }
+      100% {
+        position: absolute;
+        right: 0px;
+        opacity: 1
+      }
+    }
+
+    .operator-container .operator-title {
+      width: 6px;
+      background-color: #ffd700;
+      margin-right: 6px;
+      height: 28px;
+      position: absolute;
+      right: 0px;
+      top: 0px;
+      cursor: pointer;
     }
 
     .operator-container .operator-radio {
@@ -1187,9 +1250,9 @@
       padding: 0px 5px;
     }
 
-     /*********** 消防 - 烟雾感应 ******************/
+    /*********** 消防 - 烟雾感应 ******************/
 
-     #con_subdetail_xf_3 .con_xf_ywgy_record_item {
+    #con_subdetail_xf_3 .con_xf_ywgy_record_item {
       height: 102px;
       margin-bottom: 6px;
       font-size: 14px;
@@ -1199,7 +1262,6 @@
       float: left;
       display: block;
       color: #F61653;
-      margin-top: 3px;
     }
 
     #con_subdetail_xf_3 .con_xf_ywgy_record_item .item_info {
@@ -1210,6 +1272,7 @@
       color: #cecbcb;
       font-size: 14px;
       line-height: 1.2rem;
+      padding-left: 10px;
     }
 
     #con_subdetail_xf_3 .item_info .item_info_name {
@@ -1511,7 +1574,19 @@
 
     .dialog-face-similar-container .msg-2 {
       display: inline-block;
-      width: 350px;
+      width: 250px;
+      height: 80px;
+      margin-right: 10px;
+      text-align: left;
+      font-size: 14px;
+      color: #FFFFFF;
+      padding-top: 10px;
+      line-height: 1.4rem;
+    }
+
+    .dialog-face-similar-container .msg-3 {
+      display: inline-block;
+      width: 150px;
       height: 80px;
       margin-right: 10px;
       text-align: left;
@@ -1780,6 +1855,14 @@
         var name = $(this).attr("name");
         var checked = $(this).is(":checked");
 
+        if (checked) {
+          $(this).parent(".operator-label").removeClass("off");
+          $(this).parent(".operator-label").addClass("on");
+        } else {
+          $(this).parent(".operator-label").removeClass("on");
+          $(this).parent(".operator-label").addClass("off");
+        }
+
         // 选中实有房屋
         if (name == 'operator-house' && checked) {
           showHouseLocations();
@@ -1837,6 +1920,16 @@
           hiddenLocationsByType("wifi");
         }
       });
+
+      $(".operator-title").click(function () {
+        if ($(".operator-content").hasClass("off")) {
+          $(".operator-content").removeClass("off");
+          $(".operator-content").addClass("on");
+        } else {
+          $(".operator-content").removeClass("on");
+          $(".operator-content").addClass("off");
+        }
+      })
     }
 
     // 右侧菜单上的按钮事件绑定
@@ -2013,7 +2106,12 @@
         series: [{
           name: '2011年',
           type: 'bar',
-          data: [20, 20, 110, 134, 334]
+          data: [2, 2, 110, 134, 334],
+          label: {
+            normal: {
+              show: true //显示数字
+            }
+          }
         }]
       };
 
@@ -2057,6 +2155,7 @@
             "hideMethod": "fadeOut"
           }
           toastr.warning(data.data[i].plateid + " " + data.data[i].parkname, "车辆布控报警消息!");
+          alarm();
           loadControlData();
         }
 
@@ -2076,8 +2175,28 @@
           "showMethod": "fadeIn",
           "hideMethod": "fadeOut"
         }
-        toastr.warning(data.data.xm + " " + data.data.parkname, "人员布控报警消息!");
+        toastr.warning(data.data.xm + " " + data.data.zjhm + "<br/>" + data.data.parkname, "人员布控报警消息!");
+        alarm();
+        loadControlData();
       }
+    }
+
+    function alarm() {
+      var audio = document.getElementById("bgMusic");
+
+      //播放(继续播放)
+      audio.play();
+
+      // //暂停
+      // audio.pause();
+
+      // //停止
+      // audio.pause();
+      // audio.currentTime = 0;
+
+      // //重新播放
+      // audio.currentTime = 0;
+      // audio.play();
     }
 
     function createEventSource(successCallBack) {
@@ -2285,7 +2404,7 @@
     // 布控数据
     function loadControlData() {
       var token = Cookies.get("Admin-Token");
-      loadData(baseUrl + "/vehicles/controls", token, function (data) {
+      loadData(baseUrl + "/controls", token, function (data) {
         var code = data.code;
         if (code == 200) {
           var messages = data.data;
@@ -2299,16 +2418,31 @@
       var token = Cookies.get("Admin-Token");
       var bkDataHtml = "";
       for (var i = 0; i < messages.length; i++) {
-        bkDataHtml = bkDataHtml + "<div class=\"con_control_item\">";
-        bkDataHtml = bkDataHtml + " <div class=\"item-content\">";
-        bkDataHtml = bkDataHtml + "   <div class=\"item_info\">";
-        bkDataHtml = bkDataHtml + "     <div>报警时间：" + messages[i].bjsj + "</div>";
-        bkDataHtml = bkDataHtml + "     <div>布控车辆：" + messages[i].hphm + "</div>";
-        bkDataHtml = bkDataHtml + "     <div>出现时间：" + messages[i].uploadtime + "</div>";
-        bkDataHtml = bkDataHtml + "     <div>出现地点：" + messages[i].parkname + "</div>";
-        bkDataHtml = bkDataHtml + "   </div>";
-        bkDataHtml = bkDataHtml + "  </div>";
-        bkDataHtml = bkDataHtml + "</div>";
+        if (messages[i].bjlb == '1') {
+          bkDataHtml = bkDataHtml + "<div class=\"con_control_item\">";
+          bkDataHtml = bkDataHtml + " <div class=\"item-content\">";
+          bkDataHtml = bkDataHtml + "   <div class=\"item_info\">";
+          bkDataHtml = bkDataHtml + "     <div>报警时间：" + messages[i].bjsj + "</div>";
+          bkDataHtml = bkDataHtml + "     <div>布控车辆：" + messages[i].hphm + "</div>";
+          bkDataHtml = bkDataHtml + "     <div>出现时间：" + messages[i].uploadtime + "</div>";
+          bkDataHtml = bkDataHtml + "     <div>出现地点：" + messages[i].parkname + "</div>";
+          bkDataHtml = bkDataHtml + "   </div>";
+          bkDataHtml = bkDataHtml + "  </div>";
+          bkDataHtml = bkDataHtml + "</div>";
+        } else if (messages[i].bjlb == '2') {
+          bkDataHtml = bkDataHtml + "<div class=\"con_control_item\">";
+          bkDataHtml = bkDataHtml + " <div class=\"item-content\">";
+          bkDataHtml = bkDataHtml + "   <div class=\"item_info\">";
+          bkDataHtml = bkDataHtml + "     <div>报警时间：" + messages[i].bjsj + "</div>";
+          bkDataHtml = bkDataHtml + "     <div>人员姓名：" + messages[i].xm + "</div>";
+          bkDataHtml = bkDataHtml + "     <div>证件号码：" + messages[i].zjhm + "</div>";
+          bkDataHtml = bkDataHtml + "     <div>出现时间：" + messages[i].uploadtime + "</div>";
+          bkDataHtml = bkDataHtml + "     <div>出现地点：" + messages[i].parkname + "</div>";
+          bkDataHtml = bkDataHtml + "   </div>";
+          bkDataHtml = bkDataHtml + "  </div>";
+          bkDataHtml = bkDataHtml + "</div>";
+        }
+
       }
 
       $("#con_detail_6 .con_control").html(bkDataHtml);
@@ -2364,20 +2498,20 @@
     function showYwgyData(messages) {
 
       var token = Cookies.get("Admin-Token");
-      var yjgDataHtml = "";
+      var ywgyDataHtml = "";
       for (var i = 0; i < messages.length; i++) {
-        yjgDataHtml = yjgDataHtml + "<div class=\"con_xf_ywgy_record_item\">";
-        yjgDataHtml = yjgDataHtml + "  <i class=\"iconfont\">&#xe651;</i>";
-        yjgDataHtml = yjgDataHtml + "  <div class=\"item_info\">";
-        yjgDataHtml = yjgDataHtml + "    <div class=\"item_info_name \">" + messages[i].servicename + "</div>";
-        yjgDataHtml = yjgDataHtml + "    <div class=\"item_info_name \">" + messages[i].location + "</div>";
-        yjgDataHtml = yjgDataHtml + "    <div class=\"item_info_name \">" + messages[i].village + "</div>";
-        yjgDataHtml = yjgDataHtml + "    <div class=\"item_info_status\">正常</div>";
-        yjgDataHtml = yjgDataHtml + "  </div>";
-        yjgDataHtml = yjgDataHtml + "</div>";
+        ywgyDataHtml = ywgyDataHtml + "<div class=\"con_xf_ywgy_record_item\">";
+        ywgyDataHtml = ywgyDataHtml + "  <div class=\"item_info\">";
+        ywgyDataHtml = ywgyDataHtml + "    <div class=\"item_info_name \">" + messages[i].servicename + "</div>";
+        ywgyDataHtml = ywgyDataHtml + "    <div class=\"item_info_name \"><i class=\"iconfont\">&#xe651;</i>&nbsp;" +
+          messages[i].location + "</div>";
+        ywgyDataHtml = ywgyDataHtml + "    <div class=\"item_info_name \">" + messages[i].village + "</div>";
+        ywgyDataHtml = ywgyDataHtml + "    <div class=\"item_info_status\">正常</div>";
+        ywgyDataHtml = ywgyDataHtml + "  </div>";
+        ywgyDataHtml = ywgyDataHtml + "</div>";
       }
 
-      $("#con_detail_5 #con_subdetail_xf_3").html(yjgDataHtml);
+      $("#con_detail_5 #con_subdetail_xf_3").html(ywgyDataHtml);
     }
 
     // WIFI 记录数据
@@ -2744,9 +2878,7 @@
         faceSimilarHtml = faceSimilarHtml + "     <div class=\"item_info_contrast\">" + messages[i].similarity + "%" +
           "</div>";
         faceSimilarHtml = faceSimilarHtml + "     <div>" + messages[i].hitXm + "</div>";
-        faceSimilarHtml = faceSimilarHtml + "     <div class=\"can-click\" title=\"" + messages[i].hitZjhm +
-          "\" onclick=\"openArchive('" + messages[i].hitZjhm +
-          "')\"><img src=\"/static/image/sfz.jpg\" width=\"20\" /></div>";
+        faceSimilarHtml = faceSimilarHtml + "     <div>" + messages[i].hitRepositoryName + "</div>";
         faceSimilarHtml = faceSimilarHtml + "   </div>";
         faceSimilarHtml = faceSimilarHtml + "  </div>";
         faceSimilarHtml = faceSimilarHtml + "</div>";
@@ -2757,8 +2889,8 @@
 
       // 删除列表后面的数据
       var tcount = $("#con_subdetail_face_3 .con_subdetail_face_3_item").length;
-      if (tcount > 10) {
-        var dcount = tcount - 10;
+      if (tcount > 20) {
+        var dcount = tcount - 20;
         for (var i = 0; i < dcount; i++) {
           $("#con_subdetail_face_3 .con_subdetail_face_3_item").eq(-1).remove();
         }
@@ -2767,7 +2899,6 @@
 
     // 人脸数据(报警)内容展示
     function showMenuContentForFaceSimilarAlarmFull(messages) {
-
       var token = Cookies.get("Admin-Token");
 
       var faceSimilarHtml = "";
@@ -2801,9 +2932,7 @@
         faceSimilarHtml = faceSimilarHtml + "     <div class=\"item_info_contrast\">" + messages[i].similarity + "%" +
           "</div>";
         faceSimilarHtml = faceSimilarHtml + "     <div>" + messages[i].hitXm + "</div>";
-        faceSimilarHtml = faceSimilarHtml + "     <div class=\"can-click\" title=\"" + messages[i].hitZjhm +
-          "\" onclick=\"openArchive('" + messages[i].hitZjhm +
-          "')\"><img src=\"/static/image/sfz.jpg\" width=\"20\" /></div>";
+        faceSimilarHtml = faceSimilarHtml + "     <div>" + messages[i].hitRepositoryName + "</div>";
         faceSimilarHtml = faceSimilarHtml + "   </div>";
         faceSimilarHtml = faceSimilarHtml + "  </div>";
         faceSimilarHtml = faceSimilarHtml + "</div>";
@@ -2881,9 +3010,13 @@
         faceSimilarHtml = faceSimilarHtml + "     <div class=\"item_info_contrast\">" + messages[i].similarity + "%" +
           "</div>";
         faceSimilarHtml = faceSimilarHtml + "     <div>" + messages[i].hitXm + "</div>";
-        faceSimilarHtml = faceSimilarHtml + "     <div class=\"can-click\" title=\"" + messages[i].hitZjhm +
+        faceSimilarHtml = faceSimilarHtml + "     <div class=\"can-click\" style=\"display: inline-block;\" title=\"" +
+          messages[i].hitZjhm +
           "\" onclick=\"openArchive('" + messages[i].hitZjhm +
           "')\"><img src=\"/static/image/sfz.jpg\" width=\"20\" /></div>";
+        faceSimilarHtml = faceSimilarHtml +
+          "     <div title=\"历史抓拍次数\" style=\"display: inline-block;padding: 0 10px;\">" + messages[i].historyAppearTimes +
+          "次</div>";
         faceSimilarHtml = faceSimilarHtml + "   </div>";
         faceSimilarHtml = faceSimilarHtml + "  </div>";
         faceSimilarHtml = faceSimilarHtml + "</div>";
@@ -2935,12 +3068,17 @@
           "/zp?Authorization=" + token + "\" onerror=\"this.src='/static/image/default_nophoto.png'\"></img>";
         faceSimilarHtml = faceSimilarHtml + "   </div>";
         faceSimilarHtml = faceSimilarHtml + "   <div class=\"item_info\">";
-        faceSimilarHtml = faceSimilarHtml + "     <div class=\"item_info_contrast\">" + messages[i].similarity + "%" +
+        faceSimilarHtml = faceSimilarHtml + "     <div class=\"item_info_contrast\" title=\"相似度\">" + messages[i].similarity +
+          "%" +
           "</div>";
         faceSimilarHtml = faceSimilarHtml + "     <div>" + messages[i].hitXm + "</div>";
-        faceSimilarHtml = faceSimilarHtml + "     <div class=\"can-click\" title=\"" + messages[i].hitZjhm +
+        faceSimilarHtml = faceSimilarHtml + "     <div class=\"can-click\" style=\"display: inline-block;\" title=\"" +
+          messages[i].hitZjhm +
           "\" onclick=\"openArchive('" + messages[i].hitZjhm +
           "')\"><img src=\"/static/image/sfz.jpg\" width=\"20\" /></div>";
+        faceSimilarHtml = faceSimilarHtml +
+          "     <div title=\"历史抓拍次数\" style=\"display: inline-block;padding: 0 10px;\">" + messages[i].historyAppearTimes +
+          "次</div>";
         faceSimilarHtml = faceSimilarHtml + "   </div>";
         faceSimilarHtml = faceSimilarHtml + "  </div>";
         faceSimilarHtml = faceSimilarHtml + "</div>";
@@ -3038,6 +3176,11 @@
       content = content + "<div>姓名：" + message.hitXm + "</div>";
       content = content + "<div>性别：" + gender + "</div>";
       content = content + "<div>身份证号：" + message.hitZjhm + "</div>";
+      content = content + "</div>";
+      content = content + "<div class='msg-3'>";
+      content = content + "<div>比中库：" + message.hitRepositoryName + "</div>";
+      content = content + "<div>&nbsp;</div>";
+      content = content + "<div>&nbsp;</div>";
       content = content + "</div>";
       content = content + "</div>";
       return content;
@@ -3450,6 +3593,11 @@
       for (var i in overlays) {
         if (overlays[i].type == "house") {
           overlays[i].visible(true);
+          overlays[i].setLabel(overlays[i].dlbh + "号", {
+            "anchor": IMAP.Constants.BOTTOM_CENTER,
+            "fontColor": "rgba(255,255,255,.6)",
+            "offset": new IMAP.Pixel(0, -15)
+          });
         }
       }
     }
@@ -3460,6 +3608,7 @@
       for (var i in overlays) {
         if (overlays[i].type == "house") {
           overlays[i].visible(false);
+          overlays[i].removeLabel();
         }
       }
     }
@@ -3532,6 +3681,7 @@
         marker.type = type;
         map.getOverlayLayer().addOverlay(marker, false);
         if (type == 'house') {
+          marker.dlbh = origin.dlbh;
           marker.setLabel(origin.dlbh + "号", {
             "anchor": IMAP.Constants.BOTTOM_CENTER,
             "fontColor": "rgba(255,255,255,.6)",
@@ -3545,6 +3695,7 @@
         addMarkerClickEvt(type, origin, marker);
       }
     }
+
 
     var _current_marker;
 
@@ -3729,7 +3880,10 @@
   </script>
 </head>
 
-<body>
+<body style="overflow: hidden">
+  <audio id="bgMusic">
+    <source src="../audio/alarm.mp3" type="audio/mp3">
+  </audio>
   <div id="map" class="map_contaner"></div>
 
   <!-- Head -->
@@ -3883,40 +4037,46 @@
   <!-- 地图操作按钮 -->
   <div class="operator-container">
     <div class="operator-ops">
-      <label class="operator-label">
-        <input class="operator-radio" type="checkbox" id="operator-dynamic" name="operator-dynamic" checked>
-        <span class="operator-checkbox operator-input"></span>
-        动态感知
-      </label>
-      <label class="operator-label">
-        <input class="operator-radio" type="checkbox" name="operator-house" checked>
-        <span class="operator-checkbox operator-input"></span>
-        实有房屋
-      </label>
-      <label class="operator-label">
-        <input class="operator-radio" type="checkbox" name="operator-dwxx" checked>
-        <span class="operator-checkbox operator-input"></span>
-        实有单位
-      </label>
-      <label class="operator-label">
-        <input class="operator-radio" type="checkbox" name="operator-camera" checked>
-        <span class="operator-checkbox operator-input"></span>
-        实有安防
-      </label>
-      <label class="operator-label">
-        <input class="operator-radio" type="checkbox" name="operator5">
-        <span class="operator-checkbox operator-input"></span>
-        实有力量
-      </label>
-      <label class="operator-label">
-        <input class="operator-radio" type="checkbox" name="operator-xqxx" checked>
-        <span class="operator-checkbox operator-input"></span>
-        进出通道
-      </label>
-      <label class="operator-label" style="margin-right: 6px;">
-        <input class="operator-radio" type="checkbox" name="operator-wifi" checked>
-        <span class="operator-checkbox operator-input"></span>
-        WIFI嗅探
+      <div class="operator-content">
+        <label class="operator-label on">
+          <input class="operator-radio" type="checkbox" id="operator-dynamic" name="operator-dynamic" checked>
+          <span class="operator-checkbox operator-input"></span>
+          动态感知
+        </label>
+        <label class="operator-label on">
+          <input class="operator-radio" type="checkbox" name="operator-house" checked>
+          <span class="operator-checkbox operator-input"></span>
+          实有房屋
+        </label>
+        <label class="operator-label on">
+          <input class="operator-radio" type="checkbox" name="operator-dwxx" checked>
+          <span class="operator-checkbox operator-input"></span>
+          实有单位
+        </label>
+        <label class="operator-label on">
+          <input class="operator-radio" type="checkbox" name="operator-camera" checked>
+          <span class="operator-checkbox operator-input"></span>
+          实有安防
+        </label>
+        <label class="operator-label on">
+          <input class="operator-radio" type="checkbox" name="operator5" checked>
+          <span class="operator-checkbox operator-input"></span>
+          实有力量
+        </label>
+        <label class="operator-label on">
+          <input class="operator-radio" type="checkbox" name="operator-xqxx" checked>
+          <span class="operator-checkbox operator-input"></span>
+          进出通道
+        </label>
+        <label class="operator-label on" style="margin-right: 12px;">
+          <input class="operator-radio" type="checkbox" name="operator-wifi" checked>
+          <span class="operator-checkbox operator-input"></span>
+          WIFI嗅探
+        </label>
+      </div>
+
+      <label class="operator-title on" title="隐藏菜单" style="margin-right: 3px;">
+        &nbsp;
       </label>
     </div>
   </div>

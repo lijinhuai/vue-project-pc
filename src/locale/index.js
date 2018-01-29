@@ -9,9 +9,10 @@ import zhTLocale from 'iview/src/locale/lang/zh-TW'
 Vue.use(VueI18n)
 
 // 自动设置语言
-const navLang = navigator.language
-const localLang = (navLang === 'zh-CN' || navLang === 'en-US') ? navLang : false
-const lang = window.localStorage.lang || localLang || 'zh-CN'
+// const navLang = navigator.language
+// const localLang = (navLang === 'zh-CN' || navLang === 'en-US') ? navLang : false
+// const lang = window.localStorage.lang || localLang || 'zh-CN'
+const lang = 'zh-CN'
 
 Vue.config.lang = lang
 

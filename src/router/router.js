@@ -93,7 +93,7 @@ export const appRouter = [{
   children: [{
     path: 'amapMenu',
     icon: 'community',
-    title: '智慧小区',
+    title: '智慧社区',
     name: 'amapMenu',
     redirect: {
       name: 'amap'
@@ -243,7 +243,7 @@ export const singlePageRouter = [{
 }, {
   path: '/amap',
   meta: {
-    title: '智慧小区'
+    title: '智慧社区'
   },
   name: 'amap',
   component: _import('gzgl/map')
