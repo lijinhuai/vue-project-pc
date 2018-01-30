@@ -2106,12 +2106,12 @@
               color: '#dddee1' // 左边线的颜色
             }
           },
-          data: ['无身份', '未成年', '群租', '混住', '空房']
+          data: ['未成年', '无身份', '群租', '混住', '空房']
         },
         series: [{
           name: '2011年',
           type: 'bar',
-          data: [2, 2, 110, 134, 334],
+          data: [1, 4, 18, 138, 311],
           label: {
             normal: {
               show: true //显示数字
@@ -3386,7 +3386,8 @@
         faceSimilarHtml = faceSimilarHtml + "   <div class=\"item_info\">";
         faceSimilarHtml = faceSimilarHtml + "     <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;姓名：" + messages[i].hitXm +
           "</div>";
-        faceSimilarHtml = faceSimilarHtml + "     <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;地点：<i class=\"iconfont\">&#xe651;</i>" + carameName +
+        faceSimilarHtml = faceSimilarHtml +
+          "     <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;地点：<i class=\"iconfont\">&#xe651;</i>" + carameName +
           "</div>";
         faceSimilarHtml = faceSimilarHtml + "     <div>刷卡时间：" + messages[i].timeBegin + "</div>";
         faceSimilarHtml = faceSimilarHtml + "     <div>证件号码：" + messages[i].hitZjhm + "</div>";
@@ -3857,11 +3858,11 @@
     function showYblsDetail_chart(id) {
       var path = locationPath();
       if (id == 'syrk') {
-        location.href = 'yw_charts.html'
+        window.open(serviceUrl + "/static/html/yw_charts.html");
       } else if (id == 'syfw') {
-        location.href = 'shfw.html'
+        window.open(serviceUrl + "/static/html/syfw.html")
       } else if (id == 'sydw') {
-        location.href = 'sydw.html'
+        window.open(serviceUrl + "/static/html/sydw.html")
       } else if (id == 'syll') {
         window.open(serviceUrl + "/#/equipment");
       } else if (id == 'syjq') {

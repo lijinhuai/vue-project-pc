@@ -38,6 +38,15 @@
               </div>
             </FormItem>
             </Col>
+            <Col span="8">
+            <FormItem label="人员标签：" prop="rybq">
+              <div style="display:inline-block;width:180px;">
+                <Select v-model="queryForm.rybq" style="width:180px" filterable clearable>
+                      <Option v-for="dict in dictList.rybq" :key="dict.index" :value="dict.key">{{dict.value}}</Option>
+                </Select>
+              </div>
+            </FormItem>
+            </Col>
           </Row>
           <Row>
             <Col span="12" offset="8">
@@ -54,7 +63,7 @@
       </Table>
       <div style="margin: 10px;overflow: hidden">
         <div style="float: right;">
-          <Page :current="pageInfo.pageNum" :total="pageInfo.total" :page-size="pageInfo.pageSize" @on-change="changePage"></Page>
+          <Page :current="pageInfo.pageNum" :total="pageInfo.total" :page-size="pageInfo.pageSize" show-total @on-change="changePage"></Page>
         </div>
       </div>
     </div>
@@ -72,7 +81,8 @@ export default {
   data () {
     return {
       dictList: {
-        mz: []
+        mz: [],
+        rybq: []
       },
       pageInfo: {
         pageNum: 1,
@@ -185,6 +195,9 @@ export default {
       const _self = this
       fetchDbDictList('MZ').then(response => {
         _self.dictList.mz = response
+      })
+      fetchDbDictList('RYBQ').then(response => {
+        _self.dictList.rybq = response
       })
     },
     changePage (value) {

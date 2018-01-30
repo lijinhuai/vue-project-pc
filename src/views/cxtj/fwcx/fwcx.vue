@@ -43,6 +43,21 @@
               </div>
             </FormItem>
             </Col>
+            <Col span="8">
+            <FormItem label="房屋标签：" prop="fwbq">
+              <div style="display:inline-block;width:180px;">
+                <Select v-model="queryForm.fwbq" style="width:180px" filterable clearable>
+                  <Option value="w">维族居住</Option>
+                  <Option value="z">藏族居住</Option>
+                  <Option value="qz">5人以上来沪人员群租房</Option>
+                  <Option value="wcn">未成年来沪人员独居</Option>
+                  <Option value="sfzh">无身份证人员居住</Option>
+                  <Option value="kf">空房</Option>
+                  <Option value="hh">来沪与本地居民混合居住的</Option>
+                </Select>
+              </div>
+            </FormItem>
+            </Col>
           </Row>
           <Row>
             <Col span="12" offset="8">
@@ -59,7 +74,7 @@
       </Table>
       <div style="margin: 10px;overflow: hidden">
         <div style="float: right;">
-          <Page :current="pageInfo.pageNum" :total="pageInfo.total" :page-size="pageInfo.pageSize" @on-change="changePage"></Page>
+          <Page :current="pageInfo.pageNum" :total="pageInfo.total" :page-size="pageInfo.pageSize" show-total @on-change="changePage"></Page>
         </div>
       </div>
     </div>
@@ -68,7 +83,6 @@
 
 <script>
 import { fetchFwjbxxList } from '@/api/cxtj/fwcx'
-import { fetchYblsFwjbxxList } from '@/api/ybls_home/syfwcx'
 import Dept from '@/components/Dept.vue'
 export default {
   name: 'fwcx',
@@ -164,7 +178,8 @@ export default {
   components: {
     Dept
   },
-  mounted () {
+  activated () {
+    let fwbq = this.$route.query.fwbq
     let lm = this.$route.params.lm
     let mnph = this.$route.params.mnph
     if (lm) {
@@ -173,20 +188,17 @@ export default {
     if (mnph) {
       this.queryForm.mnph = mnph
     }
-
-    this.yblsSyfwCx()
+    if (fwbq) {
+      this.queryForm.fwbq = fwbq
+    }
+    if (lm || mnph || fwbq) {
+      this.search()
+    }
   },
+  mounted () {},
   methods: {
     search () {
       fetchFwjbxxList(this.pageInfo, this.queryForm)
-        .then(response => {
-          this.data = response.data.list
-          this.pageInfo.total = response.data.total
-        })
-        .catch(() => {})
-    },
-    yblsSyfwCx () {
-      fetchYblsFwjbxxList(this.pageInfo, this.queryForm)
         .then(response => {
           this.data = response.data.list
           this.pageInfo.total = response.data.total

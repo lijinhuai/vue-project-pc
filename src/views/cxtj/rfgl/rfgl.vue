@@ -49,53 +49,18 @@
       </Col>
       <Col span="15">
       <Card class="house">
-        <el-dropdown style="position:absolute;right:10px;">
-          <el-button type="primary">
-            图例<i class="el-icon--right"></i>
-          </el-button>
-          <el-dropdown-menu slot="dropdown">
-            <el-dropdown-item>
-              <div class="rybq rybq_sk" @click="showThisTybq('sk')">涉恐</div>
-            </el-dropdown-item>
-            <!-- <el-dropdown-item>
-              <div class="rybq rybq_sw" @click="showThisTybq('sw')">涉稳</div>
-            </el-dropdown-item> -->
-            <el-dropdown-item>
-              <div class="rybq rybq_xsqk" @click="showThisTybq('xsqk')">刑事前科</div>
-            </el-dropdown-item>
-            <el-dropdown-item>
-              <div class="rybq rybq_jsb" @click="showThisTybq('jsb')">精神病人</div>
-            </el-dropdown-item>
-            <el-dropdown-item>
-              <div class="rybq rybq_zdsf" @click="showThisTybq('zdsf')">重点上访</div>
-            </el-dropdown-item>
-            <!-- <el-dropdown-item>
-              <div class="rybq rybq_czcsj" @click="showThisTybq('czcsj')">出租车司机</div>
-            </el-dropdown-item> -->
-            <!-- <el-dropdown-item>
-              <div class="rybq rybq_hwzm" @click="showThisTybq('hwzm')">回、维、藏民</div>
-            </el-dropdown-item> -->
-            <!-- <el-dropdown-item>
-              <div class="rybq rybq_gbzdr" @click="showThisTybq('gbzdr')">国保重点人员</div>
-            </el-dropdown-item> -->
-            <div class="rybq rybq_zdr" @click="showThisTybq('zdr')">重点人员</div>
-            <el-dropdown-item>
-              <div class="rybq rybq_sd" @click="showThisTybq('sd')">涉毒对象</div>
-            </el-dropdown-item>
-            <el-dropdown-item>
-              <div class="rybq rybq_fzry" @click="showThisTybq('fzry')">犯罪人员</div>
-            </el-dropdown-item>
-            <!-- <el-dropdown-item>
-              <div class="rybq rybq_hcsj" @click="showThisTybq('hcsj')">货车司机</div>
-            </el-dropdown-item> -->
-            <el-dropdown-item>
-              <div class="rybq rybq_jwry" @click="showThisTybq('jwry')">境外人员</div>
-            </el-dropdown-item>
-            <el-dropdown-item>
-              <div class="rybq rybq_djlr" @click="showThisTybq('djlr')">独居人员</div>
-            </el-dropdown-item>
-          </el-dropdown-menu>
-        </el-dropdown>
+        <Affix :offset-top="130">
+          <el-dropdown style="position:absolute;right:10px;">
+            <el-button type="primary">
+              人员标签<i class="el-icon--right"></i>
+            </el-button>
+            <el-dropdown-menu slot="dropdown">
+              <el-dropdown-item v-for="rybq in rybqList" :key="rybq.index">
+                <div class="rybq"  :class="rybq.value2" @click="showThisTybq(rybq.value2)">{{rybq.value}}</div>
+              </el-dropdown-item>
+            </el-dropdown-menu>
+          </el-dropdown>
+        </Affix>
         <div class="house-head">
           <div class="head head1"></div>
           <div class="head head4"></div>
@@ -107,24 +72,24 @@
           <div class="body-head">{{ house.address }}</div>
           <div class="floor" v-for="floor in house.floors" :key="floor.index">
             <template v-if="floor.rooms.length>0">
-                              <div class="room room_info" v-for="room in floor.rooms" :key="room.index" @click="showRoomDetail(room.dztzm)" :class="{room_active:room.cxfwbj==1,
-                                              room_rhyz:room.flagRhfl==0,
-                                              room_rhfl:room.flagRhfl==1,
-                                              room_rhyz_czfw:room.flagRhfl==0 && room.jzfwlx=='01',
-                                              room_rhfl_czfw:room.flagRhfl==1 && room.jzfwlx=='01'
-                                }">
-                                <div v-for="rybq in room.rybqList" :key="rybq.index" class="rybq_room" :class="rybq.colorPng"></div>
-                                <span>{{ room.houseRoomNum }}</span>
-                                <Poptip trigger="hover" :content="room.jzrsTip">
-                                  <Badge class-name="badge-jzrs" :count="room.jzrs"></Badge>
-                                </Poptip>
-                              </div>
-            </template>
+                                <div class="room room_info" v-for="room in floor.rooms" :key="room.index" @click="showRoomDetail(room.dztzm)" :class="{room_active:room.cxfwbj==1,
+                                                room_rhyz:room.flagRhfl==0,
+                                                room_rhfl:room.flagRhfl==1,
+                                                room_rhyz_czfw:room.flagRhfl==0 && room.jzfwlx=='01',
+                                                room_rhfl_czfw:room.flagRhfl==1 && room.jzfwlx=='01'
+                                  }">
+                                  <div v-for="rybq in room.rybqList" :key="rybq.index" class="rybq_room" :class="rybq.colorPng"></div>
+                                  <span>{{ room.houseRoomNum }}</span>
+                                  <Poptip trigger="hover" :content="room.jzrsTip">
+                                    <Badge class-name="badge-jzrs" :count="room.jzrs"></Badge>
+                                  </Poptip>
+                                </div>
+</template>
 
-            <template v-else>
-              <div class="room room_wcdz">
-              </div>
-            </template>
+<template v-else>
+  <div class="room room_wcdz">
+  </div>
+</template>
           </div>
           <div class="body-footer">
             <div class="box box_wcdz">未采地址</div>
@@ -185,6 +150,7 @@ import {
   fetchRfglHouse,
   fetchRfglRPerson
 } from '@/api/cxtj/rfgl'
+import { fetchDbDictList } from '@/api/dict'
 import PersonPhoto from './components/PersonPhoto.vue'
 import Dlsj from './components/Dlsj.vue'
 import Yssj from './components/Yssj.vue'
@@ -323,7 +289,8 @@ export default {
           }
         ],
         jzryData: []
-      }
+      },
+      rybqList: []
     }
   },
   components: {
@@ -333,6 +300,11 @@ export default {
     Rybq
   },
   created () {},
+  mounted () {
+    fetchDbDictList('RYBQ').then(response => {
+      this.rybqList = response
+    })
+  },
   activated () {
     let zjhm = this.$route.params.zjhm
     if (zjhm) {
@@ -406,7 +378,7 @@ export default {
         allObjArr[i].style.display = 'none'
       }
       var thisObjArr = document.getElementsByClassName(
-        'rybq_room rybq_' + rybq
+        'rybq_room ' + rybq
       )
       for (var j = 0; j < thisObjArr.length; j++) {
         thisObjArr[j].style.display = 'inline'
@@ -433,6 +405,7 @@ export default {
 </script>
 
 <style lang="less" scoped>
+@import "./rybq.less";
 @wcdz: #ffffff;
 @rhyz: #54ff9f;
 @rhfl: #daa520;
@@ -571,7 +544,7 @@ export default {
 .rybq {
   background-size: 20px 20px;
   background-repeat: no-repeat;
-  background-position-y: 5px;
+  background-position-y: 8px;
   padding-left: 25px;
   &_room {
     width: 32px;
@@ -582,45 +555,6 @@ export default {
     position: absolute;
     top: 5px;
     left: 5px;
-  }
-  &_sk {
-    background-image: url("~@/images/rfgl/rybq/sk.png");
-  }
-  &_sw {
-    background-image: url("~@/images/rfgl/rybq/sw.png");
-  }
-  &_xsqk {
-    background-image: url("~@/images/rfgl/rybq/xsqk.png");
-  }
-  &_jsb {
-    background-image: url("~@/images/rfgl/rybq/jsb.png");
-  }
-  &_zdsf {
-    background-image: url("~@/images/rfgl/rybq/zdsf.png");
-  }
-  &_czcsj {
-    background-image: url("~@/images/rfgl/rybq/czcsj.png");
-  }
-  &_hwzm {
-    background-image: url("~@/images/rfgl/rybq/h、w、zm.png");
-  }
-  &_gbzdr {
-    background-image: url("~@/images/rfgl/rybq/gbzdry.png");
-  }
-  &_sd {
-    background-image: url("~@/images/rfgl/rybq/sd.png");
-  }
-  &_fzry {
-    background-image: url("~@/images/rfgl/rybq/fzry.png");
-  }
-  &_hcsj {
-    background-image: url("~@/images/rfgl/rybq/hcsj.png");
-  }
-  &_jwry {
-    background-image: url("~@/images/rfgl/rybq/jwry.png");
-  }
-  &_djlr {
-    background-image: url("~@/images/rfgl/rybq/djlr.png");
   }
 }
 </style>
