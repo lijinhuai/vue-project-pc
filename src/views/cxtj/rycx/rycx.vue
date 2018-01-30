@@ -19,8 +19,8 @@
             <FormItem label="民族：" prop="mzdm">
               <div style="display:inline-block;width:180px;">
                 <Select v-model="queryForm.mzdm" style="width:180px" filterable clearable>
-                      <Option v-for="dict in dictList.mz" :key="dict.index" :value="dict.key">{{dict.value}}</Option>
-                    </Select>
+                        <Option v-for="dict in dictList.mz" :key="dict.index" :value="dict.key">{{dict.value}}</Option>
+                      </Select>
               </div>
             </FormItem>
             </Col>
@@ -42,8 +42,8 @@
             <FormItem label="人员标签：" prop="rybq">
               <div style="display:inline-block;width:180px;">
                 <Select v-model="queryForm.rybq" style="width:180px" filterable clearable>
-                      <Option v-for="dict in dictList.rybq" :key="dict.index" :value="dict.key">{{dict.value}}</Option>
-                </Select>
+                        <Option v-for="dict in dictList.rybq" :key="dict.index" :value="dict.key">{{dict.value}}</Option>
+                  </Select>
               </div>
             </FormItem>
             </Col>
@@ -58,9 +58,9 @@
         </Form>
       </div>
     </Card>
+    <Table size="small" :columns="columns" :data="data">
+    </Table>
     <div v-show="data.length>0">
-      <Table size="small" :columns="columns" :data="data">
-      </Table>
       <div style="margin: 10px;overflow: hidden">
         <div style="float: right;">
           <Page :current="pageInfo.pageNum" :total="pageInfo.total" :page-size="pageInfo.pageSize" show-total @on-change="changePage"></Page>
@@ -116,8 +116,12 @@ export default {
           width: '100px'
         },
         {
-          title: '公民身份证号码',
+          title: '证件号码',
           key: 'zjhm'
+        },
+        {
+          title: '居住地址',
+          key: 'jzdz'
         },
         {
           title: '户籍地址',
@@ -160,20 +164,17 @@ export default {
   },
   mounted () {
     this.initDict()
-
     let hjdz = this.$route.params.hjdz
     if (hjdz) {
       this.queryForm.hjdz = hjdz
       this.yblsSyrkCx()
     }
-
     let id = this.$route.query.id
     if (id === '1') {
       this.MapSyrkCx()
     } else {
     }
   },
-
   methods: {
     search () {
       fetchRjbxxList(this.pageInfo, this.queryForm)

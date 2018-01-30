@@ -69,9 +69,9 @@
         </Form>
       </div>
     </Card>
-    <div v-show="data.length>0">
       <Table size="small" :columns="columns" :data="data">
       </Table>
+      <div v-show="data.length>0">
       <div style="margin: 10px;overflow: hidden">
         <div style="float: right;">
           <Page :current="pageInfo.pageNum" :total="pageInfo.total" :page-size="pageInfo.pageSize" show-total @on-change="changePage"></Page>

@@ -345,14 +345,14 @@
                               {{archive.houseInfo.fzlxdh}}</span></li>
             <li><label>居住类型</label> <span>
                               {{archive.houseInfo.jzlxText}}</span></li>
-            <!-- <li><label>房屋标签</label>
-                              <span style="background-color: tomato; padding: 5px; font-size: 12px; border-radius: 3px; color: whitesmoke;font-weight: bold;">
+            <li><label>房屋标签</label>
+                              <!-- <span style="background-color: tomato; padding: 5px; font-size: 12px; border-radius: 3px; color: whitesmoke;font-weight: bold;">
                               {{archive.houseInfo.flagRhflText}}
                               </span>
-                              &nbsp;
+                              &nbsp; -->
                               <span style="background-color: tomato; padding: 5px; font-size: 12px; border-radius: 3px; color: whitesmoke;font-weight: bold;">
                               {{archive.houseInfo.jzfwlxText}}</span>
-                              </li> -->
+                              </li>
           </ul>
         </div>
         <div style="width: 300px;">
