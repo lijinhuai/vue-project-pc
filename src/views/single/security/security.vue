@@ -2,19 +2,20 @@
   <div class="body">
     	<div style="position: absolute; left: 0; right: 0; margin: 30px auto;">
 		<div class="home-ranking-list" style="width: 300px; height: 600px;  margin-left: 30px; border-top: 2px solid tomato;">
-                  <h4><label>实有装备</label></h4>
+                  <h4 ><label style="font-size:18px;">实有安防设施</label><label style="float: right; font-size: 14px; color: #00d294;">总数：62</label></h4>
 				  <div style="height:440px; width:200px;background:url(/static/image/877488993.jpg) no-repeat; background-position:center; margin: 10px auto; color: #f6b407; text-align: center;">
 					<span style="display: block;clear: both; font-size: 16px; padding-top: 80px; margin-left: -10px;"></span>
 				  </div>
-                  <ul class="data-contents-height" style=" padding: 0px 20px; margin-top: -15px; height: 50px;    text-align: center;">
-                      <li><label></label><span> 智能门禁（人脸识别） </span></li>
+                  <ul class="data-contents-height" style=" padding: 0px 20px; margin-top: -15px; height: 100px;    text-align: center;">
+                      <li><label>智能门禁（人脸识别）</label><span>  </span></li>
+                       <li><label></label><span style="color: #00d294;">数量：8</span></li>
                   </ul>
 		</div>
 		<div class="home-ranking-list" style="width: 300px; height: 600px;  margin-left: 340px; border-top: 2px solid #ecc52e;">
                   <h4><label>视频监控</label><label style="float: right; font-size: 14px; color: #00d294;">数量：11</label></h4>
 				  <div style="height:100px; width:200px;background:url(/static/image/cmr2.png) no-repeat; background-size: 90% auto; margin: 10px auto; color: #f6b407; text-align: center;    opacity: 0.3;">
 				  </div>
-                  <ul class="data-contents-height" style=" margin-top: -140px; height: 500px;    text-align: left;">
+                  <ul class="data-contents-height" style=" margin-top: -140px; height: 545px;    text-align: left;">
 					  <li><label>1</label><span> 万盛金邸东区进口右 </span><label class="r" style="background-color: #26bf3e;padding: 0 10px;font-size: 12px;border-radius: 3px;color: whitesmoke;line-height: 26px;margin-top: 10px;">正常</label></li>
 					  <li><label>2</label><span> 万盛金邸东区进口左 </span><label class="r" style="background-color: #26bf3e;padding: 0 10px;font-size: 12px;border-radius: 3px;color: whitesmoke;line-height: 26px;margin-top: 10px;">正常</label></li>
 					  <li><label>3</label><span> 万盛金邸东区出口左 </span><label class="r" style="background-color: #26bf3e;padding: 0 10px;font-size: 12px;border-radius: 3px;color: whitesmoke;line-height: 26px;margin-top: 10px;">正常</label></li>
@@ -32,7 +33,7 @@
                   <h4><label>烟感器</label><label style="float: right; font-size: 14px; color: #00d294;">数量：20</label></h4>
 				  <div style="height:200px; width:200px;background:url(/static/image/yanwu.png) no-repeat; background-size: 90% auto; margin: 10px auto; color: #f6b407; text-align: center;    opacity: 0.3;">
 				  </div>
-                  <ul class="data-contents-height" style=" margin-top: -240px; height: 500px;    text-align: left;">
+                  <ul class="data-contents-height" style=" margin-top: -240px; height: 545px;    text-align: left;">
                       <li><label>1</label><span> 龙轩路866弄1号楼401室 </span><label class="r" style="background-color: #26bf3e;padding: 0 10px;font-size: 12px;border-radius: 3px;color: whitesmoke;line-height: 26px;margin-top: 10px;">正常</label></li>
 					  <li><label>2</label><span> 龙轩路866弄2号楼202室 </span><label class="r" style="background-color: #26bf3e;padding: 0 10px;font-size: 12px;border-radius: 3px;color: whitesmoke;line-height: 26px;margin-top: 10px;">正常</label></li>
 					  <li><label>3</label><span> 龙轩路866弄1号楼1101室 </span><label class="r" style="background-color: #26bf3e;padding: 0 10px;font-size: 12px;border-radius: 3px;color: whitesmoke;line-height: 26px;margin-top: 10px;">正常</label></li>
@@ -61,7 +62,7 @@
 					  <label class="r" style="background-color: #26bf3e;padding: 0 10px;font-size: 12px;border-radius: 3px;color: whitesmoke;line-height: 26px;margin-top: 10px;">正常</label></li>
                   </ul>
 				  <h4 style="margin-top: 23px;"><label>消防栓</label><label style="float: right; font-size: 14px; color: #00d294;">数量：19</label></h4>
-				  <ul class="data-contents-height" style=" margin-top: -30px; height: 200px;">
+				  <ul class="data-contents-height" style=" margin-top: -30px; height: 260px;">
                       <li><label>1</label><span> 东区 1号北侧 </span><label style="padding-left: 10px;">121.340453,30.751780</label>
 					  <label class="r" style="background-color: #26bf3e;padding: 0 10px;font-size: 12px;border-radius: 3px;color: whitesmoke;line-height: 26px;margin-top: 10px;">正常</label></li>
 					  <li><label>2</label><span> 东区17号北侧 </span><label style="padding-left: 10px;">121.338458,30.752107</label>
@@ -119,7 +120,7 @@ export default {
 ul.data-contents-height {
   overflow: auto;
   height: 550px;
-  width:100%;
+  width: 100%;
 }
 .data-contents-height::-webkit-scrollbar {
   width: 6px;

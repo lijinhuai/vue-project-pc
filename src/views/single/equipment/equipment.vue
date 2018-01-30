@@ -16,7 +16,7 @@
         </ul>
       </div>
       <div class="home-ranking-list" style="width: 860px; margin-left: 400px;">
-        <h4><label>人员信息</label></h4>
+        <h4><label>人员信息</label><label style="float: right; font-size: 14px; text-decoration: underline; color: #00d294;">警械装备</label></h4>
         <ul class="data-contents-height" style=" padding: 0px 20px; height: 500px;">
           <li><b>１</b><label style="width:70px;display:inline-block;padding-left: 20px;">马印珠</label><label style=" padding-left: 20px;">女</label>
             <span style="width:165px;display:inline-block;padding-left: 20px;">31022919800603124X</span>
