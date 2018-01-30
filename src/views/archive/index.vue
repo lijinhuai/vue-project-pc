@@ -7,12 +7,12 @@
         </div>
         <div class="data-container">
           <template v-if="archive.personalInfo.photo!=null">
-            <img style="width: 150px;opacity: 0.9;position: relative;left: 85px;margin-top: 20px;" :src="archive.personalInfo.photo.photoBase64" />
-          </template>
+              <img style="width: 150px;opacity: 0.9;position: relative;left: 85px;margin-top: 20px;" :src="archive.personalInfo.photo.photoBase64" />
+</template>
 
-          <template v-else>
-            <img style="width: 150px;opacity: 0.9;position: relative;left: 85px;margin-top: 20px;" />
-          </template>
+<template v-else>
+  <img style="width: 150px;opacity: 0.9;position: relative;left: 85px;margin-top: 20px;" />
+</template>
           <div style="margin-left:60px;">
             <span>姓名：</span> {{archive.personalInfo.xm}} <span style="background-color: #1588ef; padding: 5px; font-size: 12px; border-radius: 3px; margin-left: 30px;">{{archive.personalInfo.syrklbhz}}</span>
           </div>
@@ -454,71 +454,10 @@
     </Modal>
 
     <Modal v-model="modal.modal_face" height="100%" :styles="{top: '30px',left: '160px',width: 'calc(100vw - 400px)'}">
-       <div style="margin: 30px auto; display:flex;">
-        <div class="home-ranking-list" style="width: 300px;">
-          <h4><label>住房信息</label> <label style="float: right;  font-size: 14px; text-decoration: underline; color: #00d294;">层户结构</label></h4>
-          <ul class="data-contents-height">
-            <li><label>房屋地址</label> <span>
-                              {{archive.houseInfo.mlphxx}}{{archive.houseInfo.sh}}</span></li>
-            <li><label>房屋类型</label> <span>
-                              {{archive.houseInfo.jzfwlxText}}</span></li>
-            <li><label>房主姓名</label> <span>
-                              {{archive.houseInfo.fzxm}}</span></li>
-            <li><label>证件号码</label> <span>
-                              {{archive.houseInfo.fzzjhm}}</span></li>
-            <li><label>联系电话</label> <span>
-                              {{archive.houseInfo.fzlxdh}}</span></li>
-            <li><label>居住类型</label> <span>
-                              {{archive.houseInfo.jzlxText}}</span></li>
-            <li><label>房屋标签</label>
-                              <span style="background-color: tomato; padding: 5px; font-size: 12px; border-radius: 3px; color: whitesmoke;font-weight: bold;">
-                              {{archive.houseInfo.flagRhflText}}
-                              </span>
-                              &nbsp;
-                              <span style="background-color: tomato; padding: 5px; font-size: 12px; border-radius: 3px; color: whitesmoke;font-weight: bold;">
-                              {{archive.houseInfo.jzfwlxText}}</span>
-                              </li>
-          </ul>
-        </div>
-        <div style="width: 300px;">
-          <div class="home-ranking-list" style="height: 230px;">
-          <h4><label>水电煤信息</label> <label style="float: right;    text-decoration: underline; color: #00d294;">2018-01</label></h4>
-          <ul class="data-contents-height">
-            <li><b>1</b><label style=" padding-left: 20px;">水</label> <span class="r">
-                              <span class="r unchanged"><strong>&nbsp;&nbsp;吨</strong></span> 10.20
-              </span>
-            </li>
-            <li><b>2</b><label style=" padding-left: 20px;">电</label> <span class="r">
-                              <span class="r unchanged"><strong>&nbsp;&nbsp;度</strong></span> 155.08
-              </span>
-            </li>
-            <li><b>3</b><label style=" padding-left: 20px;">煤</label> <span class="r">
-                              <span class="r unchanged"><strong>&nbsp;&nbsp;m³</strong></span> 27.17
-              </span>
-            </li>
-          </ul>
-        </div>
-        <div class="home-ranking-list" style="height: 230px;margin-top:10px;">
-          <h4><label>宽带开户</label> <label style="float: right;    text-decoration: underline; color: #00d294;"></label></h4>
-          <ul class="data-contents-height"  v-for="kdkf in archive.houseInfo.kdkhList" :key="kdkf.index">
-            <li><label style=" padding-left: 20px;">宽带账号</label> <span class="r">
-                             {{kdkf.prodInstNum}}
-              </span>
-            </li>
-            <li><label style=" padding-left: 20px;">联系人</label> <span class="r">
-                              {{kdkf.acntName}}
-              </span>
-            </li>
-          </ul>
-        </div>
-        </div>
-
-        <div class="home-ranking-list" style="width: 300px;">
-          <h4><label>同户人员</label></h4>
-          <ul class="data-contents-height">
-            <li v-for="person in archive.houseInfo.personList" :key="person.index"><b>{{person.xh}}</b><label style=" padding-left: 20px;">{{person.xm}}</label>
-              <span class="r unchanged"><strong>&nbsp;&nbsp;{{person.zjhm}}</strong></span></li>
-          </ul>
+    <div style="margin: 30px auto; display:flex;flex-direction: column;">
+        <div class="face home-ranking-list" style="width: 100%;">
+          <h4><label>人脸抓拍</label> </h4>
+            <Table :columns="faceInfoColumn" :data="archive.faceInfoList"></Table>
         </div>
       </div>
     </Modal>
@@ -527,6 +466,7 @@
 
 <script>
 import { fetchArchive } from '@/api/archive/archive'
+import FaceImage from './components/FaceImage.vue'
 import ECharts from 'vue-echarts/components/ECharts'
 import 'echarts/lib/chart/line'
 import 'echarts/lib/component/tooltip'
@@ -566,8 +506,9 @@ export default {
         vehicleInfo: {
           option: {}
         },
-        zyInfoColumn: [],
-        zyInfoList: []
+        mzInfoList: [],
+        zyInfoList: [],
+        faceInfoList: []
       },
       modal: {
         modal_house: false,
@@ -606,11 +547,42 @@ export default {
           title: '入院病区名称',
           key: 'rybqmc'
         }
+      ],
+      faceInfoColumn: [
+        {
+          title: '人脸图',
+          key: 'action',
+          width: '80px',
+          render: (h, params) => {
+            return h(FaceImage, {
+              props: {
+                faceSrc: 'http://116.228.125.236:18181/face/' + params.row.faceImageUrl + '.jpg',
+                pictureSrc: 'http://116.228.125.236:18181/face/' + params.row.pictureUrl + '.jpg'
+              }
+            })
+          }
+        },
+        {
+          title: '抓拍时间',
+          key: 'timeBegin'
+        },
+        {
+          title: '位置',
+          key: 'cameraName'
+        },
+        {
+          title: '身份证号',
+          key: 'hitZjhm'
+        },
+        {
+          title: '姓名',
+          key: 'hitXm'
+        }
       ]
     }
   },
   components: {
-    ECharts
+    ECharts, FaceImage
   },
   methods: {
     fetchArchive (zjhm) {
@@ -702,6 +674,22 @@ export default {
 
 <style scoped>
 @import "./style.css";
+.face.home-ranking-list {
+  overflow: auto;
+  height: 550px;
+}
+.home-ranking-list::-webkit-scrollbar {
+  width: 6px;
+  height: 2px;
+}
+.home-ranking-list::-webkit-scrollbar-thumb {
+  border-radius: 1px;
+  background: #2b85e4;
+}
+.home-ranking-list::-webkit-scrollbar-track {
+  border-radius: 1px;
+  background: #033447;
+}
 .dataPic-container.compare .datas-container.trend {
   width: 60%;
 }
