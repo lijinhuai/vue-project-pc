@@ -35,7 +35,7 @@
             <span>服务处所：</span> {{archive.personalInfo.fwcs}}
           </div>
           <div style="margin-left:30px;">
-            <span>人物标签：</span> <span v-for="rybq in archive.personalInfo.rybqList" :key="rybq.index" style="background-color: #1588ef; padding: 5px; font-size: 12px; border-radius: 3px;">
+            <span>人员标签：</span> <span v-for="rybq in archive.personalInfo.rybqList" :key="rybq.index" style="background-color: #1588ef; padding: 5px; font-size: 12px; border-radius: 3px;">
                 {{rybq.name}}</span> &nbsp;
           </div>
           <div style="margin-left:30px;">
@@ -345,14 +345,14 @@
                               {{archive.houseInfo.fzlxdh}}</span></li>
             <li><label>居住类型</label> <span>
                               {{archive.houseInfo.jzlxText}}</span></li>
-            <li><label>房屋标签</label>
+            <!-- <li><label>房屋标签</label>
                               <span style="background-color: tomato; padding: 5px; font-size: 12px; border-radius: 3px; color: whitesmoke;font-weight: bold;">
                               {{archive.houseInfo.flagRhflText}}
                               </span>
                               &nbsp;
                               <span style="background-color: tomato; padding: 5px; font-size: 12px; border-radius: 3px; color: whitesmoke;font-weight: bold;">
                               {{archive.houseInfo.jzfwlxText}}</span>
-                              </li>
+                              </li> -->
           </ul>
         </div>
         <div style="width: 300px;">
@@ -576,7 +576,8 @@ export default {
         },
         {
           title: '姓名',
-          key: 'hitXm'
+          key: 'hitXm',
+          width: '100px'
         }
       ]
     }

@@ -57,36 +57,37 @@
             <el-dropdown-item>
               <div class="rybq rybq_sk" @click="showThisTybq('sk')">涉恐</div>
             </el-dropdown-item>
-            <el-dropdown-item>
+            <!-- <el-dropdown-item>
               <div class="rybq rybq_sw" @click="showThisTybq('sw')">涉稳</div>
-            </el-dropdown-item>
+            </el-dropdown-item> -->
             <el-dropdown-item>
               <div class="rybq rybq_xsqk" @click="showThisTybq('xsqk')">刑事前科</div>
             </el-dropdown-item>
             <el-dropdown-item>
-              <div class="rybq rybq_jsb" @click="showThisTybq('jsb')">精神病</div>
+              <div class="rybq rybq_jsb" @click="showThisTybq('jsb')">精神病人</div>
             </el-dropdown-item>
             <el-dropdown-item>
               <div class="rybq rybq_zdsf" @click="showThisTybq('zdsf')">重点上访</div>
             </el-dropdown-item>
-            <el-dropdown-item>
+            <!-- <el-dropdown-item>
               <div class="rybq rybq_czcsj" @click="showThisTybq('czcsj')">出租车司机</div>
-            </el-dropdown-item>
-            <el-dropdown-item>
+            </el-dropdown-item> -->
+            <!-- <el-dropdown-item>
               <div class="rybq rybq_hwzm" @click="showThisTybq('hwzm')">回、维、藏民</div>
-            </el-dropdown-item>
-            <el-dropdown-item>
+            </el-dropdown-item> -->
+            <!-- <el-dropdown-item>
               <div class="rybq rybq_gbzdr" @click="showThisTybq('gbzdr')">国保重点人员</div>
-            </el-dropdown-item>
+            </el-dropdown-item> -->
+            <div class="rybq rybq_zdr" @click="showThisTybq('zdr')">重点人员</div>
             <el-dropdown-item>
-              <div class="rybq rybq_sd" @click="showThisTybq('sd')">涉毒</div>
+              <div class="rybq rybq_sd" @click="showThisTybq('sd')">涉毒对象</div>
             </el-dropdown-item>
             <el-dropdown-item>
               <div class="rybq rybq_fzry" @click="showThisTybq('fzry')">犯罪人员</div>
             </el-dropdown-item>
-            <el-dropdown-item>
+            <!-- <el-dropdown-item>
               <div class="rybq rybq_hcsj" @click="showThisTybq('hcsj')">货车司机</div>
-            </el-dropdown-item>
+            </el-dropdown-item> -->
             <el-dropdown-item>
               <div class="rybq rybq_jwry" @click="showThisTybq('jwry')">境外人员</div>
             </el-dropdown-item>
