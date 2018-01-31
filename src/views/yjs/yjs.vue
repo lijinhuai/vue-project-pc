@@ -131,30 +131,30 @@
           <div class="mobile-numbers clearfix">
             <div class="mt-number-animate">
               <div class="mt-number-animate-dom">
-                <span class="mt-number-animate-span">1</span>
+                <span class="mt-number-animate-span">8</span>
               </div>
               <div class="mt-number-animate-dom">
-                <span class="mt-number-animate-span">0</span>
+                <span class="mt-number-animate-span">6</span>
               </div>
               <div class="mt-number-animate-dom">
-                <span class="mt-number-animate-span">0</span>
-              </div>
-              <div class="mt-number-animate-dot">,</div>
-              <div class="mt-number-animate-dom">
-                <span class="mt-number-animate-span">0</span>
-              </div>
-              <div class="mt-number-animate-dom">
-                <span class="mt-number-animate-span">0</span>
-              </div>
-              <div class="mt-number-animate-dom">
-                <span class="mt-number-animate-span">0</span>
+                <span class="mt-number-animate-span">5</span>
               </div>
               <div class="mt-number-animate-dot">,</div>
               <div class="mt-number-animate-dom">
-                <span class="mt-number-animate-span">0</span>
+                <span class="mt-number-animate-span">7</span>
               </div>
               <div class="mt-number-animate-dom">
-                <span class="mt-number-animate-span">0</span>
+                <span class="mt-number-animate-span">6</span>
+              </div>
+              <div class="mt-number-animate-dom">
+                <span class="mt-number-animate-span">2</span>
+              </div>
+              <div class="mt-number-animate-dot">,</div>
+              <div class="mt-number-animate-dom">
+                <span class="mt-number-animate-span">2</span>
+              </div>
+              <div class="mt-number-animate-dom">
+                <span class="mt-number-animate-span">3</span>
               </div>
               <div class="mt-number-animate-dom">
                 <span class="mt-number-animate-span">0</span>

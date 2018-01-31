@@ -2,13 +2,12 @@
   <div class="body">
     	<div style="position: absolute; left: 0; right: 0; margin: 30px auto;">
 		<div class="home-ranking-list" style="width: 300px; height: 600px;  margin-left: 30px; border-top: 2px solid tomato;">
-                  <h4 ><label style="font-size:18px;">实有安防设施</label><label style="float: right; font-size: 14px; color: #00d294;">总数：62</label></h4>
+                  <h4 ><label>智能门禁</label><label style="float: right; font-size: 14px; color: #00d294;">数量：8</label></h4>
 				  <div style="height:440px; width:200px;background:url(/static/image/877488993.jpg) no-repeat; background-position:center; margin: 10px auto; color: #f6b407; text-align: center;">
 					<span style="display: block;clear: both; font-size: 16px; padding-top: 80px; margin-left: -10px;"></span>
 				  </div>
                   <ul class="data-contents-height" style=" padding: 0px 20px; margin-top: -15px; height: 100px;    text-align: center;">
-                      <li><label>智能门禁（人脸识别）</label><span>  </span></li>
-                       <li><label></label><span style="color: #00d294;">数量：8</span></li>
+                      <li><label></label><span>智能门禁（人脸识别）  </span></li>
                   </ul>
 		</div>
 		<div class="home-ranking-list" style="width: 300px; height: 600px;  margin-left: 340px; border-top: 2px solid #ecc52e;">

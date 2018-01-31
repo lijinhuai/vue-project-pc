@@ -189,6 +189,17 @@ export const appRouter = [{
     },
     title: '房屋查询',
     component: _import('cxtj/fwcx/fwcx')
+  },
+  {
+    path: 'dwcx',
+    icon: 'company',
+    style: 'background-color:#ff3e99;',
+    name: 'dwcx',
+    meta: {
+      // privilege: 'DWCX'
+    },
+    title: '单位查询',
+    component: _import('cxtj/dwcx/dwcx')
   }
   ]
 },

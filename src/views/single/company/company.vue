@@ -42,8 +42,8 @@
         </div>
       </div>
     </div>
-    <div style="position: absolute; width: calc(100vw - 340px); height: 90%; margin: 30px 340px;  background: rgba(29,51,121,.5);">
-      <div class="home-ranking-list" style="width: 380px;  margin-left: 20px;">
+    <div style="position: absolute; width: calc(100vw - 340px); height: 90%; margin: 30px 340px;">
+      <div class="home-ranking-list" style="width: 380px;height:90vh;  margin-left: 20px;">
         <h4>
           <label>单位信息</label>
         </h4>
@@ -105,7 +105,7 @@
           </li>
         </ul>
       </div>
-      <div class="home-ranking-list" style="width: 530px; margin-left: 420px;">
+      <div class="home-ranking-list" style="width: 570px;height:90vh; margin-left: 420px;">
         <h4>
           <label>从业人员</label>
         </h4>
@@ -115,7 +115,7 @@
               <b style="width:15px;display:inline-block;">{{index+1}}</b>
               <label style="width:62px; padding-left: 20px;display:inline-block;">{{ry.xm}}</label>
               <label style=" padding-left: 20px;">{{ry.xbhz}}</label>
-              <span style="width:160px; padding-left: 20px;display:inline-block;">
+              <span style="width:180px; padding-left: 20px;display:inline-block;">
                   <strong>{{ry.zjhm}}</strong>
                 </span>
               <span style="padding-left:10px;">{{ry.zzdz}}</span>
