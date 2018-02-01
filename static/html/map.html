@@ -3891,11 +3891,11 @@
     function showYblsDetail_chart(id) {
       var path = locationPath();
       if (id == 'syrk') {
-        window.open(serviceUrl + "/static/html/yw_charts.html");
+        window.location.href = "./yw_charts.html"
       } else if (id == 'syfw') {
-        window.open(serviceUrl + "/static/html/syfw.html")
+        window.location.href = "./syfw.html"
       } else if (id == 'sydw') {
-        window.open(serviceUrl + "/static/html/sydw.html")
+        window.location.href = "./sydw.html"
       } else if (id == 'syll') {
         window.open(serviceUrl + "/#/equipment");
       } else if (id == 'syjq') {

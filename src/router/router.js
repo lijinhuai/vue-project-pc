@@ -95,6 +95,9 @@ export const appRouter = [{
     icon: 'community',
     title: '智慧社区',
     name: 'amapMenu',
+    meta: {
+      privilege: 'ZHSQ'
+    },
     redirect: {
       name: 'amap'
     }
@@ -104,6 +107,9 @@ export const appRouter = [{
     style: 'background-color: #93ca08;',
     title: '人脸抓拍',
     name: 'face',
+    meta: {
+      privilege: 'RLSB'
+    },
     component: _import('gzgl/face/face')
   }, {
     path: 'car',
@@ -111,6 +117,9 @@ export const appRouter = [{
     style: 'background-color: #2b85e4;',
     title: '车辆识别',
     name: 'car',
+    meta: {
+      privilege: 'CPSB'
+    },
     component: _import('gzgl/car/car')
   },
   {
@@ -118,6 +127,9 @@ export const appRouter = [{
     icon: 'search',
     title: '一键搜',
     name: 'searchMenu',
+    meta: {
+      privilege: 'YJS'
+    },
     redirect: {
       name: 'search'
     }
@@ -196,7 +208,7 @@ export const appRouter = [{
     style: 'background-color:#ff3e99;',
     name: 'dwcx',
     meta: {
-      // privilege: 'DWCX'
+      privilege: 'DWCX'
     },
     title: '单位查询',
     component: _import('cxtj/dwcx/dwcx')
