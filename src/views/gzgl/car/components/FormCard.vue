@@ -45,7 +45,7 @@
       </div>
       <div style="margin: 10px;overflow: hidden">
         <div style="text-align:center">
-          <Page :current="pageInfo.pageNum" :total="pageInfo.total" :page-size="pageInfo.pageSize" @on-change="changePage"></Page>
+          <Page :current="pageInfo.pageNum" :total="pageInfo.total" :page-size="pageInfo.pageSize" show-total @on-change="changePage"></Page>
         </div>
       </div>
     </div>

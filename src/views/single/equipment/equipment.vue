@@ -4,7 +4,7 @@
       <div class="home-ranking-list" style="width: 350px;  margin-left: 30px;">
         <h4><label>实有力量</label></h4>
         <div style="height:260px; width:200px;left: 20px;background: url(static/image/bg-operator-top2.png) no-repeat;
-            background-size: 80% auto; margin: 10px 10px 0 90px; color: #f6b407; text-align: center;background-position:center;">
+              background-size: 80% auto; margin: 10px 10px 0 90px; color: #f6b407; text-align: center;background-position:center;">
           <span style="display: block;clear: both; font-size: 16px; padding-top: 80px; margin-left: -10px;">万盛金邸</span>
           <b style="font-size: 36px; margin-left: -15px;">126</b></div>
         <ul class="data-contents-height" style=" padding: 0px 20px; margin-top: -15px; height: 260px;">
@@ -16,7 +16,7 @@
         </ul>
       </div>
       <div class="home-ranking-list" style="width: 860px; margin-left: 400px;">
-        <h4><label>人员信息</label><label style="float: right; font-size: 14px; text-decoration: underline; color: #00d294;">警械装备</label></h4>
+        <h4><label>可依靠力量</label><label style="float: right; font-size: 14px; text-decoration: underline; color: #00d294;cursor:pointer;" @click="showEqup=true">警械装备</label></h4>
         <ul class="data-contents-height" style=" padding: 0px 20px; height: 500px;">
           <li><b>１</b><label style="width:70px;display:inline-block;padding-left: 20px;">方臣</label><label style=" padding-left: 20px;">男</label>
             <span style="width:165px;display:inline-block;padding-left: 20px;">310107198305073438</span>
@@ -29,61 +29,181 @@
             <span style=" padding-left: 30px;"><strong>13482183678</strong></span>
             <span style=" padding-left: 30px;"><strong>项目经理</strong></span>
             <span class="r">上海市青浦区华新镇坚强村240号</span>
-          <li><b>3</b><label style="width:70px;display:inline-block; padding-left: 20px;">严&nbsp;&nbsp;&nbsp;&nbsp;斌</label><label style=" padding-left: 20px;">男</label>
-            <span style="width:165px;display:inline-block; padding-left: 20px;">330402198811280614</span>
-            <span style=" padding-left: 30px;"><strong>13621854226</strong></span>
-            <span style=" padding-left: 30px;"><strong>消防事故应急</strong></span>
-            <span class="r">浙江省嘉兴市洪波路菜场6栋602</span></li>
-          <li><b>4</b><label style="width:70px;display:inline-block; padding-left: 20px;">张振军</label><label style=" padding-left: 20px;">男</label>
-            <span style="width:165px;display:inline-block; padding-left: 20px;">330422196909266032</span>
-            <span style=" padding-left: 30px;"><strong>15121086276</strong></span>
-            <span style=" padding-left: 30px;"><strong>维修工</strong></span>
-            <span class="r">浙江省平湖市新仓镇庆丰村张家宅基19号</span></li>
-          <li><b>5</b><label style="width:70px;display:inline-block; padding-left: 20px;">沈元军</label><label style=" padding-left: 20px;">男</label>
-            <span style="width:165px;display:inline-block; padding-left: 20px;">310228196501295810</span>
-            <span style=" padding-left: 30px;"><strong>18201926309</strong></span>
-            <span style=" padding-left: 30px;"><strong>维修工</strong></span>
-            <span class="r">上海市金山区黄弄村12号</span></li>
-          <li><b>6</b><label style="width:70px;display:inline-block; padding-left: 20px;">叶&nbsp;&nbsp;&nbsp;&nbsp;燕</label><label style=" padding-left: 20px;">女</label>
-            <span style="width:165px;display:inline-block; padding-left: 20px;">310228198207251226</span>
-            <span style=" padding-left: 30px;"><strong>15000576651</strong></span>
-            <span style=" padding-left: 30px;"><strong>管理员</strong></span>
-            <span class="r">金山廊下光明8组5035号</span></li>
-          <li><b>7</b><label style="width:70px;display:inline-block; padding-left: 20px;">周士娇</label><label style=" padding-left: 20px;">女</label>
-            <span style="width:165px;display:inline-block; padding-left: 20px;">452124198406010347</span>
-            <span style=" padding-left: 30px;"><strong>15221806160</strong></span>
-            <span style=" padding-left: 30px;"><strong>管理员</strong></span>
-            <span class="r">广西省上林县巷贤镇大山村朝京庄15号</span></li>
-          <li><b>8</b><label style="width:70px;display:inline-block; padding-left: 20px;">丁红珍</label><label style=" padding-left: 20px;">女</label>
-            <span style="width:165px;display:inline-block; padding-left: 20px;">310228197404031826</span>
-            <span style=" padding-left: 30px;"><strong>18916006985</strong></span>
-            <span style=" padding-left: 30px;"><strong>监控员</strong></span>
-            <span class="r">上海市金山区张堰镇建农村4组3033号</span></li>
-          <li><b>9</b><label style="width:70px;display:inline-block; padding-left: 20px;">沈&nbsp;&nbsp;&nbsp;&nbsp;华</label><label style=" padding-left: 20px;">女</label>
-            <span style="width:165px;display:inline-block; padding-left: 20px;">310228197309161825</span>
-            <span style=" padding-left: 30px;"><strong>13916957515</strong></span>
-            <span style=" padding-left: 30px;"><strong>班长</strong></span>
-            <span class="r">上海市金山区张堰镇张溪路435弄15号</span></li>
-          <li><b>10</b><label style="width:70px;display:inline-block; padding-left: 20px;">周兴龙</label><label style=" padding-left: 20px;">男</label>
-            <span style="width:165px;display:inline-block; padding-left: 20px;">310228196606163814</span>
-            <span style=" padding-left: 30px;"><strong>15316675015</strong></span>
-            <span style=" padding-left: 30px;"><strong>保安</strong></span>
-            <span class="r">上海市金山区山阳镇卫东村14组7052号</span></li>
-          <li><b>11</b><label style="width:70px;display:inline-block; padding-left: 20px;">张冲观</label><label style=" padding-left: 20px;">男</label>
-            <span style="width:165px;display:inline-block; padding-left: 20px;">310228196108142033</span>
-            <span style=" padding-left: 30px;"><strong>18149791617</strong></span>
-            <span style=" padding-left: 30px;"><strong>保洁</strong></span>
-            <span class="r">金山区金山卫镇八字村联星26组8019号</span></li>
+            <li><b>3</b><label style="width:70px;display:inline-block; padding-left: 20px;">严&nbsp;&nbsp;&nbsp;&nbsp;斌</label><label style=" padding-left: 20px;">男</label>
+              <span style="width:165px;display:inline-block; padding-left: 20px;">330402198811280614</span>
+              <span style=" padding-left: 30px;"><strong>13621854226</strong></span>
+              <span style=" padding-left: 30px;"><strong>消防事故应急</strong></span>
+              <span class="r">浙江省嘉兴市洪波路菜场6栋602</span></li>
+            <li><b>4</b><label style="width:70px;display:inline-block; padding-left: 20px;">张振军</label><label style=" padding-left: 20px;">男</label>
+              <span style="width:165px;display:inline-block; padding-left: 20px;">330422196909266032</span>
+              <span style=" padding-left: 30px;"><strong>15121086276</strong></span>
+              <span style=" padding-left: 30px;"><strong>维修工</strong></span>
+              <span class="r">浙江省平湖市新仓镇庆丰村张家宅基19号</span></li>
+            <li><b>5</b><label style="width:70px;display:inline-block; padding-left: 20px;">沈元军</label><label style=" padding-left: 20px;">男</label>
+              <span style="width:165px;display:inline-block; padding-left: 20px;">310228196501295810</span>
+              <span style=" padding-left: 30px;"><strong>18201926309</strong></span>
+              <span style=" padding-left: 30px;"><strong>维修工</strong></span>
+              <span class="r">上海市金山区黄弄村12号</span></li>
+            <li><b>6</b><label style="width:70px;display:inline-block; padding-left: 20px;">叶&nbsp;&nbsp;&nbsp;&nbsp;燕</label><label style=" padding-left: 20px;">女</label>
+              <span style="width:165px;display:inline-block; padding-left: 20px;">310228198207251226</span>
+              <span style=" padding-left: 30px;"><strong>15000576651</strong></span>
+              <span style=" padding-left: 30px;"><strong>管理员</strong></span>
+              <span class="r">金山廊下光明8组5035号</span></li>
+            <li><b>7</b><label style="width:70px;display:inline-block; padding-left: 20px;">周士娇</label><label style=" padding-left: 20px;">女</label>
+              <span style="width:165px;display:inline-block; padding-left: 20px;">452124198406010347</span>
+              <span style=" padding-left: 30px;"><strong>15221806160</strong></span>
+              <span style=" padding-left: 30px;"><strong>管理员</strong></span>
+              <span class="r">广西省上林县巷贤镇大山村朝京庄15号</span></li>
+            <li><b>8</b><label style="width:70px;display:inline-block; padding-left: 20px;">丁红珍</label><label style=" padding-left: 20px;">女</label>
+              <span style="width:165px;display:inline-block; padding-left: 20px;">310228197404031826</span>
+              <span style=" padding-left: 30px;"><strong>18916006985</strong></span>
+              <span style=" padding-left: 30px;"><strong>监控员</strong></span>
+              <span class="r">上海市金山区张堰镇建农村4组3033号</span></li>
+            <li><b>9</b><label style="width:70px;display:inline-block; padding-left: 20px;">沈&nbsp;&nbsp;&nbsp;&nbsp;华</label><label style=" padding-left: 20px;">女</label>
+              <span style="width:165px;display:inline-block; padding-left: 20px;">310228197309161825</span>
+              <span style=" padding-left: 30px;"><strong>13916957515</strong></span>
+              <span style=" padding-left: 30px;"><strong>班长</strong></span>
+              <span class="r">上海市金山区张堰镇张溪路435弄15号</span></li>
+            <li><b>10</b><label style="width:70px;display:inline-block; padding-left: 20px;">周兴龙</label><label style=" padding-left: 20px;">男</label>
+              <span style="width:165px;display:inline-block; padding-left: 20px;">310228196606163814</span>
+              <span style=" padding-left: 30px;"><strong>15316675015</strong></span>
+              <span style=" padding-left: 30px;"><strong>保安</strong></span>
+              <span class="r">上海市金山区山阳镇卫东村14组7052号</span></li>
+            <li><b>11</b><label style="width:70px;display:inline-block; padding-left: 20px;">张冲观</label><label style=" padding-left: 20px;">男</label>
+              <span style="width:165px;display:inline-block; padding-left: 20px;">310228196108142033</span>
+              <span style=" padding-left: 30px;"><strong>18149791617</strong></span>
+              <span style=" padding-left: 30px;"><strong>保洁</strong></span>
+              <span class="r">金山区金山卫镇八字村联星26组8019号</span></li>
         </ul>
       </div>
     </div>
+    <transition name="bounce">
+    <div v-show="showEqup" class="cont s--inactive">
+      <div style="height:60px;background:#1f1f1f" class="el s--active">
+        <div class="close el__equp_close-btn" @click="showEqup=false" style="width:40px;height:40px;"></div>
+      </div>
+      <!-- cont inner start -->
+      <div class="cont__inner">
+        <!-- el start -->
+        <div class="el close">
+          <div class="el__overflow">
+            <div class="el__inner">
+              <div class="el__bg"></div>
+              <div class="el__preview-cont">
+                <h2 class="el__heading">警务车辆</h2>
+              </div>
+              <div class="el__content">
+                <div class="el__text">警务车辆</div>
+                <div class="close el__close-btn"></div>
+              </div>
+            </div>
+          </div>
+          <div class="el__index">
+            <div class="el__index-back">1</div>
+            <div class="el__index-front">
+              <div class="el__index-overlay" data-index="1">1</div>
+            </div>
+          </div>
+        </div>
+        <!-- el end -->
+        <!-- el start -->
+        <div class="el close">
+          <div class="el__overflow">
+            <div class="el__inner">
+              <div class="el__bg"></div>
+              <div class="el__preview-cont">
+                <h2 class="el__heading">执法记录仪</h2>
+              </div>
+              <div class="el__content">
+                <div class="el__text">执法记录仪</div>
+                <div class="close el__close-btn"></div>
+              </div>
+            </div>
+          </div>
+          <div class="el__index">
+            <div class="el__index-back">2</div>
+            <div class="el__index-front">
+              <div class="el__index-overlay" data-index="2">2</div>
+            </div>
+          </div>
+        </div>
+        <!-- el end -->
+        <!-- el start -->
+        <div class="el close">
+          <div class="el__overflow">
+            <div class="el__inner">
+              <div class="el__bg"></div>
+              <div class="el__preview-cont">
+                <h2 class="el__heading">数字电台</h2>
+              </div>
+              <div class="el__content">
+                <div class="el__text">350M数字电台</div>
+                <div class="close el__close-btn"></div>
+              </div>
+            </div>
+          </div>
+          <div class="el__index">
+            <div class="el__index-back">3</div>
+            <div class="el__index-front">
+              <div class="el__index-overlay" data-index="3">3</div>
+            </div>
+          </div>
+        </div>
+        <!-- el end -->
+        <!-- el start -->
+        <div class="el close">
+          <div class="el__overflow">
+            <div class="el__inner">
+              <div class="el__bg"></div>
+              <div class="el__preview-cont">
+                <h2 class="el__heading">单警装备</h2>
+              </div>
+              <div class="el__content">
+                <div class="el__text">单警装备</div>
+                <div class="close el__close-btn"></div>
+              </div>
+            </div>
+          </div>
+          <div class="el__index">
+            <div class="el__index-back">4</div>
+            <div class="el__index-front">
+              <div class="el__index-overlay" data-index="4">4</div>
+            </div>
+          </div>
+        </div>
+        <!-- el end -->
+        <!-- el start -->
+        <div class="el close">
+          <div class="el__overflow">
+            <div class="el__inner">
+              <div class="el__bg"></div>
+              <div class="el__preview-cont">
+                <h2 class="el__heading">警务终端</h2>
+              </div>
+              <div class="el__content">
+                <div class="el__text">警务终端及微信警务室</div>
+                <div class="close el__close-btn"></div>
+              </div>
+            </div>
+          </div>
+          <div class="el__index">
+            <div class="el__index-back">5</div>
+            <div class="el__index-front">
+              <div class="el__index-overlay" data-index="5">5</div>
+            </div>
+          </div>
+        </div>
+        <!-- el end -->
+      </div>
+      <!-- cont inner end -->
+    </div>
+    </transition>
   </div>
 </template>
 
 <script>
 import ECharts from 'vue-echarts/components/ECharts'
 import 'echarts-wordcloud'
-import { fetchCompany } from '@/api/cxtj/company'
 export default {
   name: 'equipment',
   data () {
@@ -208,24 +328,12 @@ export default {
             ]
           }
         ]
-      }
+      },
+      showEqup: false
     }
   },
   mounted () {
-    let dwbh = this.$route.query.dwbh
-    if (dwbh) {
-      fetchCompany(dwbh).then(response => {
-        if (response.data.fr) {
-          this.company.fr = response.data.fr
-        }
-        if (response.data.cyry) {
-          this.company.cyry = response.data.cyry
-        }
-        if (response.data.dwxx) {
-          this.company.dwxx = response.data.dwxx
-        }
-      })
-    }
+    this.init()
   },
   components: {
     ECharts
@@ -244,6 +352,36 @@ export default {
             ')'
         }
       }
+    },
+    init () {
+      var $cont = document.querySelector('.cont')
+      var $elsArr = [].slice.call(document.querySelectorAll('.el.close'))
+      var $closeBtnsArr = [].slice.call(
+        document.querySelectorAll('.close.el__close-btn')
+      )
+
+      setTimeout(function () {
+        $cont.classList.remove('s--inactive')
+      }, 200)
+
+      $elsArr.forEach(function ($el) {
+        $el.addEventListener('click', function () {
+          if (this.classList.contains('s--active')) return
+          $cont.classList.add('s--el-active')
+          $cont.classList.add('close')
+          this.classList.add('s--active')
+          this.classList.add('close')
+        })
+      })
+      debugger
+
+      $closeBtnsArr.forEach(function ($btn) {
+        $btn.addEventListener('click', function (e) {
+          e.stopPropagation()
+          $cont.classList.remove('s--el-active')
+          document.querySelector('.el.close.s--active').classList.remove('s--active')
+        })
+      })
     }
   }
 }
@@ -251,6 +389,7 @@ export default {
 
 <style scoped>
 @import "~@/views/archive/style.css";
+@import "./style.css";
 .dataPic-container.compare .datas-container.trend {
   width: 60%;
 }
@@ -335,146 +474,24 @@ export default {
 .r {
   float: right;
 }
-.bubble {
-  width: 100%;
-  height: 370px;
-  margin: 0 auto;
-  position: relative;
-  overflow: hidden;
+
+
+
+.bounce-enter-active {
+  animation: bounce-in .5s;
 }
-.bubble_list {
-  width: 63%;
-  height: inherit;
-  margin: 0 auto;
-  position: relative;
+.bounce-leave-active {
+  animation: bounce-in .5s reverse;
 }
-.bubble_item {
-  border-radius: 50%;
-  position: absolute;
-  display: table;
-}
-.bubble_item:nth-child(1) {
-  width: 85px;
-  height: 85px;
-  top: 80px;
-  right: 108px;
-  background: rgba(238, 190, 0, 0.9);
-  z-index: 1;
-}
-.bubble_item p {
-  width: inherit;
-  text-align: center;
-  vertical-align: middle;
-  display: table-cell;
-  color: #fff;
-}
-.bubble_item:nth-child(2) {
-  width: 130px;
-  height: 130px;
-  top: 10px;
-  left: 55px;
-  background: rgba(63, 178, 138, 0.9);
-  z-index: 2;
-}
-.bubble_min {
-  background: #eaedfc;
-  border-radius: 50%;
-  position: absolute;
-  opacity: 0.5;
-}
-.bubble_min:nth-child(1) {
-  width: 20px;
-  height: 20px;
-  top: 100px;
-  left: 40px;
-}
-.bubble_min:nth-child(2) {
-  width: 90px;
-  height: 90px;
-  top: 130px;
-  left: 110px;
-}
-.bubble_min:nth-child(3) {
-  width: 50px;
-  height: 50px;
-  top: 90px;
-  left: 180px;
-}
-.bubble_min:nth-child(4) {
-  width: 30px;
-  height: 30px;
-  top: 250px;
-  left: 300px;
-}
-.bubble_min:nth-child(5) {
-  width: 30px;
-  height: 30px;
-  top: 110px;
-  right: 200px;
-}
-.ani_top_top {
-  -webkit-animation-name: ani_bubble_top_top;
-  -moz-animation-name: ani_bubble_top_top;
-  animation-name: ani_bubble_top_top;
-}
-.ani_time_8 {
-  -webkit-animation-duration: 8s;
-  -moz-animation-duration: 8s;
-  animation-duration: 8s;
-}
-.ani_time_10 {
-  -webkit-animation-duration: 10s;
-  -moz-animation-duration: 10s;
-  animation-duration: 10s;
-}
-.ani_time_12 {
-  -webkit-animation-duration: 12s;
-  -moz-animation-duration: 12s;
-  animation-duration: 12s;
-}
-.ani_auto {
-  -webkit-animation-timing-function: linear;
-  -webkit-animation-fill-mode: both;
-  -webkit-animation-iteration-count: infinite;
-  -moz-animation-timing-function: linear;
-  -moz-animation-fill-mode: both;
-  -moz-animation-iteration-count: infinite;
-  animation-timing-function: linear;
-  animation-fill-mode: both;
-  animation-iteration-count: infinite;
-}
-@-webkit-keyframes ani_bubble_top_top {
-  0%,
-  100%,
-  50% {
-    -webkit-transform: translateY(0);
-  }
-  25% {
-    -webkit-transform: translateY(15px);
-  }
-  75% {
-    -webkit-transform: translateY(-15px);
-  }
-}
-@-moz-keyframes ani_bubble_top_top {
-  0%,
-  100%,
-  50% {
-    -moz-transform: translateY(0);
-  }
-  25% {
-    -moz-transform: translateY(15px);
-  }
-  75% {
-    -moz-transform: translateY(-15px);
-  }
-}
-@keyframes ani_bubble_top_top {
+@keyframes bounce-in {
   0% {
-    transform: translateY(30px);
+    transform: scale(0);
+  }
+  50% {
+    transform: scale(1.5);
   }
   100% {
-    transform: translateY(-300px);
+    transform: scale(1);
   }
 }
 </style>

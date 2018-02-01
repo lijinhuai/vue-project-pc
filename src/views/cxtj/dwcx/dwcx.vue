@@ -48,60 +48,112 @@
 </template>
 
 <script>
-  import {
-    fetchDwxxList
-  } from '@/api/cxtj/dwcx'
-  import FormTable from '@/components/FormTable.vue'
-  export default {
-    name: 'dwcx',
-    data () {
-      return {
-        queryForm: {},
-        columns: [
-          {
-            title: '单位简称',
-            key: 'dwjc',
-            width: '130px'
-          },
-          {
-            title: '单位名称',
-            key: 'dwmc'
-          },
-          {
-            title: '经营地址',
-            key: 'jydz'
-          },
-          {
-            title: '法人代表',
-            key: 'frdb',
-            width: '120px'
-          },
-          {
-            title: '法人证件号码',
-            key: 'frzjhm'
-          },
-          {
-            title: '治安责任人',
-            key: 'zazrr',
-            width: '120px'
-          },
-          {
-            title: '治安责任人联系电话',
-            key: 'zazrrlxdh',
-            width: '170px'
+import { fetchDwxxList } from '@/api/cxtj/dwcx'
+import FormTable from '@/components/FormTable.vue'
+import ImageView from '@/components/ImageView.vue'
+export default {
+  name: 'dwcx',
+  data () {
+    return {
+      queryForm: {},
+      columns: [
+        {
+          title: '人脸图',
+          key: 'action',
+          width: '80px',
+          render: (h, params) => {
+            if (
+              params.row.imageSrc == null || params.row.imageSrc === ''
+            ) {
+              return h(
+                'span',
+                {
+                  attrs: {
+                    style: 'color:#9ea7b4;'
+                  }
+                },
+                '无照片'
+              )
+            } else {
+              return h(ImageView, {
+                props: {
+                  imageSrc: params.row.imageSrc
+                }
+              })
+            }
           }
-        ],
-        data: []
-      }
-    },
-    components: {
-      FormTable
-    },
-    mounted () {},
-    methods: {
-      search () {
-        return fetchDwxxList
-      }
+        },
+        {
+          title: '单位简称',
+          key: 'dwjc',
+          width: '130px'
+        },
+        {
+          title: '单位名称',
+          key: 'dwmc'
+        },
+        {
+          title: '经营地址',
+          key: 'jydz'
+        },
+        {
+          title: '法人代表',
+          key: 'frdb',
+          width: '120px'
+        },
+        {
+          title: '法人证件号码',
+          key: 'frzjhm'
+        },
+        {
+          title: '治安责任人',
+          key: 'zazrr',
+          width: '120px'
+        },
+        {
+          title: '治安责任人联系电话',
+          key: 'zazrrlxdh',
+          width: '170px'
+        },
+        {
+          title: '详情',
+          key: 'action',
+          width: '120px',
+          render: (h, params) => {
+            return h(
+              'Button',
+              {
+                props: {
+                  type: 'primary',
+                  size: 'small'
+                },
+                on: {
+                  click: function () {
+                    var href = window.document.location.href
+                    var pname = window.document.location.pathname
+                    var pos = href.indexOf(pname)
+                    var path = href.substring(0, pos)
+                    window.open(path + '/#/company?dwbh=' + params.row.dwbh)
+                  }
+                }
+              },
+              '详情'
+            )
+          }
+        }
+      ],
+      data: []
+    }
+  },
+  components: {
+    FormTable,
+    ImageView
+  },
+  mounted () {},
+  methods: {
+    search () {
+      return fetchDwxxList
     }
   }
+}
 </script>

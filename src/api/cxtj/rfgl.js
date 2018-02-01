@@ -23,3 +23,9 @@ export function fetchRfglRPerson (params) {
     method: 'get'
   })
 }
+export function fetchRfglRHisPerson (params) {
+  return fetch({
+    url: '/rfgl/rHisPersons/' + params,
+    method: 'get'
+  })
+}

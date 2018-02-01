@@ -1,11 +1,12 @@
 <style lang="less">
-  @import "./login.less";
+@import "./login.less";
 </style>
 
 <template>
   <div class="login" @keydown.enter="handleSubmit">
     <div class="login-title">
-      <div class="login-con">
+      <transition name="form-fade" mode="in-out">
+      <div class="login-con" v-show="showLogin">
         <Card :bordered="false">
           <div class="form-con">
             <Form ref="loginForm" :model="form" :rules="rules">
@@ -31,66 +32,85 @@
           </div>
         </Card>
       </div>
+      </transition>
     </div>
   </div>
 </template>
 
 <script>
-  export default {
-    data () {
-      return {
-        form: {
-          userName: '',
-          password: ''
-        },
-        rules: {
-          userName: [{
+export default {
+  data () {
+    return {
+      form: {
+        userName: '',
+        password: ''
+      },
+      rules: {
+        userName: [
+          {
             required: true,
             message: '账号不能为空',
             trigger: 'blur'
-          }],
-          password: [{
+          }
+        ],
+        password: [
+          {
             required: true,
             message: '密码不能为空',
             trigger: 'blur'
-          }]
-        },
-        loading: false
-      }
-    },
-    methods: {
-      handleSubmit () {
-        const _self = this
-        const username = _self.form.userName
-        const password = _self.form.password
-        _self.$refs.loginForm.validate(valid => {
-          if (valid) {
-            _self.loading = true
-            this.$store
-              .dispatch('LoginByUsername', {
-                username,
-                password
-              })
-              .then(() => {
-                _self.loading = false
-                this.$router.push({
-                  name: 'home_index'
-                })
-              }).catch(() => {
-                _self.loading = false
-              })
           }
-        })
-      }
+        ]
+      },
+      showLogin: false,
+      loading: false
+    }
+  },
+  mounted () {
+    this.showLogin = true
+  },
+  methods: {
+    handleSubmit () {
+      const _self = this
+      const username = _self.form.userName
+      const password = _self.form.password
+      _self.$refs.loginForm.validate(valid => {
+        if (valid) {
+          _self.loading = true
+          this.$store
+            .dispatch('LoginByUsername', {
+              username,
+              password
+            })
+            .then(() => {
+              _self.loading = false
+              this.$router.push({
+                name: 'home_index'
+              })
+            })
+            .catch(() => {
+              _self.loading = false
+            })
+        }
+      })
     }
   }
+}
 </script>
 
 <style scoped>
-  .ivu-card {
-    background: transparent;
-  }
-  .ivu-card-head {
-    border-bottom: none;
-  }
+.ivu-card {
+  background: transparent;
+}
+.ivu-card-head {
+  border-bottom: none;
+}
+
+.form-fade-enter-active,
+.form-fade-leave-active {
+  transition: all 1s;
+}
+.form-fade-enter,
+.form-fade-leave-active {
+  transform: translate3d(0, -100px, 0);
+}
 </style>

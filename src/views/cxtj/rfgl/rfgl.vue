@@ -104,28 +104,7 @@
               <Table :columns="room.jzryCloumns" :data="room.jzryData"></Table>
             </Tab-pane>
             <Tab-pane label="居住历史" name="jzls">
-              <Timeline>
-                <Timeline-item>
-                  <p class="time">1976年</p>
-                  <p class="content">Apple I 问世</p>
-                </Timeline-item>
-                <Timeline-item>
-                  <p class="time">1984年</p>
-                  <p class="content">发布 Macintosh</p>
-                </Timeline-item>
-                <Timeline-item>
-                  <p class="time">2007年</p>
-                  <p class="content">发布 iPhone</p>
-                </Timeline-item>
-                <Timeline-item>
-                  <p class="time">2010年</p>
-                  <p class="content">发布 iPad</p>
-                </Timeline-item>
-                <Timeline-item>
-                  <p class="time">2011年10月5日</p>
-                  <p class="content">史蒂夫·乔布斯去世</p>
-                </Timeline-item>
-              </Timeline>
+              <Table :columns="room.jzryCloumns" :data="room.lijzryData"></Table>
             </Tab-pane>
             <Tab-pane label="电力数据" name="dlsj">
               <Dlsj ref="dlsj"></Dlsj>
@@ -148,7 +127,8 @@
 import {
   fetchRfglRoom,
   fetchRfglHouse,
-  fetchRfglRPerson
+  fetchRfglRPerson,
+  fetchRfglRHisPerson
 } from '@/api/cxtj/rfgl'
 import { fetchDbDictList } from '@/api/dict'
 import PersonPhoto from './components/PersonPhoto.vue'
@@ -288,7 +268,8 @@ export default {
             key: 'hjdz'
           }
         ],
-        jzryData: []
+        jzryData: [],
+        lsjzryData: []
       },
       rybqList: []
     }
@@ -344,6 +325,11 @@ export default {
           })
         })
         .catch(() => {})
+      fetchRfglRHisPerson(dztzm)
+        .then(response => {
+          this.room.lijzryData = response.data
+        })
+        .catch(() => {})
     },
     searchRfglRoom () {
       this.house = {}
@@ -377,9 +363,7 @@ export default {
       for (var i = 0; i < allObjArr.length; i++) {
         allObjArr[i].style.display = 'none'
       }
-      var thisObjArr = document.getElementsByClassName(
-        'rybq_room ' + rybq
-      )
+      var thisObjArr = document.getElementsByClassName('rybq_room ' + rybq)
       for (var j = 0; j < thisObjArr.length; j++) {
         thisObjArr[j].style.display = 'inline'
       }
