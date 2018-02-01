@@ -3798,8 +3798,8 @@
       content = content + "</span>";
       content = content + "</div>";
       content = content + "<div class=\"infowindow-content\">";
-      content = content + "<img class=\"infowindow-content-image\" src=\" " + url +
-        "\" onerror=\"this.src='/static/image/default_nophoto.png'\" />";
+      content = content + "<img class=\"infowindow-content-image can-click\" data-pic=\"" + url + "\" src=\" " + url +
+        "\" onerror=\"this.src='/static/image/default_nophoto.png'\" onclick=\"showPicDialog(this)\" />";
       content = content + context;
       content = content + "</div>";
       content = content + "<div class=\"infowindow-marker\">";
@@ -3808,6 +3808,39 @@
       content = content + "</div>";
       return content;
     }
+
+    function showPicDialog(obj) {
+
+      var pic = $(obj).data("pic");
+      var content = assemblePicDialogContent(pic);
+
+      if (_layer_index) {
+        layer.close(_layer_index);
+      }
+
+      _layer_index = layer.open({
+        "type": 1,
+        "shade": false,
+        "title": false,
+        "area": ['768px', '432px'],
+        "content": content,
+        "moveType": 1,
+        "skin": 'layer-custom',
+        "cancel": function () {
+          layer.close(_layer_index);
+        }
+      });
+    }
+
+    function assemblePicDialogContent(pic) {
+      var content = "";
+      content = content + "<div class=\"dialog-vehicle-pass-container\">";
+      content = content + "<img src=\"" + pic +
+        "\" onerror=\"this.src='/static/image/default_nophoto.png'\"></img>";
+      content = content + "</div>";
+      return content;
+    }
+
 
     // 关闭消息窗
     function closeInfoWindow() {

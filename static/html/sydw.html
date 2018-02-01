@@ -158,6 +158,7 @@
     margin: 0 auto;
     cursor: pointer;
   }
+
   /******************************************/
 
   .bubble {
@@ -637,7 +638,11 @@
       <div class="syrk_div">
         <div class="nl">
           <div class="content_header">
-            <h5>单位类型数据</h5>
+            <h5>
+              <label>单位类型数据</label>
+              <label style="float: right; font-size: 14px; padding-right:10px;text-decoration: underline; color: #00d294;">从业人数：645人</label>
+            </h5>
+
           </div>
           <div class="nl_content">
             <div id="syrk_nl_charts" style="width: 100%;height: 450px;">
@@ -772,7 +777,7 @@
     },
     xAxis: [{
       type: 'category',
-      data: ['娱乐类', '企业类', '超市类', '餐饮类', '公众类'],
+      data: ['教育培训', '美容美发', '文化传播', '批发零售', '餐饮', '服饰'],
       axisTick: {
         alignWithLabel: true
       },
@@ -799,7 +804,7 @@
     series: [{
       name: '数目',
       type: 'bar',
-      data: [3, 5, 7, 10, 4],
+      data: [7, 7, 12, 12, 24, 5],
       barWidth: 40,
       itemStyle: {
         normal: {

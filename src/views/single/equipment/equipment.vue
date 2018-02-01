@@ -3,7 +3,7 @@
     <div style="position: absolute; left: 0; right: 0; margin: 30px auto;">
       <div class="home-ranking-list" style="width: 350px;  margin-left: 30px;">
         <h4><label>实有力量</label></h4>
-        <div style="height:240px; width:200px;left: 20px;background: url(static/image/bg-operator-top2.png) no-repeat;
+        <div style="height:260px; width:200px;left: 20px;background: url(static/image/bg-operator-top2.png) no-repeat;
             background-size: 80% auto; margin: 10px 10px 0 90px; color: #f6b407; text-align: center;background-position:center;">
           <span style="display: block;clear: both; font-size: 16px; padding-top: 80px; margin-left: -10px;">万盛金邸</span>
           <b style="font-size: 36px; margin-left: -15px;">126</b></div>
@@ -18,53 +18,58 @@
       <div class="home-ranking-list" style="width: 860px; margin-left: 400px;">
         <h4><label>人员信息</label><label style="float: right; font-size: 14px; text-decoration: underline; color: #00d294;">警械装备</label></h4>
         <ul class="data-contents-height" style=" padding: 0px 20px; height: 500px;">
-          <li><b>１</b><label style="width:70px;display:inline-block;padding-left: 20px;">马印珠</label><label style=" padding-left: 20px;">女</label>
+          <li><b>１</b><label style="width:70px;display:inline-block;padding-left: 20px;">方臣</label><label style=" padding-left: 20px;">男</label>
+            <span style="width:165px;display:inline-block;padding-left: 20px;">310107198305073438</span>
+            <span style=" padding-left: 30px;"><strong>13795349139</strong></span>
+            <span style=" padding-left: 30px;"><strong>社区民警</strong></span>
+            <span class="r">海芙路228弄371号1102室</span>
+            <label class="r">户籍地址：</label></li>
+          <li><b>2</b><label style="width:70px;display:inline-block;padding-left: 20px;">马印珠</label><label style=" padding-left: 20px;">女</label>
             <span style="width:165px;display:inline-block;padding-left: 20px;">31022919800603124X</span>
             <span style=" padding-left: 30px;"><strong>13482183678</strong></span>
             <span style=" padding-left: 30px;"><strong>项目经理</strong></span>
             <span class="r">上海市青浦区华新镇坚强村240号</span>
-            <label class="r">户籍地址：</label></li>
-          <li><b>２</b><label style="width:70px;display:inline-block; padding-left: 20px;">严&nbsp;&nbsp;&nbsp;&nbsp;斌</label><label style=" padding-left: 20px;">男</label>
+          <li><b>3</b><label style="width:70px;display:inline-block; padding-left: 20px;">严&nbsp;&nbsp;&nbsp;&nbsp;斌</label><label style=" padding-left: 20px;">男</label>
             <span style="width:165px;display:inline-block; padding-left: 20px;">330402198811280614</span>
             <span style=" padding-left: 30px;"><strong>13621854226</strong></span>
             <span style=" padding-left: 30px;"><strong>消防事故应急</strong></span>
             <span class="r">浙江省嘉兴市洪波路菜场6栋602</span></li>
-          <li><b>３</b><label style="width:70px;display:inline-block; padding-left: 20px;">张振军</label><label style=" padding-left: 20px;">男</label>
+          <li><b>4</b><label style="width:70px;display:inline-block; padding-left: 20px;">张振军</label><label style=" padding-left: 20px;">男</label>
             <span style="width:165px;display:inline-block; padding-left: 20px;">330422196909266032</span>
             <span style=" padding-left: 30px;"><strong>15121086276</strong></span>
             <span style=" padding-left: 30px;"><strong>维修工</strong></span>
             <span class="r">浙江省平湖市新仓镇庆丰村张家宅基19号</span></li>
-          <li><b>４</b><label style="width:70px;display:inline-block; padding-left: 20px;">沈元军</label><label style=" padding-left: 20px;">男</label>
+          <li><b>5</b><label style="width:70px;display:inline-block; padding-left: 20px;">沈元军</label><label style=" padding-left: 20px;">男</label>
             <span style="width:165px;display:inline-block; padding-left: 20px;">310228196501295810</span>
             <span style=" padding-left: 30px;"><strong>18201926309</strong></span>
             <span style=" padding-left: 30px;"><strong>维修工</strong></span>
             <span class="r">上海市金山区黄弄村12号</span></li>
-          <li><b>５</b><label style="width:70px;display:inline-block; padding-left: 20px;">叶&nbsp;&nbsp;&nbsp;&nbsp;燕</label><label style=" padding-left: 20px;">女</label>
+          <li><b>6</b><label style="width:70px;display:inline-block; padding-left: 20px;">叶&nbsp;&nbsp;&nbsp;&nbsp;燕</label><label style=" padding-left: 20px;">女</label>
             <span style="width:165px;display:inline-block; padding-left: 20px;">310228198207251226</span>
             <span style=" padding-left: 30px;"><strong>15000576651</strong></span>
             <span style=" padding-left: 30px;"><strong>管理员</strong></span>
             <span class="r">金山廊下光明8组5035号</span></li>
-          <li><b>６</b><label style="width:70px;display:inline-block; padding-left: 20px;">周士娇</label><label style=" padding-left: 20px;">女</label>
+          <li><b>7</b><label style="width:70px;display:inline-block; padding-left: 20px;">周士娇</label><label style=" padding-left: 20px;">女</label>
             <span style="width:165px;display:inline-block; padding-left: 20px;">452124198406010347</span>
             <span style=" padding-left: 30px;"><strong>15221806160</strong></span>
             <span style=" padding-left: 30px;"><strong>管理员</strong></span>
             <span class="r">广西省上林县巷贤镇大山村朝京庄15号</span></li>
-          <li><b>７</b><label style="width:70px;display:inline-block; padding-left: 20px;">丁红珍</label><label style=" padding-left: 20px;">女</label>
+          <li><b>8</b><label style="width:70px;display:inline-block; padding-left: 20px;">丁红珍</label><label style=" padding-left: 20px;">女</label>
             <span style="width:165px;display:inline-block; padding-left: 20px;">310228197404031826</span>
             <span style=" padding-left: 30px;"><strong>18916006985</strong></span>
             <span style=" padding-left: 30px;"><strong>监控员</strong></span>
             <span class="r">上海市金山区张堰镇建农村4组3033号</span></li>
-          <li><b>８</b><label style="width:70px;display:inline-block; padding-left: 20px;">沈&nbsp;&nbsp;&nbsp;&nbsp;华</label><label style=" padding-left: 20px;">女</label>
+          <li><b>9</b><label style="width:70px;display:inline-block; padding-left: 20px;">沈&nbsp;&nbsp;&nbsp;&nbsp;华</label><label style=" padding-left: 20px;">女</label>
             <span style="width:165px;display:inline-block; padding-left: 20px;">310228197309161825</span>
             <span style=" padding-left: 30px;"><strong>13916957515</strong></span>
             <span style=" padding-left: 30px;"><strong>班长</strong></span>
             <span class="r">上海市金山区张堰镇张溪路435弄15号</span></li>
-          <li><b>９</b><label style="width:70px;display:inline-block; padding-left: 20px;">周兴龙</label><label style=" padding-left: 20px;">男</label>
+          <li><b>10</b><label style="width:70px;display:inline-block; padding-left: 20px;">周兴龙</label><label style=" padding-left: 20px;">男</label>
             <span style="width:165px;display:inline-block; padding-left: 20px;">310228196606163814</span>
             <span style=" padding-left: 30px;"><strong>15316675015</strong></span>
             <span style=" padding-left: 30px;"><strong>保安</strong></span>
             <span class="r">上海市金山区山阳镇卫东村14组7052号</span></li>
-          <li><b>10</b><label style="width:70px;display:inline-block; padding-left: 20px;">张冲观</label><label style=" padding-left: 20px;">男</label>
+          <li><b>11</b><label style="width:70px;display:inline-block; padding-left: 20px;">张冲观</label><label style=" padding-left: 20px;">男</label>
             <span style="width:165px;display:inline-block; padding-left: 20px;">310228196108142033</span>
             <span style=" padding-left: 30px;"><strong>18149791617</strong></span>
             <span style=" padding-left: 30px;"><strong>保洁</strong></span>
