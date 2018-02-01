@@ -373,7 +373,6 @@ export default {
           this.classList.add('close')
         })
       })
-      debugger
 
       $closeBtnsArr.forEach(function ($btn) {
         $btn.addEventListener('click', function (e) {
