@@ -48,6 +48,7 @@
 </template>
 
 <script>
+import config from '@/config/index'
 import { fetchDwxxList } from '@/api/cxtj/dwcx'
 import FormTable from '@/components/FormTable.vue'
 import ImageView from '@/components/ImageView.vue'
@@ -62,9 +63,7 @@ export default {
           key: 'action',
           width: '80px',
           render: (h, params) => {
-            if (
-              params.row.imageSrc == null || params.row.imageSrc === ''
-            ) {
+            if (params.row.imageCnt === 0) {
               return h(
                 'span',
                 {
@@ -77,7 +76,12 @@ export default {
             } else {
               return h(ImageView, {
                 props: {
-                  imageSrc: params.row.imageSrc
+                  imageSrc:
+                    config.BASE_API +
+                    '/dwxx/' +
+                    params.row.dwbh +
+                    '/photo?Authorization=' +
+                    this.$store.state.user.token
                 }
               })
             }

@@ -24,9 +24,9 @@
         </el-collapse-item>
       </el-collapse>
       <!-- <p >
-              <Icon type="navicon"></Icon>
-              检索条件
-            </p> -->
+                    <Icon type="navicon"></Icon>
+                    检索条件
+                  </p> -->
     </Card>
     </Col>
     <Col span="24">
@@ -34,7 +34,8 @@
       <div class="card-container">
         <Card class="card" v-for="item in data" :key="item.id">
           <div class="car-container">
-            <img class="image" :src="item.photo.src" />
+            <!-- <img class="image" :src="item.photo.src" /> -->
+            <ImageView class="image"  :styles="{width:'820px',top: '60px'}" :imageSrc="item.photo.src" />
             <div class="info">
               <div class="hphm hphm_blue item" v-bind:class="{hphm_yellow:item.platecolor=='黄色'}">{{item.plateid}}</div>
               <div class="item"> {{item.tm}}</div>
@@ -54,6 +55,7 @@
 </template>
 
 <script>
+import ImageView from '@/components/ImageView.vue'
 export default {
   name: 'formCard',
   data () {
@@ -65,6 +67,9 @@ export default {
         total: 0
       }
     }
+  },
+  components: {
+    ImageView
   },
   props: {
     columns: {
@@ -116,6 +121,12 @@ export default {
 .card-container {
   display: flex; // justify-content: center;
   flex-wrap: wrap;
+  .image-list {
+    height: 100px !important;
+    width: 180px !important;
+    padding: 0 5px;
+    line-height: 100px !important;
+  }
   .card {
     width: 24.5%;
     height: 150px;
@@ -125,14 +136,16 @@ export default {
       .image {
         height: 100px;
         width: 180px;
-        padding: 0 5px;
+        padding: 5px 0 0 5px;
         display: inline-block;
       }
       .info {
         width: 95px;
         display: inline-block;
+        top: -10px;
+        position: relative;
         .item {
-          margin: 5px 5px 5px 5px;
+          margin: 2px 5px;
         }
         .status {
           color: white;

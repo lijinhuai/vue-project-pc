@@ -6,7 +6,7 @@
         <Icon type="ios-eye-outline"></Icon>
       </div>
     </div>
-    <Modal title="查看照片" :styles="{top: '20px'}" v-model="visible">
+    <Modal title="查看照片" :styles="styles" v-model="visible">
       <template v-if="imageList">
         <Carousel ref="carousel" v-model="value" v-if="visible" :arrow="arrow">
           <Carousel-item v-for="item in imageList" :key="item.index">
@@ -15,7 +15,7 @@
         </Carousel>
       </template>
       <template v-if="imageSrc||bigImageSrc||smallImageSrc">
-        <Carousel ref="carousel" v-model="value" v-if="visible" arrow="arrow">
+        <Carousel ref="carousel" v-model="value" v-if="visible" :arrow="arrow">
           <Carousel-item>
             <img :src="imageSrc||bigImageSrc||smallImageSrc" style="width: 100%">
           </Carousel-item>
@@ -37,6 +37,7 @@ export default {
     }
   },
   props: {
+    styles: Object,
     imageList: Array,
     image: Object,
     imageSrc: String,
