@@ -399,6 +399,15 @@
       background-image: url(/static/image/checkbox3_on.png);
     }
 
+    .operator-container-left .operator-label.off {
+      color: #595c5e;
+      background-image: url(/static/image/checkbox1.png);
+    }
+
+    .operator-container-left .operator-label.on {
+      background-image: url(/static/image/checkbox1_on.png);
+    }
+
 
     .operator-container .operator-content.on {
       animation: operator-show .5s;
@@ -1827,6 +1836,41 @@
       background: #3690ff;
     }
 
+
+    /************** 小区简介样式 *****************************/
+
+    .intro {
+      width: 188px;
+      height: 296px;
+      position: absolute;
+      top: 14%;
+      left: 240px;
+      background: url(../image/pm_bg.png) no-repeat;
+      background-size: 100% 100%;
+      z-index: 800;
+      color: #fff;
+      font-size: 14px;
+      padding: 10px 20px;
+      text-indent: 25px;
+      line-height: 25px;
+    }
+
+    .int_title {
+      width: 100%;
+      height: 30px;
+      line-height: 30px;
+      text-align: center;
+      font-size: 16px;
+      font-weight: 700;
+      color: gold;
+    }
+
+    .int_font {
+      line-height: 30px;
+      color: #03b7f4;
+      font-weight: 700;
+    }
+
   </style>
 
   <script>
@@ -1866,6 +1910,16 @@
         } else {
           $(this).parent(".operator-label").removeClass("on");
           $(this).parent(".operator-label").addClass("off");
+        }
+
+        // 选中小区简介
+        if (name == 'operator-intro' && checked) {
+          $('#intro').show('slow');
+        }
+
+        // 取消选中小区简介
+        if (name == 'operator-intro' && !checked) {
+          $('#intro').hide('slow');
         }
 
         // 选中实有房屋
@@ -3920,6 +3974,10 @@
       window.parent.location.href = serviceUrl + "#/home";
     }
 
+    function toggleIntro() {
+
+    }
+
   </script>
 </head>
 
@@ -4068,12 +4126,26 @@
 
 
   <!-- 首页操作按钮 -->
-  <div class="operator-container" style="left: 5px;">
+  <div class="operator-container left" style="left: 5px;">
     <div class="operator-ops" style="border-left: 6px solid #ffd700; border-right: 0px; float: left;">
-      <label class="operator-label" onclick="openHome();" style="background-image: url(../image/checkbox1_on.png); margin-left: 6px;">
+      <label class="operator-label on" onclick="openHome();" style="margin-left: 6px;">
         <span class="operator-checkbox operator-input"></span>
         首页
       </label>
+      <label class="operator-label off">
+        <input class="operator-radio" type="checkbox" id="operator-intro" name="operator-intro">
+        <span class="operator-checkbox operator-input"></span>
+        小区简介
+      </label>
+    </div>
+  </div>
+
+  <div class="intro" id="intro" style="display: none;">
+    <div class="int_title">
+      小区简介
+    </div>
+    <div class="int_font">
+      万盛金邸小区位于金山区龙轩路1000弄、866弄，总占地面积22.5万平方米，居民楼栋66栋，主要出入口4个，南北向的海汇商业街将住宅小区划分为东、西两区，海汇街面积9.5万平方米。
     </div>
   </div>
 
