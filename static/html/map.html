@@ -1922,6 +1922,40 @@
           $('#intro').hide('slow');
         }
 
+        // 选中消防重点单位
+        if (name == 'operator-xf-unit' && checked) {
+          //获取点聚合的显示级别数
+          var zoom = parseInt(0, 10);
+          //获取点聚合的缓冲大小
+          var size = parseInt(5, 10);
+          //获取点聚合的最小聚合数
+          var clusterSum = parseInt(2, 10);
+          //获取是否允许点击放大
+          var zoomclick = 'true';
+          zoomclick = zoomclick == 'true' ? true : false;
+          zoom = zoom == -1 ? null : zoom;
+          size = size == -1 ? null : size;
+          clusterSum = clusterSum == -1 ? null : clusterSum;
+
+          //创建聚合管理对象 并将各参数设置到其中
+          map.plugin(['IMAP.DataCluster'], function () {
+            dataCluster = new IMAP.DataCluster(map, markers, {
+              maxZoom: zoom,
+              gridSize: size,
+              zoomOnClick: zoomclick,
+              minimumClusterSize: clusterSum
+            });
+          });
+        }
+
+        // 取消选中消防重点单位
+        if (name == 'operator-xf-unit' && !checked) {
+          if (dataCluster) {
+            //清空所有的marker及点聚合对象
+            dataCluster.setMap(null);
+          }
+        }
+
         // 选中实有房屋
         if (name == 'operator-house' && checked) {
           showHouseLocations();
@@ -3474,6 +3508,9 @@
       // 加载消防栓位置
       loadXfsLocations();
 
+      // 加载消防重点单位
+      loadXfUnitLocations();
+
     }
 
     // 加载消防栓位置
@@ -3549,6 +3586,24 @@
         "\" onerror=\"this.src='/static/image/default_nophoto.png'\"></img>";
       content = content + "</div>";
       return content;
+    }
+
+
+    // 加载消防重点单位
+    function loadXfUnitLocations() {
+      var token = Cookies.get("Admin-Token");
+      loadData(baseUrl + "/xfunit/locations", token, function (data) {
+        var code = data.code;
+        if (code == 200) {
+          var locations = data.data;
+          addCluster(locations, 'xfunit')
+          // for (var i = 0; i < locations.length; i++) {
+          //   if (locations[i].lon != "" && locations[i].lat != "") {
+          //     addMarker(locations[i].lon, locations[i].lat, locations[i].crkbh, "xfunit", locations[i]);
+          //   }
+          // }
+        }
+      });
     }
 
     // 加载 WIFI 嗅探设备
@@ -3677,6 +3732,7 @@
       }
     }
 
+
     // 异步加载数据
     function loadData(url, token, callback) {
       $.ajax({
@@ -3757,6 +3813,61 @@
 
         // 图标上添加点击事件
         addMarkerClickEvt(type, origin, marker);
+      }
+    }
+
+
+    var dataCluster, markers;
+    //添加点聚合
+    function addCluster(serchRsusl, type) {
+      var path = locationPath();
+      var opts = new IMAP.MarkerOptions();
+      opts.anchor = IMAP.Constants.BOTTOM_CENTER;
+      opts.icon = new IMAP.Icon(
+        path + "/static/image/house_16.png", {
+          "size": new IMAP.Size(16, 16),
+          "offset": new IMAP.Pixel(0, 0)
+        }
+      );
+      if (map) {
+        if (dataCluster) {
+          //清空所有的marker及点聚合对象
+          dataCluster.setMap(null);
+        }
+        markers = [];
+        //循环遍历数据 把数据加载到markers中去 注：数据类型是IMAP.Marker类型
+        for (var i = 0; i < serchRsusl.length; i++) {
+          (function (i) {
+
+            var poi = serchRsusl[i];
+            var lnglat = new IMAP.LngLat(poi.lon, poi.lat);
+            var marker = new IMAP.Marker(lnglat, opts);
+            marker.type = type;
+            markers.push(marker);
+          })(i);
+        }
+        //获取点聚合的显示级别数
+        var zoom = parseInt(0, 10);
+        //获取点聚合的缓冲大小
+        var size = parseInt(5, 10);
+        //获取点聚合的最小聚合数
+        var clusterSum = parseInt(2, 10);
+        //获取是否允许点击放大
+        var zoomclick = 'true';
+        zoomclick = zoomclick == 'true' ? true : false;
+        zoom = zoom == -1 ? null : zoom;
+        size = size == -1 ? null : size;
+        clusterSum = clusterSum == -1 ? null : clusterSum;
+
+        //创建聚合管理对象 并将各参数设置到其中
+        map.plugin(['IMAP.DataCluster'], function () {
+          dataCluster = new IMAP.DataCluster(map, markers, {
+            maxZoom: zoom,
+            gridSize: size,
+            zoomOnClick: zoomclick,
+            minimumClusterSize: clusterSum
+          });
+        });
       }
     }
 
@@ -4136,6 +4247,11 @@
         <input class="operator-radio" type="checkbox" id="operator-intro" name="operator-intro">
         <span class="operator-checkbox operator-input"></span>
         小区简介
+      </label>
+      <label class="operator-label" style="width: 100px;">
+        <input class="operator-radio" type="checkbox" id="operator-xf-unit" name="operator-xf-unit" checked>
+        <span class="operator-checkbox operator-input"></span>
+        消防重点单位
       </label>
     </div>
   </div>
