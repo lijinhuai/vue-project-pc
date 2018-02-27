@@ -57,6 +57,112 @@
       -webkit-font-smoothing: antialiased;
     }
 
+    /************ 左侧派出所 ***************/
+
+    .dept-container * {
+      box-sizing: border-box;
+    }
+
+    .dept-container {
+      width: 300px;
+      position: absolute;
+      top: 13%;
+      z-index: 1000;
+      margin-left: 10px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .dept-row {
+      width: 100%;
+      height: 80px;
+      display: flex;
+      align-items: center;
+      margin: 5px 0;
+      border-image-source: url(../image/line1.png);
+      border-style: solid;
+      border-width: 1px 1px;
+      border-image-slice: 1 fill;
+      border-image-outset: initial;
+      border-image-repeat: initial;
+    }
+
+    .dept-row .row-fgx {
+      height: 60%;
+      width: 1px
+    }
+
+    .dept-box {
+      width: 50%;
+      height: 78px;
+      margin: 0 auto;
+      padding: 10px 5px 5px 5px;
+      overflow-x: visible;
+      background-color: rgba(2, 48, 65, 0.7);
+      position: relative;
+    }
+
+    .dept-box.on {
+      background-color: rgba(15, 105, 132, 0.73);
+    }
+
+
+
+    .dept-box .dept-box-icon {
+      margin-left: 40px;
+      margin-top: 5px;
+      position: absolute;
+    }
+
+    .dept-box .dept-box-icon i {
+      font-size: 19px;
+      color: rgba(255, 215, 0, 0.6);
+    }
+
+    .dept-box .dept-info {
+      /* width: 80px; */
+      font-size: 12px;
+      color: #dddee1;
+      /* margin-left: 20px; */
+      text-align: center;
+      /* margin-top: 8px; */
+      font-weight: bold;
+      /* font-family: cursive; */
+    }
+
+    .dept-box .dept-num {
+      /* width: 80px; */
+      color: #FFFFFF;
+      font-size: 24px;
+      text-align: center;
+      /* margin: 25px 0px 0px 0px; */
+      font-family: fantasy;
+    }
+
+    .dept-num.num-syrk {
+      color: #4bf7a5;
+    }
+
+    .dept-num.num-syfw {
+      color: #77a6eb;
+    }
+
+    .dept-num.num-sydw {
+      color: #02bcef
+    }
+
+    .dept-num.num-syafss {
+      color: #81f754;
+    }
+
+    .dept-num.num-syllzb {
+      color: #f4a244;
+    }
+
+    .dept-num.num-syjq {
+      color: #ee584c;
+    }
+
     /************ 地图操作 ***************/
 
     .operator-container {
@@ -370,56 +476,6 @@
 
     function initOperatorMenuEvent() {
 
-      // 地图展示数据类型切换
-      $(".operator-radio").click(function () {
-
-        var name = $(this).attr("name");
-        var checked = $(this).is(":checked");
-
-        if (checked) {
-          $(this).parent(".operator-label").removeClass("off");
-          $(this).parent(".operator-label").addClass("on");
-        } else {
-          $(this).parent(".operator-label").removeClass("on");
-          $(this).parent(".operator-label").addClass("off");
-        }
-
-        // 选中消防重点单位
-        if (name == 'operator-xf-unit' && checked) {
-          //获取点聚合的显示级别数
-          var zoom = parseInt(4, 10);
-          //获取点聚合的缓冲大小
-          var size = parseInt(5, 10);
-          //获取点聚合的最小聚合数
-          var clusterSum = parseInt(20, 10);
-          //获取是否允许点击放大
-          var zoomclick = 'true';
-          zoomclick = zoomclick == 'true' ? true : false;
-          zoom = zoom == -1 ? null : zoom;
-          size = size == -1 ? null : size;
-          clusterSum = clusterSum == -1 ? null : clusterSum;
-
-          //创建聚合管理对象 并将各参数设置到其中
-          map.plugin(['IMAP.DataCluster'], function () {
-            dataCluster = new IMAP.DataCluster(map, markers, {
-              // styles: sts,
-              maxZoom: zoom,
-              gridSize: size,
-              zoomOnClick: zoomclick,
-              minimumClusterSize: clusterSum
-            });
-          });
-        }
-
-        // 取消选中消防重点单位
-        if (name == 'operator-xf-unit' && !checked) {
-          if (dataCluster) {
-            //清空所有的marker及点聚合对象
-            dataCluster.setMap(null);
-          }
-        }
-      });
-
       $(".operator-title").click(function () {
         if ($(".operator-content").hasClass("off")) {
           $(".operator-content").removeClass("off");
@@ -442,32 +498,36 @@
 
     }
 
-
-
-
-
-
-
-
-
-
-
-
     // 页面默认的定位
     function loadDefaultLocations() {
 
       // 加载消防重点单位
-      loadXfUnitLocations();
-
+      loadXfUnitAmount();
     }
 
-
-
-
-    // 加载消防重点单位
-    function loadXfUnitLocations() {
+    function loadXfUnitAmount() {
       var token = Cookies.get("Admin-Token");
-      loadData(baseUrl + "/xfunit/locations", token, function (data) {
+      loadData(baseUrl + "/xfunit/amounts", token, function (data) {
+        var code = data.code;
+        if (code == 200) {
+          var total = 0;
+          for (var i = 0; i < data.data.length; i++) {
+            var d = data.data[i];
+            countUp(d.pcsbm, d.cnt);
+            total += d.cnt;
+          }
+          countUp('total', total);
+        }
+      })
+      loadData(baseUrl + "/xfunit/totalAmounts", token, function (data) {
+        var code = data.code;
+        if (code == 200) {
+          countUp('total', data.data);
+
+        }
+      })
+
+      loadData(baseUrl + "/xfunit/locations?pcsbm=", token, function (data) {
         var code = data.code;
         if (code == 200) {
           var locations = data.data;
@@ -476,9 +536,20 @@
       });
     }
 
-
-
-
+    // 加载消防重点单位
+    function loadXfUnitLocations(obj) {
+      var token = Cookies.get("Admin-Token");
+      var pcsbm = $(obj).children('.dept-num').attr("id");
+      $('.dept-box').removeClass('on');
+      $(obj).parent().addClass('on');
+      loadData(baseUrl + "/xfunit/locations?pcsbm=" + pcsbm, token, function (data) {
+        var code = data.code;
+        if (code == 200) {
+          var locations = data.data;
+          addCluster(locations, 'xfunit')
+        }
+      });
+    }
     // 异步加载数据
     function loadData(url, token, callback) {
       $.ajax({
@@ -600,10 +671,12 @@
         content = content + "</div>";
         content = content + "<div class=\"dynamic-content\">";
         content = content + "<div class=\"dynamic-content-info\">"
-        var lon = ''+origin.lon;
-        var lat = ''+origin.lat;
+        var lon = '' + origin.lon;
+        var lat = '' + origin.lat;
         content = content + "简称：" + origin.dwjc +
-          "&nbsp;&nbsp;&nbsp;&nbsp;<br/>名称：" + origin.dwmc + "<br/>地址：" + origin.dwszd + "<br/>坐标：" + lon.substr(0, 10) + "，" + lat.substr(0, 9);
+          "&nbsp;&nbsp;&nbsp;&nbsp;<br/>名称：" + origin.dwmc + "<br/>地址：" + origin.dwszd + "<br/>坐标：" + lon.substr(
+            0, 10) +
+          "，" + lat.substr(0, 9);
         content = content + "</div>"
         content = content + "</div>";
         // content = content + "<div class=\"infowindow-marker\">";
@@ -677,10 +750,208 @@
 </head>
 
 <body style="overflow: hidden">
-  <audio id="bgMusic">
-    <source src="../audio/alarm.mp3" type="audio/mp3">
-  </audio>
   <div id="map" class="map_contaner"></div>
+
+  <div class="dept-container">
+    <div class="dept-row">
+
+      <div class="dept-box">
+        <a href="javascript:;" style="text-decoration: none;" onclick="showYblsDetail_chart('syaf');">
+          <div class="dept-num num-syafss" id="total">0</div>
+        </a>
+        <div class="dept-info">消防重点单位总量</div>
+      </div>
+
+
+    </div>
+
+    <div class="dept-row">
+      <div class="dept-box">
+        <a href="javascript:;" style="text-decoration: none;" onclick="loadXfUnitLocations(this);">
+          <div class="dept-num num-syrk" id="310116410000">0</div>
+        </a>
+        <div class="dept-info">枫泾</div>
+      </div>
+
+      <img class="row-fgx" src="../image/fgx.png">
+
+      <div class="dept-box">
+        <a href="javascript:;" style="text-decoration: none;" onclick="loadXfUnitLocations(this);">
+          <div class="dept-num num-syfw" id="310116510000">0</div>
+        </a>
+        <div class="dept-info">朱泾</div>
+      </div>
+
+      <img class="row-fgx" src="../image/fgx.png">
+
+      <div class="dept-box">
+        <a href="javascript:;" style="text-decoration: none;" onclick="loadXfUnitLocations(this);">
+          <div class="dept-num num-syrk" id="310116520000">0</div>
+        </a>
+        <div class="dept-info">张堰</div>
+      </div>
+
+      <img class="row-fgx" src="../image/fgx.png">
+
+      <div class="dept-box">
+        <a href="javascript:;" style="text-decoration: none;" onclick="loadXfUnitLocations(this);">
+          <div class="dept-num num-syfw" id="310116530000">0</div>
+        </a>
+        <div class="dept-info">亭林</div>
+      </div>
+    </div>
+
+    <div class="dept-row">
+      <div class="dept-box">
+        <a href="javascript:;" style="text-decoration: none;" onclick="loadXfUnitLocations(this);">
+          <div class="dept-num num-sydw" id="310116540000">0</div>
+        </a>
+        <div class="dept-info">吕巷</div>
+      </div>
+
+      <img class="row-fgx" src="../image/fgx.png">
+
+      <div class="dept-box">
+        <a href="javascript:;" style="text-decoration: none;" onclick="loadXfUnitLocations(this);">
+          <div class="dept-num num-syafss" id="310116550000">0</div>
+        </a>
+        <div class="dept-info">漕泾</div>
+      </div>
+
+      <img class="row-fgx" src="../image/fgx.png">
+
+      <div class="dept-box on">
+        <a href="javascript:;" style="text-decoration: none;" onclick="loadXfUnitLocations(this);">
+          <div class="dept-num num-sydw" id="310116560000">0</div>
+        </a>
+        <div class="dept-info">山阳</div>
+      </div>
+
+      <img class="row-fgx" src="../image/fgx.png">
+
+      <div class="dept-box">
+        <a href="javascript:;" style="text-decoration: none;" onclick="loadXfUnitLocations(this);">
+          <div class="dept-num num-syafss" id="310116570000">0</div>
+        </a>
+        <div class="dept-info">金山卫</div>
+      </div>
+
+    </div>
+
+    <div class="dept-row">
+      <div class="dept-box">
+        <a href="javascript:;" style="text-decoration: none;" onclick="loadXfUnitLocations(this);">
+          <div class="dept-num num-syllzb" id="310116580000">0</div>
+        </a>
+        <div class="dept-info">钱圩</div>
+      </div>
+
+      <img class="row-fgx" src="../image/fgx.png">
+
+      <div class="dept-box">
+        <a href="javascript:;" style="text-decoration: none;" onclick="loadXfUnitLocations(this);">
+          <div class="dept-num num-syjq" id="310116590000">0</div>
+        </a>
+        <div class="dept-info">廊下</div>
+      </div>
+
+      <img class="row-fgx" src="../image/fgx.png">
+
+      <div class="dept-box">
+        <a href="javascript:;" style="text-decoration: none;" onclick="loadXfUnitLocations(this);">
+          <div class="dept-num num-syllzb" id="310116600000">0</div>
+        </a>
+        <div class="dept-info">干巷</div>
+      </div>
+
+      <img class="row-fgx" src="../image/fgx.png">
+
+      <div class="dept-box">
+        <a href="javascript:;" style="text-decoration: none;" onclick="loadXfUnitLocations(this);">
+          <div class="dept-num num-syjq" id="310116610000">0</div>
+        </a>
+        <div class="dept-info">朱行</div>
+      </div>
+    </div>
+
+    <div class="dept-row">
+      <div class="dept-box">
+        <a href="javascript:;" style="text-decoration: none;" onclick="loadXfUnitLocations(this);">
+          <div class="dept-num num-syjq" id="310116620000">0</div>
+        </a>
+        <div class="dept-info">松隐</div>
+      </div>
+
+      <img class="row-fgx" src="../image/fgx.png">
+
+
+
+      <div class="dept-box">
+        <a href="javascript:;" style="text-decoration: none;" onclick="loadXfUnitLocations(this);">
+          <div class="dept-num num-syllzb" id="310116630000">0</div>
+        </a>
+        <div class="dept-info">新农</div>
+      </div>
+
+
+      <img class="row-fgx" src="../image/fgx.png">
+
+
+      <div class="dept-box">
+        <a href="javascript:;" style="text-decoration: none;" onclick="loadXfUnitLocations(this);">
+          <div class="dept-num num-syjq" id="310116650000">0</div>
+        </a>
+        <div class="dept-info">兴塔</div>
+      </div>
+
+
+      <img class="row-fgx" src="../image/fgx.png">
+      <div class="dept-box">
+        <a href="javascript:;" style="text-decoration: none;" onclick="loadXfUnitLocations(this);">
+          <div class="dept-num num-syllzb" id="310116670000">0</div>
+        </a>
+        <div class="dept-info">石化</div>
+      </div>
+
+    </div>
+
+    <div class="dept-row">
+      <div class="dept-box">
+        <a href="javascript:;" style="text-decoration: none;" onclick="loadXfUnitLocations(this);">
+          <div class="dept-num num-sydw" id="310116710000">0</div>
+        </a>
+        <div class="dept-info">象州</div>
+      </div>
+
+      <img class="row-fgx" src="../image/fgx.png">
+
+      <div class="dept-box">
+        <a href="javascript:;" style="text-decoration: none;" onclick="loadXfUnitLocations(this);">
+          <div class="dept-num num-syafss" id="310116740000">0</div>
+        </a>
+        <div class="dept-info">蒙山</div>
+      </div>
+
+      <img class="row-fgx" src="../image/fgx.png">
+
+      <div class="dept-box">
+        <a href="javascript:;" style="text-decoration: none;" onclick="loadXfUnitLocations(this);">
+          <div class="dept-num num-sydw" id="310116040611">0</div>
+        </a>
+        <div class="dept-info">金山嘴</div>
+      </div>
+
+      <img class="row-fgx" src="../image/fgx.png">
+
+      <div class="dept-box">
+        <a href="javascript:;" style="text-decoration: none;">
+          <div class="dept-num num-syafss"></div>
+        </a>
+        <div class="dept-info"></div>
+      </div>
+
+    </div>
+  </div>
 
   <!-- Head -->
   <div class="head-container">
@@ -694,7 +965,7 @@
         minZoom: 3,
         maxZoom: 20,
         // 设置地图初始化级别
-        zoom: 17,
+        zoom: 14,
         // 设置地图中心点坐标
         center: new IMAP.LngLat(121.3377285004, 30.7521905824),
         // 设置地图缩放动画效果
