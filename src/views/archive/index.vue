@@ -939,7 +939,7 @@ export default {
   background: transparent;
 }
 .ivu-modal-content {
-  background: rgba(29, 51, 121, 0.5);
+  background: rgba(29, 51, 121, 0.8);
   height: 90vh;
   border-radius: 0px;
   .ivu-modal-body {

@@ -329,6 +329,14 @@ export const singlePageRouter = [{
     title: '实有安防'
   },
   component: _import('single/security/security')
+},
+{
+  path: '/unit',
+  name: 'unit',
+  meta: {
+    title: '消防重点单位'
+  },
+  component: _import('gzgl/unit')
 }
 ]
 

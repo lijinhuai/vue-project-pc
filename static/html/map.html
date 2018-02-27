@@ -2964,13 +2964,13 @@
         faceSimilarHtml = faceSimilarHtml + "   <div class=\"item-title-time\">" + messages[i].timeBegin + "</div>";
         faceSimilarHtml = faceSimilarHtml + " </div>";
         faceSimilarHtml = faceSimilarHtml + " <div class=\"item-content\" data-message=\"" + mb + "\">";
-        faceSimilarHtml = faceSimilarHtml + "   <div class=\"item_avatar\" onclick=\"showFaceSimilarDialog(this)\">";
+        faceSimilarHtml = faceSimilarHtml + "   <div class=\"item_avatar\" onclick=\"f(this)\">";
         faceSimilarHtml = faceSimilarHtml + "     <img src=\"" + picBaseUrl + "/face/" + messages[i].faceImageUrl +
           ".jpg\" onerror=\"this.src='/static/image/default_nophoto.png'\"></img>";
         faceSimilarHtml = faceSimilarHtml + "   </div>";
         faceSimilarHtml = faceSimilarHtml + "   <div class=\"item_avatar\" onclick=\"showFaceSimilarDialog(this)\">";
-        faceSimilarHtml = faceSimilarHtml + "     <img src=\"" + baseUrl + "/face/similar/" + messages[i].hitZjhm +
-          "/zp?Authorization=" + token + "\" onerror=\"this.src='/static/image/default_nophoto.png'\"></img>";
+        faceSimilarHtml = faceSimilarHtml + "     <img src=\"" + picBaseUrl + "/face/" + messages[i].hitPic +
+          ".jpg\" onerror=\"this.src='/static/image/default_nophoto.png'\"></img>";
         faceSimilarHtml = faceSimilarHtml + "   </div>";
         faceSimilarHtml = faceSimilarHtml + "   <div class=\"item_info\">";
         faceSimilarHtml = faceSimilarHtml + "     <div class=\"item_info_contrast\">" + messages[i].similarity + "%" +
@@ -3023,8 +3023,8 @@
           ".jpg\" onerror=\"this.src='/static/image/default_nophoto.png'\"></img>";
         faceSimilarHtml = faceSimilarHtml + "   </div>";
         faceSimilarHtml = faceSimilarHtml + "   <div class=\"item_avatar\" onclick=\"showFaceSimilarDialog(this)\">";
-        faceSimilarHtml = faceSimilarHtml + "     <img src=\"" + baseUrl + "/face/similar/" + messages[i].hitZjhm +
-          "/zp?Authorization=" + token + "\" onerror=\"this.src='/static/image/default_nophoto.png'\"></img>";
+        faceSimilarHtml = faceSimilarHtml + "     <img src=\"" + picBaseUrl + "/face/" + messages[i].hitPic +
+          ".jpg\" onerror=\"this.src='/static/image/default_nophoto.png'\"></img>";
         faceSimilarHtml = faceSimilarHtml + "   </div>";
         faceSimilarHtml = faceSimilarHtml + "   <div class=\"item_info\">";
         faceSimilarHtml = faceSimilarHtml + "     <div class=\"item_info_contrast\">" + messages[i].similarity + "%" +
@@ -3246,8 +3246,8 @@
         ".jpg' onerror=\"this.src='/static/image/default_nophoto.png'\">";
       content = content + "</div>";
       content = content + "<div class='img-2'>";
-      content = content + "<img src=\"" + baseUrl + "/face/similar/" + message.hitZjhm + "/zp?Authorization=" + token +
-        "\" onerror=\"this.src='/static/image/default_nophoto.png'\"></img>";
+      content = content + "<img src=\'" + picBaseUrl + "/face/" + message.hitPic  +
+        ".jpg' onerror=\"this.src='/static/image/default_nophoto.png'\"></img>";
       content = content + "</div>";
       content = content + "<div class='img-3'>";
       content = content + "<img src='" + picBaseUrl + "/face/" + message.pictureUrl +
@@ -3510,7 +3510,7 @@
       loadXfsLocations();
 
       // 加载消防重点单位
-      loadXfUnitLocations();
+      // loadXfUnitLocations();
 
     }
 
@@ -3915,7 +3915,7 @@
           "简称：" + origin.dwjc +
           "&nbsp;&nbsp;&nbsp;&nbsp;<a style=\"color:#86d9fb\" target=\"_blank\" href=\"javascript:;void(0)\" onclick=\"openDwxx(\'" +
           origin.dwbh + "\');\">详&nbsp;&nbsp情</a><br/>名称：" +
-          origin.dwmc);
+          origin.dwmc + "<br/>坐标：" + origin.gpsLon.substr(0,8) + "，" + origin.gpsLat.substr(0,7));
       } else if (type == 'xqxx') {
         content = assembleInfoWindowContent("小区出入口", baseUrl + "/xqxx/" + origin.crkbh + "/photo?Authorization=" +
           token, "名称：" + origin.crkmc);
@@ -3943,7 +3943,7 @@
         content = content + "<div class=\"dynamic-content\">";
         content = content + "<div class=\"dynamic-content-info\">"
         content = content + "简称：" + origin.dwjc +
-          "&nbsp;&nbsp;&nbsp;&nbsp;<br/>名称：" +origin.dwmc+"<br/>地址：" +origin.dwszd;
+          "&nbsp;&nbsp;&nbsp;&nbsp;<br/>名称：" + origin.dwmc + "<br/>地址：" + origin.dwszd;
         content = content + "</div>"
         content = content + "</div>";
         // content = content + "<div class=\"infowindow-marker\">";
@@ -4132,8 +4132,9 @@
       window.parent.location.href = serviceUrl + "#/home";
     }
 
-    function toggleIntro() {
-
+    // 跳转到消防重点单位
+    function openXfUnit() {
+      window.open(serviceUrl + "/#/unit");
     }
 
   </script>
@@ -4295,8 +4296,7 @@
         <span class="operator-checkbox operator-input"></span>
         小区简介
       </label>
-      <label class="operator-label" style="width: 100px;">
-        <input class="operator-radio" type="checkbox" id="operator-xf-unit" name="operator-xf-unit" checked>
+      <label class="operator-label on" onclick="openXfUnit();" style="width: 100px;">
         <span class="operator-checkbox operator-input"></span>
         消防重点单位
       </label>
