@@ -1925,11 +1925,11 @@
         // 选中消防重点单位
         if (name == 'operator-xf-unit' && checked) {
           //获取点聚合的显示级别数
-          var zoom = parseInt(0, 10);
+          var zoom = parseInt(4, 10);
           //获取点聚合的缓冲大小
           var size = parseInt(5, 10);
           //获取点聚合的最小聚合数
-          var clusterSum = parseInt(2, 10);
+          var clusterSum = parseInt(20, 10);
           //获取是否允许点击放大
           var zoomclick = 'true';
           zoomclick = zoomclick == 'true' ? true : false;
@@ -1940,6 +1940,7 @@
           //创建聚合管理对象 并将各参数设置到其中
           map.plugin(['IMAP.DataCluster'], function () {
             dataCluster = new IMAP.DataCluster(map, markers, {
+              // styles: sts,
               maxZoom: zoom,
               gridSize: size,
               zoomOnClick: zoomclick,
@@ -3818,13 +3819,35 @@
 
 
     var dataCluster, markers;
+
+    var sts = [{
+      url: "http://a.amap.com/jsapi_demos/static/images/blue.png",
+      size: new IMAP.Size(32, 32),
+      offset: new IMAP.Pixel(-16, -16)
+    }, {
+      url: "http://a.amap.com/jsapi_demos/static/images/green.png",
+      size: new IMAP.Size(32, 32),
+      offset: new IMAP.Pixel(-16, -16)
+    }, {
+      url: "http://a.amap.com/jsapi_demos/static/images/orange.png",
+      size: new IMAP.Size(36, 36),
+      offset: new IMAP.Pixel(-18, -18)
+    }, {
+      url: "http://a.amap.com/jsapi_demos/static/images/red.png",
+      size: new IMAP.Size(48, 48),
+      offset: new IMAP.Pixel(-24, -24)
+    }, {
+      url: "http://a.amap.com/jsapi_demos/static/images/darkRed.png",
+      size: new IMAP.Size(48, 48),
+      offset: new IMAP.Pixel(-24, -24)
+    }];
     //添加点聚合
     function addCluster(serchRsusl, type) {
       var path = locationPath();
       var opts = new IMAP.MarkerOptions();
       opts.anchor = IMAP.Constants.BOTTOM_CENTER;
       opts.icon = new IMAP.Icon(
-        path + "/static/image/house_16.png", {
+        path + "/static/image/" + type + "_16.png", {
           "size": new IMAP.Size(16, 16),
           "offset": new IMAP.Pixel(0, 0)
         }
@@ -3838,20 +3861,21 @@
         //循环遍历数据 把数据加载到markers中去 注：数据类型是IMAP.Marker类型
         for (var i = 0; i < serchRsusl.length; i++) {
           (function (i) {
-
             var poi = serchRsusl[i];
             var lnglat = new IMAP.LngLat(poi.lon, poi.lat);
             var marker = new IMAP.Marker(lnglat, opts);
             marker.type = type;
+            // 图标上添加点击事件
+            addMarkerClickEvt(type, poi, marker);
             markers.push(marker);
           })(i);
         }
         //获取点聚合的显示级别数
-        var zoom = parseInt(0, 10);
+        var zoom = parseInt(4, 10);
         //获取点聚合的缓冲大小
         var size = parseInt(5, 10);
         //获取点聚合的最小聚合数
-        var clusterSum = parseInt(2, 10);
+        var clusterSum = parseInt(20, 10);
         //获取是否允许点击放大
         var zoomclick = 'true';
         zoomclick = zoomclick == 'true' ? true : false;
@@ -3862,6 +3886,7 @@
         //创建聚合管理对象 并将各参数设置到其中
         map.plugin(['IMAP.DataCluster'], function () {
           dataCluster = new IMAP.DataCluster(map, markers, {
+            // styles: sts,
             maxZoom: zoom,
             gridSize: size,
             zoomOnClick: zoomclick,
@@ -3903,6 +3928,28 @@
       } else if (type == 'wifi') {
         content = assembleInfoWindowContentWithoutPicture("WIFI", "安装地址：" + origin.installPoint + "<br/> MAC：" + origin
           .mac);
+      } else if (type == 'xfunit') {
+        // content = assembleInfoWindowContentWithoutPicture("", "简称：" + origin.dwjc +
+        //   "&nbsp;&nbsp;&nbsp;&nbsp;<br/>名称：" +origin.dwmc+"<br/>地址：" +origin.dwszd);
+        var content = "<div class=\"dynamic-container\" style=\width:240px;\">"
+        content = content + "<div class=\"dynamic-title\">"
+        content = content + "<div class=\"dynamic-title-content\" style=\"padding:0px 10px 6px\">";
+        content = content + "消防重点单位";
+        content = content + "</div>";
+        content = content + "<span class=\"dynamic-title-close\" onclick=\"closeInfoWindow()\">";
+        content = content + "<i class=\"iconfont\">&#xe603;</i>"
+        content = content + "</span>";
+        content = content + "</div>";
+        content = content + "<div class=\"dynamic-content\">";
+        content = content + "<div class=\"dynamic-content-info\">"
+        content = content + "简称：" + origin.dwjc +
+          "&nbsp;&nbsp;&nbsp;&nbsp;<br/>名称：" +origin.dwmc+"<br/>地址：" +origin.dwszd;
+        content = content + "</div>"
+        content = content + "</div>";
+        // content = content + "<div class=\"infowindow-marker\">";
+        // content = content + "<i class=\"iconfont\">&#xe682;</i>";
+        // content = content + "</div>";
+        content = content + "</div>";
       }
 
       // 图标点击事件

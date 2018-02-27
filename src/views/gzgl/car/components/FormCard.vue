@@ -140,12 +140,12 @@ export default {
         display: inline-block;
       }
       .info {
-        width: 95px;
+        width: 88px;
         display: inline-block;
         top: -10px;
         position: relative;
         .item {
-          margin: 2px 5px;
+          margin: 2px;
         }
         .status {
           color: white;
