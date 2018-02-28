@@ -104,7 +104,7 @@
               <Table :columns="room.jzryCloumns" :data="room.jzryData"></Table>
             </Tab-pane>
             <Tab-pane label="居住历史" name="jzls">
-              <Table :columns="room.jzryCloumns" :data="room.lijzryData"></Table>
+              <Table :columns="room.jzryCloumns" :data="room.lsjzryData"></Table>
             </Tab-pane>
             <Tab-pane label="电力数据" name="dlsj">
               <Dlsj ref="dlsj"></Dlsj>
@@ -239,7 +239,8 @@ export default {
               } else {
                 return h(PersonPhoto, {
                   props: {
-                    uploadList: params.row.photoList
+                    uploadList: params.row.photoList,
+                    rylb: params.row.syrklbdm
                   }
                 })
               }
@@ -271,7 +272,8 @@ export default {
         jzryData: [],
         lsjzryData: []
       },
-      rybqList: []
+      rybqList: [],
+      loadRoomDetailFlag: 0
     }
   },
   components: {
@@ -312,10 +314,15 @@ export default {
       // this.$Message.info('点击了取消')
     },
     showRoomDetail (dztzm) {
+      if (this.loadRoomDetailFlag === 1) {
+        return
+      }
+      this.loadRoomDetailFlag = 1
       fetchRfglRPerson(dztzm)
         .then(response => {
           this.room.jzryData = response.data
           this.modal = true
+          this.loadRoomDetailFlag = 0
           setTimeout(() => {
             this.$refs.dlsj.showChart()
             this.$refs.yssj.showChart()
@@ -327,7 +334,7 @@ export default {
         .catch(() => {})
       fetchRfglRHisPerson(dztzm)
         .then(response => {
-          this.room.lijzryData = response.data
+          this.room.lsjzryData = response.data
         })
         .catch(() => {})
     },

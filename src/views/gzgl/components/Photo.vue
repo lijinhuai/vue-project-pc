@@ -42,7 +42,7 @@ export default {
       if (this.uploadList.length > 1) {
         return 'always'
       } else {
-        return 'none'
+        return 'never'
       }
     }
   },
