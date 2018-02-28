@@ -3246,7 +3246,7 @@
         ".jpg' onerror=\"this.src='/static/image/default_nophoto.png'\">";
       content = content + "</div>";
       content = content + "<div class='img-2'>";
-      content = content + "<img src=\'" + picBaseUrl + "/face/" + message.hitPic  +
+      content = content + "<img src=\'" + picBaseUrl + "/face/" + message.hitPic +
         ".jpg' onerror=\"this.src='/static/image/default_nophoto.png'\"></img>";
       content = content + "</div>";
       content = content + "<div class='img-3'>";
@@ -3915,7 +3915,7 @@
           "简称：" + origin.dwjc +
           "&nbsp;&nbsp;&nbsp;&nbsp;<a style=\"color:#86d9fb\" target=\"_blank\" href=\"javascript:;void(0)\" onclick=\"openDwxx(\'" +
           origin.dwbh + "\');\">详&nbsp;&nbsp情</a><br/>名称：" +
-          origin.dwmc + "<br/>坐标：" + origin.gpsLon.substr(0,8) + "，" + origin.gpsLat.substr(0,7));
+          origin.dwmc + "<br/>坐标：" + origin.gpsLon.substr(0, 8) + "，" + origin.gpsLat.substr(0, 7));
       } else if (type == 'xqxx') {
         content = assembleInfoWindowContent("小区出入口", baseUrl + "/xqxx/" + origin.crkbh + "/photo?Authorization=" +
           token, "名称：" + origin.crkmc);
@@ -4144,7 +4144,7 @@
   <audio id="bgMusic">
     <source src="../audio/alarm.mp3" type="audio/mp3">
   </audio>
-  <div id="map" class="map_costat-container
+  <div id="map" class="map_contaner"></div>
   <!-- Head -->
   <div class="head-container">
     <div class="head_logo"></div>
