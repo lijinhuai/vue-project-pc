@@ -463,7 +463,7 @@
     .loading {
       width: 100%;
       height: 100%;
-      background: rgba(0, 0, 0,0.6);
+      background: rgba(0, 0, 0, 0.6);
       padding-top: 100px;
       z-index: 1001;
       position: absolute;
@@ -492,10 +492,10 @@
       border-radius: 50%;
       background: lightgreen;
       position: absolute;
-      -webkit-animation: load 1.04s ease infinite;
+      animation: load 1.04s ease infinite;
     }
 
-    @-webkit-keyframes load {
+    @keyframes load {
       0% {
         opacity: 1;
       }
@@ -508,52 +508,52 @@
       left: 0;
       top: 50%;
       margin-top: -8px;
-      -webkit-animation-delay: 0.13s;
+      animation-delay: 0.13s;
     }
 
     .loading .loadEffect span:nth-child(2) {
       left: 14px;
       top: 14px;
-      -webkit-animation-delay: 0.26s;
+      animation-delay: 0.26s;
     }
 
     .loading .loadEffect span:nth-child(3) {
       left: 50%;
       top: 0;
       margin-left: -8px;
-      -webkit-animation-delay: 0.39s;
+      animation-delay: 0.39s;
     }
 
     .loading .loadEffect span:nth-child(4) {
       top: 14px;
       right: 14px;
-      -webkit-animation-delay: 0.52s;
+      animation-delay: 0.52s;
     }
 
     .loading .loadEffect span:nth-child(5) {
       right: 0;
       top: 50%;
       margin-top: -8px;
-      -webkit-animation-delay: 0.65s;
+      animation-delay: 0.65s;
     }
 
     .loading .loadEffect span:nth-child(6) {
       right: 14px;
       bottom: 14px;
-      -webkit-animation-delay: 0.78s;
+      animation-delay: 0.78s;
     }
 
     .loading .loadEffect span:nth-child(7) {
       bottom: 0;
       left: 50%;
       margin-left: -8px;
-      -webkit-animation-delay: 0.91s;
+      animation-delay: 0.91s;
     }
 
     .loading .loadEffect span:nth-child(8) {
       bottom: 14px;
       left: 14px;
-      -webkit-animation-delay: 1.04s;
+      animation-delay: 1.04s;
     }
 
   </style>
@@ -627,11 +627,15 @@
       })
 
       $('.loading').show();
-      loadData(baseUrl + "/xfunit/locations?pcsbm=", token, function (data) {
+      loadData(baseUrl + "/xfunit/locations?pcsbm=310116560000", token, function (data) {
         var code = data.code;
         if (code == 200) {
-          var locations = data.data;
-          addCluster(locations, 'xfunit')
+          var gps = data.data[0]
+          var locations = data.data[1];
+          addCluster(locations, 'xfunit');
+          if (gps != null) {
+            map.setCenter(new IMAP.LngLat(gps.lon, gps.lat), gps.zoom);
+          }
           $('.loading').hide();
         }
       });
@@ -647,8 +651,12 @@
       loadData(baseUrl + "/xfunit/locations?pcsbm=" + pcsbm, token, function (data) {
         var code = data.code;
         if (code == 200) {
-          var locations = data.data;
-          addCluster(locations, 'xfunit')
+          var gps = data.data[0]
+          var locations = data.data[1];
+          addCluster(locations, 'xfunit');
+          if (gps != null) {
+            map.setCenter(new IMAP.LngLat(gps.lon, gps.lat), gps.zoom);
+          }
           $('.loading').hide();
         }
       });

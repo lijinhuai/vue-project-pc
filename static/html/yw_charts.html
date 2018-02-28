@@ -157,6 +157,7 @@
     margin: 0 auto;
     cursor: pointer;
   }
+
   /******************************************/
 
   .bubble {
@@ -885,6 +886,88 @@
         var femalepercent = syrk.femalepercent + '%';
         $(".malepercent").css("width", malepercent);
         $(".femalepercent").css("width", femalepercent)
+
+        var nl = echarts.init(document.getElementById('syrk_nl_charts'));
+
+        option4 = {
+          title: {
+
+            textStyle: {
+              color: 'white',
+              fontSize: 14
+            },
+            left: '10%'
+          },
+          color: ['#3398DB'],
+          tooltip: {
+            trigger: 'axis',
+            axisPointer: { // 坐标轴指示器，坐标轴触发有效
+              type: 'shadow' // 默认为直线，可选为：'line' | 'shadow'
+            }
+          },
+          grid: {
+            left: '3%',
+            right: '3%',
+            bottom: '5%',
+            top: '12%',
+            containLabel: true
+          },
+          xAxis: [{
+            type: 'category',
+            data: ['18及以下', '19到25岁', '26到35岁', '36到45岁', '46到55岁', '55岁以上'],
+            axisTick: {
+              alignWithLabel: true
+            },
+            axisLine: {
+              lineStyle: {
+                color: 'white',
+                width: 1, //这里是坐标轴的宽度,可以去掉
+              }
+            }
+          }],
+          yAxis: [{
+            splitLine: {
+              show: false
+            },
+            type: 'value',
+            axisLine: {
+              lineStyle: {
+                color: 'white',
+                width: 1, //这里是坐标轴的宽度,可以去掉
+              }
+            }
+          }],
+          tooltip: {},
+          series: [{
+            name: '数目',
+            type: 'bar',
+            data: [syrk.lt18, syrk.gt19lt25, syrk.gt26lt35, syrk.gt36lt45, syrk.gt46lt55, syrk.gt55],
+            barWidth: 40,
+            itemStyle: {
+              normal: {
+                color: function (params) {
+                  //首先定义一个数组
+                  var colorList = [
+                    '#10A4E7', '#186FF0', 'bisque', 'burlywood', 'lightcyan',
+                    'darksalmon', '#0AAF9F', '#E89589', '#186FF0', 'burlywood', 'darksalmon'
+                  ];
+                  return colorList[params.dataIndex]
+                },
+                //以下为是否显示
+                label: {
+                  show: true,
+                  position: 'top'
+                }
+
+              }
+            },
+
+          }, ]
+        };
+
+
+
+        nl.setOption(option4);
       }
     })
 
@@ -945,87 +1028,7 @@
 
 </script>
 <script>
-  var nl = echarts.init(document.getElementById('syrk_nl_charts'));
 
-  option4 = {
-    title: {
-
-      textStyle: {
-        color: 'white',
-        fontSize: 14
-      },
-      left: '10%'
-    },
-    color: ['#3398DB'],
-    tooltip: {
-      trigger: 'axis',
-      axisPointer: { // 坐标轴指示器，坐标轴触发有效
-        type: 'shadow' // 默认为直线，可选为：'line' | 'shadow'
-      }
-    },
-    grid: {
-      left: '3%',
-      right: '3%',
-      bottom: '5%',
-      top: '12%',
-      containLabel: true
-    },
-    xAxis: [{
-      type: 'category',
-      data: ['18及以下', '19到25岁', '26到35岁', '36到45岁', '46到55岁', '55岁以上'],
-      axisTick: {
-        alignWithLabel: true
-      },
-      axisLine: {
-        lineStyle: {
-          color: 'white',
-          width: 1, //这里是坐标轴的宽度,可以去掉
-        }
-      }
-    }],
-    yAxis: [{
-      splitLine: {
-        show: false
-      },
-      type: 'value',
-      axisLine: {
-        lineStyle: {
-          color: 'white',
-          width: 1, //这里是坐标轴的宽度,可以去掉
-        }
-      }
-    }],
-    tooltip: {},
-    series: [{
-      name: '数目',
-      type: 'bar',
-      data: [1004, 413, 1332, 984, 802, 514],
-      barWidth: 40,
-      itemStyle: {
-        normal: {
-          color: function (params) {
-            //首先定义一个数组
-            var colorList = [
-              '#10A4E7', '#186FF0', 'bisque', 'burlywood', 'lightcyan',
-              'darksalmon', '#0AAF9F', '#E89589', '#186FF0', 'burlywood', 'darksalmon'
-            ];
-            return colorList[params.dataIndex]
-          },
-          //以下为是否显示
-          label: {
-            show: true,
-            position: 'top'
-          }
-
-        }
-      },
-
-    }, ]
-  };
-
-
-
-  nl.setOption(option4);
 
 </script>
 

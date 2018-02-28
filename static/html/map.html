@@ -2153,9 +2153,15 @@
           countUp('hjry', ybls.hjry);
           countUp('lhry', ybls.lhry);
           countUp('jwry', ybls.jwry);
-          drawBarChart();
         }
       }), 1000 * 30)
+
+      loadData(baseUrl + "/houses/fwbq", token, function (data) {
+        var code = data.code;
+        if (code == 200) {
+          drawBarChart(data.data);
+        }
+      })
 
       // 页面默认的定位信息数据加载
       loadDefaultLocations();
@@ -2165,7 +2171,9 @@
 
     }
 
-    function drawBarChart() {
+    function drawBarChart(chart) {
+      var labels = chart.labels;
+      var data = chart.datasets[0].data
       // 基于准备好的dom，初始化echarts实例
       var myChart = echarts.init(document.getElementById('chart'));
 
@@ -2195,12 +2203,12 @@
               color: '#dddee1' // 左边线的颜色
             }
           },
-          data: ['未成年', '无身份', '群租', '混住', '空房']
+          data: labels
         },
         series: [{
           name: '2011年',
           type: 'bar',
-          data: [1, 4, 18, 138, 311],
+          data: data,
           label: {
             normal: {
               show: true //显示数字
