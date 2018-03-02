@@ -648,7 +648,7 @@
             <div title="W族人员居住房" class="xb_boy_window">
               <img src="/static/image/w.png" width="80%" style="margin: 0px 0 0 40px;cursor: pointer;" onclick="toFwxx_xb('1')" />
             </div>
-            <div class="rysj" style="float: left;margin:50px 0 0 70px;font-size: 34px;color: red;font-weight: bold;">
+            <div class="rysj" id="wz" style="float: left;margin:50px 0 0 70px;font-size: 34px;color: red;font-weight: bold;">
               0
             </div>
           </div>
@@ -661,7 +661,7 @@
             <div title="Z族人员居住房" class="xb_boy_window">
               <img src="/static/image/z.png" width="80%" style="margin: 0px 0 0 40px;cursor: pointer;" onclick="toFwxx_xb('1')" />
             </div>
-            <div class="rysj" style="float: left;margin:50px 0 0 70px;font-size: 34px;color: yellow;font-weight: bold;">
+            <div class="rysj" id="zz" style="float: left;margin:50px 0 0 70px;font-size: 34px;color: yellow;font-weight: bold;">
               0
             </div>
           </div>
@@ -683,31 +683,31 @@
                 <div class="bubble_item ani_auto ani_time_10 ani_bottom_top" onclick="toFwxx_xb('qz')">
                   <p>
                     <span>来沪人员居住5人以上</span>
-                    <i id="yz">18</i>
+                    <i id="qz">0</i>
                   </p>
                 </div>
                 <div class="bubble_item ani_auto ani_time_8 ani_bottom_top" onclick="toFwxx_xb('wcn')">
                   <p>
                     <span>来沪未成年人独居房</span>
-                    <i id="mgz">1</i>
+                    <i id="wcn">0</i>
                   </p>
                 </div>
                 <div class="bubble_item ani_auto ani_time_12 ani_top_bottom" onclick="toFwxx_xb('sfzh')">
                   <p>
                     <span>无身份人员居住房</span>
-                    <i id="sz">4</i>
+                    <i id="wsf">0</i>
                   </p>
                 </div>
                 <div class="bubble_item ani_auto ani_time_8 ani_top_bottom" onclick="toFwxx_xb('kf')">
                   <p>
                     <span>无人居住房</span>
-                    <i id="hzsj">311</i>
+                    <i id="kf">0</i>
                   </p>
                 </div>
                 <div class="bubble_item ani_auto ani_time_10 ani_bottom_top" onclick="toFwxx_xb('hh')">
                   <p>
                     <span>来沪人员与本市户籍人员混居房</span>
-                    <i id="cxz">138</i>
+                    <i id="hz">0</i>
                   </p>
                 </div>
               </div>
@@ -737,28 +737,17 @@
 
     var token = Cookies.get("Admin-Token");
 
-    loadData(baseUrl + "/houses/syrkamounts", token, function (data) {
+    loadData(baseUrl + "/houses/fwbqs", token, function (data) {
       var code = data.code;
       if (code == 200) {
-        var syrk = data.data;
-        countUp('malesj', syrk.male);
-        countUp('femalesj', syrk.female);
-        countUp('hz', syrk.hz);
-        countUp('yz', syrk.yz);
-        countUp('mgz', syrk.mgz);
-        countUp('sz', syrk.sz);
-        countUp('hzsj', syrk.hzsj);
-        countUp('cxz', syrk.cxz);
-        countUp('tjz', syrk.tjz);
-        countUp('mz', syrk.mz);
-        countUp('mzsj', syrk.mzsj);
-        countUp('zz', syrk.zz);
-        countUp('qz', syrk.qz);
-        countUp('dz', syrk.dz);
-        var malepercent = syrk.malepercent + '%';
-        var femalepercent = syrk.femalepercent + '%';
-        $(".malepercent").css("width", malepercent);
-        $(".femalepercent").css("width", femalepercent)
+        var d = data.data;
+        countUp("wz",d.wz);
+        countUp("zz",d.zz);
+        countUp("qz",d.qz);
+        countUp("wcn",d.wcn);
+        countUp("wsf",d.wsf);
+        countUp("kf",d.kf);
+        countUp("hz",d.hz);
       }
     })
   }
@@ -795,10 +784,6 @@
     window.history.go(-1);
   }
 
-  function toFwxx_xb(bq) {
-    var path = locationPath();
-    location.href = path + "/#/analysis/fwcx?fwbq=" + bq
-  }
 
   function locationPath() {
     var href = window.document.location.href;
@@ -807,165 +792,6 @@
     var path = href.substring(0, pos);
     return path;
   }
-
-</script>
-<script>
-  var nl = echarts.init(document.getElementById('syrk_nl_charts'));
-  var hjry = echarts.init(document.getElementById('syrk_hjry_charts'));
-  option4 = {
-    title: {
-
-      textStyle: {
-        color: 'white',
-        fontSize: 14
-      },
-      left: '10%'
-    },
-    color: ['#3398DB'],
-    tooltip: {
-      trigger: 'axis',
-      axisPointer: { // 坐标轴指示器，坐标轴触发有效
-        type: 'shadow' // 默认为直线，可选为：'line' | 'shadow'
-      }
-    },
-    grid: {
-      left: '3%',
-      right: '3%',
-      bottom: '5%',
-      top: '12%',
-      containLabel: true
-    },
-    xAxis: [{
-      type: 'category',
-      data: ['来沪人员居住5人以上', '来沪未成年人独居房', '无身份人员居住房', '无人居住房', '来沪人员与本市户籍人员混居房'],
-      axisTick: {
-        alignWithLabel: true
-      },
-      axisLine: {
-        lineStyle: {
-          color: 'white',
-          width: 1, //这里是坐标轴的宽度,可以去掉
-        }
-      }
-    }],
-    yAxis: [{
-      splitLine: {
-        show: false
-      },
-      type: 'value',
-      axisLine: {
-        lineStyle: {
-          color: 'white',
-          width: 1, //这里是坐标轴的宽度,可以去掉
-        }
-      }
-    }],
-    tooltip: {},
-    series: [{
-      name: '数目',
-      type: 'bar',
-      data: [200, 400, 424, 654, 342],
-      barWidth: 40,
-      itemStyle: {
-        normal: {
-          color: function (params) {
-            //首先定义一个数组
-            var colorList = [
-              '#10A4E7', '#186FF0', 'bisque', 'burlywood', 'lightcyan',
-              'darksalmon', '#0AAF9F', '#E89589', '#186FF0', 'burlywood', 'darksalmon'
-            ];
-            return colorList[params.dataIndex]
-          },
-          //以下为是否显示
-          label: {
-            show: true,
-            position: 'top'
-          }
-
-        }
-      },
-
-    }, ]
-  };
-
-  option = {
-
-    tooltip: {
-      trigger: 'axis',
-      axisPointer: {
-        type: 'shadow'
-      }
-    },
-    grid: {
-      left: '3%',
-      right: '10%',
-      bottom: '3%',
-      top: '10%',
-      containLabel: true
-    },
-    xAxis: {
-      splitLine: {
-        show: false
-      },
-      type: 'value',
-      boundaryGap: [0, 0.01],
-      axisLabel: {
-        show: true,
-        textStyle: {
-          color: 'white'
-        }
-      },
-      axisLine: {
-        lineStyle: {
-          color: 'white',
-          width: 1, //这里是坐标轴的宽度,可以去掉
-        }
-      }
-    },
-    yAxis: {
-      type: 'category',
-      data: ['户籍人员', '来沪人员', '境外人员'],
-      axisLabel: {
-        show: true,
-        textStyle: {
-          color: 'white'
-        }
-      },
-      axisLine: {
-        lineStyle: {
-          color: 'white',
-          width: 1, //这里是坐标轴的宽度,可以去掉
-        }
-      }
-    },
-    series: [{
-      name: '',
-      type: 'bar',
-      data: [3426, 601, 160],
-      barWidth: 30,
-      itemStyle: {
-        normal: {
-          color: function (params) {
-            //首先定义一个数组
-            var colorList = [
-              '#10A4E7', 'burlywood', 'lightcyan',
-              'darksalmon', '#0AAF9F', '#E89589', '#186FF0', 'burlywood', 'darksalmon'
-            ];
-            return colorList[params.dataIndex]
-          }
-        }
-      },
-      label: {
-        normal: {
-          show: true,
-          position: 'right'
-        }
-      },
-    }]
-  };
-
-  nl.setOption(option4);
-  hjry.setOption(option);
 
 </script>
 
