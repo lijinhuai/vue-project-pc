@@ -1,0 +1,895 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>基础地图展示</title>
+
+  <meta name="renderer" content="webkit">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+  <meta tabindex="">
+  <link rel="stylesheet" type="text/css" href="http://117.184.195.173:25002/jsmap/1.0/demo/apidemos/sourceLinks/style.css">
+  <script type="text/javascript" src="http://117.184.195.173:25002/jsmap/1.0/demo/scripts/jsurl.js"></script>
+
+  <script src="../js/jquery.min.js"></script>
+  <script src="../js/js.cookie-2.2.0.min.js"></script>
+  <script src="../js/jquery.base64.js"></script>
+  <script src="../js/countUp.js"></script>
+
+  <style>
+    .head-container {
+      width: 100%;
+      /* background: rgba(3,40,53,0.31); */
+      /* box-shadow: inset 0 0 25px #0dc2fd; */
+      position: fixed;
+      top: 0px;
+      left: 0;
+      z-index: 800;
+      margin-top: 5px;
+    }
+
+    .head-container .head_logo {
+      width: 100%;
+      height: 80px;
+      background: url(/static/image/toplogo.png) no-repeat;
+      background-size: cover;
+      -webkit-background-size: cover;
+      background-position: center 0;
+    }
+
+
+
+    @font-face {
+      font-family: 'iconfont';
+      src: url('../icon/iconfont.eot');
+      src: url('../icon/iconfont.eot?#iefix') format('embedded-opentype'),
+      url('../icon/iconfont.woff') format('woff'),
+      url('../icon/iconfont.ttf') format('truetype'),
+      url('../icon/iconfont.svg#iconfont') format('svg');
+    }
+
+    .iconfont {
+      font-family: "iconfont" !important;
+      font-size: 16px;
+      font-style: normal;
+      -webkit-font-smoothing: antialiased;
+    }
+
+
+
+    /************ 右侧菜菜单 ***************/
+
+    .operator-container {
+      width: 300px;
+      position: absolute;
+      top: 15%;
+      right: 20px;
+      z-index: 1000;
+    }
+
+
+    .operator-tab-container {
+      width: 300px;
+      margin: 0px;
+      padding: 0px;
+      margin-bottom: 15px;
+      overflow: hidden;
+    }
+
+    /* .detail-tab-border {
+      border:1px solid #95C9E1;
+    } */
+
+    .operator-menu-box {
+      line-height: 28px;
+      float: right;
+      width: 48px;
+      height: 400px;
+      /* border-right:1px solid #95C9E1; */
+    }
+
+    .operator-menu-box ul {
+      margin: 0px;
+      /* padding: 0px; */
+      list-style: none;
+      position: absolute;
+      /* top: 15px; */
+      /* left: -5px; */
+      margin-left: 12px;
+      /* height: 25px; */
+      text-align: center;
+    }
+
+    .detail-menu-box li {
+      display: block;
+      cursor: pointer;
+      width: 48px;
+      color: #FFFFFF;
+      font-family: -webkit-body;
+      margin-bottom: 8px;
+      height: 48px;
+      line-height: 25px;
+      /* padding-top: 6px; */
+      background-color: rgba(2, 48, 65, 0.8);
+      /* border-top-right-radius: 10px 10px; */
+      writing-mode: vertical-lr;
+      /* letter-spacing: 5px; */
+      /* box-shadow: -1px 1px 3px 0px #0dc2fd; */
+    }
+
+    .operator-menu-box li.icon-rlsb {
+      background-image: url(../image/icon_rlsb.png);
+    }
+
+    .operator-menu-box li.icon-rlsb.hover {
+      background-image: url(../image/icon_rlsb_on.png);
+    }
+
+    .operator-menu-box li.icon-km {
+      background-image: url(../image/icon_km.png);
+    }
+
+    .operator-menu-box li.icon-km.hover {
+      background-image: url(../image/icon_km_on.png);
+    }
+
+    .operator-menu-box li.icon-gc {
+      background-image: url(../image/icon_gc.png);
+    }
+
+    .operator-menu-box li.icon-gc.hover {
+      background-image: url(../image/icon_gc_on.png);
+    }
+
+    .operator-menu-box li.icon-wifi {
+      background-image: url(../image/icon_wifi.png);
+    }
+
+    .operator-menu-box li.icon-wifi.hover {
+      background-image: url(../image/icon_wifi_on.png);
+    }
+
+    .operator-menu-box li.icon-af {
+      background-image: url(../image/icon_af.png);
+    }
+
+    .operator-menu-box li.icon-af.hover {
+      background-image: url(../image/icon_af_on.png);
+    }
+
+    .operator-menu-box li.icon-bk {
+      background-image: url(../image/icon_control.png);
+    }
+
+    .operator-menu-box li.icon-bk.hover {
+      background-image: url(../image/icon_control_on.png);
+    }
+
+    /* .detail-menu-box li.hover {
+      background-image: linear-gradient(45deg, rgba(230, 11, 84, 0.66), #ff2468);
+    } */
+
+    .operator-content-box {
+      margin-top: 0px;
+      /* border-top: none; */
+      padding: 30px 2px 0px 6px;
+      left: 10px;
+      height: 400px;
+      background-color: rgb(5, 48, 64);
+      width: 253px;
+      border-image-source: url(../image/line1.png);
+      border-style: solid;
+      border-width: 1px 1px;
+      border-image-slice: 1 fill;
+      border-image-outset: initial;
+      border-image-repeat: initial;
+    }
+
+    .operator-content-box .con_detail {
+      position: relative;
+    }
+
+    .operator-content-box .con_detail .detail-title {
+      position: absolute;
+      top: -25px;
+      color: #dddee1;
+    }
+
+    /************ 右侧菜菜单 - 子菜单 ***************/
+
+    .operator-sub-container {
+      width: 250px;
+      /* border-top: 3px solid #ff2468; */
+      /* margin-top: 2px; */
+      background-color: rgb(16, 66, 84);
+    }
+
+    .operator-sub-container .operator-sub-menu-box {
+      height: 28px;
+      line-height: 28px;
+      position: relative;
+      /* border-bottom: 2px solid rgb(63, 70, 73); */
+      background-color: rgba(2, 48, 65, 0.7);
+    }
+
+    .operator-sub-container ul {
+      margin: 0px;
+      padding: 0px;
+      list-style: none;
+      position: absolute;
+      top: 1px;
+      left: 0;
+      height: 26px;
+      text-align: center;
+    }
+
+    .operator-sub-container li {
+      float: left;
+      display: block;
+      cursor: pointer;
+      width: 60px;
+      color: #FFFFFF;
+      font-weight: bold;
+      margin-right: 2px;
+      height: 25px;
+      line-height: 25px;
+      background-color: rgb(190, 18, 18, 0);
+      font-size: 14px;
+      letter-spacing: 3px;
+    }
+
+    .operator-sub-container li.hover {
+      background-color: #104254;
+      border-top: 2px solid #ff244b;
+    }
+
+    .operator-sub-container .operator-sub-content-box {
+      padding-top: 8px;
+      height: 350px;
+      overflow-y: auto;
+    }
+
+    .operator-sub-container .operator-sub-content-box::-webkit-scrollbar {
+      width: 6px;
+      height: 2px;
+    }
+
+    .operator-sub-container .operator-sub-content-box::-webkit-scrollbar-thumb {
+      border-radius: 1px;
+      background: #2b85e4;
+    }
+
+    .operator-sub-container .operator-sub-content-box::-webkit-scrollbar-track {
+      border-radius: 1px;
+      background: #033447;
+    }
+
+    .can-click:hover {
+      cursor: pointer;
+    }
+
+
+    .con_subdetail_face_1_item {
+      display: block;
+      height: 80px;
+    }
+
+    .con_subdetail_face_1_item .item_avatar {
+      width: 80px;
+      height: 80px;
+      display: block;
+      float: left;
+    }
+
+    .con_subdetail_face_1_item .item_avatar img {
+      width: 70px;
+      height: 70px;
+      padding: 0 5px;
+    }
+
+    .con_subdetail_face_1_item .item_info {
+      display: block;
+      float: left;
+      color: #b2bbc1;
+      font-size: 14px;
+      line-height: 1.5rem;
+    }
+
+    /************ 右侧菜菜单 - 子菜单 - 人脸 - 小区 ***************/
+
+    .con_subdetail_face_2_item {
+      display: block;
+    }
+
+    .con_subdetail_face_2_item .item-title {
+      line-height: 25px;
+      height: 25px;
+    }
+
+    .con_subdetail_face_2_item .item-title {
+      line-height: 25px;
+      height: 25px;
+      font-size: 14px;
+      color: #FFFFFF;
+    }
+
+    .con_subdetail_face_2_item .item-title i {
+      float: left;
+      color: #0075c2;
+    }
+
+    .con_subdetail_face_2_item .item-title .item-title-name {
+      float: left;
+      margin-left: 5px;
+    }
+
+    .con_subdetail_face_2_item .item-title .item-title-time {
+      float: right;
+      color: #cecbcb;
+    }
+
+    .con_subdetail_face_2_item .item-content {
+      display: block;
+      height: 75px;
+      margin-bottom: 5px;
+    }
+
+    .con_subdetail_face_2_item .item_avatar {
+      width: 70px;
+      height: 70px;
+      display: block;
+      float: left;
+      margin-right: 5px;
+    }
+
+    .con_subdetail_face_2_item .item_avatar img {
+      width: 70px;
+      height: 70px;
+      padding: 0 5px;
+    }
+
+    .con_subdetail_face_2_item .item_info {
+      display: block;
+      float: left;
+      color: #b2bbc1;
+      font-size: 14px;
+      line-height: 1.5rem;
+      margin-left: 5px;
+    }
+
+    .con_subdetail_face_2_item .item_info .item_info_contrast {
+      color: gold;
+      font-size: 20px;
+      margin-bottom: 2px;
+    }
+
+    /************ 右侧菜菜单 - 子菜单 - 人脸 - 报警 ***************/
+
+    .con_subdetail_face_3_item {
+      display: block;
+    }
+
+    .con_subdetail_face_3_item .item-title {
+      line-height: 25px;
+      height: 25px;
+    }
+
+    .con_subdetail_face_3_item .item-title {
+      line-height: 25px;
+      height: 25px;
+      font-size: 14px;
+      color: #FFFFFF;
+    }
+
+    .con_subdetail_face_3_item .item-title i {
+      float: left;
+      color: #0075c2;
+    }
+
+    .con_subdetail_face_3_item .item-title .item-title-name {
+      float: left;
+      word-break: keep-all;
+      white-space: nowrap;
+      width: 80px;
+      overflow: hidden;
+    }
+
+    .con_subdetail_face_3_item .item-title .item-title-time {
+      float: right;
+      color: #cecbcb;
+    }
+
+    .con_subdetail_face_3_item .item-content {
+      display: block;
+      height: 75px;
+      margin-bottom: 5px;
+    }
+
+    .con_subdetail_face_3_item .item_avatar {
+      width: 70px;
+      height: 70px;
+      display: block;
+      float: left;
+      margin-right: 5px;
+    }
+
+    .con_subdetail_face_3_item .item_avatar img {
+      width: 70px;
+      height: 70px;
+      padding: 0 5px;
+    }
+
+    .con_subdetail_face_3_item .item_info {
+      display: block;
+      float: left;
+      color: #b2bbc1;
+      font-size: 14px;
+      line-height: 1.5rem;
+      margin-left: 5px;
+    }
+
+    .con_subdetail_face_3_item .item_info div {
+      word-break: keep-all;
+      white-space: nowrap;
+      width: 80px;
+      overflow: hidden;
+    }
+
+    .con_subdetail_face_3_item .item_info .item_info_contrast {
+      color: gold;
+      font-size: 20px;
+      margin-bottom: 2px;
+    }
+
+
+
+    /******* 地图颜色覆盖 **********/
+
+    .imap-popup-content-wrapper,
+    .imap-popup-tip {
+      background: rgba(20, 65, 170, 0.7);
+      box-shadow: 3px 4px 9px 2px #0075c2;
+    }
+
+    .imap-window {
+      background-color: transparent;
+      color: #FFFFFF;
+    }
+
+    .imap-overlay-pane {
+      z-index: 800;
+    }
+
+    .imap-label {
+      border: 0px;
+      background: rgba(255, 255, 255, 0);
+    }
+
+    /************** loading样式 *****************************/
+
+    .loading {
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.6);
+      padding-top: 100px;
+      z-index: 1001;
+      position: absolute;
+      display: none;
+    }
+
+    .loading a {
+      display: block;
+      text-align: center;
+      font-size: 20px;
+      margin-top: 200px;
+    }
+
+    .loading .loadEffect {
+      width: 100px;
+      height: 100px;
+      position: relative;
+      margin: 0 auto;
+      margin-top: 100px;
+    }
+
+    .loading .loadEffect span {
+      display: inline-block;
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      background: lightgreen;
+      position: absolute;
+      animation: load 1.04s ease infinite;
+    }
+
+    @keyframes load {
+      0% {
+        opacity: 1;
+      }
+      100% {
+        opacity: 0.2;
+      }
+    }
+
+    .loading .loadEffect span:nth-child(1) {
+      left: 0;
+      top: 50%;
+      margin-top: -8px;
+      animation-delay: 0.13s;
+    }
+
+    .loading .loadEffect span:nth-child(2) {
+      left: 14px;
+      top: 14px;
+      animation-delay: 0.26s;
+    }
+
+    .loading .loadEffect span:nth-child(3) {
+      left: 50%;
+      top: 0;
+      margin-left: -8px;
+      animation-delay: 0.39s;
+    }
+
+    .loading .loadEffect span:nth-child(4) {
+      top: 14px;
+      right: 14px;
+      animation-delay: 0.52s;
+    }
+
+    .loading .loadEffect span:nth-child(5) {
+      right: 0;
+      top: 50%;
+      margin-top: -8px;
+      animation-delay: 0.65s;
+    }
+
+    .loading .loadEffect span:nth-child(6) {
+      right: 14px;
+      bottom: 14px;
+      animation-delay: 0.78s;
+    }
+
+    .loading .loadEffect span:nth-child(7) {
+      bottom: 0;
+      left: 50%;
+      margin-left: -8px;
+      animation-delay: 0.91s;
+    }
+
+    .loading .loadEffect span:nth-child(8) {
+      bottom: 14px;
+      left: 14px;
+      animation-delay: 1.04s;
+    }
+
+  </style>
+
+  <script>
+    var baseUrl = window.parent.document.getElementById("baseUrl").value;
+    var picBaseUrl = "http://116.228.125.236:18181/";
+    var serviceUrl = locationPath();
+
+    var map, tool, contextmenuEvt, addoverlayEvt;
+
+    $(document).ready(function () {
+
+      // 页面初始数据
+      // initData();
+
+      // 页面地图数据切换事件绑定
+      // initOperatorMenuEvent();
+      setTimeout(function () {
+        toggleDrawPolygon();
+      }, 3000)
+
+    });
+
+    function toggleDrawPolygon() {
+      toggleDrawClose();
+
+      tool = new IMAP.PolygonTool();
+      tool.autoClose = true; //是否自动关闭绘制
+      map.addTool(tool);
+      tool.open();
+
+      addoverlayEvt = tool.addEventListener(IMAP.Constants.ADD_OVERLAY, function (evt) {
+        // document.getElementById("close").checked = "checked";
+      }, this);
+    }
+
+    //关闭绘制
+    function toggleDrawClose() {
+      if (tool) {
+        if (addoverlayEvt) {
+          tool.removeEventListener(addoverlayEvt);
+        }
+
+        tool.close();
+        tool = null;
+        if (contextmenuEvt) {
+          map.removeEventListener(contextmenuEvt);
+        }
+
+      }
+    }
+
+    function initOperatorMenuEvent() {
+
+      $(".operator-title").click(function () {
+        if ($(".operator-content").hasClass("off")) {
+          $(".operator-content").removeClass("off");
+          $(".operator-content").addClass("on");
+        } else {
+          $(".operator-content").removeClass("on");
+          $(".operator-content").addClass("off");
+        }
+      })
+    }
+
+
+    // 页面初始化需要加载的数据
+    function initData() {
+      var token = Cookies.get("Admin-Token");
+
+
+      // 页面默认的定位信息数据加载
+      loadDefaultLocations();
+
+    }
+
+    // 页面默认的定位
+    function loadDefaultLocations() {
+
+      // 加载消防重点单位
+      loadXfUnitAmount();
+    }
+
+    function loadXfUnitAmount() {
+      var token = Cookies.get("Admin-Token");
+      loadData(baseUrl + "/xfunit/amounts", token, function (data) {
+        var code = data.code;
+        if (code == 200) {
+          var total = 0;
+          for (var i = 0; i < data.data.length; i++) {
+            var d = data.data[i];
+            countUp(d.pcsbm, d.cnt);
+            total += d.cnt;
+          }
+          countUp('total', total);
+        }
+      })
+      loadData(baseUrl + "/xfunit/totalAmounts", token, function (data) {
+        var code = data.code;
+        if (code == 200) {
+          countUp('total', data.data);
+
+        }
+      })
+
+      $('.loading').show();
+      loadData(baseUrl + "/xfunit/locations?pcsbm=310116560000", token, function (data) {
+        var code = data.code;
+        if (code == 200) {
+          var gps = data.data[0]
+          var locations = data.data[1];
+          addCluster(locations, 'xfunit');
+          if (gps != null) {
+            map.setCenter(new IMAP.LngLat(gps.lon, gps.lat), gps.zoom);
+          }
+          $('.loading').hide();
+        }
+      });
+    }
+
+    // 异步加载数据
+    function loadData(url, token, callback) {
+      $.ajax({
+        headers: {
+          Authorization: token
+        },
+        type: "get",
+        url: url,
+        success: function (data) {
+          callback(data);
+        },
+        error: function (XMLHttpRequest, textStatus, errorThrown) {
+          var status = XMLHttpRequest.status;
+          if (status == 403) {
+            var loc = locationPath();
+            window.parent.location.href = loc;
+          }
+        }
+      });
+    }
+
+
+
+    var dataCluster, markers;
+
+    //添加点聚合
+    function addCluster(serchRsusl, type) {
+      var path = locationPath();
+      var opts = new IMAP.MarkerOptions();
+      opts.anchor = IMAP.Constants.BOTTOM_CENTER;
+      opts.icon = new IMAP.Icon(
+        path + "/static/image/" + type + "_16.png", {
+          "size": new IMAP.Size(16, 16),
+          "offset": new IMAP.Pixel(0, 0)
+        }
+      );
+      if (map) {
+        if (dataCluster) {
+          //清空所有的marker及点聚合对象
+          dataCluster.setMap(null);
+        }
+        markers = [];
+        //循环遍历数据 把数据加载到markers中去 注：数据类型是IMAP.Marker类型
+        for (var i = 0; i < serchRsusl.length; i++) {
+          (function (i) {
+            var poi = serchRsusl[i];
+            var lnglat = new IMAP.LngLat(poi.lon, poi.lat);
+            var marker = new IMAP.Marker(lnglat, opts);
+            marker.type = type;
+            // 图标上添加点击事件
+            addMarkerClickEvt(type, poi, marker);
+            markers.push(marker);
+          })(i);
+        }
+        //获取点聚合的显示级别数
+        var zoom = parseInt(4, 10);
+        //获取点聚合的缓冲大小
+        var size = parseInt(5, 10);
+        //获取点聚合的最小聚合数
+        var clusterSum = parseInt(20, 10);
+        //获取是否允许点击放大
+        var zoomclick = 'true';
+        zoomclick = zoomclick == 'true' ? true : false;
+        zoom = zoom == -1 ? null : zoom;
+        size = size == -1 ? null : size;
+        clusterSum = clusterSum == -1 ? null : clusterSum;
+
+        //创建聚合管理对象 并将各参数设置到其中
+        map.plugin(['IMAP.DataCluster'], function () {
+          dataCluster = new IMAP.DataCluster(map, markers, {
+            // styles: sts,
+            maxZoom: zoom,
+            gridSize: size,
+            zoomOnClick: zoomclick,
+            minimumClusterSize: clusterSum
+          });
+        });
+      }
+    }
+
+
+    var _current_marker;
+
+
+    // 关闭消息窗
+    function closeInfoWindow() {
+      if (map && _current_marker) {
+        _current_marker.closeInfoWindow();
+      }
+    }
+
+
+
+    function locationPath() {
+      var href = window.document.location.href;
+      var pname = window.document.location.pathname;
+      var pos = href.indexOf(pname);
+      var path = href.substring(0, pos);
+      return path;
+    }
+
+    //动态显示数据
+    function countUp(id, end) {
+      var oldCntStr = document.getElementById(id).innerText;
+      var oldCnt = oldCntStr.replace(/[,]/g, "");
+      var options = {
+        useEasing: true,
+        useGrouping: true,
+        separator: ',',
+        decimal: '.',
+      };
+      var obj = new CountUp(id, oldCnt, end, 0, 2.5, options);
+      obj.start();
+    }
+
+  </script>
+</head>
+
+<body style="overflow: hidden">
+  <div id="map" class="map_contaner"></div>
+
+    <!-- Head -->
+    <div class="head-container">
+      <div class="head_logo"></div>
+    </div>
+
+  <div class="loading">
+    <div class="loadEffect">
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+  </div>
+
+  <div class="operator-container">
+    <div class="operator-tab-container detail-tab-border">
+      <div class="operator-menu-box ">
+        <ul>
+          <li class="icon-rlsb hover" id="detail1" onclick="setTab('detail',1,6)">
+          </li>
+        </ul>
+      </div>
+      <img src="../image/line2.png" style="width: 1px;height: 300px;position: absolute;">
+      <div class="operator-content-box">
+        <div class="con_detail" id="con_detail_1">
+          <div class="detail-title"></div>
+          <div class="detail-sub-container">
+            <div class="detail-sub-tab-container detail-sub-tab-border">
+              <div class="detail-sub-menu-box ">
+                <ul>
+                  <li class="subdetail_face hover" id="subdetail_face_1" onclick="setSubTab('subdetail', 'face', 1)">
+                    抓拍
+                  </li>
+                  <li class="subdetail_face" id="subdetail_face_2" onclick="setSubTab('subdetail', 'face', 2)">
+                    小区
+                  </li>
+                  <li class="subdetail_face" id="subdetail_face_3" onclick="setSubTab('subdetail', 'face', 3)">
+                    报警
+                  </li>
+                </ul>
+              </div>
+              <div class="detail-sub-content-box">
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="con_detail" id="con_detail_2" style="height: 430px; display:none;color:#FFFFFF; text-align: center;">
+          <div class="operator-title"></div>
+          <div class="con_door">
+
+          </div>
+        </div>
+      </div>
+      <img src="../image/line2.png" style="width: 1px;height: 420px;position: absolute;top: 0px;right: 41px;">
+    </div>
+  </div>
+
+  <script type="text/javascript">
+    var map;
+
+    function initMap() {
+      map = new IMAP.Map("map", {
+        minZoom: 3,
+        maxZoom: 20,
+        // 设置地图初始化级别
+        zoom: 14,
+        // 设置地图中心点坐标
+        center: new IMAP.LngLat(121.3377285004, 30.7521905824),
+        // 设置地图缩放动画效果
+        animation: true,
+      });
+      map.plugin(['IMAP.Tool']);
+    }
+
+    // 初始化地图
+    initMap();
+    // 添加路网图层
+    addRoadNetLayer();
+
+  </script>
+
+</body>
+
+</html>

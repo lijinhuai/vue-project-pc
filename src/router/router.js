@@ -337,6 +337,14 @@ export const singlePageRouter = [{
     title: '消防重点单位'
   },
   component: _import('gzgl/unit')
+},
+{
+  path: '/mapedit',
+  name: 'mapedit',
+  meta: {
+    title: '消防重点单位'
+  },
+  component: _import('gzgl/mapedit')
 }
 ]
 
