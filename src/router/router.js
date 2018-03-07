@@ -367,7 +367,7 @@ export const singlePageRouter = [{
   path: '/mapedit',
   name: 'mapedit',
   meta: {
-    title: '责任区管理'
+    title: '责任区管理'
   },
   component: _import('gzgl/mapedit')
 }
