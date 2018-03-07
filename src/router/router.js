@@ -331,18 +331,26 @@ export const singlePageRouter = [{
   component: _import('single/security/security')
 },
 {
-  path: '/unit',
-  name: 'unit',
+  path: '/ybls_unit',
+  name: 'ybls_unit',
   meta: {
-    title: '消防重点单位'
+    title: '金山区实有单位'
   },
-  component: _import('gzgl/unit')
+  component: _import('ybls/unit')
+},
+{
+  path: '/ybls_house',
+  name: 'ybls_house',
+  meta: {
+    title: '金山区实有房屋'
+  },
+  component: _import('ybls/house')
 },
 {
   path: '/mapedit',
   name: 'mapedit',
   meta: {
-    title: '消防重点单位'
+    title: '责任区管理'
   },
   component: _import('gzgl/mapedit')
 }
