@@ -102,6 +102,14 @@ export const appRouter = [{
       name: 'amap'
     }
   }, {
+    path: 'yblsMenu',
+    icon: 'ybls',
+    title: '一标六实',
+    name: 'yblsMenu',
+    redirect: {
+      name: 'ybls_unit'
+    }
+  }, {
     path: 'face',
     icon: 'face-recognition',
     style: 'background-color: #93ca08;',
@@ -132,6 +140,15 @@ export const appRouter = [{
     },
     redirect: {
       name: 'search'
+    }
+  },
+  {
+    path: 'mapeditMenu',
+    icon: 'duty-area',
+    title: '责任区',
+    name: 'mapeditMenu',
+    redirect: {
+      name: 'mapedit'
     }
   }
   ]

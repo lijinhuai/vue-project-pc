@@ -97,6 +97,8 @@
 
     .detail-content-box .con_detail {
       position: relative;
+      color: white;
+      font-size: 14px;
     }
 
     .detail-content-box .con_detail .detail-title {
@@ -178,30 +180,6 @@
       cursor: pointer;
     }
 
-
-
-
-    /******* 地图颜色覆盖 **********/
-
-    /* .imap-popup-content-wrapper,
-    .imap-popup-tip {
-      background: rgba(20, 65, 170, 0.7);
-      box-shadow: 3px 4px 9px 2px #0075c2;
-    }
-
-    .imap-window {
-      background-color: transparent;
-      color: #FFFFFF;
-    }
-
-    .imap-overlay-pane {
-      z-index: 800;
-    }
-
-    .imap-label {
-      border: 0px;
-      background: rgba(255, 255, 255, 0);
-    } */
 
     /************** loading样式 *****************************/
 
@@ -332,24 +310,9 @@
       $("#con_" + prefix + "_" + model + "_" + index).css('display', 'block');
     }
 
-    function initOperatorMenuEvent() {
-
-      $(".operator-title").click(function () {
-        if ($(".operator-content").hasClass("off")) {
-          $(".operator-content").removeClass("off");
-          $(".operator-content").addClass("on");
-        } else {
-          $(".operator-content").removeClass("on");
-          $(".operator-content").addClass("off");
-        }
-      })
-    }
-
 
     // 页面初始化需要加载的数据
     function initData() {
-      var token = Cookies.get("Admin-Token");
-
 
       // 页面默认的定位信息数据加载
       loadDefaultLocations();
@@ -682,8 +645,8 @@
           var html =
             "<table style='width:100%;border: 0px;cellpadding:0px;cellspacing: 10px;text-align: center'>";
           html += "<tr>";
-          html += "<td style='width: 10%;'>序号</td>";
-          html += "<td style='width: 60%'>名称</td>";
+          html += "<td style='width: 15%;'>序号</td>";
+          html += "<td style='width: 55%'>名称</td>";
           html += "<td colspan=\"2\" style='width: 30%'>操作</td>";
           html += "</tr>";
           var count = 1;
@@ -728,13 +691,16 @@
       pgo.fillOpacity = "0.5";
       pgo.strokeColor = color;
       pgo.strokeOpacity = "1";
-      pgo.strokeWeight = "3";
-      pgo.strokeStyle = "solid";
+      pgo.strokeWeight = "2";
+      pgo.strokeStyle = IMAP.Constants.OVERLAY_LINE_DASHED;
       var polygon = new IMAP.Polygon(lnglatarr, pgo);
       polygon.id = "xq" + dutyArea.owner;
-      // polygon.addEventListener(IMAP.Constants.CLICK, function (e) {
-      //   // zoomArea(dutyArea.areaId);
-      // });
+      polygon.addEventListener(IMAP.Constants.CLICK, function (e) {
+        if (editing) {
+          return;
+        }
+        zoomArea(dutyArea.areaId);
+      });
       map.getOverlayLayer().addOverlay(polygon, false);
       return polygon;
     }
@@ -782,6 +748,7 @@
       // });
     }
 
+    var editing;
     //编辑责任区
     function editDutyArea(areaId) {
       $.ajax({
@@ -799,6 +766,7 @@
           for (var i in overlays) {
             if (overlays[i].id == 'xq' + dutyArea.owner) {
               var polygon = overlays[i];
+              editing = true;
               polygon.editable(true);
             }
           }
@@ -815,40 +783,61 @@
 
     //按照区域放大地图
     function zoomArea(areaId) {
-      // $.ajax({
-      //   headers: {
-      //     Authorization: Cookies.get("Admin-Token")
-      //   },
-      //   type: "post",
-      //   url: baseUrl + "/dutyArea/queryAreaById",
-      //   data: {
-      //     "areaId": areaId
-      //   },
-      //   success: function (dutyArea) {
-      //     var id = "xq" + dutyArea.owner;
-      //     var overlays = map.getOverlayLayer().getOverlays();
-      //     for (var i in overlays) {
-      //       if (overlays[i].id == id) {
-      //         map.setBestMap(overlays[i].getPath());
-      //         var infowindow = new IMAP.InfoWindow(
-      //           "责任区名称：" + dutyArea.areaName + "<br/>责任部门：" + dutyArea.deptName + "<br/>责任区描述：<br/>" + dutyArea
-      //           .areaDesc, {
-      //             size: new IMAP.Size(200, 150),
-      //             autoPan: true,
-      //             offset: new IMAP.Pixel(-5, -35),
-      //             //title:"责任区",
-      //             visible: true,
-      //             position: overlays[i].getBounds().getCenter()
-      //             //position:new IMAP.LngLat(overlays[i].getBounds().getCenter().split(",")[0],overlays[i].getBounds().getCenter().split(",")[1])
-      //           });
-      //         map.getOverlayLayer().addOverlay(infowindow);
-      //         infowindow.visible(true);
-      //       }
-      //     }
+      $.ajax({
+        headers: {
+          Authorization: Cookies.get("Admin-Token")
+        },
+        type: "post",
+        url: baseUrl + "/dutyArea/queryAreaById",
+        data: {
+          "areaId": areaId
+        },
+        success: function (data) {
+          var dutyArea = data.data
+          var id = "xq" + dutyArea.owner;
+          var overlays = map.getOverlayLayer().getOverlays();
+          for (var i in overlays) {
+            if (overlays[i].id == id) {
+              map.setBestMap(overlays[i].getPath());
+              var infowindow = new IMAP.InfoWindow(
+                "责任区名称：" + dutyArea.areaName + "<br/>责任部门：" + dutyArea.deptName + "<br/>责任区描述：" + dutyArea
+                .areaDesc, {
+                  size: new IMAP.Size(200, 65),
+                  autoPan: true,
+                  offset: new IMAP.Pixel(-5, -35),
+                  //title:"责任区",
+                  visible: true,
+                  position: overlays[i].getBounds().getCenter()
+                  //position:new IMAP.LngLat(overlays[i].getBounds().getCenter().split(",")[0],overlays[i].getBounds().getCenter().split(",")[1])
+                });
+              map.getOverlayLayer().addOverlay(infowindow);
+              infowindow.visible(true);
+            }
+          }
 
-      //   },
-      //   error: function () {}
-      // });
+        },
+        error: function () {}
+      });
+
+    }
+
+    function reQuery() {
+      var owner = $('#edit_depts').val();
+      var overlays = map.getOverlayLayer().getOverlays();
+      for (var i in overlays) {
+        if (overlays[i].id == 'xq' + owner) {
+          var polygon = overlays[i];
+          editing = false;
+          polygon.editable(false);
+        }
+      }
+
+      $('#edit_areaId').val('');
+      $('#edit_owner').val('');
+      $('#edit_areaName').val('')
+      $('#edit_areaDesc').val('');
+      $('#edit_depts').val('');
+      setSubTab('subdetail', 'face', 1)
 
     }
 
@@ -1084,17 +1073,6 @@
                     }
                   }
                 }
-                var title = quyu;
-                var content = '<div style="padding:0px 0px 0px 4px;">名称：**区 <br>行政区划级别：区<br> 区号：' + paths[0].citycode +
-                  '<br>行政区编码：' + paths[0].adcode + '</div>';
-                infowindow = new IMAP.InfoWindow(content, {
-                  size: new IMAP.Size(300, 200),
-                  title: title,
-                  position: paths[0].center,
-                  autoPan: true,
-                  type: IMAP.Constants.OVERLAY_INFOWINDOW_DEFAULT
-                });
-                overlays.push(infowindow);
                 map.getOverlayLayer().addOverlays(overlays, true);
               }
             });
