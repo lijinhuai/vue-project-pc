@@ -18,15 +18,10 @@
   background-position: center 0;
 }
 
-
-
 @font-face {
   font-family: 'iconfont';
   src: url('../../icon/iconfont.eot');
-  src: url('../../icon/iconfont.eot?#iefix') format('embedded-opentype'),
-  url('../../icon/iconfont.woff') format('woff'),
-  url('../../icon/iconfont.ttf') format('truetype'),
-  url('../../icon/iconfont.svg#iconfont') format('svg');
+  src: url('../../icon/iconfont.eot?#iefix') format('embedded-opentype'), url('../../icon/iconfont.woff') format('woff'), url('../../icon/iconfont.ttf') format('truetype'), url('../../icon/iconfont.svg#iconfont') format('svg');
 }
 
 .iconfont {
@@ -84,8 +79,6 @@
 .dept-box.on {
   background-color: rgba(15, 105, 132, 0.73);
 }
-
-
 
 .dept-box .dept-box-icon {
   margin-left: 40px;
@@ -196,11 +189,9 @@
   background-image: url(/static/image/checkbox1_on.png);
 }
 
-
 .operator-container .operator-content.on {
   animation: operator-show .5s;
   animation-fill-mode: forwards;
-
 }
 
 .operator-container .operator-content.off {
@@ -278,7 +269,6 @@
 .operator-radio:checked+.operator-checkbox.operator-input:after {
   border-radius: 0
 }
-
 
 /************** INFOWINDOW 样式 *****************************/
 
@@ -375,6 +365,10 @@
   color: #FFFFFF;
 }
 
+.dynamic-container .dynamic-title-close:hover {
+  cursor: pointer;
+}
+
 .dynamic-container .dynamic-content {
   font-size: 12px;
   padding: 0px 6px 8px;
@@ -413,7 +407,6 @@
   font-size: 32px;
   color: rgba(20, 65, 170, 0.7);
 }
-
 
 /************** loading样式 *****************************/
 

@@ -12,3 +12,10 @@ export function fetchDictList (dictName) {
     method: 'get'
   })
 }
+
+export function fetchRoadDictList (dictName) {
+  return fetch({
+    url: '/rfgl/listRoadDict',
+    method: 'get'
+  })
+}

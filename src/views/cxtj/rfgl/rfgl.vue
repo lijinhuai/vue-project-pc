@@ -13,7 +13,11 @@
             </div>
             <Form v-show="cxlb=='tj'" :model="queryForm" :label-width="80">
               <Form-item label="路名">
-                <Input v-model="queryForm.lm" placeholder="请输入"></Input>
+                <el-select v-model="queryForm.lm" filterable placeholder="请选择" style="width:100%">
+                  <el-option v-for="item in roadDictList" :key="item.index" :label="item.value" :value="item.key">
+                  </el-option>
+                </el-select>
+                <!-- <Input v-model="queryForm.lm" placeholder="请输入"></Input> -->
               </Form-item>
               <Form-item label="门弄牌号">
                 <Input v-model="queryForm.mnph" placeholder="请输入"></Input>
@@ -56,7 +60,7 @@
             </el-button>
             <el-dropdown-menu slot="dropdown">
               <el-dropdown-item v-for="rybq in rybqList" :key="rybq.index">
-                <div class="rybq"  :class="rybq.value2" @click="showThisTybq(rybq.value2)">{{rybq.value}}</div>
+                <div class="rybq" :class="rybq.value2" @click="showThisTybq(rybq.value2)">{{rybq.value}}</div>
               </el-dropdown-item>
             </el-dropdown-menu>
           </el-dropdown>
@@ -72,18 +76,18 @@
           <div class="body-head">{{ house.address }}</div>
           <div class="floor" v-for="floor in house.floors" :key="floor.index">
             <template v-if="floor.rooms.length>0">
-                                <div class="room room_info" v-for="room in floor.rooms" :key="room.index" @click="showRoomDetail(room.dztzm)" :class="{room_active:room.cxfwbj==1,
-                                                room_rhyz:room.flagRhfl==0,
-                                                room_rhfl:room.flagRhfl==1,
-                                                room_rhyz_czfw:room.flagRhfl==0 && room.jzfwlx=='01',
-                                                room_rhfl_czfw:room.flagRhfl==1 && room.jzfwlx=='01'
-                                  }">
-                                  <div v-for="rybq in room.rybqList" :key="rybq.index" class="rybq_room" :class="rybq.colorPng"></div>
-                                  <span>{{ room.houseRoomNum }}</span>
-                                  <Poptip trigger="hover" :content="room.jzrsTip">
-                                    <Badge class-name="badge-jzrs" :count="room.jzrs"></Badge>
-                                  </Poptip>
-                                </div>
+                                    <div class="room room_info" v-for="room in floor.rooms" :key="room.index" @click="showRoomDetail(room.dztzm)" :class="{room_active:room.cxfwbj==1,
+                                                    room_rhyz:room.flagRhfl==0,
+                                                    room_rhfl:room.flagRhfl==1,
+                                                    room_rhyz_czfw:room.flagRhfl==0 && room.jzfwlx=='01',
+                                                    room_rhfl_czfw:room.flagRhfl==1 && room.jzfwlx=='01'
+                                      }">
+                                      <div v-for="rybq in room.rybqList" :key="rybq.index" class="rybq_room" :class="rybq.colorPng"></div>
+                                      <span>{{ room.houseRoomNum }}</span>
+                                      <Poptip trigger="hover" :content="room.jzrsTip">
+                                        <Badge class-name="badge-jzrs" :count="room.jzrs"></Badge>
+                                      </Poptip>
+                                    </div>
 </template>
 
 <template v-else>
@@ -130,7 +134,7 @@ import {
   fetchRfglRPerson,
   fetchRfglRHisPerson
 } from '@/api/cxtj/rfgl'
-import { fetchDbDictList } from '@/api/dict'
+import { fetchDbDictList, fetchRoadDictList } from '@/api/dict'
 import PersonPhoto from './components/PersonPhoto.vue'
 import Dlsj from './components/Dlsj.vue'
 import Yssj from './components/Yssj.vue'
@@ -139,12 +143,13 @@ export default {
   name: 'rfgl',
   data () {
     return {
+      roadDictList: [],
       modal: false,
       cxTab: 'fwcx',
       cxlb: 'tj',
       pageInfo: {
         pageNum: 1,
-        pageSize: 5,
+        pageSize: 8,
         total: 0
       },
       queryForm: {
@@ -152,7 +157,7 @@ export default {
         mnph: '',
         sh: '',
         sfzh: '',
-        mlph: ''
+        mlphbm: ''
       },
       columns: [
         {
@@ -287,6 +292,7 @@ export default {
     fetchDbDictList('RYBQ').then(response => {
       this.rybqList = response
     })
+    this.fetchDictList()
   },
   activated () {
     let zjhm = this.$route.params.zjhm
@@ -300,11 +306,6 @@ export default {
       this.queryForm.dztzm = dztzm
       this.searchRfglRoom()
     }
-    let mlph = this.$route.query.mlph
-    if (mlph) {
-      this.queryForm.mlph = mlph
-      this.searchRfglRoom()
-    }
     let mlphbm = this.$route.query.mlphbm
     if (mlphbm) {
       this.queryForm.mlphbm = mlphbm
@@ -312,6 +313,11 @@ export default {
     }
   },
   methods: {
+    fetchDictList () {
+      fetchRoadDictList().then(response => {
+        this.roadDictList = response
+      })
+    },
     ok () {
       // this.$Message.info('点击了确定')
     },
@@ -389,12 +395,15 @@ export default {
         this.queryForm.lm = ''
         this.queryForm.mnph = ''
         this.queryForm.sh = ''
-        this.queryForm.mlph = ''
       }
       this.queryForm.dztzm = ''
+      this.queryForm.mlphbm = ''
     },
     cxTab (value) {
-      this.queryForm.dztzm = ''
+      if (value === 'fwcx') {
+        this.queryForm.dztzm = ''
+        this.queryForm.mlphbm = ''
+      }
     }
   }
 }
@@ -528,8 +537,7 @@ export default {
       }
     }
   }
-}
-// .rybq {
+} // .rybq {
 //   position: absolute;
 //   width: 100%;
 //   height: 100%;

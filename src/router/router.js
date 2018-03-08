@@ -145,7 +145,7 @@ export const appRouter = [{
   {
     path: 'mapeditMenu',
     icon: 'duty-area',
-    title: '责任区',
+    title: '责任区',
     name: 'mapeditMenu',
     redirect: {
       name: 'mapedit'

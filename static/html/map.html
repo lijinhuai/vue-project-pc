@@ -1462,6 +1462,10 @@
       color: #FFFFFF;
     }
 
+    .dynamic-container .dynamic-title-close:hover {
+      cursor: pointer;
+    }
+
     .dynamic-container .dynamic-content {
       font-size: 12px;
       padding: 0px 6px 8px;
@@ -3913,10 +3917,15 @@
       var content = "";
       var token = Cookies.get("Admin-Token");
       if (type == "house") {
+        var detail = "";
+        if (origin.mlphbm != null && origin.mlphbm != '') {
+          detail =
+            "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a style=\"color:#86d9fb\" target=\"_blank\" href=\"" +
+            serviceUrl + "/#/analysis/rfgl?mlphbm=" + origin.mlphbm + "\">详&nbsp;&nbsp情</a>";
+        }
         content = assembleInfoWindowContent("实有房屋", baseUrl + "/houses/" + origin.cjbh + "/photo?Authorization=" +
-          token, "地址：" + origin.mlph +
-          "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a style=\"color:#86d9fb\" target=\"_blank\" href=\"" +
-          serviceUrl + "/#/analysis/rfgl?mlph=" + origin.mlph + "\">详&nbsp;&nbsp情</a>" + "<br/>经度：" + origin.gpsjd +
+          token, "地址：" + origin.mlph + detail +
+          "<br/>经度：" + origin.gpsjd +
           "<br/>纬度：" + origin.gpswd);
       } else if (type == "dwxx") {
         content = assembleInfoWindowContent("实有单位", baseUrl + "/dwxx/" + origin.dwbh + "/photo?Authorization=" + token,
@@ -4139,6 +4148,7 @@
     function openHome() {
       window.parent.location.href = serviceUrl + "#/home";
     }
+
   </script>
 </head>
 
