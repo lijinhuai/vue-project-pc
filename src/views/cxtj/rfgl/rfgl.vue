@@ -305,6 +305,11 @@ export default {
       this.queryForm.mlph = mlph
       this.searchRfglRoom()
     }
+    let mlphbm = this.$route.query.mlphbm
+    if (mlphbm) {
+      this.queryForm.mlphbm = mlphbm
+      this.searchRfglRoom()
+    }
   },
   methods: {
     ok () {

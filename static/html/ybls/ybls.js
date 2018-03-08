@@ -185,7 +185,8 @@ function addMarkerClickEvt(type, origin, marker) {
     content = content + "<div class=\"dynamic-content-info\">"
     var lon = '' + origin.lon;
     var lat = '' + origin.lat;
-    content = content + "地址：" + origin.mlphxx + "<br/>坐标：" + lon.substr(
+    content = content + "地址：" + origin.mlphxx + "</br><a style=\"color:#86d9fb\" target=\"_blank\" href=\"" +
+    serviceUrl + "/#/analysis/rfgl?mlphbm=" + origin.mlphbm + "\">详&nbsp;&nbsp情</a><br/>坐标：" + lon.substr(
         0, 10) +
       "，" + lat.substr(0, 9);
     content = content + "</div>"
