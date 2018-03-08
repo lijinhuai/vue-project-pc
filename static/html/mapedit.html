@@ -58,6 +58,141 @@
     }
 
 
+    /************ 地图操作 ***************/
+
+    .operator-container {
+      position: absolute;
+      top: 50px;
+      text-align: center;
+      z-index: 900;
+      display: block;
+      right: 0;
+    }
+
+    .operator-container .operator-ops {
+      /* width: 40%; */
+      margin-right: 5px;
+      color: #0dc2fd;
+      /* box-shadow: inset 0 0 11px 0px #0dc2fd; */
+      background-color: rgba(2, 48, 65, 0.7);
+    }
+
+    .operator-container .operator-label {
+      display: inline-block;
+      cursor: pointer;
+      background-image: url(/static/image/checkbox3_on.png);
+      padding: 5px 0px;
+      background-size: cover;
+      -webkit-background-size: cover;
+      background-position: center 0;
+      font-size: 12px;
+      font-weight: 800;
+      background-size: cover;
+      -webkit-background-size: cover;
+      background-position: center 0;
+      height: 18px;
+      width: 65px;
+    }
+
+    .operator-container .operator-label.off {
+      color: #595c5e;
+      background-image: url(/static/image/checkbox3.png);
+    }
+
+    .operator-container .operator-label.on {
+      background-image: url(/static/image/checkbox3_on.png);
+    }
+
+    .operator-container-left .operator-label.off {
+      color: #595c5e;
+      background-image: url(/static/image/checkbox1.png);
+    }
+
+    .operator-container-left .operator-label.on {
+      background-image: url(/static/image/checkbox1_on.png);
+    }
+
+    .operator-container .operator-content.on {
+      animation: operator-show .5s;
+      animation-fill-mode: forwards;
+    }
+
+    .operator-container .operator-content.off {
+      animation: operator-hide .5s;
+      animation-fill-mode: forwards;
+    }
+
+    @keyframes operator-hide {
+      0% {
+        transform: rotateY(0deg);
+        transform-origin: right;
+        opacity: 1
+      }
+      100% {
+        transform: rotateY(90deg);
+        transform-origin: right;
+        opacity: 0;
+        width: 0px;
+      }
+    }
+
+    @keyframes operator-show {
+      0% {
+        transform: rotateY(90deg);
+        transform-origin: right;
+        opacity: 0
+      }
+      100% {
+        transform: rotateY(0deg);
+        transform-origin: right;
+        opacity: 1
+      }
+    }
+
+    .operator-container .operator-title {
+      width: 6px;
+      background-color: #ffd700;
+      margin-right: 6px;
+      height: 28px;
+      position: absolute;
+      right: 0px;
+      top: 0px;
+      cursor: pointer;
+    }
+
+    .operator-container .operator-radio {
+      display: none
+    }
+
+    .operator-container .operator-input {
+      background-color: #fff;
+      border: 1px solid rgba(0, 0, 0, 0.15);
+      border-radius: 100%;
+      display: inline-block;
+      height: 16px;
+      margin-right: 10px;
+      margin-top: -1px;
+      vertical-align: middle;
+      width: 16px;
+      line-height: 1;
+      display: none;
+    }
+
+    .operator-container .operator-radio:checked+.operator-input:after {
+      background-color: #0869dc;
+      border-radius: 100%;
+      content: "";
+      display: inline-block;
+      height: 12px;
+      margin: 2px;
+      width: 12px
+    }
+
+    .operator-container .operator-checkbox.operator-input,
+    .operator-radio:checked+.operator-checkbox.operator-input:after {
+      border-radius: 0
+    }
+
 
     /************ 右侧菜菜单 ***************/
 
@@ -842,12 +977,26 @@
 
     }
 
+    // 返回首页
+    function openHome() {
+      window.parent.location.href = serviceUrl + "#/home";
+    }
+
   </script>
 </head>
 
 <body style="overflow: hidden">
   <div id="map" class="map_contaner"></div>
 
+  <!-- 首页操作按钮 -->
+  <div class="operator-container left" style="left: 5px;">
+    <div class="operator-ops" style="border-left: 6px solid #ffd700; border-right: 0px; float: left;">
+      <label class="operator-label on" onclick="openHome();" style="margin-left: 6px;">
+        <span class="operator-checkbox operator-input"></span>
+        首页
+      </label>
+    </div>
+  </div>
   <!-- Head -->
   <div class="head-container">
     <div class="head_logo"></div>
