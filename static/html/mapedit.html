@@ -657,7 +657,8 @@
             }
             html += "<tr>";
             html += "<td>" + count + "</td>";
-            html += "<td style='cursor:pointer' onclick='zoomArea(" + areaList[i].areaId + ")'><font style='color: " + color + "'>" + areaList[i].areaName + "</font></td>";
+            html += "<td style='cursor:pointer' onclick='zoomArea(" + areaList[i].areaId +
+              ")'><font style='color: " + color + "'>" + areaList[i].areaName + "</font></td>";
             html += "<td><a href=\"javascript:void(0);\" onclick='editDutyArea(\"" + areaList[i].areaId +
               "\")'>修改</a></td>";
             html += "<td><a href=\"javascript:void(0);\" onclick='deleteDutyArea(\"" + areaList[i].areaId +
