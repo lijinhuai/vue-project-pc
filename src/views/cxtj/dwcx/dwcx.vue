@@ -59,7 +59,7 @@ export default {
       queryForm: {},
       columns: [
         {
-          title: '人脸图',
+          title: '图片',
           key: 'action',
           width: '80px',
           render: (h, params) => {
