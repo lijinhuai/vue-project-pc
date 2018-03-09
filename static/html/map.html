@@ -3386,7 +3386,7 @@
       var token = Cookies.get("Admin-Token");
 
       // 右侧菜单人脸识别数据 - 小区
-      loadData(baseUrl + "/face/similar", token, function (data) {
+      loadData(baseUrl + "/accesscards", token, function (data) {
         var code = data.code;
         if (code == 200) {
           var messages = data.data;
@@ -3417,7 +3417,7 @@
       for (var i = messages.length - 1; i >= 0; i--) {
 
         // 判断数据是否存在
-        if ($(".con_door #face_doorr_item_" + messages[i].faceImageId).length != 0) {
+        if ($(".con_door #face_door_item_" + messages[i].faceImageId).length != 0) {
           continue;
         }
 
@@ -3474,30 +3474,25 @@
 
       var token = Cookies.get("Admin-Token");
 
-      var faceSimilarHtml = "";
+      var doorHtml = "";
       for (var i = 0; i < messages.length; i++) {
 
-        var carameName = messages[i].cameraName;
-        if (carameName.substring(0, 4) == '万盛金邸') {
-          carameName = carameName.substring(4);
-        }
-
-        faceSimilarHtml = faceSimilarHtml + "<div class=\"con_door_item\">";
-        faceSimilarHtml = faceSimilarHtml + " <div class=\"item-content\">";
-        faceSimilarHtml = faceSimilarHtml + "   <div class=\"item_info\">";
-        faceSimilarHtml = faceSimilarHtml + "     <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;姓名：" + messages[i].hitXm +
+        doorHtml = doorHtml + "<div class=\"con_door_item\">";
+        doorHtml = doorHtml + " <div class=\"item-content\">";
+        doorHtml = doorHtml + "   <div class=\"item_info\">";
+        doorHtml = doorHtml + "     <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;姓名：" + messages[i].name +
           "</div>";
-        faceSimilarHtml = faceSimilarHtml +
-          "     <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;地点：<i class=\"iconfont\">&#xe651;</i>" + carameName +
+        doorHtml = doorHtml +
+          "     <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;地点：<i class=\"iconfont\">&#xe651;</i>" + messages[i].address +
           "</div>";
-        faceSimilarHtml = faceSimilarHtml + "     <div>刷卡时间：" + messages[i].timeBegin + "</div>";
-        faceSimilarHtml = faceSimilarHtml + "     <div>证件号码：" + messages[i].hitZjhm + "</div>";
-        faceSimilarHtml = faceSimilarHtml + "   </div>";
-        faceSimilarHtml = faceSimilarHtml + "  </div>";
-        faceSimilarHtml = faceSimilarHtml + "</div>";
+        doorHtml = doorHtml + "     <div>刷卡时间：" + messages[i].createdDate + "</div>";
+        doorHtml = doorHtml + "     <div>手机号码：" + messages[i].phone + "</div>";
+        doorHtml = doorHtml + "   </div>";
+        doorHtml = doorHtml + "  </div>";
+        doorHtml = doorHtml + "</div>";
       }
 
-      $(".con_door").html(faceSimilarHtml);
+      $(".con_door").html(doorHtml);
     }
 
     // 页面默认的定位
