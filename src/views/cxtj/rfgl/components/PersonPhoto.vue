@@ -6,7 +6,7 @@
         <Icon type="ios-eye-outline"></Icon>
       </div>
     </div>
-    <Modal title="查看照片" :styles="{top: '20px'}" v-model="visible">
+    <Modal title="查看照片" :styles="{top: '20px',width:'400px'}" v-model="visible">
       <!-- <img class="photo" v-for="item in uploadList" :key="item.index" v-if="item.zjhm==zjhm &&visible" :src="item.photoBase64" style="width: 50%"> -->
       <Carousel ref="carousel" v-model="value" v-if="visible" :arrow="arrow">
         <Carousel-item v-for="item in list" :key="item.index">
