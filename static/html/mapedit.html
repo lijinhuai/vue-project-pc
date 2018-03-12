@@ -16,7 +16,6 @@
   <script src="../js/jquery.min.js"></script>
   <script src="../js/js.cookie-2.2.0.min.js"></script>
   <script src="../js/jquery.base64.js"></script>
-  <script src="../js/countUp.js"></script>
 
   <style>
     .head-container {
@@ -426,7 +425,7 @@
     $(document).ready(function () {
 
       // 页面初始数据
-      // initData();
+      initData();
 
       // 页面地图数据切换事件绑定
       // initOperatorMenuEvent();
@@ -443,22 +442,29 @@
       // 菜单对应内容切换
       $(".con_" + prefix + "_" + model).css('display', 'none');
       $("#con_" + prefix + "_" + model + "_" + index).css('display', 'block');
+      if (index == 2) {
+        $("#isXjjg").val("1");
+        reSetArea();
+      }
     }
 
 
     // 页面初始化需要加载的数据
     function initData() {
 
-      // 页面默认的定位信息数据加载
-      loadDefaultLocations();
+      loadDeptList();
 
     }
 
-    // 页面默认的定位
-    function loadDefaultLocations() {
-
-      // 加载消防重点单位
+    function loadDeptList() {
+      var token = Cookies.get("Admin-Token");
+      loadData(baseUrl + "/dutyArea/listAllDept", token, function (data) {
+        for (var i in data) {
+          $(".dept").append("<option value=\"" + data[i].code + "\">" + data[i].name + "</option>");
+        }
+      });
     }
+
 
 
     // 异步加载数据
@@ -590,6 +596,7 @@
       var depts = $("#depts").val();
       var areaDesc = $("#areaDesc").val();
       var areaStr = $("#area_str").val();
+      var isXjjg = $("#isXjjg").val();
       if (areaName == null || areaName == "") {
         alert("请输入责任区名称");
         return;
@@ -598,10 +605,11 @@
         alert("请选择所属机构");
         return;
       }
-      if (areaDesc == null || areaDesc == "") {
-        alert("请输入责任区描述");
-        return;
-      }
+
+      // if (areaDesc == null || areaDesc == "") {
+      //   alert("请输入责任区描述");
+      //   return;
+      // }
       if (areaStr == null || areaStr == "") {
         alert("请选择区域");
         return;
@@ -616,6 +624,7 @@
         dutyArea.owner = depts;
         dutyArea.areaDesc = areaDesc;
         dutyArea.areaStr = areaStr;
+        dutyArea.isXjjg = isXjjg;
         $.ajax({
           headers: {
             Authorization: token
@@ -649,6 +658,7 @@
       var depts = $("#edit_depts").val();
       var areaDesc = $("#edit_areaDesc").val();
       var owner = $("#edit_owner").val();
+      var isXjjg = $("#isXjjg").val();
       if (areaId == null || areaId == "") {
         alert("责任区ID为空");
         return;
@@ -661,10 +671,10 @@
         alert("请选择所属机构");
         return;
       }
-      if (areaDesc == null || areaDesc == "") {
-        alert("请输入责任区描述");
-        return;
-      }
+      // if (areaDesc == null || areaDesc == "") {
+      //   alert("请输入责任区描述");
+      //   return;
+      // }
       var areaArr;
       var overlays = map.getOverlayLayer().getOverlays();
       for (var i in overlays) {
@@ -692,6 +702,7 @@
         dutyArea.owner = depts;
         dutyArea.areaDesc = areaDesc;
         dutyArea.areaStr = areaStr;
+        dutyArea.isXjjg = isXjjg;
         $.ajax({
           headers: {
             Authorization: token
@@ -730,7 +741,8 @@
         url: baseUrl + "/dutyArea/queryAreaCount",
         data: {
           "areaName": areaName,
-          "deptId": deptId
+          "deptId": deptId,
+          "parentCode": parentCode
         },
         success: function (count) {
           $("#page").html("");
@@ -772,9 +784,12 @@
         data: {
           "areaName": areaName,
           "deptId": deptId,
-          "pageNum": pageNum
+          "pageNum": pageNum,
+          "parentCode": parentCode
         },
         success: function (data) {
+          parentCode = ''
+
           var areaList = data.data
           map.getOverlayLayer().clear(); //清除所有覆盖物
           var html =
@@ -794,11 +809,21 @@
             html += "<td>" + count + "</td>";
             html += "<td style='cursor:pointer' onclick='zoomArea(" + areaList[i].areaId +
               ")'><font style='color: " + color + "'>" + areaList[i].areaName + "</font></td>";
-            html += "<td><a href=\"javascript:void(0);\" onclick='editDutyArea(\"" + areaList[i].areaId +
-              "\")'>修改</a></td>";
-            html += "<td><a href=\"javascript:void(0);\" onclick='deleteDutyArea(\"" + areaList[i].areaId +
-              "\")'>删除</a></td>";
-            html += "</tr>";
+            if (areaList[i].sjjgbm != '310116000000') {
+              html += "<td><a href=\"javascript:void(0);\" onclick='editDutyArea(\"" + areaList[i].areaId +
+                "\")'>修改</a></td>";
+              html += "<td><a href=\"javascript:void(0);\" onclick='deleteDutyArea(\"" + areaList[i].areaId +
+                "\")'>删除</a></td>";
+              html += "</tr>";
+            }
+            if ((areaList[i].sjjgbm == '310116000000' && areaList[i].xjjgCnt != 0) || (areaList[i].sjjgbm !=
+                '310116000000' && areaList[i].xjjgCnt > 1)) {
+              html += "<td colspan='2'><a href=\"javascript:void(0);\" onclick='queryNextDevelDutyArea(\"" +
+                areaList[
+                  i].owner +
+                "\")'>下一级</a></td>";
+            }
+
             count = count + 1;
           }
           html += "</table>";
@@ -807,6 +832,15 @@
         error: function () {}
       });
     }
+
+    var parentCode = '';
+
+    function queryNextDevelDutyArea(deptCode) {
+      parentCode = deptCode;
+      queryAreaCount();
+
+    }
+
 
 
     //随机颜色
@@ -887,6 +921,18 @@
     var editing;
     //编辑责任区
     function editDutyArea(areaId) {
+      if (editing) {
+        var owner = $('#edit_depts').val();
+        var overlays = map.getOverlayLayer().getOverlays();
+        for (var i in overlays) {
+          if (overlays[i].id == 'xq' + owner) {
+            var polygon = overlays[i];
+            editing = false;
+            polygon.editable(false);
+          }
+        }
+      }
+
       $.ajax({
         type: "post",
         headers: {
@@ -911,7 +957,7 @@
           $('#edit_owner').val(dutyArea.owner);
           $('#edit_areaName').val(dutyArea.areaName)
           $('#edit_areaDesc').val(dutyArea.areaDesc);
-          $('#edit_depts').val(dutyArea.owner);
+          $("#edit_depts").val(dutyArea.owner);
           setSubTab('subdetail', 'face', 3)
         }
       })
@@ -936,7 +982,7 @@
             if (overlays[i].id == id) {
               map.setBestMap(overlays[i].getPath());
               var infowindow = new IMAP.InfoWindow(
-                "责任区名称：" + dutyArea.areaName + "<br/>责任部门：" + dutyArea.deptName + "<br/>责任区描述：" + dutyArea
+                "责任区名称：" + dutyArea.areaName + "<br/>所属派出所：" + dutyArea.deptName + "<br/>责任区描述：" + dutyArea
                 .areaDesc, {
                   size: new IMAP.Size(200, 65),
                   autoPan: true,
@@ -1059,7 +1105,9 @@
                           派出所
                         </td>
                         <td>
-                          <input type="text" id="deptId" style="width:100%;height: 25px;" />
+                          <select class="dept" id="dept_code" style="width: 100%;height: 25px;">
+                            <option value=""></option>
+                          </select>
                         </td>
                       </tr>
                       <tr style="padding: 10px;height: 40px;">
@@ -1079,7 +1127,7 @@
                   <table style="border: 0px;cellpadding:0px;cellspacing: 10px;">
                     <tr>
                       <td colspan="2" align="center">
-                        <font color="red">所有项必填</font>
+                        <font color="red">名称及所属派出所必填</font>
                       </td>
                     </tr>
                     <tr style="height: 35px;padding: 5px;">
@@ -1092,14 +1140,16 @@
                     </tr>
                     <tr style="height: 35px;padding: 5px;">
                       <td>
-                        派出所
+                        所属派出所
                       </td>
                       <td>
-                        <input type="text" id="depts" style="width:100%;height: 25px;" />
+                        <select class="dept" id="depts" style="width: 100%;height: 25px;">
+                          <option value=""></option>
+                        </select>
                       </td>
                     </tr>
                     <tr style="height: 35px;padding: 10px;">
-                      <td>
+                      <td style="vertical-align:top;">
                         责任区描述
                       </td>
                       <td>
@@ -1108,10 +1158,13 @@
                     </tr>
                     <tr style="height: 35px;padding: 10px">
                       <td align="left" colspan="2">
-                        <input type='checkbox' id='areaBox' onclick='drawArea()' />区域选择</td>
+                        区域选择 &nbsp;&nbsp;
+                        <input type='checkbox' id='areaBox' onclick='drawArea()' />
+                      </td>
                     </tr>
                     <tr style="padding: 10px;height: 40px;">
                       <td colspan="2" align="center">
+                        <input type="hidden" id="isXjjg" value="1">
                         <input type="hidden" id="area_str" name="areaStr" value="">
                         <input class="btn" type="button" value="提交" onclick="submitArea()" />
                         <input type="button" class="btn" value="重置" onclick="reSetArea()" />
@@ -1139,7 +1192,9 @@
                         派出所
                       </td>
                       <td>
-                        <input type="text" id="edit_depts" style="width:100%;height: 25px;" />
+                        <select disabled class="dept" id="edit_depts" style="width: 100%;height: 25px;">
+                          <option value=""></option>
+                        </select>
                       </td>
                     </tr>
                     <tr style="height: 35px;padding: 10px;">

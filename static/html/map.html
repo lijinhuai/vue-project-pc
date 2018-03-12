@@ -3405,58 +3405,36 @@
       }
 
       // 展示增量数据
-      // showMenuContentForDoorItem(messages);
+      showMenuContentForDoorItem(messages);
     }
 
 
     // 展示增量数据
     function showMenuContentForDoorItem(messages) {
-
-      var token = Cookies.get("Admin-Token");
-
       for (var i = messages.length - 1; i >= 0; i--) {
 
         // 判断数据是否存在
-        if ($(".con_door #face_door_item_" + messages[i].faceImageId).length != 0) {
+        if ($(".con_door #con_door_item_" + messages[i].id).length != 0) {
           continue;
         }
 
-        var carameName = messages[i].cameraName;
-        if (carameName.substring(0, 4) == '万盛金邸') {
-          carameName = carameName.substring(4);
-        }
-
-
-        var faceSimilarHtml = "";
-        faceSimilarHtml = faceSimilarHtml + "<div id=\"face_similar_item_" + messages[i].faceImageId +
-          "\" class=\"con_subdetail_face_2_item\">";
-        faceSimilarHtml = faceSimilarHtml + " <div class=\"item-title\">";
-        faceSimilarHtml = faceSimilarHtml + "   <i class=\"iconfont\">&#xe651;</i>";
-        faceSimilarHtml = faceSimilarHtml + "   <div class=\"item-title-name\">" + carameName + "</div>";
-        faceSimilarHtml = faceSimilarHtml + "   <div class=\"item-title-time\">" + messages[i].timeBegin + "</div>";
-        faceSimilarHtml = faceSimilarHtml + " </div>";
-        faceSimilarHtml = faceSimilarHtml + " <div class=\"item-content\" data-message=\"" + mb + "\">";
-        faceSimilarHtml = faceSimilarHtml + "   <div class=\"item_avatar\" onclick=\"showFaceSimilarDialog(this)\">";
-        faceSimilarHtml = faceSimilarHtml + "     <img src=\"" + picBaseUrl + "/face/" + messages[i].faceImageUrl +
-          ".jpg\" onerror=\"this.src='/static/image/default_nophoto.png'\"></img>";
-        faceSimilarHtml = faceSimilarHtml + "   </div>";
-        faceSimilarHtml = faceSimilarHtml + "   <div class=\"item_avatar\" onclick=\"showFaceSimilarDialog(this)\">";
-        faceSimilarHtml = faceSimilarHtml + "     <img src=\"" + baseUrl + "/face/similar/" + messages[i].hitZjhm +
-          "/zp?Authorization=" + token + "\" onerror=\"this.src='/static/image/default_nophoto.png'\"></img>";
-        faceSimilarHtml = faceSimilarHtml + "   </div>";
-        faceSimilarHtml = faceSimilarHtml + "   <div class=\"item_info\">";
-        faceSimilarHtml = faceSimilarHtml + "     <div class=\"item_info_contrast\">" + messages[i].similarity + "%" +
+        var doorHtml = "";
+        doorHtml = doorHtml + "<div id=\"con_door_item_" + messages[i].id + "\" class=\"con_door_item\">";
+        doorHtml = doorHtml + " <div class=\"item-content\">";
+        doorHtml = doorHtml + "   <div class=\"item_info\">";
+        doorHtml = doorHtml + "     <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;姓名：" + messages[i].name +
           "</div>";
-        faceSimilarHtml = faceSimilarHtml + "     <div>" + messages[i].hitXm + "</div>";
-        faceSimilarHtml = faceSimilarHtml + "     <div class=\"can-click\" title=\"" + messages[i].hitZjhm +
-          "\" onclick=\"openArchive('" + messages[i].hitZjhm +
-          "')\"><img src=\"/static/image/sfz.jpg\" width=\"20\" /></div>";
-        faceSimilarHtml = faceSimilarHtml + "   </div>";
-        faceSimilarHtml = faceSimilarHtml + "  </div>";
-        faceSimilarHtml = faceSimilarHtml + "</div>";
+        doorHtml = doorHtml +
+          "     <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;地点：<i class=\"iconfont\">&#xe651;</i>" + messages[i].address +
+          "</div>";
+        doorHtml = doorHtml + "     <div>刷卡时间：" + messages[i].createdDate + "</div>";
+        doorHtml = doorHtml + "     <div>手机号码：" + messages[i].phone + "</div>";
+        doorHtml = doorHtml + "   </div>";
+        doorHtml = doorHtml + "  </div>";
+        doorHtml = doorHtml + "</div>";
 
         // 添加增量数据
-        $(".con_door").prepend(faceSimilarHtml);
+        $(".con_door").prepend(doorHtml);
       }
 
       // 删除列表后面的数据
@@ -3477,7 +3455,7 @@
       var doorHtml = "";
       for (var i = 0; i < messages.length; i++) {
 
-        doorHtml = doorHtml + "<div class=\"con_door_item\">";
+        doorHtml = doorHtml + "<div id=\"con_door_item_" + messages[i].id + "\" class=\"con_door_item\">";
         doorHtml = doorHtml + " <div class=\"item-content\">";
         doorHtml = doorHtml + "   <div class=\"item_info\">";
         doorHtml = doorHtml + "     <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;姓名：" + messages[i].name +
