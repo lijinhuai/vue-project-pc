@@ -220,7 +220,7 @@
       left: 10px;
       height: 400px;
       background-color: rgb(5, 48, 64);
-      width: 253px;
+      width: 300px;
       border-image-source: url(../image/line1.png);
       border-style: solid;
       border-width: 1px 1px;
@@ -244,7 +244,7 @@
     /************ 右侧菜菜单 - 子菜单 ***************/
 
     .detail-sub-container {
-      width: 250px;
+      /* width: 250px; */
       /* border-top: 3px solid #ff2468; */
       /* margin-top: 2px; */
       background-color: rgb(16, 66, 84);
@@ -442,10 +442,6 @@
       // 菜单对应内容切换
       $(".con_" + prefix + "_" + model).css('display', 'none');
       $("#con_" + prefix + "_" + model + "_" + index).css('display', 'block');
-      if (index == 2) {
-        $("#isXjjg").val("1");
-        reSetArea();
-      }
     }
 
 
@@ -571,6 +567,7 @@
       var checkBox = $("#areaBox").is(":checked");
       //画区域
       if (checkBox) {
+        editing = true
         toggleDrawClose();
         var lastId = null;
         var st = null;
@@ -616,7 +613,6 @@
       }
       if (areaName != null && areaName != "" &&
         depts != null && depts != "" &&
-        areaDesc != null && areaDesc != "" &&
         areaStr != null && areaStr != "") {
         var token = Cookies.get("Admin-Token");
         var dutyArea = new Object();
@@ -635,6 +631,7 @@
           dataType: "json",
           url: baseUrl + "/dutyArea/areaAdd",
           success: function (data) {
+            editing = false
             alert(data.data);
             queryAreaCount();
             setSubTab('subdetail', 'face', 1)
@@ -651,6 +648,38 @@
       }
     }
 
+    //增加警务区
+    function addJwqDutyArea(owner, areaId) {
+      zoomArea(areaId);
+      $("#isXjjg").val("1");
+      setSubTab('subdetail', 'face', 2)
+      $("#depts").val(owner);
+      map.getOverlayLayer().clear(); //清除所有覆盖物
+      $.ajax({
+        type: "post",
+        headers: {
+          Authorization: Cookies.get("Admin-Token")
+        },
+        url: baseUrl + "/dutyArea/queryAreaByOwner",
+        data: {
+          owner: owner
+        },
+        success: function (data) {
+          var areaList = data.data;
+          for (var i = 0; i < areaList.length; i++) {
+            var area = areaList[i];
+            var color = random();
+            if (area.areaStr != null && area.areaStr != "") {
+              if (area.owner == area.sjjgbm) {
+                addPolygon(area, color);
+              } else {
+                addJwqPolygon(area, 'rgba(255,255,255,0)');
+              }
+            }
+          }
+        }
+      })
+    }
     //提交数据
     function submitEditArea() {
       var areaId = $("#edit_areaId").val();
@@ -678,7 +707,7 @@
       var areaArr;
       var overlays = map.getOverlayLayer().getOverlays();
       for (var i in overlays) {
-        if (overlays[i].id == 'xq' + owner) {
+        if (overlays[i].id == 'xq' + areaId) {
           areaArr = overlays[i].getPath();
         }
 
@@ -693,7 +722,6 @@
       if (areaId != null && areaId != "" &&
         areaName != null && areaName != "" &&
         depts != null && depts != "" &&
-        areaDesc != null && areaDesc != "" &&
         areaStr != null && areaStr != "") {
         var token = Cookies.get("Admin-Token");
         var dutyArea = new Object();
@@ -775,6 +803,32 @@
     function queryArea(pageNum) {
       var areaName = $("#xqName").val();
       var deptId = $("#dept_code").val();
+
+      if (nextDevelDutyArea == '1') {
+        $.ajax({
+          type: "post",
+          headers: {
+            Authorization: Cookies.get("Admin-Token")
+          },
+          url: baseUrl + "/dutyArea/queryAreaByOwner",
+          data: {
+            owner: parentCode
+          },
+          success: function (data) {
+            var areaList = data.data;
+            for (var i = 0; i < areaList.length; i++) {
+              var area = areaList[i];
+              if (area.areaStr != null && area.areaStr != "") {
+                debugger
+                if (area.owner != area.sjjgbm) {
+                  addJwqPolygon(area, 'rgba(255,255,255,0)');
+                }
+              }
+            }
+            nextDevelDutyArea = ''
+          }
+        })
+      }
       $.ajax({
         headers: {
           Authorization: Cookies.get("Admin-Token")
@@ -791,13 +845,14 @@
           parentCode = ''
 
           var areaList = data.data
-          map.getOverlayLayer().clear(); //清除所有覆盖物
+          // map.getOverlayLayer().clear(); //清除所有覆盖物
           var html =
             "<table style='width:100%;border: 0px;cellpadding:0px;cellspacing: 10px;text-align: center;line-height:1.5rem;'>";
           html += "<tr>";
           html += "<td style='width: 15%;'>序号</td>";
-          html += "<td style='width: 55%'>名称</td>";
-          html += "<td colspan=\"2\" style='width: 30%'>操作</td>";
+          html += "<td style='width: 45%'>名称</td>";
+          html += "<td style='width: 15%'>标识</td>";
+          html += "<td colspan=\"2\" style='width: 25%'>操作</td>";
           html += "</tr>";
           var count = 1;
           for (var i = 0; i < areaList.length; i++) {
@@ -808,22 +863,25 @@
             html += "<tr>";
             html += "<td>" + count + "</td>";
             html += "<td style='cursor:pointer' onclick='zoomArea(" + areaList[i].areaId +
-              ")'><font style='color: " + color + "'>" + areaList[i].areaName + "</font></td>";
+              ")'>" + areaList[i].areaName + "</td>";
+            html += "<td style='cursor:pointer;background-color:" + color + "' onclick='zoomArea(" + areaList[i].areaId +
+              ")'></td>";
             if (areaList[i].sjjgbm != '310116000000') {
               html += "<td><a href=\"javascript:void(0);\" onclick='editDutyArea(\"" + areaList[i].areaId +
-                "\")'>修改</a></td>";
+                "\")'>修改&nbsp;</a></td>";
               html += "<td><a href=\"javascript:void(0);\" onclick='deleteDutyArea(\"" + areaList[i].areaId +
                 "\")'>删除</a></td>";
               html += "</tr>";
             }
-            if ((areaList[i].sjjgbm == '310116000000' && areaList[i].xjjgCnt != 0) || (areaList[i].sjjgbm !=
-                '310116000000' && areaList[i].xjjgCnt > 1)) {
-              html += "<td colspan='2'><a href=\"javascript:void(0);\" onclick='queryNextDevelDutyArea(\"" +
-                areaList[
-                  i].owner +
-                "\")'>下一级</a></td>";
+            if (areaList[i].sjjgbm == '310116000000') {
+              html += "<td><a href=\"javascript:void(0);\" onclick='addJwqDutyArea(\"" + areaList[i].owner +
+                "\",\"" + areaList[i].areaId + "\")'>新增&nbsp;</a></td>";
+              if (areaList[i].xjjgCnt != 0) {
+                html += "<td><a href=\"javascript:void(0);\" onclick='queryNextDevelDutyArea(\"" +
+                  areaList[i].owner +
+                  "\")'>警务区</a></td>";
+              }
             }
-
             count = count + 1;
           }
           html += "</table>";
@@ -835,10 +893,14 @@
 
     var parentCode = '';
 
+
+
+    var nextDevelDutyArea;
+
     function queryNextDevelDutyArea(deptCode) {
       parentCode = deptCode;
+      nextDevelDutyArea = '1';
       queryAreaCount();
-
     }
 
 
@@ -864,7 +926,7 @@
       pgo.strokeWeight = "2";
       pgo.strokeStyle = IMAP.Constants.OVERLAY_LINE_DASHED;
       var polygon = new IMAP.Polygon(lnglatarr, pgo);
-      polygon.id = "xq" + dutyArea.owner;
+      polygon.id = "xq" + dutyArea.areaId;
       polygon.addEventListener(IMAP.Constants.CLICK, function (e) {
         if (editing) {
           return;
@@ -872,6 +934,45 @@
         zoomArea(dutyArea.areaId);
       });
       map.getOverlayLayer().addOverlay(polygon, false);
+      var polygoncenter = polygon.getBounds().getCenter();
+      var polygoninfomation = dutyArea.areaName;
+      var labelInformation = [
+        [polygoncenter, polygoninfomation]
+      ]
+      createLabel(labelInformation);
+      return polygon;
+    }
+
+    //添加责任区
+    function addJwqPolygon(dutyArea, color) {
+      var lnglatarr = [];
+      var poiots = dutyArea.areaStr.split(",");
+      for (var i = 0; i < poiots.length; i++) {
+        lnglatarr.push(new IMAP.LngLat(poiots[i], poiots[i + 1]));
+        i = i + 1;
+      }
+      var pgo = new IMAP.PolygonOptions();
+      pgo.fillColor = color;
+      pgo.fillOpacity = "0.5";
+      pgo.strokeColor = "rgba(255,255,255,.5)";
+      pgo.strokeOpacity = "1";
+      pgo.strokeWeight = "3";
+      pgo.strokeStyle = IMAP.Constants.OVERLAY_LINE_DASHED;
+      var polygon = new IMAP.Polygon(lnglatarr, pgo);
+      polygon.id = "xq" + dutyArea.areaId;
+      // polygon.addEventListener(IMAP.Constants.CLICK, function (e) {
+      //   if (editing) {
+      //     return;
+      //   }
+      //   zoomArea(dutyArea.areaId);
+      // });
+      map.getOverlayLayer().addOverlay(polygon, false);
+      // var polygoncenter = polygon.getBounds().getCenter();
+      // var polygoninfomation = dutyArea.areaName;
+      // var labelInformation = [
+      //   [polygoncenter, polygoninfomation]
+      // ]
+      // createLabel(labelInformation);
       return polygon;
     }
 
@@ -925,7 +1026,7 @@
         var owner = $('#edit_depts').val();
         var overlays = map.getOverlayLayer().getOverlays();
         for (var i in overlays) {
-          if (overlays[i].id == 'xq' + owner) {
+          if (overlays[i].id == 'xq' + areaId) {
             var polygon = overlays[i];
             editing = false;
             polygon.editable(false);
@@ -946,7 +1047,7 @@
           var dutyArea = data.data
           var overlays = map.getOverlayLayer().getOverlays();
           for (var i in overlays) {
-            if (overlays[i].id == 'xq' + dutyArea.owner) {
+            if (overlays[i].id == 'xq' + dutyArea.areaId) {
               var polygon = overlays[i];
               editing = true;
               polygon.editable(true);
@@ -965,49 +1066,74 @@
 
     //按照区域放大地图
     function zoomArea(areaId) {
-      $.ajax({
-        headers: {
-          Authorization: Cookies.get("Admin-Token")
-        },
-        type: "post",
-        url: baseUrl + "/dutyArea/queryAreaById",
-        data: {
-          "areaId": areaId
-        },
-        success: function (data) {
-          var dutyArea = data.data
-          var id = "xq" + dutyArea.owner;
-          var overlays = map.getOverlayLayer().getOverlays();
-          for (var i in overlays) {
-            if (overlays[i].id == id) {
-              map.setBestMap(overlays[i].getPath());
-              var infowindow = new IMAP.InfoWindow(
-                "责任区名称：" + dutyArea.areaName + "<br/>所属派出所：" + dutyArea.deptName + "<br/>责任区描述：" + dutyArea
-                .areaDesc, {
-                  size: new IMAP.Size(200, 65),
-                  autoPan: true,
-                  offset: new IMAP.Pixel(-5, -35),
-                  //title:"责任区",
-                  visible: true,
-                  position: overlays[i].getBounds().getCenter()
-                  //position:new IMAP.LngLat(overlays[i].getBounds().getCenter().split(",")[0],overlays[i].getBounds().getCenter().split(",")[1])
-                });
-              map.getOverlayLayer().addOverlay(infowindow);
-              infowindow.visible(true);
-            }
-          }
+      var id = "xq" + areaId;
+      var overlays = map.getOverlayLayer().getOverlays();
+      for (var i in overlays) {
+        if (overlays[i].id == id) {
+          map.setBestMap(overlays[i].getPath());
+        }
+      }
+      // $.ajax({
+      //   headers: {
+      //     Authorization: Cookies.get("Admin-Token")
+      //   },
+      //   type: "post",
+      //   url: baseUrl + "/dutyArea/queryAreaById",
+      //   data: {
+      //     "areaId": areaId
+      //   },
+      //   success: function (data) {
+      //     var dutyArea = data.data
+      //     var id = "xq" + dutyArea.areaId;
+      //     var overlays = map.getOverlayLayer().getOverlays();
+      //     for (var i in overlays) {
+      //       if (overlays[i].id == id) {
+      //         map.setBestMap(overlays[i].getPath());
+      //         // var infowindow = new IMAP.InfoWindow(
+      //         //   "责任区名称：" + dutyArea.areaName + "<br/>所属派出所：" + dutyArea.deptName + "<br/>责任区描述：" + dutyArea
+      //         //   .areaDesc, {
+      //         //     size: new IMAP.Size(200, 65),
+      //         //     autoPan: true,
+      //         //     offset: new IMAP.Pixel(-5, -35),
+      //         //     //title:"责任区",
+      //         //     visible: true,
+      //         //     position: overlays[i].getBounds().getCenter()
+      //         //     //position:new IMAP.LngLat(overlays[i].getBounds().getCenter().split(",")[0],overlays[i].getBounds().getCenter().split(",")[1])
+      //         //   });
+      //         // map.getOverlayLayer().addOverlay(infowindow);
+      //         // infowindow.visible(true);
+      //       }
+      //     }
 
-        },
-        error: function () {}
-      });
+      //   },
+      //   error: function () {}
+      // });
 
     }
 
+
+    var labels = [];
+    //创建label
+    function createLabel(labelInformation) {
+      for (var i = 0, len = labelInformation.length; i < len; i++) {
+        var label = new IMAP.Label(labelInformation[i][1], {
+          "position": labelInformation[i][0],
+          "anchor": IMAP.Constants.CENTER
+        });
+        map.getOverlayLayer().addOverlay(label);
+        labels.push(label);
+      }
+    }
+    //删除文本标签
+    function toggleRemoveLabel() {
+      map.getOverlayLayer().clear(labels);
+    }
+
     function reQuery() {
-      var owner = $('#edit_depts').val();
+      var areaId = $('#edit_areaId').val();
       var overlays = map.getOverlayLayer().getOverlays();
       for (var i in overlays) {
-        if (overlays[i].id == 'xq' + owner) {
+        if (overlays[i].id == 'xq' + areaId) {
           var polygon = overlays[i];
           editing = false;
           polygon.editable(false);
@@ -1080,7 +1206,7 @@
                   <li class="subdetail_face hover" id="subdetail_face_1" onclick="setSubTab('subdetail', 'face', 1)">
                     查询
                   </li>
-                  <li class="subdetail_face" id="subdetail_face_2" onclick="setSubTab('subdetail', 'face', 2)">
+                  <li class="subdetail_face" id="subdetail_face_2">
                     新增
                   </li>
                   <li class="subdetail_face" id="subdetail_face_3">
@@ -1221,7 +1347,7 @@
           </div>
         </div>
       </div>
-      <img src="../image/line2.png" style="width: 1px;height: 420px;position: absolute;top: 0px;right: 41px;">
+      <img src="../image/line2.png" style="width: 1px;height: 420px;position: absolute;top: 0px;right: 0px;">
     </div>
   </div>
 

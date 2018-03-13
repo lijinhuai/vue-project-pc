@@ -35,7 +35,8 @@ const app = {
     tagsList: [...otherRouter.children],
     messageCount: 0,
     dontCache: [], // 在这里定义你不想要缓存的页面的name属性值(参见路由配置router.js)
-    appLoading: null // 数据查询loading界面
+    appLoading: null, // 数据查询loading界面
+    appLoadingCount: 0
   },
   mutations: {
     setTagsList (state, list) {
@@ -165,6 +166,7 @@ const app = {
     },
     appLoading (state, isShow) {
       if (isShow) {
+        state.appLoadingCount += 1
         state.appLoading = Loading.service({
           lock: true,
           text: '数据加载中',
@@ -172,7 +174,8 @@ const app = {
           background: 'rgba(0, 0, 0, 0.7)'
         })
       } else {
-        if (state.appLoading) {
+        if (state.appLoadingCount > 0) state.appLoadingCount -= 1
+        if (state.appLoading && state.appLoadingCount === 0) {
           state.appLoading.close()
         }
       }
