@@ -314,6 +314,10 @@
       cursor: pointer;
     }
 
+    table a {
+      color: powderblue
+    }
+
 
     /************** loading样式 *****************************/
 
@@ -417,6 +421,7 @@
 
   <script>
     var baseUrl = window.parent.document.getElementById("baseUrl").value;
+    var deptCode = window.parent.document.getElementById("deptCode").value;
     var picBaseUrl = "http://116.228.125.236:18181/";
     var serviceUrl = locationPath();
 
@@ -426,6 +431,8 @@
 
       // 页面初始数据
       initData();
+
+
 
       // 页面地图数据切换事件绑定
       // initOperatorMenuEvent();
@@ -450,6 +457,7 @@
 
       loadDeptList();
 
+      queryAreaCount();
     }
 
     function loadDeptList() {
@@ -621,6 +629,7 @@
         dutyArea.areaDesc = areaDesc;
         dutyArea.areaStr = areaStr;
         dutyArea.isXjjg = isXjjg;
+        $('.loading').show();
         $.ajax({
           headers: {
             Authorization: token
@@ -631,6 +640,7 @@
           dataType: "json",
           url: baseUrl + "/dutyArea/areaAdd",
           success: function (data) {
+            $('.loading').hide();
             editing = false
             alert(data.data);
             queryAreaCount();
@@ -655,6 +665,7 @@
       setSubTab('subdetail', 'face', 2)
       $("#depts").val(owner);
       map.getOverlayLayer().clear(); //清除所有覆盖物
+      $('.loading').show();
       $.ajax({
         type: "post",
         headers: {
@@ -665,6 +676,7 @@
           owner: owner
         },
         success: function (data) {
+          $('.loading').hide();
           var areaList = data.data;
           for (var i = 0; i < areaList.length; i++) {
             var area = areaList[i];
@@ -731,6 +743,7 @@
         dutyArea.areaDesc = areaDesc;
         dutyArea.areaStr = areaStr;
         dutyArea.isXjjg = isXjjg;
+        $('.loading').show();
         $.ajax({
           headers: {
             Authorization: token
@@ -741,6 +754,7 @@
           dataType: "json",
           url: baseUrl + "/dutyArea/areaEdit",
           success: function (data) {
+            $('.loading').hide();
             alert(data.data);
             queryAreaCount();
             setSubTab('subdetail', 'face', 1)
@@ -758,6 +772,7 @@
 
     //查询责任区数量
     function queryAreaCount() {
+      $('.loading').show();
       map.clearOverlays();
       var areaName = $("#xqName").val();
       var deptId = $("#dept_code").val();
@@ -773,6 +788,7 @@
           "parentCode": parentCode
         },
         success: function (count) {
+          $('.loading').hide();
           $("#page").html("");
           $("#xqContent").html("");
           var html = "";
@@ -803,6 +819,7 @@
     function queryArea(pageNum) {
       var areaName = $("#xqName").val();
       var deptId = $("#dept_code").val();
+      $('.loading').show();
 
       if (nextDevelDutyArea == '1') {
         $.ajax({
@@ -842,6 +859,7 @@
           "parentCode": parentCode
         },
         success: function (data) {
+          $('.loading').hide();
           parentCode = ''
 
           var areaList = data.data
@@ -850,9 +868,9 @@
             "<table style='width:100%;border: 0px;cellpadding:0px;cellspacing: 10px;text-align: center;line-height:1.5rem;'>";
           html += "<tr>";
           html += "<td style='width: 15%;'>序号</td>";
-          html += "<td style='width: 45%'>名称</td>";
+          html += "<td style='width: 35%'>名称</td>";
           html += "<td style='width: 15%'>标识</td>";
-          html += "<td colspan=\"2\" style='width: 25%'>操作</td>";
+          html += "<td colspan=\"2\" style='width: 35%'>操作</td>";
           html += "</tr>";
           var count = 1;
           for (var i = 0; i < areaList.length; i++) {
@@ -868,18 +886,18 @@
               ")'></td>";
             if (areaList[i].sjjgbm != '310116000000') {
               html += "<td><a href=\"javascript:void(0);\" onclick='editDutyArea(\"" + areaList[i].areaId +
-                "\")'>修改&nbsp;</a></td>";
+                "\")'>修改</a></td>";
               html += "<td><a href=\"javascript:void(0);\" onclick='deleteDutyArea(\"" + areaList[i].areaId +
                 "\")'>删除</a></td>";
               html += "</tr>";
             }
             if (areaList[i].sjjgbm == '310116000000') {
               html += "<td><a href=\"javascript:void(0);\" onclick='addJwqDutyArea(\"" + areaList[i].owner +
-                "\",\"" + areaList[i].areaId + "\")'>新增&nbsp;</a></td>";
+                "\",\"" + areaList[i].areaId + "\")'>新增</a></td>";
               if (areaList[i].xjjgCnt != 0) {
                 html += "<td><a href=\"javascript:void(0);\" onclick='queryNextDevelDutyArea(\"" +
                   areaList[i].owner +
-                  "\")'>警务区</a></td>";
+                  "\",\"" + areaList[i].areaId + "\")'>警务区</a></td>";
               }
             }
             count = count + 1;
@@ -897,7 +915,8 @@
 
     var nextDevelDutyArea;
 
-    function queryNextDevelDutyArea(deptCode) {
+    function queryNextDevelDutyArea(deptCode, areaId) {
+      zoomArea(areaId);
       parentCode = deptCode;
       nextDevelDutyArea = '1';
       queryAreaCount();
@@ -978,6 +997,7 @@
 
     //删除责任区
     function deleteDutyArea(areaId) {
+      $('.loading').show();
       $.ajax({
         type: "post",
         headers: {
@@ -988,6 +1008,7 @@
           areaId: areaId
         },
         success: function () {
+          $('.loading').hide();
           queryAreaCount();
         }
       })
@@ -1034,6 +1055,7 @@
         }
       }
 
+      $('.loading').show();
       $.ajax({
         type: "post",
         headers: {
@@ -1044,6 +1066,7 @@
           areaId: areaId
         },
         success: function (data) {
+          $('.loading').hide();
           var dutyArea = data.data
           var overlays = map.getOverlayLayer().getOverlays();
           for (var i in overlays) {

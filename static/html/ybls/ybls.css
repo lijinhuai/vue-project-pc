@@ -47,6 +47,10 @@
   flex-direction: column;
 }
 
+.dept-container-right{
+  right: 0px;
+}
+
 .dept-row {
   width: 100%;
   height: 80px;

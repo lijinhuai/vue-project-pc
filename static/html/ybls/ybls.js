@@ -1,4 +1,5 @@
 var baseUrl = window.parent.document.getElementById("baseUrl").value;
+var deptCode = window.parent.document.getElementById("deptCode").value;
 var picBaseUrl = "http://116.228.125.236:18181/";
 var serviceUrl = locationPath();
 
@@ -6,6 +7,12 @@ $(document).ready(function () {
 
   // 页面初始数据
   initData();
+
+  if (deptCode == '310116000000') {
+    $(".dept-box a").bind("click", function () {
+      loadLocations(this);
+    })
+  }
 
 });
 
@@ -94,11 +101,12 @@ function addCluster(serchRsusl, type) {
     }
   );
   if (map) {
-    if (dataCluster) {
+    if (dataCluster && markers.length != 0) {
       //清空所有的marker及点聚合对象
       dataCluster.setMap(null);
     }
     markers = [];
+
     //循环遍历数据 把数据加载到markers中去 注：数据类型是IMAP.Marker类型
     for (var i = 0; i < serchRsusl.length; i++) {
       (function (i) {
@@ -137,6 +145,30 @@ function addCluster(serchRsusl, type) {
   }
 }
 
+// 添加点标注
+function addMarker(lng, lat, did, type, origin) {
+  var path = locationPath();
+  if (map) {
+    var opts = new IMAP.MarkerOptions();
+    opts.anchor = IMAP.Constants.BOTTOM_CENTER;
+    opts.icon = new IMAP.Icon(
+      path + "/static/image/" + type + "_16.png", {
+        "size": new IMAP.Size(16, 16),
+        "offset": new IMAP.Pixel(0, 0)
+      }
+    );
+
+    var lnglat = new IMAP.LngLat(lng, lat);
+    marker = new IMAP.Marker(lnglat, opts);
+    marker.id = type + "_" + did;
+    marker.type = type;
+    map.getOverlayLayer().addOverlay(marker, false);
+    // 图标上添加点击事件
+    addMarkerClickEvt(type, origin, marker);
+  }
+}
+
+
 
 var _current_marker;
 
@@ -145,11 +177,15 @@ function addMarkerClickEvt(type, origin, marker) {
   // 针对不同数据类型添加不同的 InfoWindow
   var content = "";
   var token = Cookies.get("Admin-Token");
-  if (type == 'xfunit') {
+  if (type == 'xfunit' || type == 'zdmb') {
     var content = "<div class=\"dynamic-container\" style=\width:240px;\">"
     content = content + "<div class=\"dynamic-title\">"
     content = content + "<div class=\"dynamic-title-content\" style=\"padding:0px 10px 6px\">";
-    content = content + "实有单位";
+    if (type == 'xfunit') {
+      content = content + "实有单位";
+    } else if (type == 'zdmb') {
+      content = content + "重点目标";
+    }
     content = content + "</div>";
     content = content + "<span class=\"dynamic-title-close\" onclick=\"closeInfoWindow()\">";
     content = content + "<i class=\"iconfont\">&#xe603;</i>"
@@ -186,7 +222,7 @@ function addMarkerClickEvt(type, origin, marker) {
     var lon = '' + origin.lon;
     var lat = '' + origin.lat;
     content = content + "地址：" + origin.mlphxx + "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a style=\"color:#86d9fb\" target=\"_blank\" href=\"" +
-    serviceUrl + "/#/analysis/rfgl?mlphbm=" + origin.mlphbm + "\">详&nbsp;&nbsp情</a><br/>坐标：" + lon.substr(
+      serviceUrl + "/#/analysis/rfgl?mlphbm=" + origin.mlphbm + "\">详&nbsp;&nbsp情</a><br/>坐标：" + lon.substr(
         0, 10) +
       "，" + lat.substr(0, 9);
     content = content + "</div>"

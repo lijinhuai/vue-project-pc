@@ -49,15 +49,52 @@
           countUp('total', data.data);
         }
       })
-      loadLoactionsByPcsbm('310116560000');
+      loadData(baseUrl + "/xfunit/zdmb/totalAmounts", token, function (data) {
+        var code = data.code;
+        if (code == 200) {
+          countUp('zdmb-total', data.data);
+        }
+      })
+      if (deptCode == '310116000000') {
+        $('#310116560000').parent().parent().addClass("on");
+        loadLoactionsByPcsbm('310116560000');
+      } else {
+        $('#' + deptCode).parent().parent().addClass("on");
+        loadLoactionsByPcsbm(deptCode);
+      }
+
     }
 
-    // 加载消防重点单位
+    // 加载实有单位
     function loadLocations(obj) {
       var pcsbm = $(obj).children('.dept-num').attr("id");
       $('.dept-box').removeClass('on');
       $(obj).parent().addClass('on');
+      map.getOverlayLayer().clear();
       loadLoactionsByPcsbm(pcsbm);
+    }
+
+    // 加载重点目标
+    function loadZdmbLocations(obj) {
+      $('.dept-box').removeClass('on');
+      $(obj).parent().addClass('on');
+      $('.loading').show();
+      if (dataCluster && markers.length != 0) {
+        //清空所有的marker及点聚合对象
+        dataCluster.setMap(null);
+        markers = [];
+      }
+
+      loadData(baseUrl + "/xfunit/zdmb/locations", token, function (data) {
+        var code = data.code;
+        if (code == 200) {
+          var list = data.data;
+          for (i in list) {
+            addMarker(list[i].lon, list[i].lat, list[i].id, 'zdmb', list[i]);
+          }
+          $('.loading').hide();
+        }
+      });
     }
 
     function loadLoactionsByPcsbm(pcsbm) {
@@ -127,7 +164,7 @@
 
     <div class="dept-row">
       <div class="dept-box">
-        <a href="javascript:;" style="text-decoration: none;" onclick="loadLocations(this);">
+        <a href="javascript:;" style="text-decoration: none;">
           <div class="dept-num num-syrk" id="310116410000">0</div>
         </a>
         <div class="dept-info">枫泾</div>
@@ -136,7 +173,7 @@
       <img class="row-fgx" src="../../image/fgx.png">
 
       <div class="dept-box">
-        <a href="javascript:;" style="text-decoration: none;" onclick="loadLocations(this);">
+        <a href="javascript:;" style="text-decoration: none;">
           <div class="dept-num num-syfw" id="310116510000">0</div>
         </a>
         <div class="dept-info">朱泾</div>
@@ -145,7 +182,7 @@
       <img class="row-fgx" src="../../image/fgx.png">
 
       <div class="dept-box">
-        <a href="javascript:;" style="text-decoration: none;" onclick="loadLocations(this);">
+        <a href="javascript:;" style="text-decoration: none;">
           <div class="dept-num num-syrk" id="310116520000">0</div>
         </a>
         <div class="dept-info">张堰</div>
@@ -154,7 +191,7 @@
       <img class="row-fgx" src="../../image/fgx.png">
 
       <div class="dept-box">
-        <a href="javascript:;" style="text-decoration: none;" onclick="loadLocations(this);">
+        <a href="javascript:;" style="text-decoration: none;">
           <div class="dept-num num-syfw" id="310116530000">0</div>
         </a>
         <div class="dept-info">亭林</div>
@@ -163,7 +200,7 @@
 
     <div class="dept-row">
       <div class="dept-box">
-        <a href="javascript:;" style="text-decoration: none;" onclick="loadLocations(this);">
+        <a href="javascript:;" style="text-decoration: none;">
           <div class="dept-num num-sydw" id="310116540000">0</div>
         </a>
         <div class="dept-info">吕巷</div>
@@ -172,7 +209,7 @@
       <img class="row-fgx" src="../../image/fgx.png">
 
       <div class="dept-box">
-        <a href="javascript:;" style="text-decoration: none;" onclick="loadLocations(this);">
+        <a href="javascript:;" style="text-decoration: none;">
           <div class="dept-num num-syafss" id="310116550000">0</div>
         </a>
         <div class="dept-info">漕泾</div>
@@ -180,8 +217,8 @@
 
       <img class="row-fgx" src="../../image/fgx.png">
 
-      <div class="dept-box on">
-        <a href="javascript:;" style="text-decoration: none;" onclick="loadLocations(this);">
+      <div class="dept-box">
+        <a href="javascript:;" style="text-decoration: none;">
           <div class="dept-num num-sydw" id="310116560000">0</div>
         </a>
         <div class="dept-info">山阳</div>
@@ -190,7 +227,7 @@
       <img class="row-fgx" src="../../image/fgx.png">
 
       <div class="dept-box">
-        <a href="javascript:;" style="text-decoration: none;" onclick="loadLocations(this);">
+        <a href="javascript:;" style="text-decoration: none;">
           <div class="dept-num num-syafss" id="310116570000">0</div>
         </a>
         <div class="dept-info">金山卫</div>
@@ -200,7 +237,7 @@
 
     <div class="dept-row">
       <div class="dept-box">
-        <a href="javascript:;" style="text-decoration: none;" onclick="loadLocations(this);">
+        <a href="javascript:;" style="text-decoration: none;">
           <div class="dept-num num-syllzb" id="310116580000">0</div>
         </a>
         <div class="dept-info">钱圩</div>
@@ -209,7 +246,7 @@
       <img class="row-fgx" src="../../image/fgx.png">
 
       <div class="dept-box">
-        <a href="javascript:;" style="text-decoration: none;" onclick="loadLocations(this);">
+        <a href="javascript:;" style="text-decoration: none;">
           <div class="dept-num num-syjq" id="310116590000">0</div>
         </a>
         <div class="dept-info">廊下</div>
@@ -218,7 +255,7 @@
       <img class="row-fgx" src="../../image/fgx.png">
 
       <div class="dept-box">
-        <a href="javascript:;" style="text-decoration: none;" onclick="loadLocations(this);">
+        <a href="javascript:;" style="text-decoration: none;">
           <div class="dept-num num-syllzb" id="310116600000">0</div>
         </a>
         <div class="dept-info">干巷</div>
@@ -227,7 +264,7 @@
       <img class="row-fgx" src="../../image/fgx.png">
 
       <div class="dept-box">
-        <a href="javascript:;" style="text-decoration: none;" onclick="loadLocations(this);">
+        <a href="javascript:;" style="text-decoration: none;">
           <div class="dept-num num-syjq" id="310116610000">0</div>
         </a>
         <div class="dept-info">朱行</div>
@@ -236,7 +273,7 @@
 
     <div class="dept-row">
       <div class="dept-box">
-        <a href="javascript:;" style="text-decoration: none;" onclick="loadLocations(this);">
+        <a href="javascript:;" style="text-decoration: none;">
           <div class="dept-num num-syjq" id="310116620000">0</div>
         </a>
         <div class="dept-info">松隐</div>
@@ -247,7 +284,7 @@
 
 
       <div class="dept-box">
-        <a href="javascript:;" style="text-decoration: none;" onclick="loadLocations(this);">
+        <a href="javascript:;" style="text-decoration: none;">
           <div class="dept-num num-syllzb" id="310116630000">0</div>
         </a>
         <div class="dept-info">新农</div>
@@ -258,7 +295,7 @@
 
 
       <div class="dept-box">
-        <a href="javascript:;" style="text-decoration: none;" onclick="loadLocations(this);">
+        <a href="javascript:;" style="text-decoration: none;">
           <div class="dept-num num-syjq" id="310116650000">0</div>
         </a>
         <div class="dept-info">兴塔</div>
@@ -267,7 +304,7 @@
 
       <img class="row-fgx" src="../../image/fgx.png">
       <div class="dept-box">
-        <a href="javascript:;" style="text-decoration: none;" onclick="loadLocations(this);">
+        <a href="javascript:;" style="text-decoration: none;">
           <div class="dept-num num-syllzb" id="310116670000">0</div>
         </a>
         <div class="dept-info">石化</div>
@@ -277,7 +314,7 @@
 
     <div class="dept-row">
       <div class="dept-box">
-        <a href="javascript:;" style="text-decoration: none;" onclick="loadLocations(this);">
+        <a href="javascript:;" style="text-decoration: none;">
           <div class="dept-num num-sydw" id="310116710000">0</div>
         </a>
         <div class="dept-info">象州</div>
@@ -286,7 +323,7 @@
       <img class="row-fgx" src="../../image/fgx.png">
 
       <div class="dept-box">
-        <a href="javascript:;" style="text-decoration: none;" onclick="loadLocations(this);">
+        <a href="javascript:;" style="text-decoration: none;">
           <div class="dept-num num-syafss" id="310116740000">0</div>
         </a>
         <div class="dept-info">蒙山</div>
@@ -295,7 +332,7 @@
       <img class="row-fgx" src="../../image/fgx.png">
 
       <div class="dept-box">
-        <a href="javascript:;" style="text-decoration: none;" onclick="loadLocations(this);">
+        <a href="javascript:;" style="text-decoration: none;">
           <div class="dept-num num-sydw" id="310116040611">0</div>
         </a>
         <div class="dept-info">金山嘴</div>
@@ -310,6 +347,15 @@
         <div class="dept-info"></div>
       </div>
 
+    </div>
+  </div>
+
+  <div class="dept-container dept-container-right">
+    <div class="dept-row">
+      <div class="dept-box">
+        <div class="dept-num num-syafss" style="cursor: pointer;" onclick="loadZdmbLocations(this)" id="zdmb-total">0</div>
+        <div class="dept-info">金山区重点目标总量</div>
+      </div>
     </div>
   </div>
 
