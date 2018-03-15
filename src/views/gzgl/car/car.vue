@@ -173,13 +173,16 @@ export default {
     }
   },
   mounted () {
+    debugger
     const start = new Date(new Date(new Date().toLocaleDateString()).getTime())
     const end = new Date(
       new Date(new Date().toLocaleDateString()).getTime() + 24 * 60 * 60 * 1000
     )
     this.queryForm.searchDateArr = [start, end]
     this.$refs.searchDate.emitChange(this.queryForm.searchDateArr)
-    this.$refs.formCard.search()
+    setTimeout(() => {
+      this.$refs.formCard.search()
+    }, 0)
   }
 }
 </script>
