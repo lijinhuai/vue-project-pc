@@ -26,7 +26,7 @@
                 <Input v-model="queryForm.sh" placeholder="请输入"></Input>
               </Form-item>
               <Form-item>
-                <Button type="primary" @click="searchRfglRoom">搜索</Button>
+                <Button type="primary" @click="btnSearchRfglRoom">搜索</Button>
                 <Button type="ghost" @click="clearSearchRfglRoom" style="margin-left: 8px">重置</Button>
               </Form-item>
             </Form>
@@ -35,7 +35,7 @@
                 <Input v-model="queryForm.sfzh" placeholder="请输入"></Input>
               </Form-item>
               <Form-item>
-                <Button type="primary" @click="searchRfglRoom">搜索</Button>
+                <Button type="primary" @click="btnSearchRfglRoom">搜索</Button>
                 <Button type="ghost" @click="clearSearchRfglRoom" style="margin-left: 8px">重置</Button>
               </Form-item>
             </Form>
@@ -318,12 +318,6 @@ export default {
         this.searchRfglRoom()
       }
     },
-    ok () {
-      // this.$Message.info('点击了确定')
-    },
-    cancel () {
-      // this.$Message.info('点击了取消')
-    },
     showRoomDetail (dztzm) {
       if (this.loadRoomDetailFlag === 1) {
         return
@@ -348,6 +342,11 @@ export default {
           this.room.lsjzryData = response.data
         })
         .catch(() => {})
+    },
+    btnSearchRfglRoom () {
+      this.queryForm.dztzm = ''
+      this.queryForm.mlphbm = ''
+      this.searchRfglRoom()
     },
     searchRfglRoom () {
       this.house = {}
@@ -395,14 +394,6 @@ export default {
         this.queryForm.lm = ''
         this.queryForm.mnph = ''
         this.queryForm.sh = ''
-      }
-      this.queryForm.dztzm = ''
-      this.queryForm.mlphbm = ''
-    },
-    cxTab (value) {
-      if (value === 'fwcx') {
-        this.queryForm.dztzm = ''
-        this.queryForm.mlphbm = ''
       }
     }
   }
