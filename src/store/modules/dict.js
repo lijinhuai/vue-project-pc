@@ -10,17 +10,13 @@ const app = {
     fetchDictList (state) {
       var currentDictVersion = store.getters.token
       var dictVersion = JSON.parse(localStorage.getItem('dictVersion'))
-      if (dictVersion === currentDictVersion && localStorage.getItem('rybqDictList')) {
-        this.rybqDictList = JSON.parse(localStorage.getItem('rybqDictList'))
-      } else {
+      if (dictVersion !== currentDictVersion || !localStorage.getItem('rybqDictList')) {
         fetchDbDictList('RYBQ').then(response => {
           localStorage.setItem('rybqDictList', JSON.stringify(response))
           localStorage.setItem('dictVersion', JSON.stringify(currentDictVersion))
         })
       }
-      if (dictVersion === currentDictVersion && localStorage.getItem('roadDictList')) {
-        this.roadDictList = JSON.parse(localStorage.getItem('roadDictList'))
-      } else {
+      if (dictVersion !== currentDictVersion || !localStorage.getItem('roadDictList')) {
         fetchRoadDictList().then(response => {
           localStorage.setItem('roadDictList', JSON.stringify(response))
           localStorage.setItem('dictVersion', JSON.stringify(currentDictVersion))

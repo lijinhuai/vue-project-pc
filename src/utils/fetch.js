@@ -16,9 +16,11 @@ const service = axios.create({
   timeout: 1000 * 30 // 请求超时时间
 })
 
+let appLoading// 是否需要显示laoding
 // request拦截器
 service.interceptors.request.use(config => {
-  if (!config.headers['NoAppLoading']) { // 判断否需要显示loading界面
+  appLoading = !config.noAppLoading
+  if (appLoading) { // 判断否需要显示loading界面
     store.commit('appLoading', true)
   }
   // Do something before request is sent
@@ -27,8 +29,10 @@ service.interceptors.request.use(config => {
   }
   return config
 }, error => {
+  if (appLoading) { // 判断否需要显示loading界面
+    store.commit('appLoading', false)
+  }
   // Do something with request error
-  store.commit('appLoading', false)
   console.log(error) // for debug
   Promise.reject(error)
 })
@@ -37,7 +41,9 @@ service.interceptors.request.use(config => {
 service.interceptors.response.use(
   // response => response,
   response => {
-    store.commit('appLoading', false)
+    if (appLoading) { // 判断否需要显示loading界面
+      store.commit('appLoading', false)
+    }
     const res = response.data
     if (response.status === 200) {
       if (res.code) { // 返回结构包含code，是以JsonResult封装的形式返回
@@ -55,7 +61,9 @@ service.interceptors.response.use(
     }
   },
   error => {
-    store.commit('appLoading', false)
+    if (appLoading) { // 判断否需要显示loading界面
+      store.commit('appLoading', false)
+    }
     console.log('err' + error) // for debug
     const res = error.response
     Message.error(error.message)
