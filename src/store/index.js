@@ -4,8 +4,9 @@ import actions from './actions'
 import getters from './getters'
 
 import app from './modules/app'
-import user from './modules/user'
 import permission from './modules/permission'
+import user from './modules/user'
+import dict from './modules/dict'
 
 Vue.use(Vuex)
 
@@ -20,8 +21,9 @@ const store = new Vuex.Store({
   getters,
   modules: {
     app,
+    permission,
     user,
-    permission
+    dict
   }
 })
 

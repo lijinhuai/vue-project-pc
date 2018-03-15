@@ -91,6 +91,7 @@ const user = {
               'setAvator',
               'https://ss0.bdstatic.com/94oJfD_bAAcT8t7mm9GUKT-xh_/timg?image&quality=100&size=b4000_4000&sec=1512529926&di=c92afacc5626da6084148693f630f03d&src=http://wx3.sinaimg.cn/wap720/e629955ely1fbth7eblbmj21b60qowld.jpg'
             )
+            commit('fetchDictList')
             // commit('SET_NAME', data.name)
             // commit('SET_AVATAR', data.avatar)
             // commit('SET_INTRODUCTION', data.introduction)

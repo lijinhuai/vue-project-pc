@@ -59,7 +59,7 @@
               人员标签<i class="el-icon--right"></i>
             </el-button>
             <el-dropdown-menu slot="dropdown">
-              <el-dropdown-item v-for="rybq in rybqList" :key="rybq.index">
+              <el-dropdown-item v-for="rybq in rybqDictList" :key="rybq.index">
                 <div class="rybq" :class="rybq.value2" @click="showThisTybq(rybq.value2)">{{rybq.value}}</div>
               </el-dropdown-item>
             </el-dropdown-menu>
@@ -82,7 +82,7 @@
                                                     room_rhyz_czfw:room.flagRhfl==0 && room.jzfwlx=='01',
                                                     room_rhfl_czfw:room.flagRhfl==1 && room.jzfwlx=='01'
                                       }">
-                                      <div v-for="rybq in room.rybqList" :key="rybq.index" class="rybq_room" :class="rybq.colorPng"></div>
+                                      <div v-for="rybq in room.rybqDictList" :key="rybq.index" class="rybq_room" :class="rybq.colorPng"></div>
                                       <span>{{ room.houseRoomNum }}</span>
                                       <Poptip trigger="hover" :content="room.jzrsTip">
                                         <Badge class-name="badge-jzrs" :count="room.jzrs"></Badge>
@@ -134,7 +134,7 @@ import {
   fetchRfglRPerson,
   fetchRfglRHisPerson
 } from '@/api/cxtj/rfgl'
-import { fetchDbDictList, fetchRoadDictList } from '@/api/dict'
+
 import PersonPhoto from './components/PersonPhoto.vue'
 import Dlsj from './components/Dlsj.vue'
 import Yssj from './components/Yssj.vue'
@@ -143,6 +143,7 @@ export default {
   name: 'rfgl',
   data () {
     return {
+      rybqDictList: [],
       roadDictList: [],
       modal: false,
       cxTab: 'fwcx',
@@ -218,7 +219,7 @@ export default {
             render: (h, params) => {
               return h(Rybq, {
                 props: {
-                  rybqList: params.row.rybqList
+                  rybqList: params.row.rybqDictList
                 }
               })
             }
@@ -277,7 +278,6 @@ export default {
         jzryData: [],
         lsjzryData: []
       },
-      rybqList: [],
       loadRoomDetailFlag: 0
     }
   },
@@ -289,34 +289,34 @@ export default {
   },
   created () {},
   mounted () {
-    fetchDbDictList('RYBQ').then(response => {
-      this.rybqList = response
-    })
-    this.fetchDictList()
+    if (localStorage.getItem('rybqDictList')) {
+      this.rybqDictList = JSON.parse(localStorage.getItem('rybqDictList'))
+    }
+    if (localStorage.getItem('roadDictList')) {
+      this.roadDictList = JSON.parse(localStorage.getItem('roadDictList'))
+    }
   },
   activated () {
-    let zjhm = this.$route.params.zjhm
-    if (zjhm) {
-      this.cxlb = 'sfz'
-      this.queryForm.sfzh = zjhm
-      this.searchRfglRoom()
-    }
-    let dztzm = this.$route.params.dztzm
-    if (dztzm) {
-      this.queryForm.dztzm = dztzm
-      this.searchRfglRoom()
-    }
-    let mlphbm = this.$route.query.mlphbm
-    if (mlphbm) {
-      this.queryForm.mlphbm = mlphbm
-      this.searchRfglRoom()
-    }
+    this.initQuery()
   },
   methods: {
-    fetchDictList () {
-      fetchRoadDictList().then(response => {
-        this.roadDictList = response
-      })
+    initQuery () {
+      let zjhm = this.$route.params.zjhm
+      if (zjhm) {
+        this.cxlb = 'sfz'
+        this.queryForm.sfzh = zjhm
+        this.searchRfglRoom()
+      }
+      let dztzm = this.$route.params.dztzm
+      if (dztzm) {
+        this.queryForm.dztzm = dztzm
+        this.searchRfglRoom()
+      }
+      let mlphbm = this.$route.query.mlphbm
+      if (mlphbm) {
+        this.queryForm.mlphbm = mlphbm
+        this.searchRfglRoom()
+      }
     },
     ok () {
       // this.$Message.info('点击了确定')

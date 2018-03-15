@@ -3,19 +3,22 @@ import fetch from '@/utils/fetch'
 export function fetchDbDictList (dictName) {
   return fetch({
     url: '/dict/dbDictItems/' + dictName,
-    method: 'get'
+    method: 'get',
+    headers: {'NoAppLoading': true}
   })
 }
 export function fetchDictList (dictName) {
   return fetch({
     url: '/dict/dictItems/' + dictName,
-    method: 'get'
+    method: 'get',
+    headers: {'NoAppLoading': true}
   })
 }
 
-export function fetchRoadDictList (dictName) {
+export function fetchRoadDictList () {
   return fetch({
     url: '/rfgl/listRoadDict',
-    method: 'get'
+    method: 'get',
+    headers: {'NoAppLoading': true}
   })
 }

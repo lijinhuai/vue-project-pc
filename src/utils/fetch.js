@@ -18,10 +18,12 @@ const service = axios.create({
 
 // request拦截器
 service.interceptors.request.use(config => {
+  if (!config.headers['NoAppLoading']) { // 判断否需要显示loading界面
+    store.commit('appLoading', true)
+  }
   // Do something before request is sent
   if (store.getters.token) {
     config.headers['Authorization'] = getToken() // 让每个请求携带token--['Authorization']为自定义key 请根据实际情况自行修改
-    store.commit('appLoading', true)
   }
   return config
 }, error => {
@@ -78,5 +80,4 @@ service.interceptors.response.use(
     return Promise.reject(error)
   }
 )
-
 export default service
