@@ -41,7 +41,7 @@
             </Form>
           </Tab-pane>
           <Tab-pane label="房屋列表" name="fwlb">
-            <Table :columns="columns" :data="data" @on-row-click="onRowClick"></Table>
+            <Table :columns="columns" :data="data"></Table>
             <div style="margin: 10px;overflow: hidden">
               <div style="float: right;">
                 <Page v-show="data.length>0" :current="pageInfo.pageNum" :total="pageInfo.total" :page-size="pageInfo.pageSize" @on-change="changePage"></Page>
@@ -82,7 +82,7 @@
                                                     room_rhyz_czfw:room.flagRhfl==0 && room.jzfwlx=='01',
                                                     room_rhfl_czfw:room.flagRhfl==1 && room.jzfwlx=='01'
                                       }">
-                                      <div v-for="rybq in room.rybqDictList" :key="rybq.index" class="rybq_room" :class="rybq.colorPng"></div>
+                                      <div v-for="rybq in room.rybqList" :key="rybq.index" class="rybq_room" :class="rybq.colorPng"></div>
                                       <span>{{ room.houseRoomNum }}</span>
                                       <Poptip trigger="hover" :content="room.jzrsTip">
                                         <Badge class-name="badge-jzrs" :count="room.jzrs"></Badge>
@@ -103,7 +103,7 @@
           </div>
         </div>
         <Modal v-model="modal" title="房屋信息" width="80%" @on-ok="ok" @on-cancel="cancel">
-          <Tabs type="card">
+          <Tabs v-model="roomTab" type="card">
             <Tab-pane label="人员列表" name="rylb">
               <Table :columns="room.jzryCloumns" :data="room.jzryData"></Table>
             </Tab-pane>
@@ -111,7 +111,9 @@
               <Table :columns="room.jzryCloumns" :data="room.lsjzryData"></Table>
             </Tab-pane>
             <Tab-pane label="电力数据" name="dlsj">
-              <Dlsj ref="dlsj"></Dlsj>
+              <div style="height:350px;">
+                <Dlsj ref="dlsj"></Dlsj>
+              </div>
             </Tab-pane>
             <Tab-pane label="用水数据" name="yssj">
               <Yssj ref="yssj"></Yssj>
@@ -146,6 +148,7 @@ export default {
       rybqDictList: [],
       roadDictList: [],
       modal: false,
+      roomTab: '',
       cxTab: 'fwcx',
       cxlb: 'tj',
       pageInfo: {
@@ -170,8 +173,19 @@ export default {
           title: '地址',
           key: 'address',
           render: (h, params) => {
+            const _self = this
             let address = params.row.address
-            return h('span', address.substring(6))
+            return h(
+              'span',
+              {
+                on: {
+                  click: function () {
+                    _self.searchRfglHouse(params.row.dztzm, true)
+                  }
+                }
+              },
+              address.substring(6)
+            )
           }
         },
         {
@@ -190,7 +204,7 @@ export default {
                 on: {
                   click: function () {
                     _self.showRoomDetail(params.row.dztzm)
-                    _self.searchRfglHouse(params.row.dztzm)
+                    _self.searchRfglHouse(params.row.dztzm, false)
                   }
                 }
               },
@@ -219,7 +233,7 @@ export default {
             render: (h, params) => {
               return h(Rybq, {
                 props: {
-                  rybqList: params.row.rybqDictList
+                  rybqList: params.row.rybqList
                 }
               })
             }
@@ -319,6 +333,7 @@ export default {
       }
     },
     showRoomDetail (dztzm) {
+      this.roomTab = 'rylb'
       if (this.loadRoomDetailFlag === 1) {
         return
       }
@@ -336,7 +351,9 @@ export default {
             window.dispatchEvent(e)
           })
         })
-        .catch(() => {})
+        .catch(() => {
+          this.loadRoomDetailFlag = 0
+        })
       fetchRfglRHisPerson(dztzm)
         .then(response => {
           this.room.lsjzryData = response.data
@@ -365,15 +382,14 @@ export default {
       this.pageInfo.pageNum = value
       this.searchRfglRoom()
     },
-    searchRfglHouse (dztzm) {
-      fetchRfglHouse(dztzm)
+    ok () {},
+    cancel () {},
+    searchRfglHouse (dztzm, appLoading) {
+      fetchRfglHouse(dztzm, appLoading)
         .then(response => {
           this.house = response.data
         })
         .catch(() => {})
-    },
-    onRowClick (row) {
-      this.searchRfglHouse(row.dztzm)
     },
     showThisTybq (rybq) {
       var allObjArr = document.getElementsByClassName('rybq_room')

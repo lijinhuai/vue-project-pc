@@ -11,10 +11,11 @@ export function fetchRfglRoom (pageInfo, data) {
     params: params
   })
 }
-export function fetchRfglHouse (params) {
+export function fetchRfglHouse (params, appLoading) {
   return fetch({
     url: '/rfgl/houses/' + params,
-    method: 'get'
+    method: 'get',
+    noAppLoading: !appLoading
   })
 }
 export function fetchRfglRPerson (params) {
