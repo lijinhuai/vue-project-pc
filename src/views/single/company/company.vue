@@ -129,32 +129,32 @@
         </h4>
         <ul class="data-contents-height" style=" padding: 0px 20px;">
           <li>
-            <label style="display:inline-block;">治安管理单位</label>
-            <strong style="padding-left:10px;">{{company.dwzdxx.zagldw}}</strong>
+            <label style="width:110px;display:inline-block;">治安管理单位</label>
+            {{company.dwzdxx.zagldw}}
           </li>
           <li>
-            <label style="display:inline-block;">社区民警</label>
-            <strong style="padding-left:10px;">{{company.dwzdxx.sqmj}}</strong>
+            <label style="width:110px;display:inline-block;">社区民警</label>
+            {{company.dwzdxx.sqmj}}
           </li>
           <li>
-            <label style="display:inline-block;">上级主管单位</label>
-            <strong style="padding-left:10px;">{{company.dwzdxx.sjzgdw}}</strong>
+            <label style="width:110px;display:inline-block;">上级主管单位</label>
+            {{company.dwzdxx.sjzgdw}}
           </li>
           <li>
-            <label style="display:inline-block;">目标主管领导/联系人</label>
-            <strong style="padding-left:10px;">{{company.dwzdxx.mbzgld}}</strong>
+            <label style="width:110px;display:inline-block;">主管领导/联系人</label>
+            {{company.dwzdxx.mbzgld}}
           </li>
           <li>
-            <label style="display:inline-block;">保安部门负责人</label>
-            <strong style="padding-left:10px;">{{company.dwzdxx.bafzr}}</strong>
+            <label style="width:110px;display:inline-block;">保安部门负责人</label>
+            {{company.dwzdxx.bafzr}}
           </li>
           <li>
-            <label style="display:inline-block;">重点类别</label>
-            <strong style="padding-left:10px;">{{company.dwzdxx.lb}}</strong>
+            <label style="width:110px;display:inline-block;">重点类别</label>
+            {{company.dwzdxx.lb}}
           </li>
           <li>
-            <label style="display:inline-block;">地理位置</label>
-            <strong style="padding-left:10px;">{{company.dwzdxx.dlwz}}</strong>
+            <label style="width:110px;display:inline-block;">地理位置</label>
+            {{company.dwzdxx.dlwz}}
           </li>
         </ul>
       </div>
