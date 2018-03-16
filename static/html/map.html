@@ -3650,7 +3650,6 @@
           console.log(data.data)
           var locations = data.data;
           for (var i = 0; i < locations.length; i++) {
-            debugger
             if (locations[i].gdLat != "" && locations[i].gdlon != "") {
               addMarker(locations[i].gdLon, locations[i].gdLat, locations[i].dwbh, "dwxx", locations[i]);
             }
