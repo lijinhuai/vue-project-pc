@@ -56,13 +56,13 @@
           countUp('zdmb-total', data.data);
         }
       })
-      // if (deptCode == '310116000000') {
-      //   $('#310116560000').parent().parent().addClass("on");
-      //   loadLoactionsByPcsbm('310116560000');
-      // } else {
-      //   $('#' + deptCode).parent().parent().addClass("on");
-      //   loadLoactionsByPcsbm(deptCode);
-      // }
+      if (deptCode == '310116000000') {
+        $('#310116560000').parent().parent().addClass("on");
+        loadLoactionsByPcsbm('310116560000');
+      } else {
+        $('#' + deptCode).parent().parent().addClass("on");
+        loadLoactionsByPcsbm(deptCode);
+      }
 
     }
 
