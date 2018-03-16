@@ -19,6 +19,7 @@
   <script src="../../js/js.cookie-2.2.0.min.js"></script>
   <script src="../../js/jquery.base64.js"></script>
   <script src="../../js/countUp.js"></script>
+  <script src="../../js/layer/layer.js"></script>
 
   <script src="./ybls.js"></script>
 
@@ -55,13 +56,13 @@
           countUp('zdmb-total', data.data);
         }
       })
-      if (deptCode == '310116000000') {
-        $('#310116560000').parent().parent().addClass("on");
-        loadLoactionsByPcsbm('310116560000');
-      } else {
-        $('#' + deptCode).parent().parent().addClass("on");
-        loadLoactionsByPcsbm(deptCode);
-      }
+      // if (deptCode == '310116000000') {
+      //   $('#310116560000').parent().parent().addClass("on");
+      //   loadLoactionsByPcsbm('310116560000');
+      // } else {
+      //   $('#' + deptCode).parent().parent().addClass("on");
+      //   loadLoactionsByPcsbm(deptCode);
+      // }
 
     }
 

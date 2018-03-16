@@ -31,7 +31,7 @@
           </div>
           <div style="margin-left:30px;">
             <span>人物标签：</span> <span v-for="rybq in company.fr.rybqList" :key="rybq.index" style="background-color: #1588ef; padding: 5px; font-size: 12px; border-radius: 3px;">
-                      {{rybq.name}}</span> &nbsp;
+                        {{rybq.name}}</span> &nbsp;
           </div>
           <div style="margin-left:30px;">
             <span>户籍地址：</span> {{company.fr.hjdz}}
@@ -51,61 +51,61 @@
           <li>
             <label>单位名称</label>
             <span>
-                  {{company.dwxx.dwmc}}</span>
+                    {{company.dwxx.dwmc}}</span>
           </li>
           <li>
             <label>单位简称</label>
             <span>
-                  {{company.dwxx.dwjc}}</span>
+                    {{company.dwxx.dwjc}}</span>
           </li>
           <li>
             <label>组织机构</label>
             <span>
-                  {{company.dwxx.zzjgdm}}</span>
+                    {{company.dwxx.zzjgdm}}</span>
           </li>
           <li>
             <label>营业执照</label>
             <span>
-                  {{company.dwxx.yyzzbh}}</span>
+                    {{company.dwxx.yyzzbh}}</span>
           </li>
           <li>
             <label>经营地址</label>
             <span>
-                  {{company.dwxx.jydz}}</span>
+                    {{company.dwxx.jydz}}</span>
           </li>
           <li>
             <label>注册地址</label>
             <span>
-                  {{company.dwxx.zcdz}}</span>
+                    {{company.dwxx.zcdz}}</span>
           </li>
           <li>
             <label>法人代表</label>
             <span>
-                  {{company.dwxx.frdb}}</span>
+                    {{company.dwxx.frdb}}</span>
           </li>
           <li>
             <label>法人电话</label>
             <span>
-                  {{company.dwxx.frlxdh}}</span>
+                    {{company.dwxx.frlxdh}}</span>
           </li>
           <li>
             <label>法人证件</label>
             <span>
-                  {{company.dwxx.frzjhm}}</span>
+                    {{company.dwxx.frzjhm}}</span>
           </li>
           <li>
             <label>治安责任人</label>
             <span>
-                  {{company.dwxx.zazrr}}</span>
+                    {{company.dwxx.zazrr}}</span>
           </li>
           <li>
             <label>联系电话</label>
             <span>
-                  {{company.dwxx.lxdh}}</span>
+                    {{company.dwxx.lxdh}}</span>
           </li>
         </ul>
       </div>
-      <div class="home-ranking-list" style="width: 570px;height:90vh; margin-left: 420px;">
+      <div v-show="company.zdmb!='1'" class="home-ranking-list" style="width: 570px;height:90vh; margin-left: 420px;">
         <h4>
           <label>从业人员</label>
         </h4>
@@ -116,10 +116,45 @@
               <label style="width:62px; padding-left: 20px;display:inline-block;">{{ry.xm}}</label>
               <label style=" padding-left: 20px;">{{ry.xbhz}}</label>
               <span style="width:180px; padding-left: 20px;display:inline-block;">
-                  <strong>{{ry.zjhm}}</strong>
-                </span>
+                    <strong>{{ry.zjhm}}</strong>
+                  </span>
               <span style="padding-left:10px;">{{ry.zzdz}}</span>
             </Poptip>
+          </li>
+        </ul>
+      </div>
+      <div v-show="company.zdmb=='1'" class="home-ranking-list" style="width: 570px;height:90vh; margin-left: 420px;">
+        <h4>
+          <label>重点信息</label>
+        </h4>
+        <ul class="data-contents-height" style=" padding: 0px 20px;">
+          <li>
+            <label style="display:inline-block;">治安管理单位</label>
+            <strong style="padding-left:10px;">{{company.dwzdxx.zagldw}}</strong>
+          </li>
+          <li>
+            <label style="display:inline-block;">社区民警</label>
+            <strong style="padding-left:10px;">{{company.dwzdxx.sqmj}}</strong>
+          </li>
+          <li>
+            <label style="display:inline-block;">上级主管单位</label>
+            <strong style="padding-left:10px;">{{company.dwzdxx.sjzgdw}}</strong>
+          </li>
+          <li>
+            <label style="display:inline-block;">目标主管领导/联系人</label>
+            <strong style="padding-left:10px;">{{company.dwzdxx.mbzgld}}</strong>
+          </li>
+          <li>
+            <label style="display:inline-block;">保安部门负责人</label>
+            <strong style="padding-left:10px;">{{company.dwzdxx.bafzr}}</strong>
+          </li>
+          <li>
+            <label style="display:inline-block;">重点类别</label>
+            <strong style="padding-left:10px;">{{company.dwzdxx.lb}}</strong>
+          </li>
+          <li>
+            <label style="display:inline-block;">地理位置</label>
+            <strong style="padding-left:10px;">{{company.dwzdxx.dlwz}}</strong>
           </li>
         </ul>
       </div>
@@ -140,7 +175,9 @@ export default {
             photoBase64: ''
           }
         },
-        cyry: []
+        cyry: [],
+        dwzdxx: {},
+        zdmb: ''
       }
     }
   },
@@ -156,6 +193,12 @@ export default {
         }
         if (response.data.dwxx) {
           this.company.dwxx = response.data.dwxx
+        }
+        if (response.data.zdmb) {
+          this.company.zdmb = response.data.zdmb
+        }
+        if (response.data.dwzdxx) {
+          this.company.dwzdxx = response.data.dwzdxx
         }
       })
     }

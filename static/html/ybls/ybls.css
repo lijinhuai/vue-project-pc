@@ -388,7 +388,7 @@
   float: left;
   margin-right: 10px;
   width: 80px;
-  height: 80px;
+  height: 60px;
   border-radius: 3px;
   box-shadow: 0 0 0px 1px rgb(8, 181, 255)
 }
@@ -508,4 +508,18 @@
   bottom: 14px;
   left: 14px;
   animation-delay: 1.04s;
+}
+
+.can-click:hover {
+  cursor: pointer;
+}
+
+.dialog-vehicle-pass-container {
+  width: 100%;
+  height: 100%;
+}
+
+.dialog-vehicle-pass-container img {
+  width: 100%;
+  height: 99%;
 }

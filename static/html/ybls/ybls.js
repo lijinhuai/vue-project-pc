@@ -177,15 +177,11 @@ function addMarkerClickEvt(type, origin, marker) {
   // 针对不同数据类型添加不同的 InfoWindow
   var content = "";
   var token = Cookies.get("Admin-Token");
-  if (type == 'xfunit' || type == 'zdmb') {
+  if (type == 'xfunit') {
     var content = "<div class=\"dynamic-container\" style=\width:240px;\">"
     content = content + "<div class=\"dynamic-title\">"
     content = content + "<div class=\"dynamic-title-content\" style=\"padding:0px 10px 6px\">";
-    if (type == 'xfunit') {
-      content = content + "实有单位";
-    } else if (type == 'zdmb') {
-      content = content + "重点目标";
-    }
+    content = content + "实有单位";
     content = content + "</div>";
     content = content + "<span class=\"dynamic-title-close\" onclick=\"closeInfoWindow()\">";
     content = content + "<i class=\"iconfont\">&#xe603;</i>"
@@ -196,9 +192,39 @@ function addMarkerClickEvt(type, origin, marker) {
     var lon = '' + origin.lon;
     var lat = '' + origin.lat;
     content = content + "简称：" + origin.dwjc +
-    // "&nbsp;&nbsp;&nbsp;&nbsp;<a style=\"color:#86d9fb\" target=\"_blank\" href=\"javascript:;void(0)\" onclick=\"openDwxx(\'" +
-    //   origin.dwbh + "\');\">详&nbsp;&nbsp情</a>" +
-      "<br/>名称：" + origin.dwmc + "<br/>地址：" + origin.dwszd + "<br/>坐标：" + lon.substr(
+      "&nbsp;&nbsp;&nbsp;&nbsp;<a style=\"color:#86d9fb\" target=\"_blank\" href=\"javascript:;void(0)\" onclick=\"openDwxx(\'" +
+      origin.dwbh + "\');\">详&nbsp;&nbsp情</a>" +
+      "<br/>名称：" + origin.dwmc + "<br/>地址：" + origin.jydz + "<br/>坐标：" + lon.substr(
+        0, 10) +
+      "，" + lat.substr(0, 9);
+    content = content + "</div>"
+    content = content + "</div>";
+    // content = content + "<div class=\"infowindow-marker\">";
+    // content = content + "<i class=\"iconfont\">&#xe682;</i>";
+    // content = content + "</div>";
+    content = content + "</div>";
+  }
+
+  if (type == 'zdmb') {
+    var content = "<div class=\"dynamic-container\" style=\"width:280px;height:150px;\">"
+    content = content + "<div class=\"dynamic-title\">"
+    content = content + "<div class=\"dynamic-title-content\" style=\"padding:0px 10px 6px\">";
+    content = content + "重点目标";
+    content = content + "</div>";
+    content = content + "<span class=\"dynamic-title-close\" onclick=\"closeInfoWindow()\">";
+    content = content + "<i class=\"iconfont\">&#xe603;</i>"
+    content = content + "</span>";
+    content = content + "</div>";
+    content = content + "<div class=\"dynamic-content\">";
+    content = content + "<img class=\"dynamic-content-image can-click\" src=\" " + baseUrl + "/dwxx/" + origin.dwbh + "/photo?Authorization=" + token +
+      "\" onerror=\"this.src='/static/image/default_nophoto.png'\" onclick=\"showPicDialog(this)\" />";
+    content = content + "<div class=\"dynamic-content-info\">"
+    var lon = '' + origin.lon;
+    var lat = '' + origin.lat;
+    content = content + "简称：" + origin.dwjc +
+      "&nbsp;&nbsp;&nbsp;&nbsp;<a style=\"color:#86d9fb\" target=\"_blank\" href=\"javascript:;void(0)\" onclick=\"openDwxx(\'" +
+      origin.dwbh + "\');\">详&nbsp;&nbsp情</a>" +
+      "<br/>名称：" + origin.dwmc + "<br/>地址：" + origin.jydz + "<br/>坐标：" + lon.substr(
         0, 10) +
       "，" + lat.substr(0, 9);
     content = content + "</div>"
@@ -262,6 +288,39 @@ function addMarkerClickEvt(type, origin, marker) {
   }
 }
 
+var _layer_index;
+
+function showPicDialog(obj) {
+
+  var pic = $(obj).attr("src");
+  var content = assemblePicDialogContent(pic);
+
+  if (_layer_index) {
+    layer.close(_layer_index);
+  }
+
+  _layer_index = layer.open({
+    "type": 1,
+    "shade": false,
+    "title": false,
+    "area": ['768px', '432px'],
+    "content": content,
+    "moveType": 1,
+    "skin": 'layer-custom',
+    "cancel": function () {
+      layer.close(_layer_index);
+    }
+  });
+}
+
+function assemblePicDialogContent(pic) {
+  var content = "";
+  content = content + "<div class=\"dialog-vehicle-pass-container\">";
+  content = content + "<img src=\"" + pic +
+    "\" onerror=\"this.src='/static/image/default_nophoto.png'\"></img>";
+  content = content + "</div>";
+  return content;
+}
 
 
 
