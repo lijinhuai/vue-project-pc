@@ -156,6 +156,10 @@
             <label style="width:110px;display:inline-block;">地理位置</label>
             {{company.dwzdxx.dlwz}}
           </li>
+          <li>
+            <label style="width:110px;display:inline-block;">重要部位</label>
+            {{company.dwzdxx.zybw}}
+          </li>
         </ul>
       </div>
     </div>

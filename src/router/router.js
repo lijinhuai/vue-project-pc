@@ -106,6 +106,9 @@ export const appRouter = [{
     icon: 'ybls',
     title: '一标六实',
     name: 'yblsMenu',
+    meta: {
+      privilege: 'YBLS'
+    },
     redirect: {
       name: 'ybls_unit'
     }
@@ -116,7 +119,7 @@ export const appRouter = [{
     title: '人脸抓拍',
     name: 'face',
     meta: {
-      privilege: 'RLSB'
+      privilege: 'RLZP'
     },
     component: _import('gzgl/face/face')
   }, {
@@ -147,6 +150,9 @@ export const appRouter = [{
     icon: 'duty-area',
     title: '责任区',
     name: 'mapeditMenu',
+    meta: {
+      privilege: 'ZRQ'
+    },
     redirect: {
       name: 'mapedit'
     }
@@ -283,7 +289,8 @@ export const singlePageRouter = [{
 }, {
   path: '/amap',
   meta: {
-    title: '智慧社区'
+    title: '智慧社区',
+    privilege: 'ZHSQ'
   },
   name: 'amap',
   component: _import('gzgl/map')
@@ -291,7 +298,8 @@ export const singlePageRouter = [{
   path: '/ybls_home',
   name: 'ybls_home',
   meta: {
-    title: '一标六实首页'
+    title: '一标六实首页',
+    privilege: 'YBLS'
   },
   component: _import('ybls_home/ybls_home')
 }, {
@@ -312,7 +320,8 @@ export const singlePageRouter = [{
   path: '/search',
   name: 'search',
   meta: {
-    title: '一键搜'
+    title: '一键搜',
+    privilege: 'YJS'
   },
   component: _import('yjs/yjs')
 }, {
@@ -351,7 +360,8 @@ export const singlePageRouter = [{
   path: '/ybls_unit',
   name: 'ybls_unit',
   meta: {
-    title: '金山区实有单位'
+    title: '金山区实有单位',
+    privilege: 'YBLS'
   },
   component: _import('ybls/unit')
 },
@@ -359,7 +369,8 @@ export const singlePageRouter = [{
   path: '/ybls_house',
   name: 'ybls_house',
   meta: {
-    title: '金山区实有房屋'
+    title: '金山区实有房屋',
+    privilege: 'YBLS'
   },
   component: _import('ybls/house')
 },
@@ -367,7 +378,8 @@ export const singlePageRouter = [{
   path: '/mapedit',
   name: 'mapedit',
   meta: {
-    title: '责任区管理'
+    title: '责任区管理',
+    privilege: 'ZRQ'
   },
   component: _import('gzgl/mapedit')
 }

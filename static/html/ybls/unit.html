@@ -56,13 +56,15 @@
           countUp('zdmb-total', data.data);
         }
       })
-      if (deptCode == '310116000000') {
-        $('#310116560000').parent().parent().addClass("on");
-        loadLoactionsByPcsbm('310116560000');
-      } else {
-        $('#' + deptCode).parent().parent().addClass("on");
-        loadLoactionsByPcsbm(deptCode);
-      }
+
+      $('#zdmb-total').click();
+      // if (deptCode == '310116000000') {
+      //   $('#310116560000').parent().parent().addClass("on");
+      //   loadLoactionsByPcsbm('310116560000');
+      // } else {
+      //   $('#' + deptCode).parent().parent().addClass("on");
+      //   loadLoactionsByPcsbm(deptCode);
+      // }
 
     }
 
@@ -93,6 +95,7 @@
           for (i in list) {
             addMarker(list[i].lon, list[i].lat, list[i].id, 'zdmb', list[i]);
           }
+          map.setCenter(new IMAP.LngLat(121.342247,30.741978), 13);
           $('.loading').hide();
         }
       });

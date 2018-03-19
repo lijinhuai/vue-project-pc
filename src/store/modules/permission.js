@@ -46,7 +46,9 @@ const permission = {
         const {
           roles
         } = data
-        const accessedMenuRouters = filterAsyncRouter(appRouter, roles)
+        const appRouterStr = JSON.stringify(appRouter)
+        let routers = JSON.parse(appRouterStr)
+        const accessedMenuRouters = filterAsyncRouter(routers, roles)
         commit('updateMenulist', accessedMenuRouters)
         resolve()
       })
