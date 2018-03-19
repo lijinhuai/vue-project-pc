@@ -182,6 +182,9 @@ export default {
                   click: function () {
                     _self.searchRfglHouse(params.row.dztzm, true)
                   }
+                },
+                attrs: {
+                  style: 'cursor:pointer;'
                 }
               },
               address.substring(6)
