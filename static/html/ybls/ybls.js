@@ -33,13 +33,10 @@ function openHome() {
 
 // 一标六实页面跳转
 function openYbls(type) {
-  if (type == "unit") {
-    window.parent.location.href = serviceUrl + "#/ybls_unit";
+  if (type != null && type != '') {
+    window.parent.location.href = serviceUrl + "#/ybls_" + type;
   }
 
-  if (type == "house") {
-    window.parent.location.href = serviceUrl + "#/ybls_house";
-  }
 
 }
 
@@ -251,6 +248,81 @@ function addMarkerClickEvt(type, origin, marker) {
     var lat = '' + origin.lat;
     content = content + "地址：" + origin.mlphxx + "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a style=\"color:#86d9fb\" target=\"_blank\" href=\"" +
       serviceUrl + "/#/analysis/rfgl?mlphbm=" + origin.mlphbm + "\">详&nbsp;&nbsp情</a><br/>坐标：" + lon.substr(
+        0, 10) +
+      "，" + lat.substr(0, 9);
+    content = content + "</div>"
+    content = content + "</div>";
+    // content = content + "<div class=\"infowindow-marker\">";
+    // content = content + "<i class=\"iconfont\">&#xe682;</i>";
+    // content = content + "</div>";
+    content = content + "</div>";
+  }
+
+  if (type == 'xfs') {
+    var content = "<div class=\"dynamic-container\" style=\width:240px;\">"
+    content = content + "<div class=\"dynamic-title\">"
+    content = content + "<div class=\"dynamic-title-content\" style=\"padding:0px 10px 6px\">";
+    content = content + "银行ATM";
+    content = content + "</div>";
+    content = content + "<span class=\"dynamic-title-close\" onclick=\"closeInfoWindow()\">";
+    content = content + "<i class=\"iconfont\">&#xe603;</i>"
+    content = content + "</span>";
+    content = content + "</div>";
+    content = content + "<div class=\"dynamic-content\">";
+    content = content + "<div class=\"dynamic-content-info\">"
+    var lon = '' + origin.lon;
+    var lat = '' + origin.lat;
+    content = content + "消防编号：" + origin.xfbh + "<br/>样式："+origin.ys+"&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;径口直径："+origin.jkzj+"<br>中队："+origin.zd+"<br/>坐标：" + lon.substr(
+        0, 10) +
+      "，" + lat.substr(0, 9);
+    content = content + "</div>"
+    content = content + "</div>";
+    // content = content + "<div class=\"infowindow-marker\">";
+    // content = content + "<i class=\"iconfont\">&#xe682;</i>";
+    // content = content + "</div>";
+    content = content + "</div>";
+  }
+
+  if (type == 'atm') {
+    var content = "<div class=\"dynamic-container\" style=\width:240px;\">"
+    content = content + "<div class=\"dynamic-title\">"
+    content = content + "<div class=\"dynamic-title-content\" style=\"padding:0px 10px 6px\">";
+    content = content + "银行ATM";
+    content = content + "</div>";
+    content = content + "<span class=\"dynamic-title-close\" onclick=\"closeInfoWindow()\">";
+    content = content + "<i class=\"iconfont\">&#xe603;</i>"
+    content = content + "</span>";
+    content = content + "</div>";
+    content = content + "<div class=\"dynamic-content\">";
+    content = content + "<div class=\"dynamic-content-info\">"
+    var lon = '' + origin.lon;
+    var lat = '' + origin.lat;
+    content = content + "银行名称：" + origin.yhmc + "<br/>联系人："+origin.lxr+"<br>联系电话："+origin.lxdh+"<br/>坐标：" + lon.substr(
+        0, 10) +
+      "，" + lat.substr(0, 9);
+    content = content + "</div>"
+    content = content + "</div>";
+    // content = content + "<div class=\"infowindow-marker\">";
+    // content = content + "<i class=\"iconfont\">&#xe682;</i>";
+    // content = content + "</div>";
+    content = content + "</div>";
+  }
+
+  if (type == 'gydh') {
+    var content = "<div class=\"dynamic-container\" style=\width:240px;\">"
+    content = content + "<div class=\"dynamic-title\">"
+    content = content + "<div class=\"dynamic-title-content\" style=\"padding:0px 10px 6px\">";
+    content = content + "公用电话";
+    content = content + "</div>";
+    content = content + "<span class=\"dynamic-title-close\" onclick=\"closeInfoWindow()\">";
+    content = content + "<i class=\"iconfont\">&#xe603;</i>"
+    content = content + "</span>";
+    content = content + "</div>";
+    content = content + "<div class=\"dynamic-content\">";
+    content = content + "<div class=\"dynamic-content-info\">"
+    var lon = '' + origin.lon;
+    var lat = '' + origin.lat;
+    content = content + "电话号码：" + origin.gydhhm + "<br/>坐标：" + lon.substr(
         0, 10) +
       "，" + lat.substr(0, 9);
     content = content + "</div>"

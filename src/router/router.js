@@ -375,6 +375,31 @@ export const singlePageRouter = [{
   component: _import('ybls/house')
 },
 {
+  path: '/ybls_xfs',
+  name: 'ybls_xfs',
+  meta: {
+    title: '金山区消防栓',
+    privilege: 'YBLS'
+  },
+  component: _import('ybls/xfs')
+}, {
+  path: '/ybls_atm',
+  name: 'ybls_atm',
+  meta: {
+    title: '金山区ATM',
+    privilege: 'YBLS'
+  },
+  component: _import('ybls/atm')
+}, {
+  path: '/ybls_gydh',
+  name: 'ybls_gydh',
+  meta: {
+    title: '金山区公用电话',
+    privilege: 'YBLS'
+  },
+  component: _import('ybls/gydh')
+},
+{
   path: '/mapedit',
   name: 'mapedit',
   meta: {
