@@ -836,7 +836,6 @@
             for (var i = 0; i < areaList.length; i++) {
               var area = areaList[i];
               if (area.areaStr != null && area.areaStr != "") {
-                debugger
                 if (area.owner != area.sjjgbm) {
                   addJwqPolygon(area, 'rgba(255,255,255,0)');
                 }
@@ -926,7 +925,7 @@
 
     //随机颜色
     function random() {
-      return '#' + Math.floor(Math.random() * 16777215).toString(16);
+      return '#'+('00000'+(Math.random()*0x1000000<<0).toString(16)).substr(-6);
     }
 
     //添加责任区
