@@ -378,7 +378,7 @@ export const singlePageRouter = [{
   path: '/ybls_xfs',
   name: 'ybls_xfs',
   meta: {
-    title: '金山区消防栓',
+    title: '实有安防设施',
     privilege: 'YBLS'
   },
   component: _import('ybls/xfs')
@@ -386,7 +386,7 @@ export const singlePageRouter = [{
   path: '/ybls_atm',
   name: 'ybls_atm',
   meta: {
-    title: '金山区ATM',
+    title: '金山区银行ATM',
     privilege: 'YBLS'
   },
   component: _import('ybls/atm')
