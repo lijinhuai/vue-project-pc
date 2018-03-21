@@ -36,8 +36,6 @@ function openYbls(type) {
   if (type != null && type != '') {
     window.parent.location.href = serviceUrl + "#/ybls_" + type;
   }
-
-
 }
 
 // 异步加载数据

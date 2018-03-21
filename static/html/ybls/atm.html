@@ -85,11 +85,6 @@
       });
     }
 
-    //打开单位信息页面
-    function openDwxx(dwbh) {
-      window.open(serviceUrl + "/#/company?dwbh=" + dwbh);
-    }
-
   </script>
 
 </head>
@@ -150,7 +145,9 @@
     <div class="dept-row">
 
       <div class="dept-box">
-        <div class="dept-num num-syafss" id="total">0</div>
+        <a href="javascript:;" style="text-decoration: none;">
+          <div class="dept-num num-syafss" id="total">0</div>
+        </a>
         <div class="dept-info">金山区银行ATM总量</div>
       </div>
 
