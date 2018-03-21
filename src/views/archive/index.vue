@@ -522,8 +522,12 @@ export default {
           key: 'jzsj'
         },
         {
-          title: '诊断医生姓名',
-          key: 'zdysxm'
+          title: '医疗机构名称',
+          key: 'yljgmc'
+        },
+        {
+          title: '诊断科室名称',
+          key: 'jzksmc'
         },
         {
           title: '疾病诊断名称',
@@ -534,6 +538,10 @@ export default {
         {
           title: '入院时间',
           key: 'rysj'
+        },
+        {
+          title: '医疗机构名称',
+          key: 'yljgmc'
         },
         {
           title: '入院科室名称',
@@ -556,8 +564,14 @@ export default {
           render: (h, params) => {
             return h(FaceImage, {
               props: {
-                faceSrc: 'http://116.228.125.236:18181/face/' + params.row.faceImageUrl + '.jpg',
-                pictureSrc: 'http://116.228.125.236:18181/face/' + params.row.pictureUrl + '.jpg'
+                faceSrc:
+                  'http://116.228.125.236:18181/face/' +
+                  params.row.faceImageUrl +
+                  '.jpg',
+                pictureSrc:
+                  'http://116.228.125.236:18181/face/' +
+                  params.row.pictureUrl +
+                  '.jpg'
               }
             })
           }
@@ -583,7 +597,8 @@ export default {
     }
   },
   components: {
-    ECharts, FaceImage
+    ECharts,
+    FaceImage
   },
   methods: {
     fetchArchive (zjhm) {
