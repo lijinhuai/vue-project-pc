@@ -646,7 +646,7 @@
           </div>
           <div class="xb_content">
             <div title="W族人员居住房" class="xb_boy_window">
-              <img src="/static/image/w.png" width="80%" style="margin: 0px 0 0 40px;cursor: pointer;" onclick="toFwxx_xb('1')" />
+              <img src="/static/image/w.png" width="80%" style="margin: 0px 0 0 40px;cursor: pointer;" onclick="toFwcx('w')" />
             </div>
             <div class="rysj" id="wz" style="float: left;margin:50px 0 0 70px;font-size: 34px;color: red;font-weight: bold;">
               0
@@ -659,7 +659,7 @@
           </div>
           <div class="xb_content">
             <div title="Z族人员居住房" class="xb_boy_window">
-              <img src="/static/image/z.png" width="80%" style="margin: 0px 0 0 40px;cursor: pointer;" onclick="toFwxx_xb('1')" />
+              <img src="/static/image/z.png" width="80%" style="margin: 0px 0 0 40px;cursor: pointer;" onclick="toFwcx('z')" />
             </div>
             <div class="rysj" id="zz" style="float: left;margin:50px 0 0 70px;font-size: 34px;color: yellow;font-weight: bold;">
               0
@@ -680,31 +680,31 @@
               <div class="bubble_min ani_auto ani_top_top ani_time_10"></div>
               <div class="bubble_min ani_auto ani_top_top ani_time_8"></div>
               <div class="bubble_list">
-                <div class="bubble_item ani_auto ani_time_10 ani_bottom_top" onclick="toFwxx_xb('qz')">
+                <div class="bubble_item ani_auto ani_time_10 ani_bottom_top" onclick="toFwcx('qz')">
                   <p>
                     <span>来沪人员居住5人以上</span>
                     <i id="qz">0</i>
                   </p>
                 </div>
-                <div class="bubble_item ani_auto ani_time_8 ani_bottom_top" onclick="toFwxx_xb('wcn')">
+                <div class="bubble_item ani_auto ani_time_8 ani_bottom_top" onclick="toFwcx('wcn')">
                   <p>
                     <span>来沪未成年人独居房</span>
                     <i id="wcn">0</i>
                   </p>
                 </div>
-                <div class="bubble_item ani_auto ani_time_12 ani_top_bottom" onclick="toFwxx_xb('sfzh')">
+                <div class="bubble_item ani_auto ani_time_12 ani_top_bottom" onclick="toFwcx('sfzh')">
                   <p>
                     <span>无身份人员居住房</span>
                     <i id="wsf">0</i>
                   </p>
                 </div>
-                <div class="bubble_item ani_auto ani_time_8 ani_top_bottom" onclick="toFwxx_xb('kf')">
+                <div class="bubble_item ani_auto ani_time_8 ani_top_bottom" onclick="toFwcx('kf')">
                   <p>
                     <span>无人居住房</span>
                     <i id="kf">0</i>
                   </p>
                 </div>
-                <div class="bubble_item ani_auto ani_time_10 ani_bottom_top" onclick="toFwxx_xb('hh')">
+                <div class="bubble_item ani_auto ani_time_10 ani_bottom_top" onclick="toFwcx('hh')">
                   <p>
                     <span>来沪人员与本市户籍人员混居房</span>
                     <i id="hz">0</i>
@@ -725,7 +725,7 @@
 <script src="../js/countUp.js"></script>
 <script>
   var baseUrl = window.parent.document.getElementById("baseUrl").value;
-
+  var serviceUrl = locationPath();
 
   $(document).ready(function () {
 
@@ -741,13 +741,13 @@
       var code = data.code;
       if (code == 200) {
         var d = data.data;
-        countUp("wz",d.wz);
-        countUp("zz",d.zz);
-        countUp("qz",d.qz);
-        countUp("wcn",d.wcn);
-        countUp("wsf",d.wsf);
-        countUp("kf",d.kf);
-        countUp("hz",d.hz);
+        countUp("wz", d.wz);
+        countUp("zz", d.zz);
+        countUp("qz", d.qz);
+        countUp("wcn", d.wcn);
+        countUp("wsf", d.wsf);
+        countUp("kf", d.kf);
+        countUp("hz", d.hz);
       }
     })
   }
@@ -784,6 +784,10 @@
     window.history.go(-1);
   }
 
+
+  function toFwcx(fwbq) {
+    window.open(serviceUrl + "/#/analysis/fwcx?fwbq="+fwbq);
+  }
 
   function locationPath() {
     var href = window.document.location.href;

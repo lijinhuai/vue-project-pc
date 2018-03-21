@@ -11,7 +11,10 @@
             <Col span="8">
             <FormItem label="路名：" prop="lm">
               <div class="form-item">
-                <Input v-model="queryForm.lm"></Input>
+                <el-select v-model="queryForm.lm" filterable placeholder="请选择" style="width:100%">
+                  <el-option v-for="item in roadDictList" :key="item.index" :label="item.value" :value="item.key">
+                  </el-option>
+                </el-select>
               </div>
             </FormItem>
             </Col>
@@ -93,6 +96,7 @@ export default {
         pageSize: 10,
         total: 0
       },
+      roadDictList: [],
       queryForm: {},
       columns: [
         {
@@ -195,7 +199,11 @@ export default {
       this.search()
     }
   },
-  mounted () {},
+  mounted () {
+    if (localStorage.getItem('roadDictList')) {
+      this.roadDictList = JSON.parse(localStorage.getItem('roadDictList'))
+    }
+  },
   methods: {
     search () {
       fetchFwjbxxList(this.pageInfo, this.queryForm)
@@ -222,5 +230,12 @@ export default {
   margin-bottom: 5px;
 }
 </style>
+
+<style lang="less">
+.el-input__inner {
+  height: 32px;
+}
+</style>
+
 
 

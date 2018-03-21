@@ -16,7 +16,7 @@ const service = axios.create({
   timeout: 1000 * 30 // 请求超时时间
 })
 
-let appLoading// 是否需要显示laoding
+let appLoading // 是否需要显示laoding
 // request拦截器
 service.interceptors.request.use(config => {
   appLoading = !config.noAppLoading

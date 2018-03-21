@@ -16,15 +16,6 @@
             </FormItem>
             </Col>
             <Col span="8">
-            <FormItem label="民族：" prop="mzdm">
-              <div style="display:inline-block;width:180px;">
-                <Select v-model="queryForm.mzdm" style="width:180px" filterable clearable>
-                        <Option v-for="dict in dictList.mz" :key="dict.index" :value="dict.key">{{dict.value}}</Option>
-                      </Select>
-              </div>
-            </FormItem>
-            </Col>
-            <Col span="8">
             <FormItem label="公民身份证号：" prop="zjhm">
               <div style="display:inline-block;width:180px;">
                 <Input v-model="queryForm.zjhm"></Input>
@@ -32,9 +23,32 @@
             </FormItem>
             </Col>
             <Col span="8">
-            <FormItem label="户籍地址：" prop="hjdz">
+            <FormItem label="性别：" prop="xb">
               <div style="display:inline-block;width:180px;">
-                <Input v-model="queryForm.hjdz"></Input>
+                <Select v-model="queryForm.xb" style="width:180px" filterable clearable>
+                    <Option value="1">男</Option>
+                    <Option value="2">女</Option>
+                </Select>
+              </div>
+            </FormItem>
+            </Col>
+             <Col span="8">
+            <FormItem label="人员类别：" prop="syrklbdm">
+              <div style="display:inline-block;width:180px;">
+                <Select v-model="queryForm.syrklbdm" style="width:180px" filterable clearable>
+                    <Option value="01">户籍人员</Option>
+                    <Option value="02">来沪人员</Option>
+                    <Option value="03">境外人员</Option>
+                </Select>
+              </div>
+            </FormItem>
+            </Col>
+            <Col span="8">
+            <FormItem label="民族：" prop="mzdm">
+              <div style="display:inline-block;width:180px;">
+                <Select v-model="queryForm.mzdm" style="width:180px" filterable clearable>
+                            <Option v-for="dict in dictList.mz" :key="dict.index" :value="dict.key">{{dict.value}}</Option>
+                          </Select>
               </div>
             </FormItem>
             </Col>
@@ -42,8 +56,8 @@
             <FormItem label="人员标签：" prop="rybq">
               <div style="display:inline-block;width:180px;">
                 <Select v-model="queryForm.rybq" style="width:180px" filterable clearable>
-                        <Option v-for="dict in dictList.rybq" :key="dict.index" :value="dict.key">{{dict.value}}</Option>
-                  </Select>
+                            <Option v-for="dict in dictList.rybq" :key="dict.index" :value="dict.key">{{dict.value}}</Option>
+                      </Select>
               </div>
             </FormItem>
             </Col>
@@ -92,7 +106,9 @@ export default {
       queryForm: {
         mzdm: '',
         xm: '',
-        zjhm: ''
+        zjhm: '',
+        xb: '',
+        syrklbdm: ''
       },
       columns: [
         {
@@ -104,6 +120,11 @@ export default {
           title: '性别',
           key: 'xbhz',
           width: '80px'
+        },
+        {
+          title: '人员类别',
+          key: 'syrklbhz',
+          width: '100px'
         },
         {
           title: '民族',
@@ -164,21 +185,29 @@ export default {
   },
   mounted () {
     this.initDict()
-    let hjdz = this.$route.params.hjdz
-    if (hjdz) {
-      this.queryForm.hjdz = hjdz
-      this.yblsSyrkCx()
+  },
+  activated () {
+    let xb = this.$route.query.xb
+    let mzdm = this.$route.query.mzdm
+    let syrklbdm = this.$route.query.syrklbdm
+    if (xb) {
+      this.queryForm.xb = xb
     }
-    let id = this.$route.query.id
-    if (id === '1') {
-      this.MapSyrkCx()
-    } else {
+    if (mzdm) {
+      this.queryForm.mzdm = mzdm
+    }
+    if (syrklbdm) {
+      this.queryForm.syrklbdm = syrklbdm
+    }
+    if (xb || mzdm || syrklbdm) {
+      this.search()
     }
   },
   methods: {
     search () {
       fetchRjbxxList(this.pageInfo, this.queryForm)
         .then(response => {
+          debugger
           this.data = response.data.list
           this.pageInfo.total = response.data.total
         })

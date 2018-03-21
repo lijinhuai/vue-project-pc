@@ -626,13 +626,13 @@
           </div>
           <div class="xb_content">
             <div title="男" class="xb_boy_window">
-              <div class="xb_boy" onclick="toRyxx_xb('1')">
+              <div class="xb_boy" onclick="toRycx_xb('1')">
                 <img src="/static/image/male7.png" width="60%" style="margin: 20px 0 0 20px;" />
               </div>
               <div id="malesj" style="color: #6374ff;font-size: 24px;font-weight: 1000;margin: 10px 0 0 70px;">0</div>
             </div>
             <div title="女" class="xb_girl_window">
-              <div class="xb_girl">
+              <div class="xb_girl" onclick="toRycx_xb('2')">
                 <img src="/static/image/female.png" width="60%" style="margin: 20px 0 0 20px;" />
               </div>
               <div id="femalesj" style="color: #bf4ed9;font-size: 24px;font-weight: 1000;margin: 10px 0 0 70px;">0</div>
@@ -668,73 +668,73 @@
               <div class="bubble_min ani_auto ani_top_top ani_time_10"></div>
               <div class="bubble_min ani_auto ani_top_top ani_time_8"></div>
               <div class="bubble_list">
-                <div class="bubble_item ani_auto ani_time_10 ani_bottom_top">
+                <div class="bubble_item ani_auto ani_time_10 ani_bottom_top" onclick="toRycx_mz('13')">
                   <p>
                     <span>瑶族</span>
                     <i id="yz">0</i>
                   </p>
                 </div>
-                <div class="bubble_item ani_auto ani_time_8 ani_bottom_top">
+                <div class="bubble_item ani_auto ani_time_8 ani_bottom_top" onclick="toRycx_mz('02')">
                   <p>
                     <span>蒙古族</span>
                     <i id="mgz">0</i>
                   </p>
                 </div>
-                <div class="bubble_item ani_auto ani_time_12 ani_top_bottom">
+                <div class="bubble_item ani_auto ani_time_12 ani_top_bottom" onclick="toRycx_mz('25')">
                   <p>
                     <span>水族</span>
                     <i id="sz">0</i>
                   </p>
                 </div>
-                <div class="bubble_item ani_auto ani_time_8 ani_top_bottom">
+                <div class="bubble_item ani_auto ani_time_8 ani_top_bottom" onclick="toRycx_mz('03')">
                   <p>
                     <span>回族</span>
                     <i id="hzsj">0</i>
                   </p>
                 </div>
-                <div class="bubble_item ani_auto ani_time_10 ani_bottom_top">
+                <div class="bubble_item ani_auto ani_time_10 ani_bottom_top" onclick="toRycx_mz('10')">
                   <p>
                     <span>朝鲜族</span>
                     <i id="cxz">0</i>
                   </p>
                 </div>
-                <div class="bubble_item ani_auto ani_time_12 ani_top_bottom">
+                <div class="bubble_item ani_auto ani_time_12 ani_top_bottom" onclick="toRycx_mz('15')">
                   <p>
                     <span>土家族</span>
                     <i id="tjz">0</i>
                   </p>
                 </div>
-                <div class="bubble_item ani_auto ani_time_8 ani_bottom_top">
+                <div class="bubble_item ani_auto ani_time_8 ani_bottom_top" onclick="toRycx_mz('11')">
                   <p>
                     <span>满族</span>
                     <i id="mz">0</i>
                   </p>
                 </div>
-                <div class="bubble_item ani_auto ani_time_12 ani_top_bottom">
+                <div class="bubble_item ani_auto ani_time_12 ani_top_bottom" onclick="toRycx_mz('06')">
                   <p>
                     <span>苗族</span>
                     <i id="mzsj">0</i>
                   </p>
                 </div>
-                <div class="bubble_item ani_auto ani_time_10 ani_bottom_top">
+                <div class="bubble_item ani_auto ani_time_10 ani_bottom_top" onclick="toRycx_mz('08')">
                   <p>
                     <span>壮族</span>
                     <i id="zz">0</i>
                   </p>
                 </div>
-                <div class="bubble_item ani_auto ani_time_12 ani_top_bottom">
+                <div class="bubble_item ani_auto ani_time_12 ani_top_bottom" onclick="toRycx_mz('33')">
                   <p>
                     <span>羌族</span>
                     <i id="qz">0</i>
                   </p>
                 </div>
-                <div class="bubble_item ani_auto ani_time_8 ani_top_bottom">
+                <div class="bubble_item ani_auto ani_time_8 ani_top_bottom" onclick="toRycx_mz('12')">
                   <p>
                     <span>侗族</span>
                     <i id="dz">0</i>
                   </p>
                 </div>
-                <div class="bubble_item ani_auto ani_time_10 ani_top_bottom">
+                <div class="bubble_item ani_auto ani_time_10 ani_top_bottom" onclick="toRycx_mz('01')">
                   <p>
                     <span>汉族</span>
                     <i id="hz">0</i>
@@ -764,7 +764,7 @@
 <script src="../js/countUp.js"></script>
 <script>
   var baseUrl = window.parent.document.getElementById("baseUrl").value;
-
+  var serviceUrl = locationPath();
 
   $(document).ready(function () {
     // 页面初始数据
@@ -1007,14 +1007,14 @@
     window.history.go(-1);
   }
 
-  function toRyxx_xb(num) {
+  function toRycx_xb(xb) {
     var path = locationPath();
-    if (num == '1') {
-      parent.location.href = path + "/#/analysis/rycx?id=1"
-    }
-    if (num == '2') {
-      parent.location.href = path + "/#/analysis/rycx?1"
-    }
+    window.open(serviceUrl + "/#/analysis/rycx?xb="+xb);
+  }
+
+  function toRycx_mz(mzdm) {
+    var path = locationPath();
+    window.open(serviceUrl + "/#/analysis/rycx?mzdm="+mzdm);
 
   }
 
