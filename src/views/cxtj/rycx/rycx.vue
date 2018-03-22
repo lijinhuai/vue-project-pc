@@ -207,7 +207,6 @@ export default {
     search () {
       fetchRjbxxList(this.pageInfo, this.queryForm)
         .then(response => {
-          debugger
           this.data = response.data.list
           this.pageInfo.total = response.data.total
         })
