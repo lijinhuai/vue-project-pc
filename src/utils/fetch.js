@@ -29,7 +29,10 @@ service.interceptors.request.use(config => {
   }
   return config
 }, error => {
-  store.commit('appLoading', false)
+  appLoading = !error.config.noAppLoading
+  if (appLoading) { // 判断否需要显示loading界面
+    store.commit('appLoading', false)
+  }
   // Do something with request error
   console.log(error) // for debug
   Promise.reject(error)
@@ -39,7 +42,10 @@ service.interceptors.request.use(config => {
 service.interceptors.response.use(
   // response => response,
   response => {
-    store.commit('appLoading', false)
+    appLoading = !response.config.noAppLoading
+    if (appLoading) { // 判断否需要显示loading界面
+      store.commit('appLoading', false)
+    }
     const res = response.data
     if (response.status === 200) {
       if (res.code) { // 返回结构包含code，是以JsonResult封装的形式返回
@@ -57,7 +63,10 @@ service.interceptors.response.use(
     }
   },
   error => {
-    store.commit('appLoading', false)
+    appLoading = !error.config.noAppLoading
+    if (appLoading) { // 判断否需要显示loading界面
+      store.commit('appLoading', false)
+    }
     console.log('err' + error) // for debug
     const res = error.response
     Message.error(error.message)

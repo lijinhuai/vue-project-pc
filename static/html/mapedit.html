@@ -648,6 +648,7 @@
             clearAdd();
           },
           error: function (XMLHttpRequest, textStatus, errorThrown) {
+            editing = false
             var status = XMLHttpRequest.status;
             if (status == 403) {
               var loc = locationPath();
@@ -1075,7 +1076,6 @@
               polygon.editable(true);
             }
           }
-
           $('#edit_areaId').val(dutyArea.areaId);
           $('#edit_owner').val(dutyArea.owner);
           $('#edit_areaName').val(dutyArea.areaName)
