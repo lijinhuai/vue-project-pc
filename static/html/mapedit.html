@@ -16,6 +16,7 @@
   <script src="../js/jquery.min.js"></script>
   <script src="../js/js.cookie-2.2.0.min.js"></script>
   <script src="../js/jquery.base64.js"></script>
+  <script src="../js/layer/layer.js"></script>
 
   <style>
     .head-container {
@@ -642,7 +643,9 @@
           success: function (data) {
             $('.loading').hide();
             editing = false
-            alert(data.data);
+            layer.msg(data.data, {
+              icon: 1
+            });
             queryAreaCount();
             setSubTab('subdetail', 'face', 1)
             clearAdd();
@@ -756,7 +759,9 @@
           url: baseUrl + "/dutyArea/areaEdit",
           success: function (data) {
             $('.loading').hide();
-            alert(data.data);
+            layer.msg(data.data, {
+              icon: 1
+            });
             queryAreaCount();
             setSubTab('subdetail', 'face', 1)
           },
@@ -843,9 +848,18 @@
               }
             }
             nextDevelDutyArea = ''
+            queryAreaList(pageNum)
           }
         })
+      } else {
+        queryAreaList(pageNum);
       }
+
+    }
+
+    function queryAreaList(pageNum) {
+      var areaName = $("#xqName").val();
+      var deptId = $("#dept_code").val();
       $.ajax({
         headers: {
           Authorization: Cookies.get("Admin-Token")
@@ -887,7 +901,8 @@
             if (areaList[i].sjjgbm != '310116000000') {
               html += "<td><a href=\"javascript:void(0);\" onclick='editDutyArea(\"" + areaList[i].areaId +
                 "\")'>修改</a></td>";
-              html += "<td><a href=\"javascript:void(0);\" onclick='deleteDutyArea(\"" + areaList[i].areaId +
+              html += "<td><a href=\"javascript:void(0);\" style=\"color:red\" onclick='deleteDutyArea(\"" +
+                areaList[i].areaId +
                 "\")'>删除</a></td>";
               html += "</tr>";
             }
@@ -926,7 +941,7 @@
 
     //随机颜色
     function random() {
-      return '#'+('00000'+(Math.random()*0x1000000<<0).toString(16)).substr(-6);
+      return '#' + ('00000' + (Math.random() * 0x1000000 << 0).toString(16)).substr(-6);
     }
 
     //添加责任区
@@ -997,64 +1012,34 @@
 
     //删除责任区
     function deleteDutyArea(areaId) {
-      $('.loading').show();
-      $.ajax({
-        type: "post",
-        headers: {
-          Authorization: Cookies.get("Admin-Token")
-        },
-        url: baseUrl + "/dutyArea/deleteDutyArea",
-        data: {
-          areaId: areaId
-        },
-        success: function () {
-          $('.loading').hide();
-          queryAreaCount();
-        }
-      })
-      // art.dialog({
-      //   width: 350,
-      //   height: 80,
-      //   title: "提示",
-      //   opacity: 0.3,
-      //   lock: true,
-      //   content: "您确定要删除吗？",
-      //   okValue: '确定',
-      //   ok: function () {
-      //     $.ajax({
-      //       type: "post",
-      //       headers: {
-      //         Authorization: Cookies.get("Admin-Token")
-      //       },
-      //       url: baseUrl + "/dutyArea/deleteDutyArea",
-      //       data: {
-      //         areaId: areaId
-      //       },
-      //       success: function () {
-      //         queryAreaCount();
-      //       }
-      //     })
-      //   },
-      //   cancelValue: '取消',
-      //   cancel: true
-      // });
+      var layer_index = layer.confirm('确认删除？', {
+        btn: ['确认', '取消'] //按钮
+      }, function () {
+        layer.close(layer_index);
+        $('.loading').show();
+        $.ajax({
+          type: "post",
+          headers: {
+            Authorization: Cookies.get("Admin-Token")
+          },
+          url: baseUrl + "/dutyArea/deleteDutyArea",
+          data: {
+            areaId: areaId
+          },
+          success: function () {
+            $('.loading').hide();
+            queryAreaCount();
+          }
+        })
+        return;
+      }, function () {
+        return;
+      });
     }
 
-    var editing;
+    var editing = false;
     //编辑责任区
     function editDutyArea(areaId) {
-      if (editing) {
-        var owner = $('#edit_depts').val();
-        var overlays = map.getOverlayLayer().getOverlays();
-        for (var i in overlays) {
-          if (overlays[i].id == 'xq' + areaId) {
-            var polygon = overlays[i];
-            editing = false;
-            polygon.editable(false);
-          }
-        }
-      }
-
       $('.loading').show();
       $.ajax({
         type: "post",
@@ -1073,7 +1058,7 @@
             if (overlays[i].id == 'xq' + dutyArea.areaId) {
               var polygon = overlays[i];
               editing = true;
-              polygon.editable(true);
+              polygon.editable(true)
             }
           }
           $('#edit_areaId').val(dutyArea.areaId);
@@ -1171,6 +1156,12 @@
 
     }
 
+    function addReQuery() {
+      reSetArea()
+      setSubTab('subdetail', 'face', 1)
+      queryAreaCount();
+    }
+
     // 返回首页
     function openHome() {
       window.parent.location.href = serviceUrl + "#/home";
@@ -1225,7 +1216,7 @@
             <div class="detail-sub-tab-container detail-sub-tab-border">
               <div class="detail-sub-menu-box ">
                 <ul>
-                  <li class="subdetail_face hover" id="subdetail_face_1" onclick="setSubTab('subdetail', 'face', 1)">
+                  <li class="subdetail_face hover" id="subdetail_face_1">
                     查询
                   </li>
                   <li class="subdetail_face" id="subdetail_face_2">
@@ -1316,6 +1307,7 @@
                         <input type="hidden" id="area_str" name="areaStr" value="">
                         <input class="btn" type="button" value="提交" onclick="submitArea()" />
                         <input type="button" class="btn" value="重置" onclick="reSetArea()" />
+                        <input type="button" class="btn" value="返回" onclick="addReQuery()" />
                       </td>
                     </tr>
                   </table>
