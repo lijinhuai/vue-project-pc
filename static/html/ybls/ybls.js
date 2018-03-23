@@ -1,22 +1,22 @@
 var baseUrl = window.parent.document.getElementById("baseUrl").value;
-var deptCode = window.parent.document.getElementById("deptCode").value;
+var deptCode;
 var picBaseUrl = "http://116.228.125.236:18181/";
 var serviceUrl = locationPath();
+var token = Cookies.get("Admin-Token");
 
 $(document).ready(function () {
 
   // 页面初始数据
   initData();
 
+  deptCode = Cookies.get('deptCode');
   if (deptCode == '310116000000') {
     $(".dept-box a").bind("click", function () {
       loadLocations(this);
     })
   }
-
 });
 
-var token = Cookies.get("Admin-Token");
 
 // 页面初始化需要加载的数据
 function initData() {
@@ -270,7 +270,7 @@ function addMarkerClickEvt(type, origin, marker) {
     content = content + "<div class=\"dynamic-content-info\">"
     var lon = '' + origin.lon;
     var lat = '' + origin.lat;
-    content = content + "消防编号：" + origin.xfbh + "<br/>样式："+origin.ys+"&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;径口直径："+origin.jkzj+"<br>中队："+origin.zd+"<br/>坐标：" + lon.substr(
+    content = content + "消防编号：" + origin.xfbh + "<br/>样式：" + origin.ys + "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;径口直径：" + origin.jkzj + "<br>中队：" + origin.zd + "<br/>坐标：" + lon.substr(
         0, 10) +
       "，" + lat.substr(0, 9);
     content = content + "</div>"
@@ -295,7 +295,7 @@ function addMarkerClickEvt(type, origin, marker) {
     content = content + "<div class=\"dynamic-content-info\">"
     var lon = '' + origin.lon;
     var lat = '' + origin.lat;
-    content = content + "银行名称：" + origin.yhmc + "<br/>联系人："+origin.lxr+"<br>联系电话："+origin.lxdh+"<br/>坐标：" + lon.substr(
+    content = content + "银行名称：" + origin.yhmc + "<br/>联系人：" + origin.lxr + "<br>联系电话：" + origin.lxdh + "<br/>坐标：" + lon.substr(
         0, 10) +
       "，" + lat.substr(0, 9);
     content = content + "</div>"

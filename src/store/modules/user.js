@@ -85,6 +85,7 @@ const user = {
       return new Promise((resolve, reject) => {
         getUserInfo().then(response => {
           const userInfo = response.data
+          Cookies.set('deptCode', userInfo.deptCode)
           if (userInfo.roles && userInfo.roles.length > 0) {
             commit('SET_ROLES', userInfo.roles)
             commit(

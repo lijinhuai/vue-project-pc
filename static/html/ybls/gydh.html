@@ -50,7 +50,7 @@
           countUp('total', data.data);
         }
       })
-
+      deptCode = Cookies.get('deptCode');
       if (deptCode == '310116000000') {
         $('#310116560000').parent().parent().addClass("on");
         loadLoactionsByPcsbm('310116560000');
