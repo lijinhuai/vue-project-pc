@@ -375,13 +375,13 @@ export const singlePageRouter = [{
   component: _import('ybls/house')
 },
 {
-  path: '/ybls_xfs',
-  name: 'ybls_xfs',
+  path: '/ybls_afss',
+  name: 'ybls_afss',
   meta: {
     title: '实有安防设施',
     privilege: 'YBLS'
   },
-  component: _import('ybls/xfs')
+  component: _import('ybls/afss')
 }, {
   path: '/ybls_atm',
   name: 'ybls_atm',

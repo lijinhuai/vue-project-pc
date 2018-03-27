@@ -331,6 +331,33 @@ function addMarkerClickEvt(type, origin, marker) {
     content = content + "</div>";
   }
 
+  if (type == 'camera') {
+    var content = "<div class=\"dynamic-container\" style=\width:240px;\">"
+    content = content + "<div class=\"dynamic-title\">"
+    content = content + "<div class=\"dynamic-title-content\" style=\"padding:0px 10px 6px\">";
+    content = content + "监控点位";
+    content = content + "</div>";
+    content = content + "<span class=\"dynamic-title-close\" onclick=\"closeInfoWindow()\">";
+    content = content + "<i class=\"iconfont\">&#xe603;</i>"
+    content = content + "</span>";
+    content = content + "</div>";
+    content = content + "<div class=\"dynamic-content\">";
+    content = content + "<div class=\"dynamic-content-info\">"
+    var lon = '' + origin.lon;
+    var lat = '' + origin.lat;
+    content = content + "监控点编号：" + origin.jkdbh + "<br/>"
+    content = content + "监控点民称：" + origin.jkdmc + "<br/>" +
+      "坐标：" + lon.substr(
+        0, 10) +
+      "，" + lat.substr(0, 9);
+    content = content + "</div>"
+    content = content + "</div>";
+    // content = content + "<div class=\"infowindow-marker\">";
+    // content = content + "<i class=\"iconfont\">&#xe682;</i>";
+    // content = content + "</div>";
+    content = content + "</div>";
+  }
+
   // 图标点击事件
   if (content != "") {
     marker.addEventListener(IMAP.Constants.CLICK, function (evt) {
