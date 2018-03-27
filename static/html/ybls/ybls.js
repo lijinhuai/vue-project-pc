@@ -346,7 +346,7 @@ function addMarkerClickEvt(type, origin, marker) {
     var lon = '' + origin.lon;
     var lat = '' + origin.lat;
     content = content + "监控点编号：" + origin.jkdbh + "<br/>"
-    content = content + "监控点民称：" + origin.jkdmc + "<br/>" +
+    content = content + "监控点名称：" + origin.jkdmc + "<br/>" +
       "坐标：" + lon.substr(
         0, 10) +
       "，" + lat.substr(0, 9);
