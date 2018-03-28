@@ -124,8 +124,8 @@
         </ul>
       </div>
       <div v-show="company.zdmb=='1'" class="home-ranking-list" style="width: 570px;height:90vh; margin-left: 420px;">
-        <h4>
-          <label>重点信息</label>
+        <h4 style="background: #ed3f14;">
+          <label>{{company.dwzdxx.lb}}</label>
         </h4>
         <ul class="data-contents-height" style=" padding: 0px 20px;">
           <li>
@@ -148,10 +148,10 @@
             <label style="width:110px;display:inline-block;">保安部门负责人</label>
             {{company.dwzdxx.bafzr}}
           </li>
-          <li>
+          <!-- <li>
             <label style="width:110px;display:inline-block;">重点类别</label>
             {{company.dwzdxx.lb}}
-          </li>
+          </li> -->
           <li>
             <label style="width:110px;display:inline-block;">地理位置</label>
             {{company.dwzdxx.dlwz}}
