@@ -144,9 +144,11 @@ const user = {
       return new Promise(resolve => {
         commit('SET_TOKEN', '')
         commit('SET_ROLES', [])
+        commit('clearOpenedSubmenu')
         removeToken()
         Cookies.remove('user')
         Cookies.remove('password')
+        Cookies.remove('deptCode')
         // 恢复默认样式
         let themeLink = document.querySelector('link[name="theme"]')
         themeLink.setAttribute('href', '')

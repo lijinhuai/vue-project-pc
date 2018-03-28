@@ -46,8 +46,8 @@ service.interceptors.response.use(
     if (appLoading) { // 判断否需要显示loading界面
       store.commit('appLoading', false)
     }
-    const res = response.data
     if (response.status === 200) {
+      const res = response.data
       if (res.code) { // 返回结构包含code，是以JsonResult封装的形式返回
         if (res.code === 200) {
           return response.data
@@ -78,7 +78,6 @@ service.interceptors.response.use(
         type: 'warning'
       }).then(() => {
         store.dispatch('FedLogOut').then(() => {
-          store.commit('clearOpenedSubmenu')
           // this.$router.push({
           //   name: 'login'
           // })

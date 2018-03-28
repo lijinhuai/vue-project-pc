@@ -140,7 +140,6 @@ export default {
         // 退出登录
         // this.$store.commit('logout', this)
         this.$store.dispatch('FedLogOut').then(() => {
-          this.$store.commit('clearOpenedSubmenu')
           this.$router.push({
             name: 'login'
           })
