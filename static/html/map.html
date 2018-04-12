@@ -885,15 +885,36 @@
       border-top: 1px solid tomato;
     }
 
+    .con_door .item_avatar {
+      width: 80px;
+      height: 90px;
+      display: block;
+      float: left;
+    }
+
+    .con_door .item_avatar img {
+      width: 80px;
+      height: 90px;
+      padding: 0 5px;
+    }
+
+    #con_detail_2 .con_door .con_door_item {
+      display: flex;
+    }
+
     #con_detail_2 .con_door .con_door_item .item_info {
-      padding: 0px 0px 20px 20px;
+      padding: 0px 0px 15px 10px;
     }
 
     #con_detail_2 .con_door .con_door_item div {
-      text-align: left;
-      line-height: 1.5rem;
+      display: block;
+      color: #b2bbc1;
       font-size: 14px;
-      color: #b2bbc1
+      line-height: 1.4rem;
+    }
+
+    #con_detail_2 .con_door .con_door_item .item_info div {
+      text-align: left;
     }
 
     #con_detail_2 .con_door::-webkit-scrollbar {
@@ -3364,6 +3385,33 @@
       });
     }
 
+
+    //显示开门数据
+    function showDoorDialog(src) {
+      var content = "";
+      content = content + "<div class=\"dialog-vehicle-pass-container\">";
+      content = content + "<img src=\"" + src +
+        "\" onerror=\"this.src='/static/image/default_nophoto.png'\"></img>";
+      content = content + "</div>";
+
+      if (_layer_index) {
+        layer.close(_layer_index);
+      }
+
+      _layer_index = layer.open({
+        "type": 1,
+        "shade": false,
+        "title": false,
+        "area": ['768px', '432px'],
+        "content": content,
+        "moveType": 1,
+        "skin": 'layer-custom',
+        "cancel": function () {
+          layer.close(_layer_index);
+        }
+      });
+    }
+
     // 展示抓拍信息对话框
     function assembleFaceMsgDialogContent(message) {
       var content = "";
@@ -3420,17 +3468,23 @@
 
         var doorHtml = "";
         doorHtml = doorHtml + "<div id=\"con_door_item_" + messages[i].id + "\" class=\"con_door_item\">";
-        doorHtml = doorHtml + " <div class=\"item-content\">";
+        // doorHtml = doorHtml + " <div class=\"item-content\">";
+        doorHtml = doorHtml + " <div class=\"item_avatar\" onclick=\"showDoorDialog('https://3thapi.lookdoor.cn/" +
+          messages[i].photoSmall +
+          "');\">";
+        doorHtml = doorHtml + "   <img src=\"" + "https://3thapi.lookdoor.cn/" + messages[i].photoSmall +
+          ".jpg\" onerror=\"this.src='/static/image/default_nophoto.png'\"></img>";
+        doorHtml = doorHtml + " </div>";
         doorHtml = doorHtml + "   <div class=\"item_info\">";
-        doorHtml = doorHtml + "     <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;姓名：" + messages[i].name +
+        doorHtml = doorHtml + "     <div>" + messages[i].name +
           "</div>";
         doorHtml = doorHtml +
-          "     <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;地点：<i class=\"iconfont\">&#xe651;</i>" + messages[i].address +
+          "     <div><i class=\"iconfont\">&#xe651;</i>" + messages[i].address +
           "</div>";
-        doorHtml = doorHtml + "     <div>刷卡时间：" + messages[i].createdDate + "</div>";
-        doorHtml = doorHtml + "     <div>手机号码：" + messages[i].phone + "</div>";
+        doorHtml = doorHtml + "     <div>" + messages[i].createdDate + "</div>";
+        doorHtml = doorHtml + "     <div>" + messages[i].phone + "&nbsp;</div>";
         doorHtml = doorHtml + "   </div>";
-        doorHtml = doorHtml + "  </div>";
+        // doorHtml = doorHtml + "  </div>";
         doorHtml = doorHtml + "</div>";
 
         // 添加增量数据
@@ -3456,16 +3510,23 @@
       for (var i = 0; i < messages.length; i++) {
 
         doorHtml = doorHtml + "<div id=\"con_door_item_" + messages[i].id + "\" class=\"con_door_item\">";
-        doorHtml = doorHtml + " <div class=\"item-content\">";
+
+        // doorHtml = doorHtml + " <div class=\"item-content\">";
+        doorHtml = doorHtml + " <div class=\"item_avatar\" onclick=\"showDoorDialog('https://3thapi.lookdoor.cn/" +
+          messages[i].photoSmall +
+          "');\">";
+        doorHtml = doorHtml + "   <img src=\"" + "https://3thapi.lookdoor.cn/" + messages[i].photoSmall +
+          "\" onerror=\"this.src='/static/image/default_nophoto.png'\"></img>";
+        doorHtml = doorHtml + " </div>";
         doorHtml = doorHtml + "   <div class=\"item_info\">";
-        doorHtml = doorHtml + "     <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;姓名：" + messages[i].name +
+        doorHtml = doorHtml + "     <div>" + messages[i].name +
           "</div>";
         doorHtml = doorHtml +
-          "     <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;地点：<i class=\"iconfont\">&#xe651;</i>" + messages[i].address +
+          "     <div><i class=\"iconfont\">&#xe651;</i>" + messages[i].address +
           "</div>";
-        doorHtml = doorHtml + "     <div>刷卡时间：" + messages[i].createdDate + "</div>";
-        doorHtml = doorHtml + "     <div>手机号码：" + messages[i].phone + "</div>";
-        doorHtml = doorHtml + "   </div>";
+        doorHtml = doorHtml + "     <div>" + messages[i].createdDate + "</div>";
+        doorHtml = doorHtml + "     <div>" + messages[i].phone + "&nbsp;</div>";
+        // doorHtml = doorHtml + "   </div>";
         doorHtml = doorHtml + "  </div>";
         doorHtml = doorHtml + "</div>";
       }

@@ -58,9 +58,11 @@
       deptCode = Cookies.get('deptCode');
       if (deptCode == '310116000000') {
         $('#310116560000').parent().parent().addClass("on");
+        queryAreaList('310116560000')
         loadLoactionsByPcsbm('310116560000');
       } else {
         $('#' + deptCode).parent().parent().addClass("on");
+        queryAreaList(deptCode)
         loadLoactionsByPcsbm(deptCode);
       }
 

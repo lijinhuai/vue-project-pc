@@ -12,6 +12,8 @@ $(document).ready(function () {
   deptCode = Cookies.get('deptCode');
   if (deptCode == '310116000000') {
     $(".dept-box a").bind("click", function () {
+      var pcsbm = $(this).children('.dept-num').attr("id");
+      queryAreaList(pcsbm)
       loadLocations(this);
     })
   }
@@ -450,4 +452,96 @@ function countUp(id, end) {
   };
   var obj = new CountUp(id, oldCnt, end, 0, 2.5, options);
   obj.start();
+}
+
+
+
+
+function queryAreaList(owner) {
+  $.ajax({
+    headers: {
+      Authorization: Cookies.get("Admin-Token")
+    },
+    type: "post",
+    url: baseUrl + "/dutyArea/queryAreaList",
+    data: {
+      "deptId": owner,
+      "parentCode": owner
+    },
+    success: function (data) {
+      var areaList = data.data
+      for (var i = 0; i < areaList.length; i++) {
+        var color = random();
+        if (areaList[i].areaStr != null && areaList[i].areaStr != "") {
+          addPolygon(areaList[i], color);
+        }
+      }
+    },
+    error: function () {}
+  });
+}
+
+
+//添加责任区
+function addPolygon(dutyArea, color) {
+  var lnglatarr = [];
+  var poiots = dutyArea.areaStr.split(",");
+  for (var i = 0; i < poiots.length; i++) {
+    lnglatarr.push(new IMAP.LngLat(poiots[i], poiots[i + 1]));
+    i = i + 1;
+  }
+  var pgo = new IMAP.PolygonOptions();
+  pgo.fillColor = color;
+  pgo.fillOpacity = "0.2";
+  pgo.strokeColor = color;
+  pgo.strokeOpacity = "1";
+  pgo.strokeWeight = "2";
+  pgo.strokeStyle = IMAP.Constants.OVERLAY_LINE_DASHED;
+  var polygon = new IMAP.Polygon(lnglatarr, pgo);
+  polygon.id = "xq" + dutyArea.areaId;
+  polygon.addEventListener(IMAP.Constants.CLICK, function (e) {
+    if (editing) {
+      return;
+    }
+    zoomArea(dutyArea.areaId);
+  });
+  map.getOverlayLayer().addOverlay(polygon, false);
+  var polygoncenter = polygon.getBounds().getCenter();
+  var polygoninfomation = dutyArea.areaName;
+  var labelInformation = [
+    [polygoncenter, polygoninfomation]
+  ]
+  createLabel(labelInformation);
+  return polygon;
+}
+
+
+//随机颜色
+function random() {
+  return '#' + ('00000' + (Math.random() * 0x1000000 << 0).toString(16)).substr(-6);
+}
+
+
+//按照区域放大地图
+function zoomArea(areaId) {
+  var id = "xq" + areaId;
+  var overlays = map.getOverlayLayer().getOverlays();
+  for (var i in overlays) {
+    if (overlays[i].id == id) {
+      map.setBestMap(overlays[i].getPath());
+    }
+  }
+}
+
+var labels = [];
+//创建label
+function createLabel(labelInformation) {
+  for (var i = 0, len = labelInformation.length; i < len; i++) {
+    var label = new IMAP.Label(labelInformation[i][1], {
+      "position": labelInformation[i][0],
+      "anchor": IMAP.Constants.CENTER
+    });
+    map.getOverlayLayer().addOverlay(label);
+    labels.push(label);
+  }
 }
