@@ -120,37 +120,37 @@ export default {
         {
           title: '居村委名称',
           key: 'jcwmc',
-          width: '120px'
+          width: 120
         },
         {
           title: '派出所',
           key: 'pcsmc',
-          width: '120px'
+          width: 120
         },
         {
           title: '房主姓名',
           key: 'fzxm',
-          width: '120px'
+          width: 120
         },
         {
           title: '房主联系电话',
           key: 'fzlxdh',
-          width: '140px'
+          width: 140
         },
         {
           title: '房主证件号码',
           key: 'fzzjhm',
-          width: '180px'
+          width: 180
         },
         {
           title: '居住房屋类型',
           key: 'jzfwlxText',
-          width: '140px'
+          width: 140
         },
         {
           title: '操作',
           key: 'action',
-          width: '120px',
+          width: 120
           render: (h, params) => {
             const _self = this
             return h(

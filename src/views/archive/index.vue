@@ -560,7 +560,7 @@ export default {
         {
           title: '人脸图',
           key: 'action',
-          width: '80px',
+          width: 80,
           render: (h, params) => {
             return h(FaceImage, {
               props: {
@@ -591,7 +591,7 @@ export default {
         {
           title: '姓名',
           key: 'hitXm',
-          width: '100px'
+          width: 100
         }
       ]
     }

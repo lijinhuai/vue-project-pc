@@ -154,7 +154,7 @@ export default {
         {
           title: '时间',
           key: 'tm',
-          width: '180px;'
+          width: 180
         },
         {
           title: '小区名称',

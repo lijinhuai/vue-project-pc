@@ -61,7 +61,7 @@ export default {
         {
           title: '图片',
           key: 'action',
-          width: '80px',
+          width: 80,
           render: (h, params) => {
             if (params.row.imageCnt === 0) {
               return h(
@@ -90,7 +90,7 @@ export default {
         {
           title: '单位简称',
           key: 'dwjc',
-          width: '130px'
+          width: 130
         },
         {
           title: '单位名称',
@@ -103,7 +103,7 @@ export default {
         {
           title: '法人代表',
           key: 'frdb',
-          width: '120px'
+          width: 120
         },
         {
           title: '法人证件号码',
@@ -112,17 +112,17 @@ export default {
         {
           title: '治安责任人',
           key: 'zazrr',
-          width: '120px'
+          width: 120
         },
         {
           title: '治安责任人联系电话',
           key: 'zazrrlxdh',
-          width: '170px'
+          width: 170
         },
         {
           title: '详情',
           key: 'action',
-          width: '120px',
+          width: 120,
           render: (h, params) => {
             return h(
               'Button',

@@ -152,17 +152,17 @@ export default {
         {
           title: '所属社区',
           key: 'jcwmc',
-          width: '120px'
+          width: 120
         },
         {
           title: '所属责任区',
           key: 'pcsmc',
-          width: '120px'
+          width: 120
         },
         {
           title: '操作',
           key: 'action',
-          width: '120px',
+          width: 120,
           render: (h, params) => {
             const _self = this
             return h(
