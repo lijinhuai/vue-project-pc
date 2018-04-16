@@ -16,6 +16,9 @@ export default {
   components: {
     ECharts
   },
+  props: {
+    data: Object
+  },
   methods: {
     showChart () {
       this.option = {
@@ -31,20 +34,7 @@ export default {
         xAxis: {
           type: 'category',
           boundaryGap: false,
-          data: [
-            '1月',
-            '2月',
-            '3月',
-            '4月',
-            '5月',
-            '6月',
-            '7月',
-            '8月',
-            '9月',
-            '10月',
-            '11月',
-            '12月'
-          ]
+          data: this.data.labels
         },
         yAxis: {
           type: 'value',

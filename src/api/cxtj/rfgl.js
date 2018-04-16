@@ -30,3 +30,17 @@ export function fetchRfglRHisPerson (params) {
     method: 'get'
   })
 }
+
+export function fetchDlsj (params) {
+  return fetch({
+    url: '/rfgl/tjDlsj/' + params,
+    method: 'get'
+  })
+}
+
+export function fetchZlssj (params) {
+  return fetch({
+    url: '/rfgl/tjZlssj/' + params,
+    method: 'get'
+  })
+}

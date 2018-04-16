@@ -114,27 +114,27 @@ export default {
         {
           title: '姓名',
           key: 'xm',
-          width: '140px'
+          width: 140
         },
         {
           title: '性别',
           key: 'xbhz',
-          width: '80px'
+          width: 80
         },
         {
           title: '人员类别',
           key: 'syrklbhz',
-          width: '100px'
+          width: 100
         },
         {
           title: '民族',
           key: 'mzhz',
-          width: '100px'
+          width: 100
         },
         {
           title: '出生日期',
           key: 'csrq',
-          width: '100px'
+          width: 100
         },
         {
           title: '证件号码',
@@ -151,7 +151,7 @@ export default {
         {
           title: '操作',
           key: 'action',
-          width: '120px',
+          width: 120,
           render: (h, params) => {
             const _self = this
             return h(

@@ -76,7 +76,7 @@
           <div class="body-head">{{ house.address }}</div>
           <div class="floor" v-for="floor in house.floors" :key="floor.index">
             <template v-if="floor.rooms.length>0">
-                                    <div class="room room_info" v-for="room in floor.rooms" :key="room.index" @click="showRoomDetail(room.dztzm)" :class="{room_active:room.cxfwbj==1,
+                                    <div class="room room_info" v-for="room in floor.rooms" :key="room.index" @click="showRoomDetail(room.dztzm,room.fwbm)" :class="{room_active:room.cxfwbj==1,
                                                     room_rhyz:room.flagRhfl==0,
                                                     room_rhfl:room.flagRhfl==1,
                                                     room_rhyz_czfw:room.flagRhfl==0 && room.jzfwlx=='01',
@@ -112,11 +112,11 @@
             </Tab-pane>
             <Tab-pane label="电力数据" name="dlsj">
               <div style="height:350px;">
-                <Dlsj ref="dlsj"></Dlsj>
+                <Dlsj ref="dlsj" :data="room.dlsjData"></Dlsj>
               </div>
             </Tab-pane>
             <Tab-pane label="用水数据" name="yssj">
-              <Yssj ref="yssj"></Yssj>
+              <Yssj ref="yssj" :data="room.zlssjData"></Yssj>
             </Tab-pane>
           </Tabs>
           <div slot="footer">
@@ -134,7 +134,9 @@ import {
   fetchRfglRoom,
   fetchRfglHouse,
   fetchRfglRPerson,
-  fetchRfglRHisPerson
+  fetchRfglRHisPerson,
+  fetchZlssj,
+  fetchDlsj
 } from '@/api/cxtj/rfgl'
 
 import PersonPhoto from './components/PersonPhoto.vue'
@@ -167,7 +169,7 @@ export default {
         {
           title: '序号',
           key: 'xh',
-          width: '80px'
+          width: 80
         },
         {
           title: '地址',
@@ -194,7 +196,7 @@ export default {
         {
           title: '操作',
           key: 'actionxh',
-          width: '80px',
+          width: 80,
           render: (h, params) => {
             const _self = this
             return h(
@@ -206,7 +208,7 @@ export default {
                 },
                 on: {
                   click: function () {
-                    _self.showRoomDetail(params.row.dztzm)
+                    _self.showRoomDetail(params.row.dztzm, params.row.fwbm)
                     _self.searchRfglHouse(params.row.dztzm, false)
                   }
                 }
@@ -223,7 +225,7 @@ export default {
           {
             title: '序号',
             key: 'xh',
-            width: '80px',
+            width: 80,
             render: (h, params) => {
               return h('span', params.index + 1)
             }
@@ -231,7 +233,7 @@ export default {
           {
             title: '标签',
             key: 'rybq',
-            width: '100px',
+            width: 100,
             // <div class="rybq rybq_sk" @click="showThisTybq('sk')">涉恐</div>
             render: (h, params) => {
               return h(Rybq, {
@@ -244,7 +246,7 @@ export default {
           {
             title: '照片',
             key: 'photo',
-            width: '80px',
+            width: 80,
             render: (h, params) => {
               if (
                 params.row.photoList == null ||
@@ -272,20 +274,22 @@ export default {
           {
             title: '人员类别',
             key: 'syrklbhz',
-            width: '120px'
+            width: 100
           },
           {
             title: '姓名',
             key: 'xm',
-            width: '120px'
+            width: 100
           },
           {
             title: '证件号码',
-            key: 'zjhm'
+            key: 'zjhm',
+            width: 200
           },
           {
             title: '服务处所',
-            key: 'fwcs'
+            key: 'fwcs',
+            width: 100
           },
           {
             title: '户籍地址',
@@ -293,7 +297,8 @@ export default {
           }
         ],
         jzryData: [],
-        lsjzryData: []
+        lsjzryData: {},
+        zlssjData: {}
       },
       loadRoomDetailFlag: 0
     }
@@ -335,7 +340,7 @@ export default {
         this.searchRfglRoom()
       }
     },
-    showRoomDetail (dztzm) {
+    showRoomDetail (dztzm, fwbm) {
       this.roomTab = 'rylb'
       if (this.loadRoomDetailFlag === 1) {
         return
@@ -360,6 +365,17 @@ export default {
       fetchRfglRHisPerson(dztzm)
         .then(response => {
           this.room.lsjzryData = response.data
+        })
+        .catch(() => {})
+      fetchDlsj(fwbm)
+        .then(response => {
+          this.room.dlsjData = response.data
+        })
+        .catch(() => {})
+
+      fetchZlssj(fwbm)
+        .then(response => {
+          this.room.zlssjData = response.data
         })
         .catch(() => {})
     },

@@ -16,6 +16,9 @@ export default {
   components: {
     ECharts
   },
+  props: {
+    data: Object
+  },
   methods: {
     showChart () {
       this.option = {
