@@ -501,7 +501,8 @@ export default {
           fzxm: '',
           fzlxdh: '',
           jzlxText: '',
-          personList: []
+          personList: [],
+          sdm:{}
         },
         vehicleInfo: {
           option: {}

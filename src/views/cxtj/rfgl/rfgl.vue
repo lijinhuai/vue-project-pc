@@ -134,9 +134,9 @@ import {
   fetchRfglRoom,
   fetchRfglHouse,
   fetchRfglRPerson,
-  fetchRfglRHisPerson,
-  fetchZlssj,
-  fetchDlsj
+  fetchRfglRHisPerson
+  // fetchZlssj,
+  // fetchDlsj
 } from '@/api/cxtj/rfgl'
 
 import PersonPhoto from './components/PersonPhoto.vue'
@@ -368,17 +368,17 @@ export default {
           this.room.lsjzryData = response.data
         })
         .catch(() => {})
-      fetchDlsj(fwbm)
-        .then(response => {
-          this.room.dlsjData = response.data
-        })
-        .catch(() => {})
+      // fetchDlsj(fwbm)
+      //   .then(response => {
+      //     this.room.dlsjData = response.data
+      //   })
+      //   .catch(() => {})
 
-      fetchZlssj(fwbm)
-        .then(response => {
-          this.room.zlssjData = response.data
-        })
-        .catch(() => {})
+      // fetchZlssj(fwbm)
+      //   .then(response => {
+      //     this.room.zlssjData = response.data
+      //   })
+      //   .catch(() => {})
     },
     btnSearchRfglRoom () {
       this.queryForm.dztzm = ''
