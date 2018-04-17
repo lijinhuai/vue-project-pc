@@ -3,22 +3,50 @@ var deptCode;
 var picBaseUrl = "http://116.228.125.236:18181/";
 var serviceUrl = locationPath();
 var token = Cookies.get("Admin-Token");
+var showArea = true;
+var pcsbm;
 
 $(document).ready(function () {
+
+  var switchHtml = '<div title="责任区显示切换" class="switch-container">' +
+    '<input id="switch" type="checkbox" checked class="switch" />' +
+    '<label for="switch" onclick="toggleSwitch()"> </label> ' +
+    '</div>'
+  $("body").append(switchHtml)
 
   // 页面初始数据
   initData();
 
   deptCode = Cookies.get('deptCode');
   if (deptCode == '310116000000') {
+    pcsbm = '310116560000'
     $(".dept-box a").bind("click", function () {
-      var pcsbm = $(this).children('.dept-num').attr("id");
-      queryAreaList(pcsbm)
+      pcsbm = $(this).children('.dept-num').attr("id");
+      if (showArea) {
+        queryAreaList(pcsbm)
+      }
       loadLocations(this);
     })
+  } else {
+    pcsbm = deptCode
   }
 });
 
+
+function toggleSwitch() {
+  showArea = !document.getElementById('switch').checked
+  if (showArea) {
+    queryAreaList(pcsbm)
+  } else {
+    var overlays = map.getOverlayLayer().getOverlays();
+    for (var i in overlays) {
+      if (overlays[i].id && 'xq' == overlays[i].id.substr(0, 2)) {
+        var polygon = overlays[i];
+        map.getOverlayLayer().removeOverlay(polygon);
+      }
+    }
+  }
+}
 
 // 页面初始化需要加载的数据
 function initData() {
@@ -541,6 +569,7 @@ function createLabel(labelInformation) {
       "position": labelInformation[i][0],
       "anchor": IMAP.Constants.CENTER
     });
+    label.id="xqlabel";
     map.getOverlayLayer().addOverlay(label);
     labels.push(label);
   }

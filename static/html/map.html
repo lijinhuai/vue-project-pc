@@ -2493,6 +2493,9 @@
             if (messages[i].type == '1') {
               countUp('xz', messages[i].cnt)
             }
+            if (messages[i].type == '2') {
+              countUp('qy', messages[i].cnt)
+            }
             if (messages[i].type == '3') {
               countUp('xg', messages[i].cnt)
             }
@@ -4188,6 +4191,7 @@
 </head>
 
 <body style="overflow: hidden">
+
   <audio id="bgMusic">
     <source src="../audio/alarm.mp3" type="audio/mp3">
   </audio>
@@ -4328,7 +4332,6 @@
       <div id="chart" style="width: 100%;height:100%;"></div>
     </div>
   </div>
-
 
   <!-- 首页操作按钮 -->
   <div class="operator-container left" style="left: 5px;">
@@ -4536,20 +4539,23 @@
       <b></b>
       <b></b>
       <b></b>
-      <span style="height: 38%; left: 25px; background: rgb(3, 139, 255);" id="xz">0</span>
-      <span style="height: 85%; left: 85px; background: rgb(217, 175, 10);" id="xg">0</span>
-      <span style="height: 18%; right: 25px; background: rgb(11, 193, 165);" id="zx">0</span>
+      <span style="height: 38%; left: 0px; background: rgb(3, 139, 255);" id="xz">0</span>
+      <span style="height: 25%; left: 60px; background: rgb(217, 175, 10);" id="qy">0</span>
+      <span style="height: 85%; right: 45px; background: rgb(11, 193, 165);" id="xg">0</span>
+      <span style="height: 48%; right: -10px; background: #e9364e;" id="zx">0</span>
     </div>
     <ol>
       <li>
         <i></i>新增</li>
       <li>
-        <i style="background: #d9af0a;"></i>修改</li>
+        <i style="background: #d9af0a;"></i>迁移</li>
       <li>
-        <i style="background: #0bc1a5;"></i>注销</li>
+        <i style="background: #0bc1a5;"></i>修改</li>
+      <li>
+        <i style="background: #e9364e;"></i>注销</li>
     </ol>
   </div>
-  </div>
+
   <script type="text/javascript">
     var map;
 
