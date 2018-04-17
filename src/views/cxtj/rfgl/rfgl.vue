@@ -297,7 +297,8 @@ export default {
           }
         ],
         jzryData: [],
-        lsjzryData: {},
+        lsjzryData: [],
+        dlsjData: {},
         zlssjData: {}
       },
       loadRoomDetailFlag: 0

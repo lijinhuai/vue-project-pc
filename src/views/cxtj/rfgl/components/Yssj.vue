@@ -79,7 +79,7 @@ export default {
             name: '用水量',
             type: 'line',
             smooth: true,
-            data: [50, 20, 20, 60, 70, 30, 50, 100, 200, 40, 280, 100]
+            data: this.data.dataset.data
             // markArea: {
             //   data: [
             //     [

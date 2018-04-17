@@ -34,20 +34,7 @@ export default {
         xAxis: {
           type: 'category',
           boundaryGap: false,
-          data: [
-            '1月',
-            '2月',
-            '3月',
-            '4月',
-            '5月',
-            '6月',
-            '7月',
-            '8月',
-            '9月',
-            '10月',
-            '11月',
-            '12月'
-          ]
+          data: this.data.labels
         },
         yAxis: {
           type: 'value',
@@ -92,7 +79,7 @@ export default {
             name: '用电量',
             type: 'line',
             smooth: true,
-            data: [300, 280, 250, 260, 270, 300, 550, 500, 400, 390, 380, 390]
+            data: this.data.dataset.data
             // markArea: {
             //   data: [
             //     [

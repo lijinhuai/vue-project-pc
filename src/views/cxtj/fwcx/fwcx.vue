@@ -150,7 +150,7 @@ export default {
         {
           title: '操作',
           key: 'action',
-          width: 120
+          width: 120,
           render: (h, params) => {
             const _self = this
             return h(
