@@ -95,7 +95,7 @@ export default {
   data () {
     return {
       queryForm: {
-        // plateid: '',
+        plateid: '',
         searchDateArr: ['', ''],
         intimeArr: ['', ''],
         outtimeArr: ['', '']
