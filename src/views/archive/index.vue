@@ -502,7 +502,7 @@ export default {
           fzlxdh: '',
           jzlxText: '',
           personList: [],
-          sdm:{}
+          sdm: {}
         },
         vehicleInfo: {
           option: {}

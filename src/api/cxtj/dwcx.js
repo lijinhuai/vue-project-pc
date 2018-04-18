@@ -11,3 +11,14 @@ export function fetchDwxxList (pageInfo, data) {
     params: params
   })
 }
+
+export function fetchExportXml (data) {
+  const params = {
+    ...data
+  }
+  return fetch({
+    url: '/dwxx/exportXml',
+    method: 'get',
+    params: params
+  })
+}

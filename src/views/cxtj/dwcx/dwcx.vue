@@ -1,5 +1,5 @@
 <template>
-  <FormTable :columns="columns" :fetchList="search()" :queryForm="queryForm">
+  <FormTable :columns="columns" :fetchList="search()" :queryForm="queryForm" :onSelectionChange="onSelectionChange">
     <Row slot="form">
       <Col span="8">
       <FormItem label="单位简称：" prop="dwjc">
@@ -37,19 +37,12 @@
       </FormItem>
       </Col>
     </Row>
-    <Row>
-      <Col span="12" offset="8">
-      <Form-item>
-        <Button type="primary" @click="search">查询</Button>
-      </Form-item>
-      </Col>
-    </Row>
+    <!-- <Button slot="tableTop" type="primary" size="large" @click="exportData()"><Icon type="ios-download-outline"></Icon> 导出XML</Button> -->
   </FormTable>
 </template>
-
 <script>
 import config from '@/config/index'
-import { fetchDwxxList } from '@/api/cxtj/dwcx'
+import { fetchDwxxList, fetchExportXml } from '@/api/cxtj/dwcx'
 import FormTable from '@/components/FormTable.vue'
 import ImageView from '@/components/ImageView.vue'
 export default {
@@ -58,6 +51,11 @@ export default {
     return {
       queryForm: {},
       columns: [
+        // {
+        //   type: 'selection',
+        //   width: 60,
+        //   align: 'center'
+        // },
         {
           title: '图片',
           key: 'action',
@@ -146,7 +144,11 @@ export default {
           }
         }
       ],
-      data: []
+      data: [],
+      selection: {
+        selectedDwbh: []
+      }
+
     }
   },
   components: {
@@ -157,6 +159,17 @@ export default {
   methods: {
     search () {
       return fetchDwxxList
+    },
+    onSelectionChange (selection) {
+      this.selection.selectedDwbh = []
+      for (let i in selection) {
+        this.selection.selectedDwbh.push(selection[i].dwbh)
+      }
+    },
+    exportData () {
+      fetchExportXml(this.selection).then(response => {
+        alert(response.data)
+      })
     }
   }
 }
