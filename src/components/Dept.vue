@@ -93,8 +93,20 @@ export default {
         checkLabels += checkedNode.label
         index++
       }
+
+      let checkedKeysStr = ''
+      index = 0
+      for (var checkedKey of checkedKeys) {
+        if (index !== 0) {
+          checkedKeysStr += ','
+        }
+        checkedKeysStr += '\''
+        checkedKeysStr += checkedKey
+        checkedKeysStr += '\''
+        index++
+      }
       this.visualValue = checkLabels
-      this.$emit('input', checkedKeys)
+      this.$emit('input', checkedKeysStr)
     }
   },
   mounted () {

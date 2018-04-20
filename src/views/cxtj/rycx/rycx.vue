@@ -26,20 +26,20 @@
             <FormItem label="性别：" prop="xb">
               <div style="display:inline-block;width:180px;">
                 <Select v-model="queryForm.xb" style="width:180px" filterable clearable>
-                    <Option value="1">男</Option>
-                    <Option value="2">女</Option>
-                </Select>
+                        <Option value="1">男</Option>
+                        <Option value="2">女</Option>
+                    </Select>
               </div>
             </FormItem>
             </Col>
-             <Col span="8">
+            <Col span="8">
             <FormItem label="人员类别：" prop="syrklbdm">
               <div style="display:inline-block;width:180px;">
                 <Select v-model="queryForm.syrklbdm" style="width:180px" filterable clearable>
-                    <Option value="01">户籍人员</Option>
-                    <Option value="02">来沪人员</Option>
-                    <Option value="03">境外人员</Option>
-                </Select>
+                        <Option value="01">户籍人员</Option>
+                        <Option value="02">来沪人员</Option>
+                        <Option value="03">境外人员</Option>
+                    </Select>
               </div>
             </FormItem>
             </Col>
@@ -47,8 +47,8 @@
             <FormItem label="民族：" prop="mzdm">
               <div style="display:inline-block;width:180px;">
                 <Select v-model="queryForm.mzdm" style="width:180px" filterable clearable>
-                            <Option v-for="dict in dictList.mz" :key="dict.index" :value="dict.key">{{dict.value}}</Option>
-                          </Select>
+                                <Option v-for="dict in dictList.mz" :key="dict.index" :value="dict.key">{{dict.value}}</Option>
+                              </Select>
               </div>
             </FormItem>
             </Col>
@@ -56,8 +56,32 @@
             <FormItem label="人员标签：" prop="rybq">
               <div style="display:inline-block;width:180px;">
                 <Select v-model="queryForm.rybq" style="width:180px" filterable clearable>
-                            <Option v-for="dict in dictList.rybq" :key="dict.index" :value="dict.key">{{dict.value}}</Option>
-                      </Select>
+                                <Option v-for="dict in dictList.rybq" :key="dict.index" :value="dict.key">{{dict.value}}</Option>
+                          </Select>
+              </div>
+            </FormItem>
+            </Col>
+            <Col span="8">
+            <FormItem label="起止日期：" prop="searchDateArr">
+              <Date-picker ref="searchDate" type="datetimerange" format="yyyy-MM-dd" :value="queryForm.searchDateArr" @on-change="queryForm.searchDateStr=$event.join(',')" placement="bottom-start" placeholder="选择日期" style="width: 180px;"></Date-picker>
+            </FormItem>
+            </Col>
+            <Col span="8">
+            <FormItem label="派出所：" prop="policeDepts">
+              <div class="form-item" style="display:inline-block;width:180px;">
+                <Dept v-model="queryForm.policeDepts" placeholder="选择部门"></Dept>
+              </div>
+            </FormItem>
+            </Col>
+            <Col span="8">
+            <FormItem label="采集类型：" prop="cjlx">
+              <div style="display:inline-block;width:180px;">
+                <Select v-model="queryForm.cjlx" style="width:180px" filterable clearable>
+                      <Option value="1">新增</Option>
+                      <Option value="2">迁移</Option>
+                      <Option value="3">修改</Option>
+                      <Option value="4">注销</Option>
+                  </Select>
               </div>
             </FormItem>
             </Col>
@@ -108,7 +132,11 @@ export default {
         xm: '',
         zjhm: '',
         xb: '',
-        syrklbdm: ''
+        syrklbdm: '',
+        searchDateArr: '',
+        searchDateStr: '',
+        policeDepts: '',
+        cjlx: ''
       },
       columns: [
         {

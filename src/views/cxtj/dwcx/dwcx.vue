@@ -37,7 +37,7 @@
       </FormItem>
       </Col>
     </Row>
-    <!-- <Button slot="tableTop" type="primary" size="large" @click="exportData()"><Icon type="ios-download-outline"></Icon> 导出XML</Button> -->
+    <Button slot="tableTop" type="primary" size="large" @click="exportData()"><Icon type="ios-download-outline"></Icon> 导出XML</Button>
   </FormTable>
 </template>
 <script>
@@ -51,11 +51,11 @@ export default {
     return {
       queryForm: {},
       columns: [
-        // {
-        //   type: 'selection',
-        //   width: 60,
-        //   align: 'center'
-        // },
+        {
+          type: 'selection',
+          width: 60,
+          align: 'center'
+        },
         {
           title: '图片',
           key: 'action',
@@ -148,7 +148,6 @@ export default {
       selection: {
         selectedDwbh: []
       }
-
     }
   },
   components: {
@@ -167,9 +166,11 @@ export default {
       }
     },
     exportData () {
-      fetchExportXml(this.selection).then(response => {
-        alert(response.data)
-      })
+      if (this.selection.selectedDwbh.length !== 0) {
+        fetchExportXml(this.selection).then(response => {
+          alert(response.data)
+        })
+      }
     }
   }
 }
