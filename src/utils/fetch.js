@@ -20,7 +20,7 @@ let appLoading // 是否需要显示laoding
 // request拦截器
 service.interceptors.request.use(config => {
   appLoading = !config.noAppLoading
-  if (appLoading) { // 判断否需要显示loading界面
+  if (appLoading) { // 判断是否需要显示loading界面
     store.commit('appLoading', true)
   }
   // Do something before request is sent
