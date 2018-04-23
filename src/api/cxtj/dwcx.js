@@ -12,9 +12,10 @@ export function fetchDwxxList (pageInfo, data) {
   })
 }
 
-export function fetchExportXml (data) {
+export function fetchExportXml (data, cjlx) {
   const params = {
-    ...data
+    ...data,
+    cjlx
   }
   return fetch({
     url: '/dwxx/exportXml',

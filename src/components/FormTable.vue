@@ -70,10 +70,12 @@ export default {
   },
   methods: {
     search () {
+      this.$emit('beforeFetchList')
       this.fetchList(this.pageInfo, this.queryForm)
         .then(response => {
           this.data = response.data.list
           this.pageInfo.total = response.data.total
+          this.$emit('afterFetchList')
         })
         .catch(() => {})
     },
