@@ -1,5 +1,5 @@
 <template>
-  <FormTable :columns="!showExportData ? columns : exportColumns" @beforeFetchList="beforeSearch" :fetchList="search()" :queryForm="queryForm" :onSelectionChange="onSelectionChange">
+  <FormTable ref="formTable" :columns="!showExportData ? columns : exportColumns" @beforeFetchList="beforeSearch" :fetchList="search()" :queryForm="queryForm" :onSelectionChange="onSelectionChange">
     <Row slot="form">
       <Col span="8">
       <FormItem label="单位简称：" prop="dwjc">
@@ -275,6 +275,7 @@ export default {
       if (this.selection.selectedDwbh.length !== 0) {
         fetchExportXml(this.selection, this.queryForm.cjlx).then(response => {
           if (response.code === 200) {
+            this.$refs.formTable.search()
             Message.success(response.message)
           } else {
             Message.error(response.message)
