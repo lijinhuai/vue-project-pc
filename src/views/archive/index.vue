@@ -566,11 +566,11 @@ export default {
             return h(FaceImage, {
               props: {
                 faceSrc:
-                  'http://116.228.125.236:18181/face/' +
+                  'http://116.228.125.235:18181/face/' +
                   params.row.faceImageUrl +
                   '.jpg',
                 pictureSrc:
-                  'http://116.228.125.236:18181/face/' +
+                  'http://116.228.125.235:18181/face/' +
                   params.row.pictureUrl +
                   '.jpg'
               }

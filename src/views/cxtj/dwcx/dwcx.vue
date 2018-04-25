@@ -1,5 +1,5 @@
 <template>
-  <FormTable ref="formTable" :columns="!showExportData ? columns : exportColumns" @beforeFetchList="beforeSearch" :fetchList="search()" :queryForm="queryForm" :onSelectionChange="onSelectionChange">
+  <FormTable ref="formTable" :columns="!showExportData ? columns : exportColumns" pagination-show-sizer :pagination-page-size=40 @beforeFetchList="beforeSearch" :fetchList="search()" :query-form="queryForm" :on-selection-change="onSelectionChange">
     <Row slot="form">
       <Col span="8">
       <FormItem label="单位简称：" prop="dwjc">
@@ -40,10 +40,10 @@
       <FormItem label="采集类型：" prop="cjlx">
         <div class="form-item" style="width:180px;">
           <Select v-model="queryForm.cjlx" filterable clearable>
-                            <Option value="1">新增</Option>
-                            <Option value="3">修改</Option>
-                            <Option value="4">注销</Option>
-                        </Select>
+                                <Option value="1">新增</Option>
+                                <Option value="3">修改</Option>
+                                <Option value="4">注销</Option>
+                            </Select>
         </div>
       </FormItem>
       </Col>

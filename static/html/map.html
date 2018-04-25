@@ -1614,7 +1614,7 @@
 
     .dialog-face-similar-container .msg-2 {
       display: inline-block;
-      width: 250px;
+      width: 260px;
       height: 80px;
       margin-right: 10px;
       text-align: left;
@@ -1901,7 +1901,8 @@
 
   <script>
     var baseUrl = window.parent.document.getElementById("baseUrl").value;
-    var picBaseUrl = "http://116.228.125.236:18181/";
+    var picBaseUrl = "http://116.228.125.235:18181/";
+    var carPicBaseUrl = "http://116.228.125.236:18181/";
     var serviceUrl = locationPath();
 
     $(document).ready(function () {
@@ -2590,7 +2591,7 @@
       for (var i = 0; i < messages.length; i++) {
         yjgDataHtml = yjgDataHtml + "<div class=\"con_xf_yjg_record_item\" data-pic=\"" + messages[i].crkbh + "\">";
         yjgDataHtml = yjgDataHtml + "  <i class=\"iconfont\">&#xe651;</i>";
-        yjgDataHtml = yjgDataHtml + "  <div class=\"item_photo\" onclick=\"showYjgPicDialog(this)\">";
+        yjgDataHtml = yjgDataHtml + "  <div class=\"item_photo can-click\" onclick=\"showYjgPicDialog(this)\">";
         yjgDataHtml = yjgDataHtml + "    <img src=\"" + baseUrl + "/xqxx/" + messages[i].crkbh +
           "/photo?Authorization=" + token + "\" onerror=\"this.src='/static/image/default_nophoto.png'\">";
         yjgDataHtml = yjgDataHtml + "  </div>";
@@ -2760,8 +2761,8 @@
         passRecordsHtml = passRecordsHtml + "<div class=\"con_vehicle_pass_record_item\" data-pic=\"" + dpic +
           "\" data-cphm=\"" + messages[i].cphm + "\" data-lxdh=\"" + messages[i].lxdh + "\" data-ssxq=\"" + messages[i]
           .ssxq + "\" data-dz=\"" + messages[i].dz + "\" data-clbh=\"" + messages[i].clbh + "\">";
-        passRecordsHtml = passRecordsHtml + " <div class=\"item_photo\" onclick=\"showVehicleVehiclePicDialog(this)\">";
-        passRecordsHtml = passRecordsHtml + "   <img src=\"" + picBaseUrl + "/car/" + dpic +
+        passRecordsHtml = passRecordsHtml + " <div class=\"item_photo can-click\" onclick=\"showVehicleVehiclePicDialog(this)\">";
+        passRecordsHtml = passRecordsHtml + "   <img src=\"" + carPicBaseUrl + "/car/" + dpic +
           "\" onerror=\"this.src='/static/image/default_nophoto.png'\"></img>";
         passRecordsHtml = passRecordsHtml + " </div>";
         passRecordsHtml = passRecordsHtml + " <div class=\"item_info\">";
@@ -2798,7 +2799,7 @@
           dpic = data.outimg;
         }
         html += "<a class=\"can-click\" data-pic=\"" + dpic +
-          "\" onclick=\"showVehicleVehiclePicDialogAlone(this)\"><img src=\"" + picBaseUrl + "/car/" + dpic +
+          "\" onclick=\"showVehicleVehiclePicDialogAlone(this)\"><img src=\"" + carPicBaseUrl + "/car/" + dpic +
           "\" onerror=\"this.src='/static/image/default_nophoto.png'\">" +
           "<div>" + data.plateid + " " + dtime + "</div>" +
           "</a>";
@@ -2842,7 +2843,7 @@
       var content = "";
       content = content + "<div class='dialog-vehicle-owner-container'>";
       content = content + "<div class='img'>";
-      content = content + "<img src='" + picBaseUrl + "/car/" + pic +
+      content = content + "<img src='" + carPicBaseUrl + "/car/" + pic +
         "' onerror=\"this.src='/static/image/default_nophoto.png'\">";
       content = content + "</div>";
       content = content + "<div class='msg'>";
@@ -2906,7 +2907,7 @@
     function assembleVehiclePicDialogContent(dpic) {
       var content = "";
       content = content + "<div class=\"dialog-vehicle-pass-container\">";
-      content = content + "<img src=\"" + picBaseUrl + "/car/" + dpic +
+      content = content + "<img src=\"" + carPicBaseUrl + "/car/" + dpic +
         "\" onerror=\"this.src='/static/image/default_nophoto.png'\"></img>";
       content = content + "</div>";
       return content;
@@ -3001,11 +3002,13 @@
         faceSimilarHtml = faceSimilarHtml + "   <div class=\"item-title-time\">" + messages[i].timeBegin + "</div>";
         faceSimilarHtml = faceSimilarHtml + " </div>";
         faceSimilarHtml = faceSimilarHtml + " <div class=\"item-content\" data-message=\"" + mb + "\">";
-        faceSimilarHtml = faceSimilarHtml + "   <div class=\"item_avatar\" onclick=\"f(this)\">";
+        faceSimilarHtml = faceSimilarHtml +
+          "   <div class=\"item_avatar can-click\" onclick=\"showFaceSimilarAlarmDialog(this)\">";
         faceSimilarHtml = faceSimilarHtml + "     <img src=\"" + picBaseUrl + "/face/" + messages[i].faceImageUrl +
           ".jpg\" onerror=\"this.src='/static/image/default_nophoto.png'\"></img>";
         faceSimilarHtml = faceSimilarHtml + "   </div>";
-        faceSimilarHtml = faceSimilarHtml + "   <div class=\"item_avatar\" onclick=\"showFaceSimilarDialog(this)\">";
+        faceSimilarHtml = faceSimilarHtml +
+          "   <div class=\"item_avatar can-click\" onclick=\"showFaceSimilarAlarmDialog(this)\">";
         faceSimilarHtml = faceSimilarHtml + "     <img src=\"" + picBaseUrl + "/face/" + messages[i].hitPic +
           ".jpg\" onerror=\"this.src='/static/image/default_nophoto.png'\"></img>";
         faceSimilarHtml = faceSimilarHtml + "   </div>";
@@ -3055,11 +3058,13 @@
         faceSimilarHtml = faceSimilarHtml + "   <div class=\"item-title-time\">" + messages[i].timeBegin + "</div>";
         faceSimilarHtml = faceSimilarHtml + " </div>";
         faceSimilarHtml = faceSimilarHtml + " <div class=\"item-content\" data-message=\"" + mb + "\">";
-        faceSimilarHtml = faceSimilarHtml + "   <div class=\"item_avatar\" onclick=\"showFaceSimilarDialog(this)\">";
+        faceSimilarHtml = faceSimilarHtml +
+          "   <div class=\"item_avatar can-click\" onclick=\"showFaceSimilarAlarmDialog(this)\">";
         faceSimilarHtml = faceSimilarHtml + "     <img src=\"" + picBaseUrl + "/face/" + messages[i].faceImageUrl +
           ".jpg\" onerror=\"this.src='/static/image/default_nophoto.png'\"></img>";
         faceSimilarHtml = faceSimilarHtml + "   </div>";
-        faceSimilarHtml = faceSimilarHtml + "   <div class=\"item_avatar\" onclick=\"showFaceSimilarDialog(this)\">";
+        faceSimilarHtml = faceSimilarHtml +
+          "   <div class=\"item_avatar can-click\" onclick=\"showFaceSimilarAlarmDialog(this)\">";
         faceSimilarHtml = faceSimilarHtml + "     <img src=\"" + picBaseUrl + "/face/" + messages[i].hitPic +
           ".jpg\" onerror=\"this.src='/static/image/default_nophoto.png'\"></img>";
         faceSimilarHtml = faceSimilarHtml + "   </div>";
@@ -3133,11 +3138,13 @@
         faceSimilarHtml = faceSimilarHtml + "   <div class=\"item-title-time\">" + messages[i].timeBegin + "</div>";
         faceSimilarHtml = faceSimilarHtml + " </div>";
         faceSimilarHtml = faceSimilarHtml + " <div class=\"item-content\" data-message=\"" + mb + "\">";
-        faceSimilarHtml = faceSimilarHtml + "   <div class=\"item_avatar\" onclick=\"showFaceSimilarDialog(this)\">";
+        faceSimilarHtml = faceSimilarHtml +
+          "   <div class=\"item_avatar can-click\" onclick=\"showFaceSimilarDialog(this)\">";
         faceSimilarHtml = faceSimilarHtml + "     <img src=\"" + picBaseUrl + "/face/" + messages[i].faceImageUrl +
           ".jpg\" onerror=\"this.src='/static/image/default_nophoto.png'\"></img>";
         faceSimilarHtml = faceSimilarHtml + "   </div>";
-        faceSimilarHtml = faceSimilarHtml + "   <div class=\"item_avatar\" onclick=\"showFaceSimilarDialog(this)\">";
+        faceSimilarHtml = faceSimilarHtml +
+          "   <div class=\"item_avatar can-click\" onclick=\"showFaceSimilarDialog(this)\">";
         faceSimilarHtml = faceSimilarHtml + "     <img src=\"" + baseUrl + "/face/similar/" + messages[i].hitZjhm +
           "/zp?Authorization=" + token + "\" onerror=\"this.src='/static/image/default_nophoto.png'\"></img>";
         faceSimilarHtml = faceSimilarHtml + "   </div>";
@@ -3194,11 +3201,13 @@
         faceSimilarHtml = faceSimilarHtml + "   <div class=\"item-title-time\">" + messages[i].timeBegin + "</div>";
         faceSimilarHtml = faceSimilarHtml + " </div>";
         faceSimilarHtml = faceSimilarHtml + " <div class=\"item-content\" data-message=\"" + mb + "\">";
-        faceSimilarHtml = faceSimilarHtml + "   <div class=\"item_avatar\" onclick=\"showFaceSimilarDialog(this)\">";
+        faceSimilarHtml = faceSimilarHtml +
+          "   <div class=\"item_avatar can-click\" onclick=\"showFaceSimilarDialog(this)\">";
         faceSimilarHtml = faceSimilarHtml + "     <img src=\"" + picBaseUrl + "/face/" + messages[i].faceImageUrl +
           ".jpg\" onerror=\"this.src='/static/image/default_nophoto.png'\"></img>";
         faceSimilarHtml = faceSimilarHtml + "   </div>";
-        faceSimilarHtml = faceSimilarHtml + "   <div class=\"item_avatar\" onclick=\"showFaceSimilarDialog(this)\">";
+        faceSimilarHtml = faceSimilarHtml +
+          "   <div class=\"item_avatar can-click\" onclick=\"showFaceSimilarDialog(this)\">";
         faceSimilarHtml = faceSimilarHtml + "     <img src=\"" + baseUrl + "/face/similar/" + messages[i].hitZjhm +
           "/zp?Authorization=" + token + "\" onerror=\"this.src='/static/image/default_nophoto.png'\"></img>";
         faceSimilarHtml = faceSimilarHtml + "   </div>";
@@ -3244,8 +3253,31 @@
       });
     }
 
+    // 展示比中图片的对话框
+    function showFaceSimilarAlarmDialog(obj) {
+      var message = $.base64.atob($(obj).parent('.item-content').data("message"), true);
+      var content = assembleFaceSimilarDialogContent(JSON.parse(message), 'alarm');
+
+      if (_layer_index) {
+        layer.close(_layer_index);
+      }
+
+      _layer_index = layer.open({
+        "type": 1,
+        "shade": false,
+        "title": false,
+        "area": ['780px', '345px'],
+        "content": content,
+        "moveType": 1,
+        "cancel": function () {
+          layer.close(_layer_index);
+        }
+      });
+    }
+
+
     // 比中（小区）对话框内容
-    function assembleFaceSimilarDialogContent(message) {
+    function assembleFaceSimilarDialogContent(message, type) {
       var token = Cookies.get("Admin-Token");
 
       // 性别翻译
@@ -3283,9 +3315,16 @@
         ".jpg' onerror=\"this.src='/static/image/default_nophoto.png'\">";
       content = content + "</div>";
       content = content + "<div class='img-2'>";
-      content = content + "<img src=\'" + picBaseUrl + "/face/" + message.hitPic +
-        ".jpg' onerror=\"this.src='/static/image/default_nophoto.png'\"></img>";
-      content = content + "</div>";
+      if (type == "alarm") {
+        content = content + "<img src=\'" + picBaseUrl + "/face/" + message.hitPic +
+          ".jpg' onerror=\"this.src='/static/image/default_nophoto.png'\"></img>";
+        content = content + "</div>";
+      } else {
+        content = content + "<img src=\"" + baseUrl + "/face/similar/" + message.hitZjhm +
+          "/zp?Authorization=" + token + "\" onerror=\"this.src='/static/image/default_nophoto.png'\"></img>";
+        content = content + "</div>";
+      }
+
       content = content + "<div class='img-3'>";
       content = content + "<img src='" + picBaseUrl + "/face/" + message.pictureUrl +
         ".jpg' onerror=\"this.src='/static/image/default_nophoto.png'\">";
@@ -3352,7 +3391,7 @@
       var mb = $.base64.btoa(JSON.stringify(message), true);
       faceMsgItemHtml = faceMsgItemHtml + "<div class=\"con_subdetail_face_1_item\" data-message=\"" + mb +
         "\" data-mid=\"" + message.faceImageId + "\">";
-      faceMsgItemHtml = faceMsgItemHtml + " <div class=\"item_avatar\" onclick=\"showFaceMsgDialog(this);\">";
+      faceMsgItemHtml = faceMsgItemHtml + " <div class=\"item_avatar can-click\" onclick=\"showFaceMsgDialog(this);\">";
       faceMsgItemHtml = faceMsgItemHtml + "   <img src=\"" + picBaseUrl + "/face/" + message.faceImageUrl +
         ".jpg\" onerror=\"this.src='/static/image/default_nophoto.png'\"></img>";
       faceMsgItemHtml = faceMsgItemHtml + " </div>";
@@ -3473,7 +3512,8 @@
         var doorHtml = "";
         doorHtml = doorHtml + "<div id=\"con_door_item_" + messages[i].id + "\" class=\"con_door_item\">";
         // doorHtml = doorHtml + " <div class=\"item-content\">";
-        doorHtml = doorHtml + " <div class=\"item_avatar\" onclick=\"showDoorDialog('https://3thapi.lookdoor.cn/" +
+        doorHtml = doorHtml +
+          " <div class=\"item_avatar can-click\" onclick=\"showDoorDialog('https://3thapi.lookdoor.cn/" +
           messages[i].photoSmall +
           "');\">";
         doorHtml = doorHtml + "   <img src=\"https://3thapi.lookdoor.cn/" + messages[i].photoSmall +
@@ -3516,7 +3556,8 @@
         doorHtml = doorHtml + "<div id=\"con_door_item_" + messages[i].id + "\" class=\"con_door_item\">";
 
         // doorHtml = doorHtml + " <div class=\"item-content\">";
-        doorHtml = doorHtml + " <div class=\"item_avatar\" onclick=\"showDoorDialog('https://3thapi.lookdoor.cn/" +
+        doorHtml = doorHtml +
+          " <div class=\"item_avatar can-click\" onclick=\"showDoorDialog('https://3thapi.lookdoor.cn/" +
           messages[i].photoSmall +
           "');\">";
         doorHtml = doorHtml + "   <img src=\"https://3thapi.lookdoor.cn/" + messages[i].photoSmall +
@@ -3592,7 +3633,7 @@
       for (var i = 0; i < messages.length; i++) {
         xfsDataHtml = xfsDataHtml + "<div class=\"con_xf_xfs_record_item\" data-pic=\"" + messages[i].crkbh + "\">";
         xfsDataHtml = xfsDataHtml + "  <i class=\"iconfont\">&#xe651;</i>";
-        xfsDataHtml = xfsDataHtml + "  <div class=\"item_photo\" onclick=\"showXfsPicDialog(this)\">";
+        xfsDataHtml = xfsDataHtml + "  <div class=\"item_photo can-click\" onclick=\"showXfsPicDialog(this)\">";
         xfsDataHtml = xfsDataHtml + "    <img src=\"" + baseUrl + "/xqxx/" + messages[i].crkbh +
           "/photo?Authorization=" + token + "\" onerror=\"this.src='/static/image/default_nophoto.png'\">";
         xfsDataHtml = xfsDataHtml + "  </div>";

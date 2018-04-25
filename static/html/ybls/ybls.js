@@ -1,6 +1,6 @@
 var baseUrl = window.parent.document.getElementById("baseUrl").value;
 var deptCode;
-var picBaseUrl = "http://116.228.125.236:18181/";
+var picBaseUrl = "http://116.228.125.235:18181/";
 var serviceUrl = locationPath();
 var token = Cookies.get("Admin-Token");
 var showArea = true;
