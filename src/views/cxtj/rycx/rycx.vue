@@ -179,7 +179,7 @@ export default {
         {
           title: '操作',
           key: 'action',
-          width: 120,
+          width: 100,
           render: (h, params) => {
             const _self = this
             return h(
@@ -201,6 +201,33 @@ export default {
                 }
               },
               '人房关联'
+            )
+          }
+        },
+        {
+          title: '操作',
+          key: 'action',
+          width: 100,
+          render: (h, params) => {
+            const _self = this
+            return h(
+              'Button',
+              {
+                props: {
+                  type: 'primary',
+                  size: 'small'
+                },
+                on: {
+                  click: function () {
+                    let routeData = _self.$router.resolve({
+                      name: 'archive',
+                      query: { zjhm: params.row.zjhm }
+                    })
+                    window.open(routeData.href, '_blank')
+                  }
+                }
+              },
+              '一人一档'
             )
           }
         }
