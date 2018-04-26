@@ -76,7 +76,7 @@
           <div class="body-head">{{ house.address }}</div>
           <div class="floor" v-for="floor in house.floors" :key="floor.index">
             <template v-if="floor.rooms.length>0">
-                                    <div class="room room_info" v-for="room in floor.rooms" :key="room.index" @click="showRoomDetail(room.dztzm,room.fwbm)" :class="{room_active:room.cxfwbj==1,
+                                    <div class="room room_info" v-for="room in floor.rooms" :key="room.index" @click="showRoomDetail(room.fwbm)" :class="{room_active:room.cxfwbj==1,
                                                     room_rhyz:room.flagRhfl==0,
                                                     room_rhfl:room.flagRhfl==1,
                                                     room_rhyz_czfw:room.flagRhfl==0 && room.jzfwlx=='01',
@@ -182,7 +182,7 @@ export default {
               {
                 on: {
                   click: function () {
-                    _self.searchRfglHouse(params.row.dztzm, true)
+                    _self.searchRfglHouse(params.row.fwbm, true)
                   }
                 },
                 attrs: {
@@ -208,8 +208,8 @@ export default {
                 },
                 on: {
                   click: function () {
-                    _self.showRoomDetail(params.row.dztzm, params.row.fwbm)
-                    _self.searchRfglHouse(params.row.dztzm, false)
+                    _self.showRoomDetail(params.row.fwbm)
+                    _self.searchRfglHouse(params.row.fwbm, false)
                   }
                 }
               },
@@ -330,9 +330,9 @@ export default {
         this.queryForm.sfzh = zjhm
         this.searchRfglRoom()
       }
-      let dztzm = this.$route.params.dztzm
-      if (dztzm) {
-        this.queryForm.dztzm = dztzm
+      let fwbm = this.$route.params.fwbm
+      if (fwbm) {
+        this.queryForm.fwbm = fwbm
         this.searchRfglRoom()
       }
       let mlphbm = this.$route.query.mlphbm
@@ -341,13 +341,13 @@ export default {
         this.searchRfglRoom()
       }
     },
-    showRoomDetail (dztzm, fwbm) {
+    showRoomDetail (fwbm) {
       this.roomTab = 'rylb'
       if (this.loadRoomDetailFlag === 1) {
         return
       }
       this.loadRoomDetailFlag = 1
-      fetchRfglRPerson(dztzm)
+      fetchRfglRPerson(fwbm)
         .then(response => {
           this.room.jzryData = response.data
           this.modal = true
@@ -356,7 +356,7 @@ export default {
         .catch(() => {
           this.loadRoomDetailFlag = 0
         })
-      fetchRfglRHisPerson(dztzm)
+      fetchRfglRHisPerson(fwbm)
         .then(response => {
           this.room.lsjzryData = response.data
         })
@@ -388,7 +388,7 @@ export default {
         .catch(() => {})
     },
     btnSearchRfglRoom () {
-      this.queryForm.dztzm = ''
+      this.queryForm.fwbm = ''
       this.queryForm.mlphbm = ''
       this.searchRfglRoom()
     },
@@ -411,8 +411,8 @@ export default {
     },
     ok () {},
     cancel () {},
-    searchRfglHouse (dztzm, appLoading) {
-      fetchRfglHouse(dztzm, appLoading)
+    searchRfglHouse (fwbm, appLoading) {
+      fetchRfglHouse(fwbm, appLoading)
         .then(response => {
           this.house = response.data
         })

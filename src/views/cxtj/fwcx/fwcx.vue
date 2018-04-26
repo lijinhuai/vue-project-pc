@@ -165,7 +165,7 @@ export default {
                     _self.$router.push({
                       name: 'rfgl',
                       params: {
-                        dztzm: params.row.dztzm
+                        fwbm: params.row.fwbm
                       }
                     })
                   }
