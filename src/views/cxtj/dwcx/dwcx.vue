@@ -1,5 +1,5 @@
 <template>
-  <FormTable ref="formTable" :columns="!showExportData ? columns : exportColumns" pagination-show-sizer :pagination-page-size=40 @beforeFetchList="beforeSearch" :fetchList="search()" :query-form="queryForm" :on-selection-change="onSelectionChange">
+  <FormTable ref="formTable" :columns="!showExportData ? columns : exportColumns" pagination-show-sizer @beforeFetchList="beforeSearch" :fetchList="search()" :query-form="queryForm" :on-selection-change="onSelectionChange">
     <Row slot="form">
       <Col span="8">
       <FormItem label="单位简称：" prop="dwjc">

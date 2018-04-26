@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="image-list">
-      <img :src="imageSrc||item.smallImageSrc">
+      <img :src="imageSrc||smallImageSrc">
       <div class="image-list-cover" @click="handleView()">
         <Icon type="ios-eye-outline"></Icon>
       </div>

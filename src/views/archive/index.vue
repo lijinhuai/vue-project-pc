@@ -468,6 +468,7 @@
 import { fetchArchive } from '@/api/archive/archive'
 import FaceImage from './components/FaceImage.vue'
 import ECharts from 'vue-echarts/components/ECharts'
+import config from '@/config/index'
 import 'echarts/lib/chart/line'
 import 'echarts/lib/component/tooltip'
 export default {
@@ -566,11 +567,13 @@ export default {
             return h(FaceImage, {
               props: {
                 faceSrc:
-                  'http://116.228.125.235:18181/face/' +
+                  config.facePicBaseUrl +
+                  '/face/' +
                   params.row.faceImageUrl +
                   '.jpg',
                 pictureSrc:
-                  'http://116.228.125.235:18181/face/' +
+                  config.facePicBaseUrl +
+                  '/face/' +
                   params.row.pictureUrl +
                   '.jpg'
               }

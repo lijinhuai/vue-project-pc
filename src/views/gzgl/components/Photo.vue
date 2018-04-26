@@ -6,16 +6,16 @@
         <Icon type="ios-eye-outline"></Icon>
       </div>
     </div>
-    <Modal title="查看照片" :styles="{top: '20px'}" v-model="visible">
+    <Modal title="查看照片" :styles="{top: '100px'}" v-model="visible">
       <!-- <img class="photo" v-for="item in uploadList" :key="item.index" v-if="item.zjhm==zjhm &&visible" :src="item.photoBase64" style="width: 50%"> -->
       <Carousel ref="carousel" v-model="value" v-if="visible" :arrow="arrow">
-        <Carousel-item v-for="item in uploadList" :key="item.index">
+        <Carousel-item v-for="item in uploadList" :key="item.index" v-if="item.xh==2">
           <img :src="item.src" style="width: 100%">
           <template v-if="item.message!=''">
-          <div style="width:100%;position: relative;top: -10px;left: 0px;text-align:center;">
-            <span style="color:#2d8cf0;font-size:20px;">{{item.message}}</span>
-          </div>
-          </template>
+            <div style="width:100%;position: relative;top: -10px;left: 0px;text-align:center;">
+              <span style="color:#2d8cf0;font-size:20px;">{{item.message}}</span>
+            </div>
+</template>
         </Carousel-item>
       </Carousel>
       <div slot="footer">
@@ -25,6 +25,7 @@
 </template>
 
 <script>
+import config from '@/config/index'
 export default {
   name: 'Photo',
   data () {
@@ -39,12 +40,13 @@ export default {
   },
   computed: {
     arrow () {
-      if (this.uploadList.length > 1) {
-        return 'always'
-      } else {
-        return 'never'
-      }
+      return 'never'
     }
+  },
+  mounted () {
+    this.uploadList.forEach(function (currentValue) {
+      currentValue.src = config.facePicBaseUrl + currentValue.src
+    })
   },
   methods: {
     handleView (photoBase64) {

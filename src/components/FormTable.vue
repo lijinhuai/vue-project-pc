@@ -70,7 +70,10 @@ export default {
       default: false
     },
     onSelectionChange: {
-      type: Function
+      type: Function,
+      default () {
+        return ''
+      }
     },
     paginationPageSize: {
       type: Number,
@@ -78,7 +81,9 @@ export default {
     },
     paginationPageSizeOpts: {
       type: Array,
-      default: [10, 20, 30, 40]
+      default () {
+        return [10, 20, 30, 40]
+      }
     },
     paginationSize: {
       type: String

@@ -41,7 +41,8 @@
 
 <script>
 import FormTable from '@/components/FormTable.vue'
-import Photo from '../components/Photo.vue'
+import ImageView from '@/components/ImageView.vue'
+import config from '@/config/index'
 import { fetchFaceList } from '@/api/recognition/recognition'
 export default {
   name: 'face',
@@ -69,9 +70,12 @@ export default {
                 '无照片'
               )
             } else {
-              return h(Photo, {
+              return h(ImageView, {
                 props: {
-                  uploadList: params.row.photoList
+                  smallImageSrc:
+                    config.facePicBaseUrl + params.row.photoList[0].src,
+                  bigImageSrc: config.facePicBaseUrl + params.row.photoList[1].src,
+                  styles: {width: '820px', top: '60px'}
                 }
               })
             }
@@ -101,7 +105,7 @@ export default {
     }
   },
   components: {
-    FormTable
+    FormTable, ImageView
   },
   methods: {
     search () {

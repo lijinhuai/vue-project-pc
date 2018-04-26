@@ -24,9 +24,9 @@
         </el-collapse-item>
       </el-collapse>
       <!-- <p >
-                    <Icon type="navicon"></Icon>
-                    检索条件
-                  </p> -->
+                      <Icon type="navicon"></Icon>
+                      检索条件
+                    </p> -->
     </Card>
     </Col>
     <Col span="24">
@@ -35,7 +35,7 @@
         <Card class="card" v-for="item in data" :key="item.id">
           <div class="car-container">
             <!-- <img class="image" :src="item.photo.src" /> -->
-            <ImageView class="image"  :styles="{width:'820px',top: '60px'}" :imageSrc="item.photo.src" />
+            <ImageView class="image" :styles="{width:'820px',top: '60px'}" :imageSrc="item.photo.src" />
             <div class="info">
               <div class="hphm hphm_blue item" v-bind:class="{hphm_yellow:item.platecolor=='黄色'}">{{item.plateid}}</div>
               <div class="item"> {{item.tm}}</div>
@@ -56,6 +56,7 @@
 
 <script>
 import ImageView from '@/components/ImageView.vue'
+import config from '@/config/index'
 export default {
   name: 'formCard',
   data () {
@@ -92,6 +93,9 @@ export default {
         .then(response => {
           this.data = response.data.list
           this.pageInfo.total = response.data.total
+          this.data.forEach(function (currentValue) {
+            currentValue.photo.src = config.carPicBaseUrl + currentValue.photo.src
+          })
         })
         .catch(() => {})
     },

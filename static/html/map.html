@@ -10,8 +10,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
   <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
   <meta tabindex="">
-  <link rel="stylesheet" type="text/css" href="http://117.184.195.173:25002/jsmap/1.0/demo/apidemos/sourceLinks/style.css">
-  <script type="text/javascript" src="http://117.184.195.173:25002/jsmap/1.0/demo/scripts/jsurl.js"></script>
+  <link rel="stylesheet" type="text/css" href="./amap/jsmap.css">
+  <script src="./amap/jsmap.js"></script>>
 
   <link rel="stylesheet" type="text/css" href="../js/toastr/toastr.min.css">
 
@@ -1901,8 +1901,9 @@
 
   <script>
     var baseUrl = window.parent.document.getElementById("baseUrl").value;
-    var picBaseUrl = "http://116.228.125.235:18181/";
-    var carPicBaseUrl = "http://116.228.125.236:18181/";
+    var picBaseUrl = window.parent.document.getElementById("facePicBaseUrl").value;
+    var carPicBaseUrl = window.parent.document.getElementById("carPicBaseUrl").value;
+    var mjPicBaseHost = window.parent.document.getElementById("mjPicBaseHost").value;
     var serviceUrl = locationPath();
 
     $(document).ready(function () {
@@ -2761,7 +2762,8 @@
         passRecordsHtml = passRecordsHtml + "<div class=\"con_vehicle_pass_record_item\" data-pic=\"" + dpic +
           "\" data-cphm=\"" + messages[i].cphm + "\" data-lxdh=\"" + messages[i].lxdh + "\" data-ssxq=\"" + messages[i]
           .ssxq + "\" data-dz=\"" + messages[i].dz + "\" data-clbh=\"" + messages[i].clbh + "\">";
-        passRecordsHtml = passRecordsHtml + " <div class=\"item_photo can-click\" onclick=\"showVehicleVehiclePicDialog(this)\">";
+        passRecordsHtml = passRecordsHtml +
+          " <div class=\"item_photo can-click\" onclick=\"showVehicleVehiclePicDialog(this)\">";
         passRecordsHtml = passRecordsHtml + "   <img src=\"" + carPicBaseUrl + "/car/" + dpic +
           "\" onerror=\"this.src='/static/image/default_nophoto.png'\"></img>";
         passRecordsHtml = passRecordsHtml + " </div>";
@@ -3513,10 +3515,10 @@
         doorHtml = doorHtml + "<div id=\"con_door_item_" + messages[i].id + "\" class=\"con_door_item\">";
         // doorHtml = doorHtml + " <div class=\"item-content\">";
         doorHtml = doorHtml +
-          " <div class=\"item_avatar can-click\" onclick=\"showDoorDialog('https://3thapi.lookdoor.cn/" +
+          " <div class=\"item_avatar can-click\" onclick=\"showDoorDialog('" + mjPicBaseHost +
           messages[i].photoSmall +
           "');\">";
-        doorHtml = doorHtml + "   <img src=\"https://3thapi.lookdoor.cn/" + messages[i].photoSmall +
+        doorHtml = doorHtml + "   <img src=\"" + mjPicBaseHost + messages[i].photoSmall +
           "\" onerror=\"this.src='/static/image/default_nophoto.png'\"></img>";
         doorHtml = doorHtml + " </div>";
         doorHtml = doorHtml + "   <div class=\"item_info\">";
@@ -3557,10 +3559,10 @@
 
         // doorHtml = doorHtml + " <div class=\"item-content\">";
         doorHtml = doorHtml +
-          " <div class=\"item_avatar can-click\" onclick=\"showDoorDialog('https://3thapi.lookdoor.cn/" +
+          " <div class=\"item_avatar can-click\" onclick=\"showDoorDialog('" + mjPicBaseHost +
           messages[i].photoSmall +
           "');\">";
-        doorHtml = doorHtml + "   <img src=\"https://3thapi.lookdoor.cn/" + messages[i].photoSmall +
+        doorHtml = doorHtml + "   <img src=\"" + mjPicBaseHost + messages[i].photoSmall +
           "\" onerror=\"this.src='/static/image/default_nophoto.png'\"></img>";
         doorHtml = doorHtml + " </div>";
         doorHtml = doorHtml + "   <div class=\"item_info\">";
