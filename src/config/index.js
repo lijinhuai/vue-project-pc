@@ -1,7 +1,7 @@
 const Env = process.env.NODE_ENV
 const network = ''
 
-let BASE_API = 'txw'
+let BASE_API = ''
 if (Env === 'development') {
   BASE_API = 'http://localhost:8081/api'
 } else if (Env === 'production') {
