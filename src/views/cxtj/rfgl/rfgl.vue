@@ -294,6 +294,33 @@ export default {
           {
             title: '户籍地址',
             key: 'hjdz'
+          },
+          {
+            title: '操作',
+            key: 'action',
+            width: 100,
+            render: (h, params) => {
+              const _self = this
+              return h(
+              'Button',
+                {
+                  props: {
+                    type: 'primary',
+                    size: 'small'
+                  },
+                  on: {
+                    click: function () {
+                      let routeData = _self.$router.resolve({
+                        name: 'archive',
+                        query: { zjhm: params.row.zjhm }
+                      })
+                      window.open(routeData.href, '_blank')
+                    }
+                  }
+                },
+              '一人一档'
+            )
+            }
           }
         ],
         jzryData: [],
