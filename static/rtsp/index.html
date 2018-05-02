@@ -1,0 +1,62 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<title>H5STREAM VIDEO</title>
+<script src="../js/jquery.min.js"></script>
+<script src="js/bootstrap.js"></script>
+<script src="js/h5splayer.js"></script>
+<script src="js/h5splayerhelper.js"></script>
+
+<link rel = "stylesheet" type = "text/css" href = "css/h5splayer.css" />
+
+</head>
+
+<body>
+
+<div class="h5videodiv">
+    <video class="h5video" id="h5sVideo1"  autoplay>
+
+    </video>
+    <div class="playpause" id="playpause1" ></div>
+</div>
+</body>
+
+<script>
+var conf1 = {
+  videoid: 'h5sVideo1',
+  protocol: window.location.protocol, // http: or https:
+  host: '116.228.125.235:18180', // localhost:8080
+  rootpath: '/', // '/'
+  token: 'token1',
+  hlsver: 'v1', // v1 is for ts, v2 is for fmp4
+  session: 'c1782caf-b670-42d8-ba90-2244d0b0ee83' // session got from login
+}
+
+var v1 = H5sPlayerCreate(conf1)
+
+$('#h5sVideo1').parent().click(function () {
+  if ($(this).children('.h5video').get(0).paused) {
+    $(this).children('.h5video').get(0).play()
+    if (v1 != null)		{
+      v1.disconnect()
+      H5sPlayerDelete(v1)
+      v1 = null
+    }
+
+    v1 = H5sPlayerCreate(conf1)
+
+    console.log(v1)
+    v1.connect()
+
+    $(this).children('.playpause').fadeOut()
+  } else {
+    v1.disconnect()
+    H5sPlayerDelete(v1)
+    v1 = null
+    $(this).children('.h5video').get(0).pause()
+    $(this).children('.playpause').fadeIn()
+  }
+})
+</script>
+
+</html>
