@@ -1,5 +1,5 @@
 const Env = process.env.NODE_ENV
-const network = 'txw'
+const network = ''
 
 let BASE_API = ''
 if (Env === 'development') {

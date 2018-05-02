@@ -8,11 +8,6 @@
   </div>
 </template>
 
-<style scoped>
-.main {
-  height: 100%;
-}
-</style>
 <script>
 import config from '@/config/index'
 export default {
@@ -32,4 +27,10 @@ export default {
   }
 }
 </script>
+
+<style lang="less" scoped>
+.main {
+  height: 100%;
+}
+</style>
 
