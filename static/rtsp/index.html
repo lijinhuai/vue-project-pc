@@ -1,62 +1,100 @@
 <!DOCTYPE HTML>
 <html>
-<head>
-<title>H5STREAM VIDEO</title>
-<script src="../js/jquery.min.js"></script>
-<script src="js/bootstrap.js"></script>
-<script src="js/h5splayer.js"></script>
-<script src="js/h5splayerhelper.js"></script>
 
-<link rel = "stylesheet" type = "text/css" href = "css/h5splayer.css" />
+<head>
+  <title>H5STREAM VIDEO</title>
+  <script src="../js/jquery.min.js"></script>
+  <script src="js/bootstrap.js"></script>
+  <script src="js/h5splayer.js"></script>
+  <script src="js/h5splayerhelper.js"></script>
+
+  <link rel="stylesheet" type="text/css" href="css/h5splayer.css" />
 
 </head>
 
 <body>
 
-<div class="h5videodiv">
-    <video class="h5video" id="h5sVideo1"  autoplay>
+  <div class="h5videodiv">
+    <video class="h5video" id="h5sVideo1" autoplay>
 
     </video>
-    <div class="playpause" id="playpause1" ></div>
-</div>
+    <div class="playpause" id="playpause1"></div>
+  </div>
 </body>
 
 <script>
-var conf1 = {
-  videoid: 'h5sVideo1',
-  protocol: window.location.protocol, // http: or https:
-  host: '116.228.125.235:18180', // localhost:8080
-  rootpath: '/', // '/'
-  token: 'token1',
-  hlsver: 'v1', // v1 is for ts, v2 is for fmp4
-  session: 'c1782caf-b670-42d8-ba90-2244d0b0ee83' // session got from login
-}
+  // var index = parent.layer.getFrameIndex(window.name); //获取窗口索引
+  // parent.layer.iframeAuto(index);
 
-var v1 = H5sPlayerCreate(conf1)
+  //获取参数名值对集合
+  var paramMap = getIframeParams('iframe');
+  var rtspServer = window.parent.rtspServer
+  //paramMap的结构是这样的：{'paramA':'a', 'paramB':'b'}
 
-$('#h5sVideo1').parent().click(function () {
-  if ($(this).children('.h5video').get(0).paused) {
-    $(this).children('.h5video').get(0).play()
-    if (v1 != null)		{
+  var conf1 = {
+    videoid: 'h5sVideo1',
+    protocol: window.location.protocol, // http: or https:
+    host: rtspServer, // localhost:8080
+    rootpath: '/', // '/'
+    token: paramMap.cameraId,
+    hlsver: 'v1', // v1 is for ts, v2 is for fmp4
+    session: 'c1782caf-b670-42d8-ba90-2244d0b0ee83' // session got from login
+  }
+
+  var v1 = H5sPlayerCreate(conf1)
+
+  $('#h5sVideo1').parent().click(function () {
+    if ($(this).children('.h5video').get(0).paused) {
+      $(this).children('.h5video').get(0).play()
+      if (v1 != null) {
+        v1.disconnect()
+        H5sPlayerDelete(v1)
+        v1 = null
+      }
+
+      v1 = H5sPlayerCreate(conf1)
+
+      console.log(v1)
+      v1.connect()
+
+      $(this).children('.playpause').fadeOut()
+    } else {
       v1.disconnect()
       H5sPlayerDelete(v1)
       v1 = null
+      $(this).children('.h5video').get(0).pause()
+      $(this).children('.playpause').fadeIn()
+    }
+  })
+
+  /*
+    取得目标iframe src所包含的参数
+    @param iframeId - 目标iframe的id
+    @return Object 参数名值对，｛参数名:参数值,……｝
+*/
+  function getIframeParams(iframeId) {
+    var regexpParam = /\??([\w\d%]+)=([\w\d%]*)&?/g; //分离参数的正则表达式
+    var targetEle = parent.window.document.getElementsByTagName(iframeId)[0];
+
+    var paramMap = null;
+
+    if (!!targetEle) {
+      var url = targetEle.src; //取得iframe的url
+
+      var ret;
+
+      paramMap = {}; //初始化结果集
+
+      //开始循环查找url中的参数，并以键值对形式放入结果集
+      while ((ret = regexpParam.exec(url)) != null) {
+        //ret[1]是参数名，ret[2]是参数值
+        paramMap[ret[1]] = ret[2];
+      }
     }
 
-    v1 = H5sPlayerCreate(conf1)
-
-    console.log(v1)
-    v1.connect()
-
-    $(this).children('.playpause').fadeOut()
-  } else {
-    v1.disconnect()
-    H5sPlayerDelete(v1)
-    v1 = null
-    $(this).children('.h5video').get(0).pause()
-    $(this).children('.playpause').fadeIn()
+    return paramMap; //返回结果集
   }
-})
+
 </script>
 
 </html>

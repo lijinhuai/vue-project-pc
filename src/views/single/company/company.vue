@@ -118,7 +118,7 @@
               <span style="width:180px; padding-left: 20px;display:inline-block;">
                     <strong>{{ry.zjhm}}</strong>
                   </span>
-              <span style="padding-left:10px;">{{ry.zzdz}}</span>
+              <span style="padding-left:10px;">{{ry.zzdz}}&nbsp;</span>
             </Poptip>
           </li>
         </ul>

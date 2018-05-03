@@ -2,8 +2,9 @@ var baseUrl = window.parent.document.getElementById("baseUrl").value;
 var picBaseUrl = window.parent.document.getElementById("facePicBaseUrl").value;
 var carPicBaseUrl = window.parent.document.getElementById("carPicBaseUrl").value;
 var mjPicBaseHost = window.parent.document.getElementById("mjPicBaseHost").value;
+var rtspServer = window.parent.document.getElementById("rtspServer").value;
 var serviceUrl = locationPath();
-var jcwdm=''
+var jcwdm = ''
 
 $(document).ready(function () {
 
@@ -2116,10 +2117,13 @@ function addMarkerClickEvt(type, origin, marker) {
   } else if (type == 'xqxx') {
     content = assembleInfoWindowContent("小区出入口", baseUrl + "/xqxx/" + origin.crkbh + "/photo?Authorization=" +
       token, "名称：" + origin.crkmc);
-  } else if (type == 'camera') {
-    content = assembleInfoWindowContent("实有安防设施", baseUrl + "/camera/" + origin.xh + "/photo?Authorization=" +
-      token, "名称：" + origin.name);
-  } else if (type == 'xfs') {
+  }
+  // else if (type == 'camera') {
+  // content = showRtspVideoDialog()
+  // content = assembleInfoWindowContent("实有安防设施", baseUrl + "/camera/" + origin.xh + "/photo?Authorization=" +
+  //   token, "名称：" + origin.name);
+  // }
+  else if (type == 'xfs') {
     content = assembleInfoWindowContent("消防栓", baseUrl + "/xqxx/" + origin.crkbh + "/photo?Authorization=" + token,
       "名称：" + origin.crkmc);
   } else if (type == 'wifi') {
@@ -2149,31 +2153,38 @@ function addMarkerClickEvt(type, origin, marker) {
     content = content + "</div>";
   }
 
-  // 图标点击事件
-  if (content != "") {
+  if (type == 'camera') {
     marker.addEventListener(IMAP.Constants.CLICK, function (evt) {
-
-      // 如果其他 Marker 打开了消息框，则关闭
-      if (_current_marker) {
-        _current_marker.closeInfoWindow();
-      }
-
-      // 打开消息框
-      _current_marker = this;
-      var lnglat = this.getPosition();
-      this.openInfoWindow(
-        content, {
-          size: new IMAP.Size(320, 110),
-          position: lnglat,
-          autoPan: false,
-          offset: new IMAP.Pixel(160, 75),
-          anchor: IMAP.Constants.CENTER,
-          type: IMAP.Constants.OVERLAY_INFOWINDOW_CUSTOM,
-          visible: true
-        }
-      );
+      showRtspVideoDialog(origin.cameraId)
     });
+  } else {
+    // 图标点击事件
+    if (content != "") {
+      marker.addEventListener(IMAP.Constants.CLICK, function (evt) {
+
+        // 如果其他 Marker 打开了消息框，则关闭
+        if (_current_marker) {
+          _current_marker.closeInfoWindow();
+        }
+
+        // 打开消息框
+        _current_marker = this;
+        var lnglat = this.getPosition();
+        this.openInfoWindow(
+          content, {
+            size: new IMAP.Size(320, 110),
+            position: lnglat,
+            autoPan: false,
+            offset: new IMAP.Pixel(160, 75),
+            anchor: IMAP.Constants.CENTER,
+            type: IMAP.Constants.OVERLAY_INFOWINDOW_CUSTOM,
+            visible: true
+          }
+        );
+      });
+    }
   }
+
 }
 
 function assembleInfoWindowContentWithoutPicture(title, context) {
@@ -2216,6 +2227,26 @@ function assembleInfoWindowContent(title, url, context) {
   content = content + "</div>";
   content = content + "</div>";
   return content;
+}
+
+function showRtspVideoDialog(cameraId) {
+
+  if (_layer_index) {
+    layer.close(_layer_index);
+  }
+
+  _layer_index = layer.open({
+    "type": 2,
+    "shade": false,
+    "title": false,
+    "area": ['768px', '432px'],
+    "content": ['../rtsp/index.html?cameraId=' + cameraId, 'no'],
+    "moveType": 1,
+    "skin": 'layer-custom',
+    "cancel": function () {
+      layer.close(_layer_index);
+    }
+  });
 }
 
 function showPicDialog(obj) {
