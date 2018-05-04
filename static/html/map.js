@@ -4,7 +4,8 @@ var carPicBaseUrl = window.parent.document.getElementById("carPicBaseUrl").value
 var mjPicBaseHost = window.parent.document.getElementById("mjPicBaseHost").value;
 var rtspServer = window.parent.document.getElementById("rtspServer").value;
 var serviceUrl = locationPath();
-var jcwdm = ''
+var jcwdm = window.parent.document.getElementById("jcwdm").value;
+
 
 $(document).ready(function () {
 
@@ -1935,6 +1936,9 @@ function loadData(url, token, callback) {
     },
     type: "get",
     url: url,
+    data: {
+      "jcwdm": jcwdm
+    },
     success: function (data) {
       callback(data);
     },

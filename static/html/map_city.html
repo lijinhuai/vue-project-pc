@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>基础地图展示</title>
+
+  <meta name="renderer" content="webkit">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+  <meta tabindex="">
+  <link rel="stylesheet" type="text/css" href="./amap/jsmap.css">
+  <script src="./amap/jsmap.js"></script>
+
+  <link rel="stylesheet" type="text/css" href="../js/toastr/toastr.min.css">
+
+  <script src="../js/jquery.min.js"></script>
+  <script src="../js/js.cookie-2.2.0.min.js"></script>
+  <script src="../js/layer/layer.js"></script>
+  <script src="../js/jquery.base64.js"></script>
+  <script src="../js/countUp.js"></script>
+  <script src="../js/echarts.bar.min.js"></script>
+  <script src="../js/jquery.gallery.js"></script>
+  <script src="../js/modernizr.custom.js"></script>
+
+  <script src="../js/toastr/toastr.min.js"></script>
+
+  <link rel="stylesheet" type="text/css" href="../js/toastr/toastr.min.css">
+
+  <link rel="stylesheet" type="text/css" href="./map.css">
+
+  <script src="./map.js"></script>
+
+</head>
+
+<body style="overflow: hidden">
+
+  <audio id="bgMusic">
+    <source src="../audio/alarm.mp3" type="audio/mp3">
+  </audio>
+  <div id="map" class="map_contaner"></div>
+  <!-- Head -->
+  <div class="head-container">
+    <div class="head_logo"></div>
+
+    <!-- 天气预报
+        <div class="gz-content" style=" float: right; padding: 15px;">
+          <div  class="gz-top">
+              <div class="am-fl">&nbsp;&nbsp;<span id="topDate">12月07日</span> &nbsp;&nbsp;<span id="topWeek">周三</span> &nbsp;&nbsp;<span id="topWeather">多云</span>&nbsp;&nbsp;<span><span id="topLowTemp">6℃</span>~<span id="topHighTemp">17℃</span>
+              </div>
+          </div>
+
+          <div id="main" class="am-text-center gz-data">
+          </div>
+      </div>
+      -->
+  </div>
+
+  <!-- 一标六尺 -->
+  <div class="stat-container">
+    <div class="stat-row">
+      <div class="stat-box">
+        <span class="stat-box-icon pull-left">
+          <img src="../image/syrk_icon.png">
+          <!-- <i class="iconfont">&#xe66e;</i> -->
+        </span>
+        <a href="javascript:;" style="text-decoration: none;" onclick="showYblsDetail_chart('syrk');">
+          <div class="stat-num num-syrk" id="syrk">0</div>
+        </a>
+        <div class="stat-info">
+          实有人口
+        </div>
+      </div>
+
+      <img class="row-fgx" src="../image/fgx.png">
+
+      <div class="stat-box">
+        <span class="stat-box-icon pull-left">
+          <img src="../image/syfw_icon.png">
+          <!-- <i class="iconfont">&#xe600;</i> -->
+        </span>
+        <a href="javascript:;" style="text-decoration: none;" onclick="showYblsDetail_chart('syfw');">
+          <div class="stat-num num-syfw" id="syfw">0</div>
+        </a>
+        <div class="stat-info">实有房屋</div>
+      </div>
+    </div>
+
+    <div class="stat-row">
+      <div class="stat-box">
+        <span class="stat-box-icon pull-left">
+          <img src="../image/sydw_icon.png">
+          <!-- <i class="iconfont">&#xe616;</i> -->
+        </span>
+        <a href="javascript:;" style="text-decoration: none;" onclick="showYblsDetail_chart('sydw');">
+          <div class="stat-num num-sydw" id="sydw">0</div>
+        </a>
+        <div class="stat-info">实有单位</div>
+      </div>
+
+      <img class="row-fgx" src="../image/fgx.png">
+
+      <div class="stat-box">
+        <span class="stat-box-icon">
+          <img src="../image/syafss_icon.png">
+          <!-- <i class="iconfont">&#xe9a7;</i> -->
+        </span>
+        <a href="javascript:;" style="text-decoration: none;" onclick="showYblsDetail_chart('syaf');">
+          <div class="stat-num num-syafss" id="syafss">0</div>
+        </a>
+        <div class="stat-info">实有安防</div>
+      </div>
+    </div>
+
+    <div class="stat-row">
+      <div class="stat-box">
+        <span class="stat-box-icon pull-left">
+          <!-- <i class="iconfont">&#xe63d;</i> -->
+          <img src="../image/syllzb_icon.png">
+        </span>
+        <a href="javascript:;" style="text-decoration: none;" onclick="showYblsDetail_chart('syll');">
+          <div class="stat-num num-syllzb" id="syllzb">0</div>
+        </a>
+        <div class="stat-info">实有力量</div>
+      </div>
+
+      <img class="row-fgx" src="../image/fgx.png">
+
+      <div class="stat-box">
+        <span class="stat-box-icon pull-left">
+          <img src="../image/syjq_icon.png">
+          <!-- <i class="iconfont">&#xe63e;</i> -->
+        </span>
+        <a href="javascript:;" style="text-decoration: none;" onclick="showYblsDetail_chart('syjq');">
+          <div class="stat-num num-syjq" id="syjq">0</div>
+        </a>
+        <div class="stat-info">实有警情</div>
+      </div>
+    </div>
+
+    <div class="stat-row">
+      <div class="bubble">
+        <div class="bubble_min ani_auto ani_top_top ani_time_8"></div>
+        <div class="bubble_min ani_auto ani_top_top ani_time_12"></div>
+        <div class="bubble_min ani_auto ani_top_top ani_time_10"></div>
+        <div class="bubble_min ani_auto ani_top_top ani_time_12"></div>
+        <div class="bubble_min ani_auto ani_top_top ani_time_8"></div>
+        <div class="bubble_list">
+          <div class="bubble_item ani_auto ani_8 ani_top_bottom">
+            <p>
+              <span>来沪</span>
+              <br/>
+              <i id="lhry">0</i>
+            </p>
+          </div>
+          <div class="bubble_item ani_auto ani_time_10 ani_bottom_top">
+            <p>
+              <span>户籍</span>
+              <br/>
+              <i id="hjry">0</i>
+            </p>
+          </div>
+          <div class="bubble_item ani_auto ani_time_10 ani_bottom_top">
+            <p>
+              <span>境外</span>
+              <br/>
+              <i id="jwry">0</i>
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="stat-row" style="height: 120px;">
+      <div id="chart" style="width: 100%;height:100%;"></div>
+    </div>
+  </div>
+
+  <!-- 首页操作按钮 -->
+  <div class="operator-container left" style="left: 5px;">
+    <div class="operator-ops" style="border-left: 6px solid #ffd700; border-right: 0px; float: left;">
+      <label class="operator-label on" onclick="openHome();" style="margin-left: 6px;">
+        <span class="operator-checkbox operator-input"></span>
+        首页
+      </label>
+      <label class="operator-label off">
+        <input class="operator-radio" type="checkbox" id="operator-intro" name="operator-intro">
+        <span class="operator-checkbox operator-input"></span>
+        小区简介
+      </label>
+    </div>
+  </div>
+
+  <div class="intro" id="intro" style="display: none;">
+    <div class="int_title">
+      小区简介
+    </div>
+    <div class="int_font">
+      万盛金邸小区位于金山区龙轩路1000弄、866弄，总占地面积22.5万平方米，居民楼栋66栋，主要出入口4个，南北向的海汇商业街将住宅小区划分为东、西两区，海汇街面积9.5万平方米。
+    </div>
+  </div>
+
+  <!-- 地图操作按钮 -->
+  <div class="operator-container">
+    <div class="operator-ops">
+      <div class="operator-content">
+        <label class="operator-label on">
+          <input class="operator-radio" type="checkbox" id="operator-dynamic" name="operator-dynamic" checked>
+          <span class="operator-checkbox operator-input"></span>
+          动态感知
+        </label>
+        <label class="operator-label on">
+          <input class="operator-radio" type="checkbox" name="operator-house" checked>
+          <span class="operator-checkbox operator-input"></span>
+          实有房屋
+        </label>
+        <label class="operator-label on">
+          <input class="operator-radio" type="checkbox" name="operator-dwxx" checked>
+          <span class="operator-checkbox operator-input"></span>
+          实有单位
+        </label>
+        <label class="operator-label on">
+          <input class="operator-radio" type="checkbox" name="operator-camera" checked>
+          <span class="operator-checkbox operator-input"></span>
+          实有安防
+        </label>
+        <label class="operator-label on">
+          <input class="operator-radio" type="checkbox" name="operator5" checked>
+          <span class="operator-checkbox operator-input"></span>
+          实有力量
+        </label>
+        <label class="operator-label on">
+          <input class="operator-radio" type="checkbox" name="operator-xqxx" checked>
+          <span class="operator-checkbox operator-input"></span>
+          进出通道
+        </label>
+        <label class="operator-label on" style="margin-right: 12px;">
+          <input class="operator-radio" type="checkbox" name="operator-wifi" checked>
+          <span class="operator-checkbox operator-input"></span>
+          WIFI嗅探
+        </label>
+      </div>
+
+      <label class="operator-title on" title="隐藏菜单" style="margin-right: 3px;">
+        &nbsp;
+      </label>
+    </div>
+  </div>
+
+  <div class="detail-container">
+    <div class="detail-tab-container detail-tab-border">
+      <div class="detail-menu-box ">
+        <ul>
+          <li class="icon-rlsb hover" id="detail1" onclick="setTab('detail',1,6)">
+          </li>
+          <li class="icon-km" id="detail2" onclick="setTab('detail',2,6)">
+          </li>
+          <li class="icon-gc" id="detail3" onclick="setTab('detail',3,6)">
+          </li>
+          <li class="icon-wifi" id="detail4" onclick="setTab('detail',4,6)">
+          </li>
+          <li class="icon-af" id="detail5" onclick="setTab('detail',5,6)">
+          </li>
+          <li class="icon-bk" id="detail6" onclick="setTab('detail',6,6)">
+          </li>
+        </ul>
+      </div>
+      <img src="../image/line2.png" style="width: 1px;height: 300px;position: absolute;">
+      <div class="detail-content-box">
+        <!-- 人脸标签页内容 -->
+        <div class="con_detail" id="con_detail_1">
+          <div class="detail-title">人脸识别</div>
+          <div class="detail-sub-container">
+            <div class="detail-sub-tab-container detail-sub-tab-border">
+              <div class="detail-sub-menu-box ">
+                <ul>
+                  <li class="subdetail_face hover" id="subdetail_face_1" onclick="setSubTab('subdetail', 'face', 1)">
+                    抓拍
+                  </li>
+                  <li class="subdetail_face" id="subdetail_face_2" onclick="setSubTab('subdetail', 'face', 2)">
+                    小区
+                  </li>
+                  <li class="subdetail_face" id="subdetail_face_3" onclick="setSubTab('subdetail', 'face', 3)">
+                    报警
+                  </li>
+                </ul>
+              </div>
+              <div class="detail-sub-content-box">
+                <div class="con_subdetail_face" id="con_subdetail_face_1">
+                </div>
+                <div class="con_subdetail_face" id="con_subdetail_face_2" style="display:none">
+                </div>
+                <div class="con_subdetail_face" id="con_subdetail_face_3" style="display:none">
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="con_detail" id="con_detail_2" style="height: 430px; display:none;color:#FFFFFF; text-align: center;">
+          <div class="detail-title">开门</div>
+          <div class="con_door">
+
+          </div>
+        </div>
+        <div class="con_detail" id="con_detail_3" style="display:none">
+          <div class="detail-title">过车数据</div>
+          <div class="con_vehicle_pass">
+            <div class="con_vehicle_pass_stat">
+            </div>
+            <div class="con_vehicle_pass_record">
+            </div>
+          </div>
+        </div>
+        <div class="con_detail" id="con_detail_4" style="display:none">
+          <div class="detail-title">WiFi嗅探</div>
+          <div class="con_wifi_records">
+            <div class="con_wifi_operator">
+              <div class="con_wifi_more">
+                更多>>
+              </div>
+            </div>
+            <div class="con_wifi_items">
+            </div>
+          </div>
+        </div>
+        <div class="con_detail" id="con_detail_5" style="display:none">
+          <div class="detail-title">安防设施</div>
+          <div class="detail-sub-container">
+            <div class="detail-sub-tab-container detail-sub-tab-border">
+              <div class="detail-sub-menu-box ">
+                <ul>
+                  <li class="subdetail_xf hover" id="subdetail_xf_1" onclick="setSubTab('subdetail', 'xf', 1)">
+                    消防栓
+                  </li>
+                  <li class="subdetail_xf" id="subdetail_xf_2" onclick="setSubTab('subdetail', 'xf', 2)">
+                    窨井盖
+                  </li>
+                  <li class="subdetail_xf" id="subdetail_xf_3" onclick="setSubTab('subdetail', 'xf', 3)">
+                    烟感器
+                  </li>
+                </ul>
+              </div>
+              <div class="detail-sub-content-box">
+                <div class="con_subdetail_xf" id="con_subdetail_xf_1">
+                </div>
+                <div class="con_subdetail_xf" id="con_subdetail_xf_2">
+                </div>
+                <div class="con_subdetail_xf" id="con_subdetail_xf_3">
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="con_detail" id="con_detail_6" style="display:none">
+          <div class="detail-title">布控报警</div>
+          <div class="con_control">
+          </div>
+        </div>
+      </div>
+      <img src="../image/line2.png" style="width: 1px;height: 420px;position: absolute;top: 0px;right: 41px;">
+    </div>
+  </div>
+
+  <div class="vehicle-container">
+    <div class="vehicle-box">
+      <!-- <div class="box-title"></div> -->
+      <div class="box-content">
+        <div class="container">
+          <section id="dg-container" class="dg-container">
+            <div id="dg-wrapper" class="dg-wrapper">
+            </div>
+          </section>
+        </div>
+      </div>
+      <div class="box-footer"></div>
+    </div>
+  </div>
+
+  <!-- 终端操作统计 -->
+  <div class="data-contents-height mobile-user-behavior mobile-ranking-list ">
+    <div class="user-behavior-line">
+      <b></b>
+      <b></b>
+      <b></b>
+      <span style="height: 38%; left: 0px; background: rgb(3, 139, 255);" id="xz">0</span>
+      <span style="height: 25%; left: 60px; background: rgb(217, 175, 10);" id="qy">0</span>
+      <span style="height: 85%; right: 50px; background: rgb(11, 193, 165);" id="xg">0</span>
+      <span style="height: 48%; right: -10px; background: #e9364e;" id="zx">0</span>
+    </div>
+    <ol>
+      <li>
+        <i></i>新增</li>
+      <li>
+        <i style="background: #d9af0a;"></i>迁移</li>
+      <li>
+        <i style="background: #0bc1a5;"></i>修改</li>
+      <li>
+        <i style="background: #e9364e;"></i>注销</li>
+    </ol>
+  </div>
+
+  <script type="text/javascript">
+    var map;
+    var lon = window.parent.document.getElementById("lon").value;
+    var lat = window.parent.document.getElementById("lat").value;
+
+    function initMap() {
+      map = new IMAP.Map("map", {
+        minZoom: 3,
+        maxZoom: 20,
+        // 设置地图初始化级别
+        zoom: 17,
+        // 设置地图中心点坐标
+        center: new IMAP.LngLat(lon, lat),
+        // 设置地图缩放动画效果
+        animation: true
+      });
+    }
+
+    // 初始化地图
+    initMap();
+    // 添加路网图层
+    addRoadNetLayer();
+
+  </script>
+
+  <!-- 天气预报
+	<script src="./js/echarts.custom.js"></script>
+	<script src="./js/dateformat.js"></script>
+	<script src="./js/gz.js"></script>
+ -->
+</body>
+
+</html>

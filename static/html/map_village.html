@@ -43,18 +43,6 @@
   <!-- Head -->
   <div class="head-container">
     <div class="head_logo"></div>
-
-    <!-- 天气预报
-        <div class="gz-content" style=" float: right; padding: 15px;">
-          <div  class="gz-top">
-              <div class="am-fl">&nbsp;&nbsp;<span id="topDate">12月07日</span> &nbsp;&nbsp;<span id="topWeek">周三</span> &nbsp;&nbsp;<span id="topWeather">多云</span>&nbsp;&nbsp;<span><span id="topLowTemp">6℃</span>~<span id="topHighTemp">17℃</span>
-              </div>
-          </div>
-
-          <div id="main" class="am-text-center gz-data">
-          </div>
-      </div>
-      -->
   </div>
 
   <!-- 一标六尺 -->
@@ -402,6 +390,8 @@
 
   <script type="text/javascript">
     var map;
+    var lon = window.parent.document.getElementById("lon").value;
+    var lat = window.parent.document.getElementById("lat").value;
 
     function initMap() {
       map = new IMAP.Map("map", {
@@ -410,7 +400,7 @@
         // 设置地图初始化级别
         zoom: 17,
         // 设置地图中心点坐标
-        center: new IMAP.LngLat(121.3377285004, 30.7521905824),
+        center: new IMAP.LngLat(lon, lat),
         // 设置地图缩放动画效果
         animation: true
       });

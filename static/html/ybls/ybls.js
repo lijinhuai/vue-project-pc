@@ -299,7 +299,7 @@ function addMarkerClickEvt(type, origin, marker) {
     content = content + "<div class=\"dynamic-content-info\">"
     var lon = '' + origin.lon;
     var lat = '' + origin.lat;
-    content = content + "消防编号：" + origin.xfbh + "<br/>样式：" + origin.ys + "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;径口直径：" + origin.jkzj + "<br>中队：" + origin.zd + "<br/>坐标：" + lon.substr(
+    content = content + "消防编号：" + origin.xfbh + "<br/>样式：" + origin.ys + "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;径口直径：" + origin.jkzj + "<br>中队：" + origin.zd + "<br/>高德坐标：" + lon.substr(
         0, 10) +
       "，" + lat.substr(0, 9);
     content = content + "</div>"
