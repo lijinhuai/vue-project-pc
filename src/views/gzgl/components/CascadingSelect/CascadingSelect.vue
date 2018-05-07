@@ -1,6 +1,6 @@
 <template>
   <div>
-    <input v-model="model" @click="open()" type="text" :class="inputClass" :readonly="readonly" />
+    <!-- <input v-model="model" @click="open()" type="text" :class="inputClass" :readonly="readonly" /> -->
     <div v-show="show" class="cascading-address">
       <ul>
         <li v-for="item in provinces" :key="item.index" @click="setProvince(item.p)" :class="{'label label-success': p === item.p}">
@@ -23,8 +23,8 @@
         </label>
       </div>
       <div class="address-option-footer">
-        <button @click="close()" class="btn btn-link btn-sm">关闭</button>
-        <button @click="clear()" class="btn btn-default btn-sm">清空</button>
+        <!-- <button @click="close()" class="btn btn-link btn-sm">关闭</button>
+        <button @click="clear()" class="btn btn-default btn-sm">清空</button> -->
         <button @click="confirm()" class="btn btn-success btn-sm" :disabled="!(p&&c&&a)">确定</button>
       </div>
     </div>
@@ -48,7 +48,7 @@
         provinces: addressData,
         areas: '',
         cities: '',
-        show: false
+        show: true
       }
     },
     computed: {
@@ -71,7 +71,7 @@
         this.show = false
       },
       confirm () {
-        this.close()
+        // this.close()
         this.$emit('confirm', {
           province: this.p,
           city: this.c,

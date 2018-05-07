@@ -5,6 +5,7 @@ var mjPicBaseHost = window.parent.document.getElementById("mjPicBaseHost").value
 var rtspServer = window.parent.document.getElementById("rtspServer").value;
 var serviceUrl = locationPath();
 var jcwdm = window.parent.document.getElementById("jcwdm").value;
+var intro = window.parent.document.getElementById("intro").value;
 
 
 $(document).ready(function () {
@@ -264,6 +265,9 @@ function hiddenDynamicData() {
 
 // 页面初始化需要加载的数据
 function initData() {
+
+  $("#introContent").text(intro);
+
   var token = Cookies.get("Admin-Token");
 
   createEventSource(successCallBack);
@@ -2362,4 +2366,9 @@ function openDwxx(dwbh) {
 // 返回首页
 function openHome() {
   window.parent.location.href = serviceUrl + "#/home";
+}
+
+// 切换小区
+function switchCommunity() {
+  window.parent.document.getElementById("switchCommunity").click();
 }
