@@ -3,28 +3,28 @@
     <!-- <input v-model="model" @click="open()" type="text" :class="inputClass" :readonly="readonly" /> -->
     <div v-show="show" class="cascading-address">
       <ul>
-        <li v-for="item in provinces" :key="item.index" @click="setProvince(item.p)" :class="{'label label-success': p === item.p}">
+        <li v-for="item in provinces" :key="item.index" @click="setProvince(item.p)" class="label" :class="{'label-success': p === item.p}">
           {{ item.p }}
         </li>
       </ul>
       <ul v-show="cities.length">
-        <li v-for="item in cities" :key="item.index" @click="setCity(item.n)" :class="{'label label-success': c === item.n}">
+        <li v-for="item in cities" :key="item.index" @click="setCity(item.n)" class="label" :class="{'label-success': c === item.n}">
           {{ item.n }}
         </li>
       </ul>
       <ul v-show="areas.length">
-        <li v-for="item in areas" :key="item.index" @click="setArea(item)" :class="{'label label-success': a === item.s}">
+        <li v-for="item in areas" :key="item.index" @click="setArea(item)" class="label" :class="{'label-success': a === item.s}">
           {{ item.s }}
         </li>
       </ul>
       <div v-show="p" class="address-area">
         <label class="text-success">
-            <span class="text-muted">地址：</span> {{ p }} {{ c }} {{ a }}
-        </label>
+              <span class="text-muted">地址：</span> {{ p }} {{ c }} {{ a }}
+          </label>
       </div>
       <div class="address-option-footer">
         <!-- <button @click="close()" class="btn btn-link btn-sm">关闭</button>
-        <button @click="clear()" class="btn btn-default btn-sm">清空</button> -->
+          <button @click="clear()" class="btn btn-default btn-sm">清空</button> -->
         <button @click="confirm()" class="btn btn-success btn-sm" :disabled="!(p&&c&&a)">确定</button>
       </div>
     </div>
@@ -136,18 +136,19 @@
   text-align: left;
 }
 .label {
+  padding: 0.2em 0 0.3em;
   display: inline;
-  padding: 0.2em 0.6em 0.3em;
-  font-size: 75%;
-  font-weight: bold;
   line-height: 1;
-  color: #fff;
   text-align: center;
   white-space: nowrap;
   vertical-align: baseline;
-  border-radius: 0.25em;
 }
 .label-success {
+  font-size: 75%;
+  font-weight: bold;
+  color: #fff;
+  padding: 0.2em 0.6em 0.3em;
+  border-radius: 0.25em;
   background-color: #5cb85c;
 }
 .btn {

@@ -10,9 +10,7 @@
     <input hidden v-model="center.lon" id="lon" />
     <input hidden v-model="center.lat" id="lat" />
     <input hidden v-model="intro" id="intro" />
-    <div style="position:fixed;">
-    </div>
-    <iframe id="map" :src="iframeSrc" style="width:100%; height:100%; border: 0px;"></iframe>
+    <iframe id="map" :src="iframeSrc" style="width:100%; height:100%; border: 0px;overflow:hidden;"></iframe>
     <el-dialog :visible.sync="dialogTableVisible" width="318px" :show-close="false" :close-on-click-modal="false" :close-on-press-escape="false" center lock-scroll>
       <div>
         <cascading-address @confirm="confirmCity"></cascading-address>
