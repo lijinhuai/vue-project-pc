@@ -426,6 +426,33 @@
     // 添加路网图层
     addRoadNetLayer();
 
+
+    // 页面默认的定位
+    function loadDefaultLocations() {
+
+      // 加载实有房屋
+      loadHouseLocations();
+
+      // 加载实有单位
+      loadDwLocations();
+
+      // 加载小区出入口
+      loadXqxxLocations();
+
+      // 加载安防措施
+      loadCameraLocations();
+
+      // 加载 WIFI 嗅探设备
+      loadWifiDeviceLocations();
+
+      // 加载消防栓位置
+      loadXfsLocations();
+
+      // 加载消防重点单位
+      // loadXfUnitLocations();
+
+    }
+
   </script>
 
   <!-- 天气预报

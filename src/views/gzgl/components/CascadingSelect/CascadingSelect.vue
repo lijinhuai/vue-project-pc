@@ -8,7 +8,7 @@
         </li>
       </ul>
       <ul v-show="cities.length">
-        <li v-for="item in cities" :key="item.index" @click="setCity(item.n)" class="label" :class="{'label-success': c === item.n}">
+        <li v-for="item in cities" :key="item.index" @click="setCity(item)" class="label" :class="{'label-success': c === item.n}">
           {{ item.n }}
         </li>
       </ul>
@@ -44,7 +44,8 @@
         p: '',
         c: '',
         a: '',
-        aDm: '',
+        pcs: {},
+        xq: {},
         provinces: addressData,
         areas: '',
         cities: '',
@@ -76,7 +77,9 @@
           province: this.p,
           city: this.c,
           area: this.a,
+          pcs: this.pcs,
           xq: this.xq
+
         })
       },
       setProvince (p) {
@@ -91,12 +94,13 @@
         this.cities = result[0].c || []
       },
       setCity (c) {
-        this.c = c
+        this.c = c.n
         this.a = ''
         var result = this.cities.filter(function (v) {
-          return v.n === c
+          return v.n === c.n
         })
         this.areas = result[0].a || []
+        this.pcs = c
       },
       setArea (a) {
         this.a = a.s
@@ -150,6 +154,7 @@
   padding: 0.2em 0.6em 0.3em;
   border-radius: 0.25em;
   background-color: #5cb85c;
+  /* background-color:#0dc2fd; */
 }
 .btn {
   display: inline-block;

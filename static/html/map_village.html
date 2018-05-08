@@ -211,7 +211,7 @@
           <span class="operator-checkbox operator-input"></span>
           实有单位
         </label>
-        <label class="operator-label on">
+        <!-- <label class="operator-label on">
           <input class="operator-radio" type="checkbox" name="operator-camera" checked>
           <span class="operator-checkbox operator-input"></span>
           实有安防
@@ -230,6 +230,26 @@
           <input class="operator-radio" type="checkbox" name="operator-wifi" checked>
           <span class="operator-checkbox operator-input"></span>
           WIFI嗅探
+        </label> -->
+        <label class="operator-label on">
+          <input class="operator-radio" type="checkbox" name="operator-pecc" checked>
+          <span class="operator-checkbox operator-input"></span>
+          电子警察
+        </label>
+        <label class="operator-label on">
+          <input class="operator-radio" type="checkbox" name="operator-sluice" checked>
+          <span class="operator-checkbox operator-input"></span>
+          &nbsp;水&nbsp;闸&nbsp;
+        </label>
+        <label class="operator-label on">
+          <input class="operator-radio" type="checkbox" name="operator-warehouse" checked>
+          <span class="operator-checkbox operator-input"></span>
+          &nbsp;仓&nbsp;库&nbsp;
+        </label>
+        <label class="operator-label on" style="margin-right: 12px;">
+          <input class="operator-radio" type="checkbox" name="operator-seniorcenter" checked>
+          <span class="operator-checkbox operator-input"></span>
+          老年中心
         </label>
       </div>
 
@@ -413,6 +433,41 @@
     initMap();
     // 添加路网图层
     addRoadNetLayer();
+
+    // 页面默认的定位
+    function loadDefaultLocations() {
+
+      // 加载实有房屋
+      loadHouseLocations();
+
+      // 加载实有单位
+      loadDwLocations();
+
+      // 加载小区出入口
+      // loadXqxxLocations();
+
+      // 加载安防措施
+      loadCameraLocations();
+
+      // 加载 WIFI 嗅探设备
+      // loadWifiDeviceLocations();
+
+      // 加载消防栓位置
+      // loadXfsLocations();
+
+      // 加载电子警察
+      loadPeccLocations();
+
+      // 加载水闸
+      loadSluiceLocations();
+
+      // 加载仓库
+      loadWarehouseLocations();
+
+      // 加载老年活动中心
+      loadSeniorcenterLocations();
+
+    }
 
   </script>
 

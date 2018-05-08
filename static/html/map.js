@@ -4,6 +4,7 @@ var carPicBaseUrl = window.parent.document.getElementById("carPicBaseUrl").value
 var mjPicBaseHost = window.parent.document.getElementById("mjPicBaseHost").value;
 var rtspServer = window.parent.document.getElementById("rtspServer").value;
 var serviceUrl = locationPath();
+var pcsdm = window.parent.document.getElementById("pcsdm").value;
 var jcwdm = window.parent.document.getElementById("jcwdm").value;
 var intro = window.parent.document.getElementById("intro").value;
 
@@ -142,6 +143,46 @@ function initOperatorMenuEvent() {
     // 取消WIFI嗅探
     if (name == 'operator-wifi' && !checked) {
       hiddenLocationsByType("wifi");
+    }
+
+    // 选中电子警察
+    if (name == 'operator-pecc' && checked) {
+      showLocationsByType("pecc");
+    }
+
+    // 取消电子警察
+    if (name == 'operator-pecc' && !checked) {
+      hiddenLocationsByType("pecc");
+    }
+
+    // 选中水闸
+    if (name == 'operator-sluice' && checked) {
+      showLocationsByType("sluice");
+    }
+
+    // 取消水闸
+    if (name == 'operator-sluice' && !checked) {
+      hiddenLocationsByType("sluice");
+    }
+
+    // 选中仓库
+    if (name == 'operator-warehouse' && checked) {
+      showLocationsByType("warehouse");
+    }
+
+    // 取消仓库
+    if (name == 'operator-warehouse' && !checked) {
+      hiddenLocationsByType("warehouse");
+    }
+
+    // 选中老年活动中心
+    if (name == 'operator-seniorcenter' && checked) {
+      showLocationsByType("seniorcenter");
+    }
+
+    // 取消老年活动中心
+    if (name == 'operator-seniorcenter' && !checked) {
+      hiddenLocationsByType("seniorcenter");
     }
   });
 
@@ -1686,31 +1727,31 @@ function showMenuContentForDoorFull(messages) {
   $(".con_door").html(doorHtml);
 }
 
-// 页面默认的定位
-function loadDefaultLocations() {
+// // 页面默认的定位
+// function loadDefaultLocations() {
 
-  // 加载实有房屋
-  loadHouseLocations();
+//   // 加载实有房屋
+//   loadHouseLocations();
 
-  // 加载实有单位
-  loadDwLocations();
+//   // 加载实有单位
+//   loadDwLocations();
 
-  // 加载小区出入口
-  loadXqxxLocations();
+//   // 加载小区出入口
+//   loadXqxxLocations();
 
-  // 加载安防措施
-  loadCameraLocations();
+//   // 加载安防措施
+//   loadCameraLocations();
 
-  // 加载 WIFI 嗅探设备
-  loadWifiDeviceLocations();
+//   // 加载 WIFI 嗅探设备
+//   loadWifiDeviceLocations();
 
-  // 加载消防栓位置
-  loadXfsLocations();
+//   // 加载消防栓位置
+//   loadXfsLocations();
 
-  // 加载消防重点单位
-  // loadXfUnitLocations();
+//   // 加载消防重点单位
+//   // loadXfUnitLocations();
 
-}
+// }
 
 // 加载消防栓位置
 function loadXfsLocations() {
@@ -1884,6 +1925,61 @@ function loadHouseLocations() {
   });
 }
 
+// 加载电子警察
+function loadPeccLocations() {
+  var token = Cookies.get("Admin-Token");
+  loadData(baseUrl + "/jkdws/locations?pcsdm=" + pcsdm + "&lx=1", token, function (data) {
+    var code = data.code;
+    if (code == 200) {
+      var locations = data.data;
+      for (var i = 0; i < locations.length; i++) {
+        addMarker(locations[i].lon, locations[i].lat, locations[i].jkdwbh, "pecc", locations[i]);
+      }
+    }
+  });
+}
+
+// 加载水闸
+function loadSluiceLocations() {
+  var token = Cookies.get("Admin-Token");
+  loadData(baseUrl + "/xqxx/97/locations?pcsdm=" + pcsdm, token, function (data) {
+    var code = data.code;
+    if (code == 200) {
+      var locations = data.data;
+      for (var i = 0; i < locations.length; i++) {
+        addMarker(locations[i].lon, locations[i].lat, locations[i].crkbh, "sluice", locations[i]);
+      }
+    }
+  });
+}
+
+// 加载仓库
+function loadWarehouseLocations() {
+  var token = Cookies.get("Admin-Token");
+  loadData(baseUrl + "/xqxx/95/locations?pcsdm=" + pcsdm, token, function (data) {
+    var code = data.code;
+    if (code == 200) {
+      var locations = data.data;
+      for (var i = 0; i < locations.length; i++) {
+        addMarker(locations[i].lon, locations[i].lat, locations[i].crkbh, "warehouse", locations[i]);
+      }
+    }
+  });
+}
+
+// 加载老年活动中心
+function loadSeniorcenterLocations() {
+  var token = Cookies.get("Admin-Token");
+  loadData(baseUrl + "/xqxx/96/locations?pcsdm=" + pcsdm, token, function (data) {
+    var code = data.code;
+    if (code == 200) {
+      var locations = data.data;
+      for (var i = 0; i < locations.length; i++) {
+        addMarker(locations[i].lon, locations[i].lat, locations[i].crkbh, "seniorcenter", locations[i]);
+      }
+    }
+  });
+}
 
 // 展示某个类型的坐标信息
 function showLocationsByType(type) {
@@ -2159,8 +2255,18 @@ function addMarkerClickEvt(type, origin, marker) {
     // content = content + "<i class=\"iconfont\">&#xe682;</i>";
     // content = content + "</div>";
     content = content + "</div>";
+  } else if (type == 'pecc') {
+    content = assembleInfoWindowContentWithoutPicture("电子警察", "安装地址：" + origin.jkdmc);
+  } else if (type == 'sluice') {
+    content = assembleInfoWindowContent("水闸", baseUrl + "/xqxx/" + origin.crkbh + "/photo?Authorization=" +
+      token, "地址：" + origin.crkmc);
+  } else if (type == 'warehouse') {
+    content = assembleInfoWindowContent("仓库", baseUrl + "/xqxx/" + origin.crkbh + "/photo?Authorization=" +
+      token, "地址：" + origin.crkmc);
+  } else if (type == 'seniorcenter') {
+    content = assembleInfoWindowContent("老年活动中心", baseUrl + "/xqxx/" + origin.crkbh + "/photo?Authorization=" +
+      token, "地址：" + origin.crkmc);
   }
-
   if (type == 'camera') {
     marker.addEventListener(IMAP.Constants.CLICK, function (evt) {
       showRtspVideoDialog(origin.cameraId)

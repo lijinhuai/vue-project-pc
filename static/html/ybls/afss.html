@@ -96,7 +96,7 @@
       loadData(baseUrl + "/jkdws/locations", token, function (data) {
         var code = data.code;
         if (code == 200) {
-          var locations = data.data[1]
+          var locations = data.data
           addCluster(locations, 'camera');
           $('.loading').hide();
         }
@@ -123,15 +123,21 @@
       loadData(baseUrl + "/jkdws/locations?pcsbm=" + pcsbm, token, function (data) {
         var code = data.code;
         if (code == 200) {
-          var gps = data.data[0]
-          var locations = data.data[1];
+          var locations = data.data;
           addCluster(locations, 'camera');
-          if (gps != null) {
-            map.setCenter(new IMAP.LngLat(gps.lon, gps.lat), gps.zoom);
-          }
           $('.loading').hide();
         }
       });
+      loadData(baseUrl + "/jkdws/pcsinfos?pcsbm=" + pcsbm, token, function (data) {
+        var code = data.code;
+        if (code == 200) {
+          var gps = data.data
+          if (gps != null) {
+            map.setCenter(new IMAP.LngLat(gps.lon, gps.lat), gps.zoom);
+          }
+        }
+      });
+
     }
 
   </script>

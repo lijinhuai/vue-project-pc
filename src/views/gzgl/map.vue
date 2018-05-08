@@ -6,6 +6,7 @@
     <input hidden v-model="carPicBaseUrl" id="carPicBaseUrl" />
     <input hidden v-model="mjPicBaseHost" id="mjPicBaseHost" />
     <input hidden v-model="rtspServer" id="rtspServer" />
+    <input hidden v-model="pcsdm" id="pcsdm" />
     <input hidden v-model="jcwdm" id="jcwdm" />
     <input hidden v-model="center.lon" id="lon" />
     <input hidden v-model="center.lat" id="lat" />
@@ -25,12 +26,13 @@ import cascadingAddress from './components/CascadingSelect/CascadingSelect.vue'
 export default {
   data () {
     return {
-      dialogTableVisible: true,
+      dialogTableVisible: false,
       baseUrl: '',
       facePicBaseUrl: '',
       carPicBaseUrl: '',
       mjPicBaseHost: '',
       rtspServer: '',
+      pcsdm: '',
       jcwdm: '',
       iframeSrc: '',
       center: {
@@ -49,18 +51,32 @@ export default {
     this.carPicBaseUrl = config.carPicBaseUrl
     this.mjPicBaseHost = config.mjPicBaseHost
     this.rtspServer = config.rtspServer
+    this.initDefault()
   },
   methods: {
     confirmCity (data) {
       this.iframeSrc = ''
-      this.jcwdm = data.xq.dm
+      this.pcsdm = data.pcs.pcsdm
+      this.jcwdm = data.xq.jcwdm
       this.center = data.xq.center
-      if (data.xq === 'city') {
-        this.iframeSrc = 'static/html/map_city.html?jdwdm' + data.xq.dm
+      if (data.xq.type === 'city') {
+        this.iframeSrc = 'static/html/map_city.html?jdwdm=' + data.xq.jcwdm
       } else {
-        this.iframeSrc = 'static/html/map_village.html?jdwdm' + data.xq.dm
+        this.iframeSrc = 'static/html/map_village.html?jdwdm=' + data.xq.jcwdm
       }
       this.intro = data.xq.intro
+      this.dialogTableVisible = false
+    },
+    initDefault () {
+      this.pcsdm = '310116560000'
+      this.jcwdm = '16113006'
+      this.center = {
+        lon: '121.3377285004',
+        lat: '30.7521905824'
+      }
+      this.iframeSrc = 'static/html/map_city.html?jdwdm=16113006'
+      this.intro =
+        '万盛金邸小区位于金山区龙轩路1000弄、866弄，总占地面积22.5万平方米，居民楼栋66栋，主要出入口4个，南北向的海汇商业街将住宅小区划分为东、西两区，海汇街面积9.5万平方米。'
       this.dialogTableVisible = false
     },
     switchCommunity () {
