@@ -3,23 +3,23 @@
     <!-- <input v-model="model" @click="open()" type="text" :class="inputClass" :readonly="readonly" /> -->
     <div v-show="show" class="cascading-address">
       <ul>
-        <li v-for="item in provinces" :key="item.index" @click="setProvince(item.p)" class="label" :class="{'label-success': p === item.p}">
-          {{ item.p }}
+        <li v-for="item in areas" :key="item.index" @click="setArea(item.area)" class="label" :class="{'label-success': a === item.area}">
+          {{ item.area }}
         </li>
       </ul>
-      <ul v-show="cities.length">
-        <li v-for="item in cities" :key="item.index" @click="setCity(item)" class="label" :class="{'label-success': c === item.n}">
-          {{ item.n }}
+      <ul v-show="pcss.length">
+        <li v-for="item in pcss" :key="item.index" @click="setPcs(item)" class="label" :class="{'label-success': p === item.pcsmc}">
+          {{ item.pcsmc }}
         </li>
       </ul>
-      <ul v-show="areas.length">
-        <li v-for="item in areas" :key="item.index" @click="setArea(item)" class="label" :class="{'label-success': a === item.s}">
-          {{ item.s }}
+      <ul v-show="communitys.length">
+        <li v-for="item in communitys" :key="item.index" @click="setCommunity(item)" class="label" :class="{'label-success': c === item.name}">
+          {{ item.name }}
         </li>
       </ul>
-      <div v-show="p" class="address-area">
+      <div v-show="a" class="address-area">
         <label class="text-success">
-              <span class="text-muted">地址：</span> {{ p }} {{ c }} {{ a }}
+              <span class="text-muted">地址：</span> {{ a }} {{ p }} {{ c }}
           </label>
       </div>
       <div class="address-option-footer">
@@ -41,14 +41,14 @@
     },
     data () {
       return {
+        a: '',
         p: '',
         c: '',
-        a: '',
         pcs: {},
-        xq: {},
-        provinces: addressData,
-        areas: '',
-        cities: '',
+        community: {},
+        areas: addressData,
+        pcss: [],
+        communitys: [],
         show: true
       }
     },
@@ -59,9 +59,11 @@
     },
     methods: {
       clear () {
+        this.a = ''
         this.p = ''
         this.c = ''
-        this.a = ''
+        this.pcs = {}
+        this.community = {}
         this.cities = []
         this.areas = []
       },
@@ -74,37 +76,33 @@
       confirm () {
         // this.close()
         this.$emit('confirm', {
-          province: this.p,
-          city: this.c,
-          area: this.a,
           pcs: this.pcs,
-          xq: this.xq
-
+          community: this.community
         })
       },
-      setProvince (p) {
-        this.p = p
+      setArea (area) {
+        this.a = area
+        this.p = ''
         this.c = ''
-        this.a = ''
-        this.areas = []
+        this.communitys = []
         // 根据选中的 p(省份) 值更新 cities(城市列表)
-        var result = this.provinces.filter(function (v) {
-          return v.p === p
+        var result = this.areas.filter(function (v) {
+          return v.area === area
         })
-        this.cities = result[0].c || []
+        this.pcss = result[0].pcs || []
       },
-      setCity (c) {
-        this.c = c.n
-        this.a = ''
-        var result = this.cities.filter(function (v) {
-          return v.n === c.n
+      setPcs (pcs) {
+        this.p = pcs.pcsmc
+        this.c = ''
+        var result = this.pcss.filter(function (v) {
+          return v.pcsmc === pcs.pcsmc
         })
-        this.areas = result[0].a || []
-        this.pcs = c
+        this.communitys = result[0].community || []
+        this.pcs = pcs
       },
-      setArea (a) {
-        this.a = a.s
-        this.xq = a
+      setCommunity (community) {
+        this.c = community.name
+        this.community = community
       }
     }
   }

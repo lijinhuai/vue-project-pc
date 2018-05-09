@@ -57,14 +57,14 @@ export default {
     confirmCity (data) {
       this.iframeSrc = ''
       this.pcsdm = data.pcs.pcsdm
-      this.jcwdm = data.xq.jcwdm
-      this.center = data.xq.center
-      if (data.xq.type === 'city') {
-        this.iframeSrc = 'static/html/map_city.html?jdwdm=' + data.xq.jcwdm
+      this.jcwdm = data.community.jcwdm
+      this.center = data.community.center
+      if (data.community.type === 'city') {
+        this.iframeSrc = 'static/html/map_city.html?jdwdm=' + data.community.jcwdm
       } else {
-        this.iframeSrc = 'static/html/map_village.html?jdwdm=' + data.xq.jcwdm
+        this.iframeSrc = 'static/html/map_village.html?jdwdm=' + data.community.jcwdm
       }
-      this.intro = data.xq.intro
+      this.intro = data.community.intro
       this.dialogTableVisible = false
     },
     initDefault () {
