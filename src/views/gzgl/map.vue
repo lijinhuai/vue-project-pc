@@ -7,6 +7,7 @@
     <input hidden v-model="mjPicBaseHost" id="mjPicBaseHost" />
     <input hidden v-model="rtspServer" id="rtspServer" />
     <input hidden v-model="pcsdm" id="pcsdm" />
+    <input hidden v-model="jlxdm" id="jlxdm" />
     <input hidden v-model="jcwdm" id="jcwdm" />
     <input hidden v-model="center.lon" id="lon" />
     <input hidden v-model="center.lat" id="lat" />
@@ -33,6 +34,7 @@ export default {
       mjPicBaseHost: '',
       rtspServer: '',
       pcsdm: '',
+      jlxdm: '',
       jcwdm: '',
       iframeSrc: '',
       center: {
@@ -57,6 +59,7 @@ export default {
     confirmCity (data) {
       this.iframeSrc = ''
       this.pcsdm = data.pcs.pcsdm
+      this.jlxdm = data.community.jlxdm
       this.jcwdm = data.community.jcwdm
       this.center = data.community.center
       if (data.community.type === 'city') {
@@ -69,6 +72,7 @@ export default {
     },
     initDefault () {
       this.pcsdm = '310116560000'
+      this.jlxdm = '282719'
       this.jcwdm = '16113006'
       this.center = {
         lon: '121.3377285004',

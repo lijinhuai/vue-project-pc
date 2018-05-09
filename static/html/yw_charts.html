@@ -765,6 +765,9 @@
 <script>
   var baseUrl = window.parent.document.getElementById("baseUrl").value;
   var serviceUrl = locationPath();
+  var pcsdm = window.parent.document.getElementById("pcsdm").value;
+  var jlxdm = window.parent.document.getElementById("jlxdm").value;
+  var jcwdm = window.parent.document.getElementById("jcwdm").value;
 
   $(document).ready(function () {
     // 页面初始数据
@@ -981,6 +984,11 @@
         Authorization: token
       },
       type: "get",
+      data: {
+        "jcwdm": jcwdm,
+        "pcsdm": pcsdm,
+        "jlxdm": jlxdm
+      },
       url: url,
       success: function (data) {
         callback(data);
@@ -1009,12 +1017,12 @@
 
   function toRycx_xb(xb) {
     var path = locationPath();
-    window.open(serviceUrl + "/#/analysis/rycx?xb="+xb);
+    window.open(serviceUrl + "/#/analysis/rycx?xb=" + xb);
   }
 
   function toRycx_mz(mzdm) {
     var path = locationPath();
-    window.open(serviceUrl + "/#/analysis/rycx?mzdm="+mzdm);
+    window.open(serviceUrl + "/#/analysis/rycx?mzdm=" + mzdm);
 
   }
 

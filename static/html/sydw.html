@@ -659,12 +659,15 @@
 <script src="../js/countUp.js"></script>
 <script>
   var baseUrl = window.parent.document.getElementById("baseUrl").value;
+  var pcsdm = window.parent.document.getElementById("pcsdm").value;
+  var jlxdm = window.parent.document.getElementById("jlxdm").value;
+  var jcwdm = window.parent.document.getElementById("jcwdm").value;
 
 
   $(document).ready(function () {
 
     // 页面初始数据
-    initData();
+    // initData();
   });
 
   function initData() {
@@ -704,6 +707,11 @@
         Authorization: token
       },
       type: "get",
+      data: {
+        "jcwdm": jcwdm,
+        "pcsdm": pcsdm,
+        "jlxdm": jlxdm
+      },
       url: url,
       success: function (data) {
         callback(data);

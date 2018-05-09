@@ -5,6 +5,7 @@ var mjPicBaseHost = window.parent.document.getElementById("mjPicBaseHost").value
 var rtspServer = window.parent.document.getElementById("rtspServer").value;
 var serviceUrl = locationPath();
 var pcsdm = window.parent.document.getElementById("pcsdm").value;
+var jlxdm = window.parent.document.getElementById("jlxdm").value;
 var jcwdm = window.parent.document.getElementById("jcwdm").value;
 var intro = window.parent.document.getElementById("intro").value;
 
@@ -1928,7 +1929,7 @@ function loadHouseLocations() {
 // 加载电子警察
 function loadPeccLocations() {
   var token = Cookies.get("Admin-Token");
-  loadData(baseUrl + "/jkdws/locations?pcsdm=" + pcsdm + "&lx=1", token, function (data) {
+  loadData(baseUrl + "/jkdws/locations?" + "lx=1", token, function (data) {
     var code = data.code;
     if (code == 200) {
       var locations = data.data;
@@ -1942,7 +1943,7 @@ function loadPeccLocations() {
 // 加载水闸
 function loadSluiceLocations() {
   var token = Cookies.get("Admin-Token");
-  loadData(baseUrl + "/xqxx/97/locations?pcsdm=" + pcsdm, token, function (data) {
+  loadData(baseUrl + "/xqxx/97/locations", token, function (data) {
     var code = data.code;
     if (code == 200) {
       var locations = data.data;
@@ -1956,7 +1957,7 @@ function loadSluiceLocations() {
 // 加载仓库
 function loadWarehouseLocations() {
   var token = Cookies.get("Admin-Token");
-  loadData(baseUrl + "/xqxx/95/locations?pcsdm=" + pcsdm, token, function (data) {
+  loadData(baseUrl + "/xqxx/95/locations", token, function (data) {
     var code = data.code;
     if (code == 200) {
       var locations = data.data;
@@ -1970,7 +1971,7 @@ function loadWarehouseLocations() {
 // 加载老年活动中心
 function loadSeniorcenterLocations() {
   var token = Cookies.get("Admin-Token");
-  loadData(baseUrl + "/xqxx/96/locations?pcsdm=" + pcsdm, token, function (data) {
+  loadData(baseUrl + "/xqxx/96/locations", token, function (data) {
     var code = data.code;
     if (code == 200) {
       var locations = data.data;
@@ -2037,7 +2038,9 @@ function loadData(url, token, callback) {
     type: "get",
     url: url,
     data: {
-      "jcwdm": jcwdm
+      "jcwdm": jcwdm,
+      "pcsdm": pcsdm,
+      "jlxdm": jlxdm
     },
     success: function (data) {
       callback(data);

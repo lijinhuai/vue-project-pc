@@ -725,6 +725,9 @@
 <script src="../js/countUp.js"></script>
 <script>
   var baseUrl = window.parent.document.getElementById("baseUrl").value;
+  var pcsdm = window.parent.document.getElementById("pcsdm").value;
+  var jlxdm = window.parent.document.getElementById("jlxdm").value;
+  var jcwdm = window.parent.document.getElementById("jcwdm").value;
   var serviceUrl = locationPath();
 
   $(document).ready(function () {
@@ -759,6 +762,11 @@
         Authorization: token
       },
       type: "get",
+      data: {
+        "jcwdm": jcwdm,
+        "pcsdm": pcsdm,
+        "jlxdm": jlxdm
+      },
       url: url,
       success: function (data) {
         callback(data);
@@ -786,7 +794,7 @@
 
 
   function toFwcx(fwbq) {
-    window.open(serviceUrl + "/#/analysis/fwcx?fwbq="+fwbq);
+    window.open(serviceUrl + "/#/analysis/fwcx?fwbq=" + fwbq);
   }
 
   function locationPath() {
