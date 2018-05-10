@@ -1,0 +1,1428 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>基础地图展示</title>
+
+  <meta name="renderer" content="webkit">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+  <meta tabindex="">
+  <link rel="stylesheet" type="text/css" href="./amap/jsmap.css">
+  <script src="./amap/jsmap.js"></script>
+
+  <script src="../js/jquery.min.js"></script>
+  <script src="../js/js.cookie-2.2.0.min.js"></script>
+  <script src="../js/jquery.base64.js"></script>
+  <script src="../js/layer/layer.js"></script>
+
+  <style>
+    .head-container {
+      width: 100%;
+      /* background: rgba(3,40,53,0.31); */
+      /* box-shadow: inset 0 0 25px #0dc2fd; */
+      position: fixed;
+      top: 0px;
+      left: 0;
+      z-index: 800;
+      margin-top: 5px;
+    }
+
+    .head-container .head_logo {
+      width: 100%;
+      height: 80px;
+      background: url(/static/image/toplogo.png) no-repeat;
+      background-size: cover;
+      -webkit-background-size: cover;
+      background-position: center 0;
+    }
+
+
+
+    @font-face {
+      font-family: 'iconfont';
+      src: url('../icon/iconfont.eot');
+      src: url('../icon/iconfont.eot?#iefix') format('embedded-opentype'),
+      url('../icon/iconfont.woff') format('woff'),
+      url('../icon/iconfont.ttf') format('truetype'),
+      url('../icon/iconfont.svg#iconfont') format('svg');
+    }
+
+    .iconfont {
+      font-family: "iconfont" !important;
+      font-size: 16px;
+      font-style: normal;
+      -webkit-font-smoothing: antialiased;
+    }
+
+
+    /************ 地图操作 ***************/
+
+    .operator-container {
+      position: absolute;
+      top: 50px;
+      text-align: center;
+      z-index: 900;
+      display: block;
+      right: 0;
+    }
+
+    .operator-container .operator-ops {
+      /* width: 40%; */
+      margin-right: 5px;
+      color: #0dc2fd;
+      /* box-shadow: inset 0 0 11px 0px #0dc2fd; */
+      background-color: rgba(2, 48, 65, 0.7);
+    }
+
+    .operator-container .operator-label {
+      display: inline-block;
+      cursor: pointer;
+      background-image: url(/static/image/checkbox3_on.png);
+      padding: 5px 0px;
+      background-size: cover;
+      -webkit-background-size: cover;
+      background-position: center 0;
+      font-size: 12px;
+      font-weight: 800;
+      background-size: cover;
+      -webkit-background-size: cover;
+      background-position: center 0;
+      height: 18px;
+      width: 65px;
+    }
+
+    .operator-container .operator-label.off {
+      color: #595c5e;
+      background-image: url(/static/image/checkbox3.png);
+    }
+
+    .operator-container .operator-label.on {
+      background-image: url(/static/image/checkbox3_on.png);
+    }
+
+    .operator-container-left .operator-label.off {
+      color: #595c5e;
+      background-image: url(/static/image/checkbox1.png);
+    }
+
+    .operator-container-left .operator-label.on {
+      background-image: url(/static/image/checkbox1_on.png);
+    }
+
+    .operator-container .operator-content.on {
+      animation: operator-show .5s;
+      animation-fill-mode: forwards;
+    }
+
+    .operator-container .operator-content.off {
+      animation: operator-hide .5s;
+      animation-fill-mode: forwards;
+    }
+
+    @keyframes operator-hide {
+      0% {
+        transform: rotateY(0deg);
+        transform-origin: right;
+        opacity: 1
+      }
+      100% {
+        transform: rotateY(90deg);
+        transform-origin: right;
+        opacity: 0;
+        width: 0px;
+      }
+    }
+
+    @keyframes operator-show {
+      0% {
+        transform: rotateY(90deg);
+        transform-origin: right;
+        opacity: 0
+      }
+      100% {
+        transform: rotateY(0deg);
+        transform-origin: right;
+        opacity: 1
+      }
+    }
+
+    .operator-container .operator-title {
+      width: 6px;
+      background-color: #ffd700;
+      margin-right: 6px;
+      height: 28px;
+      position: absolute;
+      right: 0px;
+      top: 0px;
+      cursor: pointer;
+    }
+
+    .operator-container .operator-radio {
+      display: none
+    }
+
+    .operator-container .operator-input {
+      background-color: #fff;
+      border: 1px solid rgba(0, 0, 0, 0.15);
+      border-radius: 100%;
+      display: inline-block;
+      height: 16px;
+      margin-right: 10px;
+      margin-top: -1px;
+      vertical-align: middle;
+      width: 16px;
+      line-height: 1;
+      display: none;
+    }
+
+    .operator-container .operator-radio:checked+.operator-input:after {
+      background-color: #0869dc;
+      border-radius: 100%;
+      content: "";
+      display: inline-block;
+      height: 12px;
+      margin: 2px;
+      width: 12px
+    }
+
+    .operator-container .operator-checkbox.operator-input,
+    .operator-radio:checked+.operator-checkbox.operator-input:after {
+      border-radius: 0
+    }
+
+
+    /************ 右侧菜菜单 ***************/
+
+    .detail-container {
+      width: 300px;
+      position: absolute;
+      top: 15%;
+      right: 20px;
+      z-index: 1000;
+    }
+
+
+    .detail-tab-container {
+      width: 300px;
+      margin: 0px;
+      padding: 0px;
+      margin-bottom: 15px;
+      overflow: hidden;
+    }
+
+
+    .detail-content-box {
+      margin-top: 0px;
+      /* border-top: none; */
+      padding: 30px 2px 0px 6px;
+      left: 10px;
+      height: 400px;
+      background-color: rgb(5, 48, 64);
+      /* width: 300px; */
+      border-image-source: url(../image/line1.png);
+      border-style: solid;
+      border-width: 1px 1px;
+      border-image-slice: 1 fill;
+      border-image-outset: initial;
+      border-image-repeat: initial;
+    }
+
+    .detail-content-box .con_detail {
+      position: relative;
+      color: white;
+      font-size: 14px;
+    }
+
+    .detail-content-box .con_detail .detail-title {
+      position: absolute;
+      top: -25px;
+      color: #dddee1;
+    }
+
+    /************ 右侧菜菜单 - 子菜单 ***************/
+
+    .detail-sub-container {
+      /* width: 250px; */
+      /* border-top: 3px solid #ff2468; */
+      /* margin-top: 2px; */
+      background-color: rgb(16, 66, 84);
+    }
+
+    .detail-sub-container .detail-sub-menu-box {
+      height: 28px;
+      line-height: 28px;
+      position: relative;
+      /* border-bottom: 2px solid rgb(63, 70, 73); */
+      background-color: rgba(2, 48, 65, 0.7);
+    }
+
+    .detail-sub-container ul {
+      margin: 0px;
+      padding: 0px;
+      list-style: none;
+      position: absolute;
+      top: 1px;
+      left: 0;
+      height: 26px;
+      text-align: center;
+    }
+
+    .detail-sub-container li {
+      float: left;
+      display: block;
+      cursor: pointer;
+      width: 60px;
+      color: #FFFFFF;
+      font-weight: bold;
+      margin-right: 2px;
+      height: 25px;
+      line-height: 25px;
+      background-color: rgb(190, 18, 18, 0);
+      font-size: 14px;
+      letter-spacing: 3px;
+    }
+
+    .detail-sub-container li.hover {
+      background-color: #104254;
+      border-top: 2px solid #ff244b;
+    }
+
+    .detail-sub-container .detail-sub-content-box {
+      padding-top: 8px;
+      height: 350px;
+      overflow-y: auto;
+    }
+
+    .detail-sub-container .detail-sub-content-box::-webkit-scrollbar {
+      width: 6px;
+      height: 2px;
+    }
+
+    .detail-sub-container .detail-sub-content-box::-webkit-scrollbar-thumb {
+      border-radius: 1px;
+      background: #2b85e4;
+    }
+
+    .detail-sub-container .detail-sub-content-box::-webkit-scrollbar-track {
+      border-radius: 1px;
+      background: #033447;
+    }
+
+    .can-click:hover {
+      cursor: pointer;
+    }
+
+    table a {
+      color: powderblue
+    }
+
+
+    /************** loading样式 *****************************/
+
+    .loading {
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.6);
+      padding-top: 100px;
+      z-index: 1001;
+      position: absolute;
+      display: none;
+    }
+
+    .loading a {
+      display: block;
+      text-align: center;
+      font-size: 20px;
+      margin-top: 200px;
+    }
+
+    .loading .loadEffect {
+      width: 100px;
+      height: 100px;
+      position: relative;
+      margin: 0 auto;
+      margin-top: 100px;
+    }
+
+    .loading .loadEffect span {
+      display: inline-block;
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      background: lightgreen;
+      position: absolute;
+      animation: load 1.04s ease infinite;
+    }
+
+    @keyframes load {
+      0% {
+        opacity: 1;
+      }
+      100% {
+        opacity: 0.2;
+      }
+    }
+
+    .loading .loadEffect span:nth-child(1) {
+      left: 0;
+      top: 50%;
+      margin-top: -8px;
+      animation-delay: 0.13s;
+    }
+
+    .loading .loadEffect span:nth-child(2) {
+      left: 14px;
+      top: 14px;
+      animation-delay: 0.26s;
+    }
+
+    .loading .loadEffect span:nth-child(3) {
+      left: 50%;
+      top: 0;
+      margin-left: -8px;
+      animation-delay: 0.39s;
+    }
+
+    .loading .loadEffect span:nth-child(4) {
+      top: 14px;
+      right: 14px;
+      animation-delay: 0.52s;
+    }
+
+    .loading .loadEffect span:nth-child(5) {
+      right: 0;
+      top: 50%;
+      margin-top: -8px;
+      animation-delay: 0.65s;
+    }
+
+    .loading .loadEffect span:nth-child(6) {
+      right: 14px;
+      bottom: 14px;
+      animation-delay: 0.78s;
+    }
+
+    .loading .loadEffect span:nth-child(7) {
+      bottom: 0;
+      left: 50%;
+      margin-left: -8px;
+      animation-delay: 0.91s;
+    }
+
+    .loading .loadEffect span:nth-child(8) {
+      bottom: 14px;
+      left: 14px;
+      animation-delay: 1.04s;
+    }
+
+  </style>
+
+  <script>
+    var baseUrl = window.parent.document.getElementById("baseUrl").value;
+    var deptCode = window.parent.document.getElementById("deptCode").value;
+    var serviceUrl = locationPath();
+
+    var map, tool, contextmenuEvt, addoverlayEvt;
+
+    $(document).ready(function () {
+
+      // 页面初始数据
+      initData();
+
+    });
+
+    // 子菜单切换
+    function setSubTab(prefix, model, index) {
+
+      // 菜单展示效果
+      $("." + prefix + "_" + model).removeClass("hover");
+      $("#" + prefix + "_" + model + "_" + index).addClass("hover");
+
+      // 菜单对应内容切换
+      $(".con_" + prefix + "_" + model).css('display', 'none');
+      $("#con_" + prefix + "_" + model + "_" + index).css('display', 'block');
+    }
+
+
+    // 页面初始化需要加载的数据
+    function initData() {
+
+      loadDeptList();
+
+      // queryAreaCount();
+    }
+
+    function loadDeptList() {
+      var token = Cookies.get("Admin-Token");
+      loadData(baseUrl + "/dutyArea/listAllDept", token, function (data) {
+        for (var i in data) {
+          $(".dept").append("<option value=\"" + data[i].code + "\">" + data[i].name + "</option>");
+        }
+      });
+    }
+
+
+
+    // 异步加载数据
+    function loadData(url, token, callback) {
+      $.ajax({
+        headers: {
+          Authorization: token
+        },
+        type: "get",
+        url: url,
+        success: function (data) {
+          callback(data);
+        },
+        error: function (XMLHttpRequest, textStatus, errorThrown) {
+          var status = XMLHttpRequest.status;
+          if (status == 403) {
+            var loc = locationPath();
+            window.parent.location.href = loc;
+          }
+        }
+      });
+    }
+
+    function clearAdd() {
+      toggleDrawClose();
+      $("#areaName").val("");
+      $("#depts").val("");
+      $("#areaDesc").val("");
+      $("#area_str").val("");
+      $('#areaBox').attr('checked', false);
+    }
+
+    function reSetArea() {
+      clearAdd();
+      map.getOverlayLayer().clear();
+    }
+
+
+    // 异步加载数据
+    function restData(url, token, callback, type, data) {
+      $.ajax({
+        headers: {
+          Authorization: token
+        },
+        type: type,
+        data: data,
+        url: url,
+        success: function (data) {
+          callback(data);
+        },
+        error: function (XMLHttpRequest, textStatus, errorThrown) {
+          var status = XMLHttpRequest.status;
+          if (status == 403) {
+            var loc = locationPath();
+            window.parent.location.href = loc;
+          }
+        }
+      });
+    }
+
+
+
+    function locationPath() {
+      var href = window.document.location.href;
+      var pname = window.document.location.pathname;
+      var pos = href.indexOf(pname);
+      var path = href.substring(0, pos);
+      return path;
+    }
+
+
+    function toggleDrawPolygon() {
+      toggleDrawClose();
+
+      tool = new IMAP.PolygonTool();
+      tool.autoClose = true; //是否自动关闭绘制
+      map.addTool(tool);
+      tool.open();
+
+      addoverlayEvt = tool.addEventListener(IMAP.Constants.ADD_OVERLAY, function (evt) {
+        // document.getElementById("close").checked = "checked";
+      }, this);
+    }
+
+    //关闭绘制
+    function toggleDrawClose() {
+      if (tool) {
+        if (addoverlayEvt) {
+          tool.removeEventListener(addoverlayEvt);
+        }
+
+        tool.close();
+        tool = null;
+        if (contextmenuEvt) {
+          map.removeEventListener(contextmenuEvt);
+        }
+
+      }
+    }
+
+
+    //画面积
+    function drawPoint() {
+      var checkBox = $("#areaBox").is(":checked");
+      //画区域
+      if (checkBox) {
+        editing = true
+        toggleDrawClose();
+        var st = null;
+        tool = new IMAP.MarkerTool(new IMAP.Icon(("amap/point.png"), {
+          "size": {
+            "width": 35,
+            "height": 30
+          },
+          "offset": new IMAP.Pixel(1, 0)
+        }));
+        tool.follow = true;
+        tool.autoClose = true;
+        map.addTool(tool);
+        tool.open();
+        addoverlayEvt = tool.addEventListener(IMAP.Constants.ADD_OVERLAY, function (evt) {
+          st = evt.overlay.getPosition().toString();
+          $("#area_str").val(st);
+        }, this);
+      } else {
+        $("#area_str").val("");
+        map.getOverlayLayer().clear(); //清除所有覆盖物
+        toggleDrawClose();
+      }
+    }
+
+    //提交数据
+    function submitArea() {
+      var type = $("#type").val();
+      var depts = $("#depts").val();
+      var bz = $("#bz").val();
+      var areaStr = $("#area_str").val();
+      if (type == null || type == "") {
+        alert("请输入数据类别");
+        return;
+      }
+      if (depts == null || depts == "") {
+        alert("请选择所属机构");
+        return;
+      }
+      if (areaStr == null || areaStr == "") {
+        alert("请选择点位");
+        return;
+      }
+      if (type != null && type != "" &&
+        depts != null && depts != "" &&
+        areaStr != null && areaStr != "") {
+        var token = Cookies.get("Admin-Token");
+        var dutyArea = new Object();
+        dutyArea.type = type;
+        dutyArea.depts = depts;
+        dutyArea.bz = bz;
+        dutyArea.areaStr = areaStr;
+        $('.loading').show();
+        $.ajax({
+          headers: {
+            Authorization: token
+          },
+          type: "POST",
+          contentType: 'application/json;charset=utf-8',
+          data: JSON.stringify(dutyArea),
+          dataType: "json",
+          url: baseUrl + "/mappoint/pointAdd",
+          success: function (data) {
+            $('.loading').hide();
+            editing = false
+            layer.msg(data.data, {
+              icon: 1
+            });
+            queryAreaCount();
+            setSubTab('subdetail', 'face', 1)
+            clearAdd();
+          },
+          error: function (XMLHttpRequest, textStatus, errorThrown) {
+            editing = false
+            var status = XMLHttpRequest.status;
+            if (status == 403) {
+              var loc = locationPath();
+              window.parent.location.href = loc;
+            }
+          }
+        });
+      }
+    }
+
+    //增加警务区
+    function addJwqDutyArea(owner, areaId) {
+      zoomArea(areaId);
+      $("#isXjjg").val("1");
+      setSubTab('subdetail', 'face', 2)
+      $("#depts").val(owner);
+      map.getOverlayLayer().clear(); //清除所有覆盖物
+      $('.loading').show();
+      $.ajax({
+        type: "post",
+        headers: {
+          Authorization: Cookies.get("Admin-Token")
+        },
+        url: baseUrl + "/dutyArea/queryAreaByOwner",
+        data: {
+          owner: owner
+        },
+        success: function (data) {
+          $('.loading').hide();
+          var areaList = data.data;
+          for (var i = 0; i < areaList.length; i++) {
+            var area = areaList[i];
+            var color = random();
+            if (area.areaStr != null && area.areaStr != "") {
+              if (area.owner == area.sjjgbm) {
+                addPolygon(area, color);
+              } else {
+                addJwqPolygon(area, 'rgba(255,255,255,0)');
+              }
+            }
+          }
+        }
+      })
+    }
+    //提交数据
+    function submitEditArea() {
+      var areaId = $("#edit_areaId").val();
+      var areaName = $("#edit_areaName").val();
+      var depts = $("#edit_depts").val();
+      var areaDesc = $("#edit_areaDesc").val();
+      var owner = $("#edit_owner").val();
+      var isXjjg = $("#isXjjg").val();
+      if (areaId == null || areaId == "") {
+        alert("责任区ID为空");
+        return;
+      }
+      if (areaName == null || areaName == "") {
+        alert("请输入责任区名称");
+        return;
+      }
+      if (depts == null || depts == "") {
+        alert("请选择所属机构");
+        return;
+      }
+      // if (areaDesc == null || areaDesc == "") {
+      //   alert("请输入责任区描述");
+      //   return;
+      // }
+      var areaArr;
+      var overlays = map.getOverlayLayer().getOverlays();
+      for (var i in overlays) {
+        if (overlays[i].id == 'xq' + areaId) {
+          areaArr = overlays[i].getPath();
+        }
+
+      }
+      $("#edit_area_str").val(areaArr);
+      var areaStr = $("#edit_area_str").val();
+      if (areaStr == null || areaStr == "") {
+        alert("请选择区域");
+        return;
+      }
+
+      if (areaId != null && areaId != "" &&
+        areaName != null && areaName != "" &&
+        depts != null && depts != "" &&
+        areaStr != null && areaStr != "") {
+        var token = Cookies.get("Admin-Token");
+        var dutyArea = new Object();
+        dutyArea.areaId = areaId;
+        dutyArea.areaName = areaName;
+        dutyArea.owner = depts;
+        dutyArea.areaDesc = areaDesc;
+        dutyArea.areaStr = areaStr;
+        dutyArea.isXjjg = isXjjg;
+        $('.loading').show();
+        $.ajax({
+          headers: {
+            Authorization: token
+          },
+          type: "POST",
+          contentType: 'application/json;charset=utf-8',
+          data: JSON.stringify(dutyArea),
+          dataType: "json",
+          url: baseUrl + "/dutyArea/areaEdit",
+          success: function (data) {
+            $('.loading').hide();
+            layer.msg(data.data, {
+              icon: 1
+            });
+            queryAreaCount();
+            setSubTab('subdetail', 'face', 1)
+          },
+          error: function (XMLHttpRequest, textStatus, errorThrown) {
+            var status = XMLHttpRequest.status;
+            if (status == 403) {
+              var loc = locationPath();
+              window.parent.location.href = loc;
+            }
+          }
+        });
+      }
+    }
+
+    //查询责任区数量
+    function queryAreaCount() {
+      $('.loading').show();
+      map.clearOverlays();
+      var areaName = $("#xqName").val();
+      var deptId = $("#dept_code").val();
+      $.ajax({
+        headers: {
+          Authorization: Cookies.get("Admin-Token")
+        },
+        type: "post",
+        url: baseUrl + "/dutyArea/queryAreaCount",
+        data: {
+          "areaName": areaName,
+          "deptId": deptId,
+          "parentCode": parentCode
+        },
+        success: function (count) {
+          $('.loading').hide();
+          $("#page").html("");
+          $("#xqContent").html("");
+          var html = "";
+          if (count == 0) {
+            html = "<span>没有查到对应的责任区</span>";
+            $("#xqContent").html(html);
+          } else {
+            queryArea(1);
+            if (count > 10) {
+              $("#page").paging({
+                totalPage: Math.ceil(count / 10),
+                totalSize: count,
+                callback: function (num) {
+                  queryArea(num);
+                }
+              });
+            }
+          }
+        },
+        error: function () {
+          var html = "<span>没有查到对应的责任区</span>";
+          $("#xqContent").html(html);
+        }
+      });
+    }
+
+    //查询责任区
+    function queryArea(pageNum) {
+      var areaName = $("#xqName").val();
+      var deptId = $("#dept_code").val();
+      $('.loading').show();
+
+      if (nextDevelDutyArea == '1') {
+        $.ajax({
+          type: "post",
+          headers: {
+            Authorization: Cookies.get("Admin-Token")
+          },
+          url: baseUrl + "/dutyArea/queryAreaByOwner",
+          data: {
+            owner: parentCode
+          },
+          success: function (data) {
+            var areaList = data.data;
+            for (var i = 0; i < areaList.length; i++) {
+              var area = areaList[i];
+              if (area.areaStr != null && area.areaStr != "") {
+                if (area.owner != area.sjjgbm) {
+                  addJwqPolygon(area, 'rgba(255,255,255,0)');
+                }
+              }
+            }
+            nextDevelDutyArea = ''
+            queryAreaList(pageNum)
+          }
+        })
+      } else {
+        queryAreaList(pageNum);
+      }
+
+    }
+
+    function queryAreaList(pageNum) {
+      var areaName = $("#xqName").val();
+      var deptId = $("#dept_code").val();
+      $.ajax({
+        headers: {
+          Authorization: Cookies.get("Admin-Token")
+        },
+        type: "post",
+        url: baseUrl + "/dutyArea/queryAreaList",
+        data: {
+          "areaName": areaName,
+          "deptId": deptId,
+          "pageNum": pageNum,
+          "parentCode": parentCode
+        },
+        success: function (data) {
+          $('.loading').hide();
+          parentCode = ''
+
+          var areaList = data.data
+          // map.getOverlayLayer().clear(); //清除所有覆盖物
+          var html =
+            "<table style='width:100%;border: 0px;cellpadding:0px;cellspacing: 10px;text-align: center;line-height:1.5rem;'>";
+          html += "<tr>";
+          html += "<td style='width: 15%;'>序号</td>";
+          html += "<td style='width: 35%'>名称</td>";
+          html += "<td style='width: 15%'>标识</td>";
+          html += "<td colspan=\"2\" style='width: 35%'>操作</td>";
+          html += "</tr>";
+          var count = 1;
+          for (var i = 0; i < areaList.length; i++) {
+            var color = random();
+            if (areaList[i].areaStr != null && areaList[i].areaStr != "") {
+              addPolygon(areaList[i], color);
+            }
+            html += "<tr>";
+            html += "<td>" + count + "</td>";
+            html += "<td style='cursor:pointer' onclick='zoomArea(" + areaList[i].areaId +
+              ")'>" + areaList[i].areaName + "</td>";
+            html += "<td style='cursor:pointer;background-color:" + color + "' onclick='zoomArea(" + areaList[i].areaId +
+              ")'></td>";
+            if (areaList[i].sjjgbm != '310116000000') {
+              html += "<td><a href=\"javascript:void(0);\" onclick='editDutyArea(\"" + areaList[i].areaId +
+                "\")'>修改</a></td>";
+              html += "<td><a href=\"javascript:void(0);\" style=\"color:red\" onclick='deleteDutyArea(\"" +
+                areaList[i].areaId +
+                "\")'>删除</a></td>";
+              html += "</tr>";
+            }
+            if (areaList[i].sjjgbm == '310116000000') {
+              html += "<td><a href=\"javascript:void(0);\" onclick='addJwqDutyArea(\"" + areaList[i].owner +
+                "\",\"" + areaList[i].areaId + "\")'>新增</a></td>";
+              if (areaList[i].xjjgCnt != 0) {
+                html += "<td><a href=\"javascript:void(0);\" onclick='queryNextDevelDutyArea(\"" +
+                  areaList[i].owner +
+                  "\",\"" + areaList[i].areaId + "\")'>警务区</a></td>";
+              }
+            }
+            count = count + 1;
+          }
+          html += "</table>";
+          $("#xqContent").html(html);
+        },
+        error: function () {}
+      });
+    }
+
+    var parentCode = '';
+
+
+
+    var nextDevelDutyArea;
+
+    function queryNextDevelDutyArea(deptCode, areaId) {
+      zoomArea(areaId);
+      parentCode = deptCode;
+      nextDevelDutyArea = '1';
+      queryAreaCount();
+    }
+
+
+
+    //随机颜色
+    function random() {
+      return '#' + ('00000' + (Math.random() * 0x1000000 << 0).toString(16)).substr(-6);
+    }
+
+    //添加责任区
+    function addPolygon(dutyArea, color) {
+      var lnglatarr = [];
+      var poiots = dutyArea.areaStr.split(",");
+      for (var i = 0; i < poiots.length; i++) {
+        lnglatarr.push(new IMAP.LngLat(poiots[i], poiots[i + 1]));
+        i = i + 1;
+      }
+      var pgo = new IMAP.PolygonOptions();
+      pgo.fillColor = color;
+      pgo.fillOpacity = "0.5";
+      pgo.strokeColor = color;
+      pgo.strokeOpacity = "1";
+      pgo.strokeWeight = "2";
+      pgo.strokeStyle = IMAP.Constants.OVERLAY_LINE_DASHED;
+      var polygon = new IMAP.Polygon(lnglatarr, pgo);
+      polygon.id = "xq" + dutyArea.areaId;
+      polygon.addEventListener(IMAP.Constants.CLICK, function (e) {
+        if (editing) {
+          return;
+        }
+        zoomArea(dutyArea.areaId);
+      });
+      map.getOverlayLayer().addOverlay(polygon, false);
+      var polygoncenter = polygon.getBounds().getCenter();
+      var polygoninfomation = dutyArea.areaName;
+      var labelInformation = [
+        [polygoncenter, polygoninfomation]
+      ]
+      createLabel(labelInformation);
+      return polygon;
+    }
+
+    //添加责任区
+    function addJwqPolygon(dutyArea, color) {
+      var lnglatarr = [];
+      var poiots = dutyArea.areaStr.split(",");
+      for (var i = 0; i < poiots.length; i++) {
+        lnglatarr.push(new IMAP.LngLat(poiots[i], poiots[i + 1]));
+        i = i + 1;
+      }
+      var pgo = new IMAP.PolygonOptions();
+      pgo.fillColor = color;
+      pgo.fillOpacity = "0.5";
+      pgo.strokeColor = "rgba(255,255,255,.5)";
+      pgo.strokeOpacity = "1";
+      pgo.strokeWeight = "3";
+      pgo.strokeStyle = IMAP.Constants.OVERLAY_LINE_DASHED;
+      var polygon = new IMAP.Polygon(lnglatarr, pgo);
+      polygon.id = "xq" + dutyArea.areaId;
+      // polygon.addEventListener(IMAP.Constants.CLICK, function (e) {
+      //   if (editing) {
+      //     return;
+      //   }
+      //   zoomArea(dutyArea.areaId);
+      // });
+      map.getOverlayLayer().addOverlay(polygon, false);
+      // var polygoncenter = polygon.getBounds().getCenter();
+      // var polygoninfomation = dutyArea.areaName;
+      // var labelInformation = [
+      //   [polygoncenter, polygoninfomation]
+      // ]
+      // createLabel(labelInformation);
+      return polygon;
+    }
+
+    //删除责任区
+    function deleteDutyArea(areaId) {
+      var layer_index = layer.confirm('确认删除？', {
+        btn: ['确认', '取消'] //按钮
+      }, function () {
+        layer.close(layer_index);
+        $('.loading').show();
+        $.ajax({
+          type: "post",
+          headers: {
+            Authorization: Cookies.get("Admin-Token")
+          },
+          url: baseUrl + "/dutyArea/deleteDutyArea",
+          data: {
+            areaId: areaId
+          },
+          success: function () {
+            $('.loading').hide();
+            queryAreaCount();
+          }
+        })
+        return;
+      }, function () {
+        return;
+      });
+    }
+
+    var editing = false;
+    //编辑责任区
+    function editDutyArea(areaId) {
+      $('.loading').show();
+      $.ajax({
+        type: "post",
+        headers: {
+          Authorization: Cookies.get("Admin-Token")
+        },
+        url: baseUrl + "/dutyArea/queryAreaById",
+        data: {
+          areaId: areaId
+        },
+        success: function (data) {
+          $('.loading').hide();
+          var dutyArea = data.data
+          var overlays = map.getOverlayLayer().getOverlays();
+          for (var i in overlays) {
+            if (overlays[i].id == 'xq' + dutyArea.areaId) {
+              var polygon = overlays[i];
+              editing = true;
+              polygon.editable(true)
+            }
+          }
+          $('#edit_areaId').val(dutyArea.areaId);
+          $('#edit_owner').val(dutyArea.owner);
+          $('#edit_areaName').val(dutyArea.areaName)
+          $('#edit_areaDesc').val(dutyArea.areaDesc);
+          $("#edit_depts").val(dutyArea.owner);
+          setSubTab('subdetail', 'face', 3)
+        }
+      })
+    }
+
+    //按照区域放大地图
+    function zoomArea(areaId) {
+      var id = "xq" + areaId;
+      var overlays = map.getOverlayLayer().getOverlays();
+      for (var i in overlays) {
+        if (overlays[i].id == id) {
+          map.setBestMap(overlays[i].getPath());
+        }
+      }
+      // $.ajax({
+      //   headers: {
+      //     Authorization: Cookies.get("Admin-Token")
+      //   },
+      //   type: "post",
+      //   url: baseUrl + "/dutyArea/queryAreaById",
+      //   data: {
+      //     "areaId": areaId
+      //   },
+      //   success: function (data) {
+      //     var dutyArea = data.data
+      //     var id = "xq" + dutyArea.areaId;
+      //     var overlays = map.getOverlayLayer().getOverlays();
+      //     for (var i in overlays) {
+      //       if (overlays[i].id == id) {
+      //         map.setBestMap(overlays[i].getPath());
+      //         // var infowindow = new IMAP.InfoWindow(
+      //         //   "责任区名称：" + dutyArea.areaName + "<br/>所属派出所：" + dutyArea.deptName + "<br/>责任区描述：" + dutyArea
+      //         //   .areaDesc, {
+      //         //     size: new IMAP.Size(200, 65),
+      //         //     autoPan: true,
+      //         //     offset: new IMAP.Pixel(-5, -35),
+      //         //     //title:"责任区",
+      //         //     visible: true,
+      //         //     position: overlays[i].getBounds().getCenter()
+      //         //     //position:new IMAP.LngLat(overlays[i].getBounds().getCenter().split(",")[0],overlays[i].getBounds().getCenter().split(",")[1])
+      //         //   });
+      //         // map.getOverlayLayer().addOverlay(infowindow);
+      //         // infowindow.visible(true);
+      //       }
+      //     }
+
+      //   },
+      //   error: function () {}
+      // });
+
+    }
+
+
+    var labels = [];
+    //创建label
+    function createLabel(labelInformation) {
+      for (var i = 0, len = labelInformation.length; i < len; i++) {
+        var label = new IMAP.Label(labelInformation[i][1], {
+          "position": labelInformation[i][0],
+          "anchor": IMAP.Constants.CENTER
+        });
+        map.getOverlayLayer().addOverlay(label);
+        labels.push(label);
+      }
+    }
+    //删除文本标签
+    function toggleRemoveLabel() {
+      map.getOverlayLayer().clear(labels);
+    }
+
+    function reQuery() {
+      var areaId = $('#edit_areaId').val();
+      var overlays = map.getOverlayLayer().getOverlays();
+      for (var i in overlays) {
+        if (overlays[i].id == 'xq' + areaId) {
+          var polygon = overlays[i];
+          editing = false;
+          polygon.editable(false);
+        }
+      }
+
+      $('#edit_areaId').val('');
+      $('#edit_owner').val('');
+      $('#edit_areaName').val('')
+      $('#edit_areaDesc').val('');
+      $('#edit_depts').val('');
+      setSubTab('subdetail', 'face', 1)
+
+    }
+
+    function addReQuery() {
+      reSetArea()
+      setSubTab('subdetail', 'face', 1)
+      queryAreaCount();
+    }
+
+    // 返回首页
+    function openHome() {
+      window.parent.location.href = serviceUrl + "#/home";
+    }
+
+  </script>
+</head>
+
+<body style="overflow: hidden">
+  <div id="map" class="map_contaner"></div>
+
+  <!-- 首页操作按钮 -->
+  <div class="operator-container left" style="left: 5px;">
+    <div class="operator-ops" style="border-left: 6px solid #ffd700; border-right: 0px; float: left;">
+      <label class="operator-label on" onclick="openHome();" style="margin-left: 6px;">
+        <span class="operator-checkbox operator-input"></span>
+        首页
+      </label>
+    </div>
+  </div>
+  <!-- Head -->
+  <div class="head-container">
+    <div class="head_logo"></div>
+  </div>
+
+  <div class="loading">
+    <div class="loadEffect">
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+  </div>
+
+  <div class="detail-container">
+    <div class="detail-tab-container detail-tab-border">
+      <!-- <div class="detail-menu-box ">
+        <ul>
+          <li class="icon-rlsb hover" id="detail1" onclick="setTab('detail',1,6)">
+          </li>
+        </ul>
+      </div> -->
+      <img src="../image/line2.png" style="width: 1px;height: 300px;position: absolute;">
+      <div class="detail-content-box">
+        <div class="con_detail" id="con_detail_1">
+          <div class="detail-title">责任区</div>
+          <div class="detail-sub-container">
+            <div class="detail-sub-tab-container detail-sub-tab-border">
+              <div class="detail-sub-menu-box ">
+                <ul>
+                  <li class="subdetail_face hover" id="subdetail_face_1" onclick="setSubTab('subdetail', 'face', 1)">
+                    查询
+                  </li>
+                  <li class="subdetail_face" id="subdetail_face_2" onclick="setSubTab('subdetail', 'face', 2)">
+                    新增
+                  </li>
+                  <li class="subdetail_face" id="subdetail_face_3">
+                    修改
+                  </li>
+                </ul>
+              </div>
+              <div class="detail-sub-content-box">
+                <div class="con_subdetail_face" id="con_subdetail_face_1">
+                  <div class="content" style="padding-top:10px;height:120px;overflow: hidden;">
+                    <table style="border: 0px;cellpadding:0px;cellspacing: 10px;">
+                      <tr style="height: 35px;padding: 5px;">
+                        <td>
+                          责任区名称
+                        </td>
+                        <td>
+                          <input type="text" id="xqName" style="width: 100%;height: 25px;" />
+                        </td>
+                      </tr>
+                      <tr style="height: 35px;padding: 5px;">
+                        <td>
+                          派出所
+                        </td>
+                        <td>
+                          <select class="dept" id="dept_code" style="width: 100%;height: 25px;">
+                            <option value="">全部</option>
+                          </select>
+                        </td>
+                      </tr>
+                      <tr style="padding: 10px;height: 40px;">
+                        <td colspan="2" align="center">
+                          <input class="btn" type="submit" value="查询" onclick="queryAreaCount()" />
+                        </td>
+                      </tr>
+                    </table>
+                  </div>
+                  <div class="divContent">
+                    <div id="xqContent">
+
+                    </div>
+                  </div>
+                </div>
+                <div class="con_subdetail_face" id="con_subdetail_face_2" style="display:none">
+                  <table style="border: 0px;cellpadding:0px;cellspacing: 10px;">
+                    <tr>
+                      <td colspan="2" align="center">
+                        <font color="red">名称及所属派出所必填</font>
+                      </td>
+                    </tr>
+                    <tr style="height: 35px;padding: 5px;">
+                      <td style="width: 100px;">
+                        数据类别
+                      </td>
+                      <td>
+                        <input type="text" id="areaName" style="width:100%;height: 25px;" />
+                      </td>
+                    </tr>
+                    <tr style="height: 35px;padding: 5px;">
+                      <td>
+                        所属派出所
+                      </td>
+                      <td>
+                        <select class="dept" id="depts" style="width: 100%;height: 25px;">
+                          <option value="">全部</option>
+                        </select>
+                      </td>
+                    </tr>
+                    <tr style="height: 35px;padding: 10px;">
+                      <td style="vertical-align:top;">
+                        备注
+                      </td>
+                      <td>
+                        <textarea id="areaDesc" rows="5" cols="22"></textarea>
+                      </td>
+                    </tr>
+                    <tr style="height: 35px;padding: 10px">
+                      <td align="left" colspan="2">
+                        点位标注 &nbsp;&nbsp;
+                        <input type='checkbox' id='areaBox' onclick='drawPoint()' />
+                      </td>
+                    </tr>
+                    <tr style="padding: 10px;height: 40px;">
+                      <td colspan="2" align="center">
+                        <input type="hidden" id="isXjjg" value="1">
+                        <input type="hidden" id="area_str" name="areaStr" value="">
+                        <input class="btn" type="button" value="提交" onclick="submitArea()" />
+                        <input type="button" class="btn" value="重置" onclick="reSetArea()" />
+                        <input type="button" class="btn" value="返回" onclick="addReQuery()" />
+                      </td>
+                    </tr>
+                  </table>
+                </div>
+                <div class="con_subdetail_face" id="con_subdetail_face_3" style="display:none">
+                  <table style="border: 0px;cellpadding:0px;cellspacing: 10px;">
+                    <tr>
+                      <td colspan="2" align="center">
+                        <font color="red">所有项必填</font>
+                      </td>
+                    </tr>
+                    <tr style="height: 35px;padding: 5px;">
+                      <td style="width: 100px;">
+                        责任区名称
+                      </td>
+                      <td>
+                        <input type="text" id="edit_areaName" style="width:100%;height: 25px;" />
+                      </td>
+                    </tr>
+                    <tr style="height: 35px;padding: 5px;">
+                      <td>
+                        派出所
+                      </td>
+                      <td>
+                        <select disabled class="dept" id="edit_depts" style="width: 100%;height: 25px;">
+                          <option value="">全部</option>
+                        </select>
+                      </td>
+                    </tr>
+                    <tr style="height: 35px;padding: 10px;">
+                      <td>
+                        责任区描述
+                      </td>
+                      <td>
+                        <textarea id="edit_areaDesc" rows="5" cols="22"></textarea>
+                      </td>
+                    </tr>
+                    <tr style="padding: 10px;height: 40px;">
+                      <td colspan="2" align="center">
+                        <input type="hidden" id="edit_areaId" value="">
+                        <input type="hidden" id="edit_owner" value="">
+                        <input type="hidden" id="edit_area_str" value="">
+                        <input class="btn" type="button" value="保存" onclick="submitEditArea()" />
+                        <input type="button" class="btn" value="返回" onclick="reQuery()" />
+                      </td>
+                    </tr>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <img src="../image/line2.png" style="width: 1px;height: 420px;position: absolute;top: 0px;right: 0px;">
+    </div>
+  </div>
+
+  <script type="text/javascript">
+    var map;
+    var overlays = [];
+
+    function initMap() {
+      map = new IMAP.Map("map", {
+        minZoom: 3,
+        maxZoom: 20,
+        // 设置地图初始化级别
+        zoom: 14,
+        // 设置地图中心点坐标
+        center: new IMAP.LngLat(121.3377285004, 30.7521905824),
+        // 设置地图缩放动画效果
+        animation: true,
+      });
+      map.plugin(['IMAP.Tool']);
+      // boundary();
+    }
+
+    function boundary() {
+      if (map) {
+        var keyword = quyu;
+        map.plugin(['IMAP.DistrictSearch'], function () {
+          boundarySearch = new IMAP.DistrictSearch();
+          boundarySearch.search(keyword,
+            function (status, result) {
+              if (status == 0) {
+                var paths = result.results,
+                  pathArray;
+                for (var i = 0, l = paths.length; i < l; ++i) {
+                  if (paths[i]) {
+                    pathArray = paths[i].polyline.split("|");
+                    var path;
+                    for (var j = 0, jl = pathArray.length; j < jl; ++j) {
+                      lnglats = [];
+                      path = pathArray[j].split(";");
+                      for (var n = 0, nl = path.length; n < nl; ++n) {
+                        var lnglat = path[n].split(",");
+                        lnglat = new IMAP.LngLat(lnglat[0], lnglat[1]);
+                        lnglats.push(lnglat);
+                      }
+                      var polygon = new IMAP.Polygon(lnglats, {
+                        fillOpacity: 0.5,
+                        strokeStyle: IMAP.Constants.OVERLAY_LINE_DASHED,
+                        strokeWeight: 2
+                      });
+                      overlays.push(polygon);
+                    }
+                  }
+                }
+                map.getOverlayLayer().addOverlays(overlays, true);
+                // queryAreaCount();
+              }
+            });
+        });
+
+      }
+    }
+
+    // 初始化地图
+    initMap();
+    // 添加路网图层
+    addRoadNetLayer();
+
+  </script>
+
+</body>
+
+</html>

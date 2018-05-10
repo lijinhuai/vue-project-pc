@@ -156,6 +156,16 @@ export const appRouter = [{
     redirect: {
       name: 'mapedit'
     }
+  }, {
+    path: 'mappointMenu',
+    icon: 'map-point',
+    title: '点位标注',
+    name: 'mappointMenu',
+    meta: {
+    },
+    redirect: {
+      name: 'mappoint'
+    }
   }
   ]
 }, {
@@ -407,6 +417,14 @@ export const singlePageRouter = [{
     privilege: 'ZRQ'
   },
   component: _import('gzgl/mapedit')
+},
+{
+  path: '/mappoint',
+  name: 'mappoint',
+  meta: {
+    title: '点位标注'
+  },
+  component: _import('gzgl/mappoint')
 }
 ]
 
