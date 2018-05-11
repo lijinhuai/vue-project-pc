@@ -642,7 +642,7 @@
           success: function (data) {
             $('.loading').hide();
             editing = false
-            layer.msg(data.data, {
+            layer.msg(data.message, {
               icon: 1
             });
             queryAreaCount();
@@ -758,7 +758,7 @@
           url: baseUrl + "/dutyArea/areaEdit",
           success: function (data) {
             $('.loading').hide();
-            layer.msg(data.data, {
+            layer.msg(data.mmessage, {
               icon: 1
             });
             queryAreaCount();

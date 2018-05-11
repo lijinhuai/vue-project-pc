@@ -162,6 +162,7 @@ export const appRouter = [{
     title: '点位标注',
     name: 'mappointMenu',
     meta: {
+      privilege: 'DWBZ'
     },
     redirect: {
       name: 'mappoint'
@@ -422,7 +423,8 @@ export const singlePageRouter = [{
   path: '/mappoint',
   name: 'mappoint',
   meta: {
-    title: '点位标注'
+    title: '点位标注',
+    privilege: 'DWBZ'
   },
   component: _import('gzgl/mappoint')
 }
