@@ -849,12 +849,20 @@
       if (map) {
         var opts = new IMAP.MarkerOptions();
         opts.anchor = IMAP.Constants.BOTTOM_CENTER;
+        var iconSrc = '';
+        if (checkUrlValid(path + "/static/image/point/point_" + type + ".png")) {
+          iconSrc = path + "/static/image/point/point_" + type + ".png"
+        } else {
+          iconSrc = path + "/static/html/amap/point16_16.png"
+        }
+
         opts.icon = new IMAP.Icon(
-          path + "/static/image/point/point_" + type + ".png", {
+          iconSrc, {
             "size": new IMAP.Size(16, 16),
             "offset": new IMAP.Pixel(0, 0)
           }
         );
+
 
         var lnglat = new IMAP.LngLat(lng, lat);
         marker = new IMAP.Marker(lnglat, opts);
@@ -983,6 +991,19 @@
     // 返回首页
     function openHome() {
       window.parent.location.href = serviceUrl + "#/home";
+    }
+
+    function checkUrlValid(fileUrl) {
+      var xmlhttp = new XMLHttpRequest()
+      var yourFileURL = fileUrl
+      xmlhttp.open("GET", yourFileURL, false);
+      xmlhttp.send();
+      if (xmlhttp.readyState == 4) {
+        if (xmlhttp.status == 200)
+          return true;
+        else
+          return false
+      }
     }
 
   </script>
