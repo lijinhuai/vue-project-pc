@@ -219,11 +219,13 @@ function initOperatorMenuEvent() {
     // 选中电子警察
     if (name == 'operator-pecc' && checked) {
       showLocationsByType("pecc");
+      showLocationsByType("xfs");
     }
 
     // 取消电子警察
     if (name == 'operator-pecc' && !checked) {
       hiddenLocationsByType("pecc");
+      hiddenLocationsByType("xfs");
     }
 
     // 选中水闸
@@ -425,7 +427,7 @@ function initData() {
 }
 
 // 加载电动车定位数据
-function loadDdcLatestLocations(){
+function loadDdcLatestLocations() {
   var token = Cookies.get("Admin-Token");
 
   // 加载警员定位数据
@@ -439,7 +441,7 @@ function loadDdcLatestLocations(){
 }
 
 // 电动车位置信息展示
-function showDdcGpsData(data){
+function showDdcGpsData(data) {
 
   //  获取所有图层
   var overlays = map.getOverlayLayer().getOverlays();
@@ -470,7 +472,7 @@ function showDdcGpsData(data){
       _current_marker = marker;
 
       var content = assembleInfoWindowContentWithoutPicture("电动车信息", "车牌号码：" + location.palteId + "<br/>车主姓名：" + location
-          .name + "<br/>车主手机：" + location.phone + "<br/>定位时间：" + location.rksj);
+        .name + "<br/>车主手机：" + location.phone + "<br/>定位时间：" + location.rksj);
 
       var lnglat = marker.getPosition();
       marker.openInfoWindow(
@@ -620,7 +622,7 @@ function successCallBack(e) {
 }
 
 // 警员位置信息展示
-function showMjGpsData(data){
+function showMjGpsData(data) {
 
   //  获取所有图层
   var overlays = map.getOverlayLayer().getOverlays();
@@ -651,8 +653,8 @@ function showMjGpsData(data){
     if (hit) {
       _current_marker = marker;
 
-      var content = assembleInfoWindowContentWithoutPicture("警员信息", "警员姓名：" + location.mjxm + (location.mjlb == 1 ? "（民警）": "（协管）") + "<br/>警员警号：" + location
-          .mjjh + "<br/>所属机构：" + location.jgmc + "<br/>定位时间：" + location.rksj);
+      var content = assembleInfoWindowContentWithoutPicture("警员信息", "警员姓名：" + location.mjxm + (location.mjlb == 1 ? "（民警）" : "（协管）") + "<br/>警员警号：" + location
+        .mjjh + "<br/>所属机构：" + location.jgmc + "<br/>定位时间：" + location.rksj);
 
       var lnglat = marker.getPosition();
       marker.openInfoWindow(
@@ -996,8 +998,8 @@ function showYwgyData(messages) {
   for (var i = 0; i < messages.length; i++) {
     ywgyDataHtml = ywgyDataHtml + "<div class=\"con_xf_ywgy_record_item\">";
     ywgyDataHtml = ywgyDataHtml + "  <div class=\"item_info\">";
-    ywgyDataHtml = ywgyDataHtml + "    <div class=\"item_info_name \">万盛金邸</div>";
-    ywgyDataHtml = ywgyDataHtml + "    <div class=\"item_info_name \">" + messages[i].village + "</div>";
+    ywgyDataHtml = ywgyDataHtml + "    <div class=\"item_info_name \">" + messages[i].xqmc + "</div>";
+    ywgyDataHtml = ywgyDataHtml + "    <div class=\"item_info_name \">" + messages[i].dz + "</div>";
     ywgyDataHtml = ywgyDataHtml + "    <div class=\"item_info_name \"><i class=\"iconfont\">&#xe651;</i>&nbsp;" +
       messages[i].location + "</div>";
     ywgyDataHtml = ywgyDataHtml + "    <div class=\"item_info_status\">正常</div>";
@@ -1991,19 +1993,32 @@ function showXfsData(messages) {
   var token = Cookies.get("Admin-Token");
 
   var xfsDataHtml = "";
-  for (var i = 0; i < messages.length; i++) {
-    xfsDataHtml = xfsDataHtml + "<div class=\"con_xf_xfs_record_item\" data-pic=\"" + messages[i].crkbh + "\">";
-    xfsDataHtml = xfsDataHtml + "  <i class=\"iconfont\">&#xe651;</i>";
-    xfsDataHtml = xfsDataHtml + "  <div class=\"item_photo can-click\" onclick=\"showXfsPicDialog(this)\">";
-    xfsDataHtml = xfsDataHtml + "    <img src=\"" + baseUrl + "/xqxx/" + messages[i].crkbh +
-      "/photo?Authorization=" + token + "\" onerror=\"this.src='/static/image/default_nophoto.png'\">";
-    xfsDataHtml = xfsDataHtml + "  </div>";
-    xfsDataHtml = xfsDataHtml + "  <div class=\"item_info\">";
-    xfsDataHtml = xfsDataHtml + "    <div class=\"item_info_name \">" + messages[i].crkmc + "</div>";
-    xfsDataHtml = xfsDataHtml + "    <div class=\"item_info_status\">正常</div>";
-    xfsDataHtml = xfsDataHtml + "  </div>";
-    xfsDataHtml = xfsDataHtml + "</div>";
+  if (jcwdm == '16103003') {
+    for (var i = 0; i < messages.length; i++) {
+      xfsDataHtml = xfsDataHtml + "<div class=\"con_xf_xfs_record_item\" data-pic=\"" + messages[i].crkbh + "\">";
+      xfsDataHtml = xfsDataHtml + "  <i class=\"iconfont\">&#xe651;</i>";
+      xfsDataHtml = xfsDataHtml + "  <div class=\"item_info\" style=\"width:218px;\">";
+      xfsDataHtml = xfsDataHtml + "    <div class=\"item_info_name \" style=\"width:210px;\">" + messages[i].crkmc + "</div>";
+      xfsDataHtml = xfsDataHtml + "    <div class=\"item_info_status\">正常</div>";
+      xfsDataHtml = xfsDataHtml + "  </div>";
+      xfsDataHtml = xfsDataHtml + "</div>";
+    }
+  } else {
+    for (var i = 0; i < messages.length; i++) {
+      xfsDataHtml = xfsDataHtml + "<div class=\"con_xf_xfs_record_item\" data-pic=\"" + messages[i].crkbh + "\">";
+      xfsDataHtml = xfsDataHtml + "  <i class=\"iconfont\">&#xe651;</i>";
+      xfsDataHtml = xfsDataHtml + "  <div class=\"item_photo can-click\" onclick=\"showXfsPicDialog(this)\">";
+      xfsDataHtml = xfsDataHtml + "    <img src=\"" + baseUrl + "/xqxx/" + messages[i].crkbh +
+        "/photo?Authorization=" + token + "\" onerror=\"this.src='/static/image/default_nophoto.png'\">";
+      xfsDataHtml = xfsDataHtml + "  </div>";
+      xfsDataHtml = xfsDataHtml + "  <div class=\"item_info\">";
+      xfsDataHtml = xfsDataHtml + "    <div class=\"item_info_name \">" + messages[i].crkmc + "</div>";
+      xfsDataHtml = xfsDataHtml + "    <div class=\"item_info_status\">正常</div>";
+      xfsDataHtml = xfsDataHtml + "  </div>";
+      xfsDataHtml = xfsDataHtml + "</div>";
+    }
   }
+
 
   $("#con_detail_5 #con_subdetail_xf_1").html(xfsDataHtml);
 }
@@ -2245,7 +2260,7 @@ function hiddenHouseLocations() {
   }
 }
 
-function showPoliceLocations(){
+function showPoliceLocations() {
   var overlays = map.getOverlayLayer().getOverlays();
   for (var i in overlays) {
     if (overlays[i].type == "police") {
@@ -2568,8 +2583,8 @@ function addMarkerClickEvt(type, origin, marker) {
     // content = content + "</div>";
     content = content + "</div>";
   } else if (type == 'police') {
-    content = assembleInfoWindowContentWithoutPicture("警员信息", "警员姓名：" + origin.mjxm + (origin.mjlb == 1 ? "（民警）": "（协管）") + "<br/>警员警号：" + origin
-        .mjjh + "<br/>所属机构：" + origin.jgmc + "<br/>定位时间：" + origin.rksj);
+    content = assembleInfoWindowContentWithoutPicture("警员信息", "警员姓名：" + origin.mjxm + (origin.mjlb == 1 ? "（民警）" : "（协管）") + "<br/>警员警号：" + origin
+      .mjjh + "<br/>所属机构：" + origin.jgmc + "<br/>定位时间：" + origin.rksj);
   } else if (type == 'pecc') {
     content = assembleInfoWindowContentWithoutPicture("电子警察", "安装地址：" + origin.jkdmc);
   } else if (type == 'sluice') {
@@ -2583,7 +2598,7 @@ function addMarkerClickEvt(type, origin, marker) {
       token, "地址：" + origin.crkmc);
   } else if (type == 'ddc') {
     content = assembleInfoWindowContentWithoutPicture("电动车信息", "车牌号码：" + origin.palteId + "<br/>车主姓名：" + origin
-        .name + "<br/>车主手机：" + origin.phone + "<br/>定位时间：" + origin.rksj);
+      .name + "<br/>车主手机：" + origin.phone + "<br/>定位时间：" + origin.rksj);
   }
   if (type == 'camera') {
     marker.addEventListener(IMAP.Constants.CLICK, function (evt) {
