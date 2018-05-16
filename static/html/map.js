@@ -183,12 +183,14 @@ function initOperatorMenuEvent() {
     if (name == 'operator-camera' && checked) {
       showLocationsByType("camera");
       showLocationsByType("xfs");
+      showLocationsByType("smoke");
     }
 
     // 取消实有安防设施
     if (name == 'operator-camera' && !checked) {
       hiddenLocationsByType("camera");
       hiddenLocationsByType("xfs");
+      hiddenLocationsByType("smoke");
     }
 
     // 选中实有力量
@@ -889,8 +891,14 @@ function loadYwgyData() {
   loadData(baseUrl + "/xqxx/ywgy/locations", token, function (data) {
     var code = data.code;
     if (code == 200) {
-      var messages = data.data;
-      showYwgyData(messages);
+      var locations = data.data;
+      for (var i = 0; i < locations.length; i++) {
+        if (locations[i].lon != "" && locations[i].lat != "") {
+          addMarker(locations[i].lon, locations[i].lat, locations[i].id, "smoke", locations[i]);
+        }
+      }
+      // 右侧菜单中烟雾感应数据展示
+      showYwgyData(locations);
     }
   });
 }
@@ -2557,6 +2565,8 @@ function addMarkerClickEvt(type, origin, marker) {
   else if (type == 'xfs') {
     content = assembleInfoWindowContent("消防栓", baseUrl + "/xqxx/" + origin.crkbh + "/photo?Authorization=" + token,
       "名称：" + origin.crkmc);
+  } else if (type == 'smoke') {
+    content = assembleInfoWindowContentWithoutPicture("烟雾感应", "安装地址：" + origin.dz);
   } else if (type == 'wifi') {
     content = assembleInfoWindowContentWithoutPicture("WIFI", "安装地址：" + origin.installPoint + "<br/> MAC：" + origin
       .mac);
