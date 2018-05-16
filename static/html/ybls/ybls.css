@@ -609,3 +609,7 @@
 .switch-container #switch:checked~label {
   background-color: green;
 }
+
+.hide {
+  display: none;
+}

@@ -147,7 +147,7 @@
   border-style: solid;
   border-width: 1px 1px;
   border-image-slice: 1 fill;
-  border-image-outset: initial;
+  border-image-outset: 0.5;
   border-image-repeat: initial;
   margin: 0 10px;
 }
