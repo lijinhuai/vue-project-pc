@@ -28,6 +28,8 @@
 
   <link rel="stylesheet" type="text/css" href="../js/toastr/toastr.min.css">
 
+  <link rel="stylesheet" type="text/css" href="../css/animate.css">
+
   <link rel="stylesheet" type="text/css" href="./map.css">
 
   <script src="./map.js"></script>
@@ -57,7 +59,7 @@
       -->
   </div>
 
-  <!-- 一标六尺 -->
+  <!-- 一标六实 -->
   <div class="stat-container">
     <div class="stat-row">
       <div class="stat-box">
@@ -193,10 +195,10 @@
         <span class="operator-checkbox operator-input"></span>
         小区简介
       </label>
-      <label class="operator-label on">
-        <input class="operator-radio" type="checkbox" name="operator-ddc" id="operator-ddc" checked>
+      <label class="operator-label off">
+        <input class="operator-radio" type="checkbox" id="operator-more" name="operator-more">
         <span class="operator-checkbox operator-input"></span>
-        电动车
+        更多>>
       </label>
     </div>
   </div>
@@ -206,6 +208,19 @@
       小区简介
     </div>
     <div class="int_font" id="introContent">
+    </div>
+  </div>
+
+  <div class="more" id="more" style="display: none;">
+    <div class="more_title">
+      更多图层
+    </div>
+    <div class="more-content">
+      <label class="operator-label on">
+        <input class="operator-radio" type="checkbox" name="operator-ddc" id="operator-ddc" checked>
+        <span class="operator-checkbox operator-input"></span>
+        电动车
+      </label>
     </div>
   </div>
 

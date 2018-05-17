@@ -28,6 +28,8 @@
 
   <link rel="stylesheet" type="text/css" href="../js/toastr/toastr.min.css">
 
+  <link rel="stylesheet" type="text/css" href="../css/animate.css">
+
   <link rel="stylesheet" type="text/css" href="./map.css">
 
   <script src="./map.js"></script>
@@ -45,7 +47,7 @@
     <div class="head_logo"></div>
   </div>
 
-  <!-- 一标六尺 -->
+  <!-- 一标六实 -->
   <div class="stat-container">
     <div class="stat-row">
       <div class="stat-box">
@@ -181,6 +183,27 @@
         <span class="operator-checkbox operator-input"></span>
         小区简介
       </label>
+      <label class="operator-label off">
+        <input class="operator-radio" type="checkbox" id="operator-more" name="operator-more">
+        <span class="operator-checkbox operator-input"></span>
+        更多>>
+      </label>
+    </div>
+  </div>
+
+  <div class="intro" id="intro" style="display: none;">
+    <div class="int_title">
+      小区简介
+    </div>
+    <div class="int_font" id="introContent">
+    </div>
+  </div>
+
+  <div class="more" id="more" style="display: none;">
+    <div class="more_title">
+      更多图层
+    </div>
+    <div class="more-content">
       <label class="operator-label on">
         <input class="operator-radio" type="checkbox" name="operator-ddc" id="operator-ddc" checked>
         <span class="operator-checkbox operator-input"></span>
@@ -191,14 +214,21 @@
         <span class="operator-checkbox operator-input"></span>
         老年活动室
       </label>
-    </div>
-  </div>
-
-  <div class="intro" id="intro" style="display: none;">
-    <div class="int_title">
-      小区简介
-    </div>
-    <div class="int_font" id="introContent">
+      <label class="operator-label on">
+        <input class="operator-radio" type="checkbox" name="operator-sluice" checked>
+        <span class="operator-checkbox operator-input"></span>
+        &nbsp;水&nbsp;闸&nbsp;
+      </label>
+      <label class="operator-label on">
+        <input class="operator-radio" type="checkbox" name="operator-warehouse" checked>
+        <span class="operator-checkbox operator-input"></span>
+        &nbsp;仓&nbsp;库&nbsp;
+      </label>
+      <label class="operator-label on">
+        <input class="operator-radio" type="checkbox" name="operator-jkdw" checked>
+        <span class="operator-checkbox operator-input"></span>
+        监控点位
+      </label>
     </div>
   </div>
 
@@ -245,16 +275,6 @@
           <input class="operator-radio" type="checkbox" name="operator-pecc" checked>
           <span class="operator-checkbox operator-input"></span>
           实有安防
-        </label>
-        <label class="operator-label on">
-          <input class="operator-radio" type="checkbox" name="operator-sluice" checked>
-          <span class="operator-checkbox operator-input"></span>
-          &nbsp;水&nbsp;闸&nbsp;
-        </label>
-        <label class="operator-label on" style="margin-right: 12px;">
-          <input class="operator-radio" type="checkbox" name="operator-warehouse" checked>
-          <span class="operator-checkbox operator-input"></span>
-          &nbsp;仓&nbsp;库&nbsp;
         </label>
       </div>
 
@@ -464,13 +484,16 @@
       loadPeccLocations();
 
       // 加载水闸
-      loadSluiceLocations();
+      loadXqxxLocationsByType('97', 'sluice');
 
       // 加载仓库
-      loadWarehouseLocations();
+      loadXqxxLocationsByType('95', 'warehouse');
 
       // 加载老年活动中心
-      loadSeniorcenterLocations();
+      loadXqxxLocationsByType('96', 'seniorcenter');
+
+      // 加载监控点位
+      loadXqxxLocationsByType('04', 'jkdw');
 
     }
 
