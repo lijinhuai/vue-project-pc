@@ -418,6 +418,12 @@
       animation-delay: 1.04s;
     }
 
+    /********* map****/
+
+    .imap-window-content {
+      height: 100% !important;
+    }
+
   </style>
 
   <script>
@@ -1072,48 +1078,47 @@
 
     //按照区域放大地图
     function zoomArea(areaId) {
-      var id = "xq" + areaId;
-      var overlays = map.getOverlayLayer().getOverlays();
-      for (var i in overlays) {
-        if (overlays[i].id == id) {
-          map.setBestMap(overlays[i].getPath());
-        }
-      }
-      // $.ajax({
-      //   headers: {
-      //     Authorization: Cookies.get("Admin-Token")
-      //   },
-      //   type: "post",
-      //   url: baseUrl + "/dutyArea/queryAreaById",
-      //   data: {
-      //     "areaId": areaId
-      //   },
-      //   success: function (data) {
-      //     var dutyArea = data.data
-      //     var id = "xq" + dutyArea.areaId;
-      //     var overlays = map.getOverlayLayer().getOverlays();
-      //     for (var i in overlays) {
-      //       if (overlays[i].id == id) {
-      //         map.setBestMap(overlays[i].getPath());
-      //         // var infowindow = new IMAP.InfoWindow(
-      //         //   "责任区名称：" + dutyArea.areaName + "<br/>所属派出所：" + dutyArea.deptName + "<br/>责任区描述：" + dutyArea
-      //         //   .areaDesc, {
-      //         //     size: new IMAP.Size(200, 65),
-      //         //     autoPan: true,
-      //         //     offset: new IMAP.Pixel(-5, -35),
-      //         //     //title:"责任区",
-      //         //     visible: true,
-      //         //     position: overlays[i].getBounds().getCenter()
-      //         //     //position:new IMAP.LngLat(overlays[i].getBounds().getCenter().split(",")[0],overlays[i].getBounds().getCenter().split(",")[1])
-      //         //   });
-      //         // map.getOverlayLayer().addOverlay(infowindow);
-      //         // infowindow.visible(true);
-      //       }
-      //     }
+      // var id = "xq" + areaId;
+      // var overlays = map.getOverlayLayer().getOverlays();
+      // for (var i in overlays) {
+      //   if (overlays[i].id == id) {
+      //     map.setBestMap(overlays[i].getPath());
+      //   }
+      // }
+      $.ajax({
+        headers: {
+          Authorization: Cookies.get("Admin-Token")
+        },
+        type: "post",
+        url: baseUrl + "/dutyArea/queryAreaById",
+        data: {
+          "areaId": areaId
+        },
+        success: function (data) {
+          var dutyArea = data.data
+          var id = "xq" + dutyArea.areaId;
+          var overlays = map.getOverlayLayer().getOverlays();
+          for (var i in overlays) {
+            if (overlays[i].id == id) {
+              map.setBestMap(overlays[i].getPath());
+              var infowindow = new IMAP.InfoWindow(dutyArea
+                .areaDesc, {
+                  size: new IMAP.Size(220, 100),
+                  autoPan: true,
+                  offset: new IMAP.Pixel(-5, -35),
+                  //title:"责任区",
+                  visible: true,
+                  position: overlays[i].getBounds().getCenter()
+                  //position:new IMAP.LngLat(overlays[i].getBounds().getCenter().split(",")[0],overlays[i].getBounds().getCenter().split(",")[1])
+                });
+              map.getOverlayLayer().addOverlay(infowindow);
+              infowindow.visible(true);
+            }
+          }
 
-      //   },
-      //   error: function () {}
-      // });
+        },
+        error: function () {}
+      });
 
     }
 

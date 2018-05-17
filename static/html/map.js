@@ -250,6 +250,86 @@ function initOperatorMenuEvent() {
       hiddenLocationsByType("jkdw");
     }
 
+    // 选中车库
+    if (name == 'operator-garage' && checked) {
+      showLocationsByType("garage");
+    }
+
+    // 取消选中车库
+    if (name == 'operator-garage' && !checked) {
+      hiddenLocationsByType("garage");
+    }
+
+    // 选中垃圾房
+    if (name == 'operator-garbage' && checked) {
+      showLocationsByType("garbage");
+    }
+
+    // 取消选中垃圾房
+    if (name == 'operator-garbage' && !checked) {
+      hiddenLocationsByType("garbage");
+    }
+
+    // 选中变电站
+    if (name == 'operator-substation' && checked) {
+      showLocationsByType("substation");
+    }
+
+    // 取消选中变电站
+    if (name == 'operator-substation' && !checked) {
+      hiddenLocationsByType("substation");
+    }
+
+    // 选中卫生院
+    if (name == 'operator-hospital' && checked) {
+      showLocationsByType("hospital");
+    }
+
+    // 取消选中卫生院
+    if (name == 'operator-hospital' && !checked) {
+      hiddenLocationsByType("hospital");
+    }
+
+    // 选中污水净化站
+    if (name == 'operator-sewage' && checked) {
+      showLocationsByType("sewage");
+    }
+
+    // 取消选中污水净化站
+    if (name == 'operator-sewage' && !checked) {
+      hiddenLocationsByType("sewage");
+    }
+
+    // 选中水塔
+    if (name == 'operator-watertower' && checked) {
+      showLocationsByType("watertower");
+    }
+
+    // 取消选中水塔
+    if (name == 'operator-watertower' && !checked) {
+      hiddenLocationsByType("watertower");
+    }
+
+    // 选中液化气站
+    if (name == 'operator-gas' && checked) {
+      showLocationsByType("gas");
+    }
+
+    // 取消选中液化气站
+    if (name == 'operator-gas' && !checked) {
+      hiddenLocationsByType("gas");
+    }
+
+    // 选中信号塔
+    if (name == 'operator-signaltower' && checked) {
+      showLocationsByType("signaltower");
+    }
+
+    // 取消选中信号塔
+    if (name == 'operator-signaltower' && !checked) {
+      hiddenLocationsByType("signaltower");
+    }
+
   });
 
   $(".operator-title").click(function () {
@@ -2559,6 +2639,30 @@ function addMarkerClickEvt(type, origin, marker) {
   } else if (type == 'jkdw') {
     content = assembleInfoWindowContent("监控点位", baseUrl + "/xqxx/" + origin.crkbh + "/photo?Authorization=" +
       token, "地址：" + origin.crkmc);
+  } else if (type == 'garage') {
+    content = assembleInfoWindowContent("车库", baseUrl + "/xqxx/" + origin.crkbh + "/photo?Authorization=" +
+      token, "地址：" + origin.crkmc);
+  } else if (type == 'garbage') {
+    content = assembleInfoWindowContent("垃圾房", baseUrl + "/xqxx/" + origin.crkbh + "/photo?Authorization=" +
+      token, "地址：" + origin.crkmc);
+  } else if (type == 'substation') {
+    content = assembleInfoWindowContent("变电站", baseUrl + "/xqxx/" + origin.crkbh + "/photo?Authorization=" +
+      token, "地址：" + origin.crkmc);
+  } else if (type == 'hospital') {
+    content = assembleInfoWindowContent("卫生院", baseUrl + "/xqxx/" + origin.crkbh + "/photo?Authorization=" +
+      token, "地址：" + origin.crkmc);
+  } else if (type == 'sewage') {
+    content = assembleInfoWindowContent("污水净化站", baseUrl + "/xqxx/" + origin.crkbh + "/photo?Authorization=" +
+      token, "地址：" + origin.crkmc);
+  } else if (type == 'watertower') {
+    content = assembleInfoWindowContent("水塔", baseUrl + "/xqxx/" + origin.crkbh + "/photo?Authorization=" +
+      token, "地址：" + origin.crkmc);
+  } else if (type == 'gas') {
+    content = assembleInfoWindowContent("液化气站", baseUrl + "/xqxx/" + origin.crkbh + "/photo?Authorization=" +
+      token, "地址：" + origin.crkmc);
+  } else if (type == 'signaltower') {
+    content = assembleInfoWindowContent("信号塔", baseUrl + "/xqxx/" + origin.crkbh + "/photo?Authorization=" +
+      token, "地址：" + origin.crkmc);
   } else if (type == 'police') {
     content = assembleInfoWindowContentWithoutPicture("警员信息", "警员姓名：" + origin.mjxm + (origin.mjlb == 1 ? "（民警）" : "（协管）") + "<br/>警员警号：" + origin
       .mjjh + "<br/>所属机构：" + origin.jgmc + "<br/>定位时间：" + origin.rksj);
@@ -2569,6 +2673,10 @@ function addMarkerClickEvt(type, origin, marker) {
   if (type == 'camera') {
     marker.addEventListener(IMAP.Constants.CLICK, function (evt) {
       showRtspVideoDialog(origin.cameraId)
+    });
+  } else if (type == 'pecc' && (origin.jkdbh === 'ZYDZJC00000008' || origin.jkdbh === 'ZYDZJC00000012' || origin.jkdbh === 'ZYDZJC00000016')) {
+    marker.addEventListener(IMAP.Constants.CLICK, function (evt) {
+      showRtspVideoDialog(origin.jkdbh)
     });
   } else {
     // 图标点击事件
@@ -2661,6 +2769,7 @@ function showRtspVideoDialog(cameraId) {
     }
   });
 }
+
 
 function showPicDialog(obj) {
 

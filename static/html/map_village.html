@@ -183,6 +183,11 @@
         <span class="operator-checkbox operator-input"></span>
         小区简介
       </label>
+      <label class="operator-label on">
+        <input class="operator-radio" type="checkbox" name="operator-ddc" id="operator-ddc" checked>
+        <span class="operator-checkbox operator-input"></span>
+        电动车
+      </label>
       <label class="operator-label off">
         <input class="operator-radio" type="checkbox" id="operator-more" name="operator-more">
         <span class="operator-checkbox operator-input"></span>
@@ -205,11 +210,6 @@
     </div>
     <div class="more-content">
       <label class="operator-label on">
-        <input class="operator-radio" type="checkbox" name="operator-ddc" id="operator-ddc" checked>
-        <span class="operator-checkbox operator-input"></span>
-        电动车
-      </label>
-      <label class="operator-label on">
         <input class="operator-radio" type="checkbox" name="operator-seniorcenter" checked>
         <span class="operator-checkbox operator-input"></span>
         老年活动室
@@ -228,6 +228,46 @@
         <input class="operator-radio" type="checkbox" name="operator-jkdw" checked>
         <span class="operator-checkbox operator-input"></span>
         监控点位
+      </label>
+      <label class="operator-label on">
+        <input class="operator-radio" type="checkbox" name="operator-garage" checked>
+        <span class="operator-checkbox operator-input"></span>
+        车库
+      </label>
+      <label class="operator-label on">
+        <input class="operator-radio" type="checkbox" name="operator-garbage" checked>
+        <span class="operator-checkbox operator-input"></span>
+        垃圾房
+      </label>
+      <label class="operator-label on">
+        <input class="operator-radio" type="checkbox" name="operator-substation" checked>
+        <span class="operator-checkbox operator-input"></span>
+        变电站
+      </label>
+      <label class="operator-label on">
+        <input class="operator-radio" type="checkbox" name="operator-hospital" checked>
+        <span class="operator-checkbox operator-input"></span>
+        卫生院
+      </label>
+      <label class="operator-label on">
+        <input class="operator-radio" type="checkbox" name="operator-sewage" checked>
+        <span class="operator-checkbox operator-input"></span>
+        污水净化站
+      </label>
+      <label class="operator-label on">
+        <input class="operator-radio" type="checkbox" name="operator-watertower" checked>
+        <span class="operator-checkbox operator-input"></span>
+        水塔
+      </label>
+      <label class="operator-label on">
+        <input class="operator-radio" type="checkbox" name="operator-gas" checked>
+        <span class="operator-checkbox operator-input"></span>
+        液化气站
+      </label>
+      <label class="operator-label on">
+        <input class="operator-radio" type="checkbox" name="operator-signaltower" checked>
+        <span class="operator-checkbox operator-input"></span>
+        信号塔
       </label>
     </div>
   </div>
@@ -257,11 +297,16 @@
           实有安防
         </label> -->
         <label class="operator-label on">
+          <input class="operator-radio" type="checkbox" name="operator-pecc" checked>
+          <span class="operator-checkbox operator-input"></span>
+          实有安防
+        </label>
+        <label class="operator-label on">
           <input class="operator-radio" type="checkbox" name="operator-syll" id="operator-syll" checked>
           <span class="operator-checkbox operator-input"></span>
           实有力量
         </label>
-        <!-- <label class="operator-label on">
+        <label class="operator-label on">
           <input class="operator-radio" type="checkbox" name="operator-xqxx" checked>
           <span class="operator-checkbox operator-input"></span>
           进出通道
@@ -270,12 +315,8 @@
           <input class="operator-radio" type="checkbox" name="operator-wifi" checked>
           <span class="operator-checkbox operator-input"></span>
           WIFI嗅探
-        </label> -->
-        <label class="operator-label on">
-          <input class="operator-radio" type="checkbox" name="operator-pecc" checked>
-          <span class="operator-checkbox operator-input"></span>
-          实有安防
         </label>
+
       </div>
 
       <label class="operator-title on" title="隐藏菜单" style="margin-right: 3px;">
@@ -494,6 +535,30 @@
 
       // 加载监控点位
       loadXqxxLocationsByType('04', 'jkdw');
+
+      // 加载车库
+      loadXqxxLocationsByType('07', 'garage');
+
+      // 加载垃圾房
+      loadXqxxLocationsByType('06', 'garbage');
+
+      // 加载变电站
+      loadXqxxLocationsByType('05', 'substation');
+
+      // 加载卫生院
+      loadXqxxLocationsByType('08', 'hospital');
+
+      // 加载污水净化站
+      loadXqxxLocationsByType('09', 'sewage');
+
+      // 加载水塔
+      loadXqxxLocationsByType('11', 'watertower');
+
+      // 加载液化气站
+      loadXqxxLocationsByType('12', 'gas');
+
+      // 加载信号塔
+      loadXqxxLocationsByType('10', 'signaltower');
 
     }
 
