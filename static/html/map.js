@@ -91,41 +91,6 @@ function initOperatorMenuEvent() {
       hiddenLocationsByType("ddc");
     }
 
-    // 选中消防重点单位
-    if (name == 'operator-xf-unit' && checked) {
-      //获取点聚合的显示级别数
-      var zoom = parseInt(4, 10);
-      //获取点聚合的缓冲大小
-      var size = parseInt(5, 10);
-      //获取点聚合的最小聚合数
-      var clusterSum = parseInt(20, 10);
-      //获取是否允许点击放大
-      var zoomclick = 'true';
-      zoomclick = zoomclick == 'true' ? true : false;
-      zoom = zoom == -1 ? null : zoom;
-      size = size == -1 ? null : size;
-      clusterSum = clusterSum == -1 ? null : clusterSum;
-
-      //创建聚合管理对象 并将各参数设置到其中
-      map.plugin(['IMAP.DataCluster'], function () {
-        dataCluster = new IMAP.DataCluster(map, markers, {
-          // styles: sts,
-          maxZoom: zoom,
-          gridSize: size,
-          zoomOnClick: zoomclick,
-          minimumClusterSize: clusterSum
-        });
-      });
-    }
-
-    // 取消选中消防重点单位
-    if (name == 'operator-xf-unit' && !checked) {
-      if (dataCluster) {
-        //清空所有的marker及点聚合对象
-        dataCluster.setMap(null);
-      }
-    }
-
     // 选中实有房屋
     if (name == 'operator-house' && checked) {
       showHouseLocations();
@@ -195,12 +160,14 @@ function initOperatorMenuEvent() {
     if (name == 'operator-pecc' && checked) {
       showLocationsByType("pecc");
       showLocationsByType("xfs");
+      showLocationsByType("smoke");
     }
 
     // 取消电子警察
     if (name == 'operator-pecc' && !checked) {
       hiddenLocationsByType("pecc");
       hiddenLocationsByType("xfs");
+      hiddenLocationsByType("smoke");
     }
 
     // 选中水闸
