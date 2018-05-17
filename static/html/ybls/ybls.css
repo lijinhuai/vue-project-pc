@@ -613,3 +613,10 @@
 .hide {
   display: none;
 }
+
+/******* 地图颜色覆盖 **********/
+
+.imap-label {
+  border: 0px;
+  background: rgba(255, 255, 255, 0);
+}
