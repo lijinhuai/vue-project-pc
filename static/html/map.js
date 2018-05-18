@@ -927,20 +927,31 @@ function loadRyCjlx() {
     var code = data.code;
     if (code == 200) {
       var messages = data.data;
+      var xz = 0,
+        qy = 0,
+        xg = 0,
+        zx = 0;
       for (var i = 0; i < messages.length; i++) {
         if (messages[i].type == '1') {
-          countUp('xz', messages[i].cnt)
+          xz += messages[i].cnt
         }
         if (messages[i].type == '2') {
-          countUp('qy', messages[i].cnt)
+          qy += messages[i].cnt
         }
         if (messages[i].type == '3') {
-          countUp('xg', messages[i].cnt)
+          xg += messages[i].cnt
         }
         if (messages[i].type == '4') {
-          countUp('zx', messages[i].cnt)
+          zx += messages[i].cnt
+        }
+        if (messages[i].type == '5') {
+          qy += messages[i].cnt
         }
       }
+      countUp('xz', xz)
+      countUp('qy', qy)
+      countUp('xg', xg)
+      countUp('zx', zx)
 
     }
   });
