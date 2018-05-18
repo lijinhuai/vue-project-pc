@@ -1207,6 +1207,14 @@
   padding: 0px 5px;
 }
 
+#con_subdetail_xf_1 .item_info .item_info_status_success {
+  background-color: #00cd47;
+}
+
+#con_subdetail_xf_1 .item_info .item_info_status_error {
+  background-color: #F61653;
+}
+
 /*********** 消防 - 窨井盖 ******************/
 
 #con_subdetail_xf_2 .con_xf_yjg_record_item {
@@ -1258,11 +1266,18 @@
 
 #con_subdetail_xf_2 .item_info .item_info_status {
   color: #FFFFFF;
-  background-color: #00cd47;
   width: 29px;
   height: 20px;
   line-height: 20px;
   padding: 0px 5px;
+}
+
+#con_subdetail_xf_2 .item_info .item_info_status_success {
+  background-color: #00cd47;
+}
+
+#con_subdetail_xf_2 .item_info .item_info_status_error {
+  background-color: #F61653;
 }
 
 /*********** 消防 - 烟雾感应 ******************/
@@ -1309,6 +1324,14 @@
   height: 20px;
   line-height: 20px;
   padding: 0px 5px;
+}
+
+#con_subdetail_xf_3 .item_info .item_info_status_success {
+  background-color: #00cd47;
+}
+
+#con_subdetail_xf_3 .item_info .item_info_status_error {
+  background-color: #F61653;
 }
 
 /************ 右侧菜菜单 - 布控报警 ***************/

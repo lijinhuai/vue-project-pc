@@ -1040,7 +1040,7 @@ function showYjgData(messages) {
     yjgDataHtml = yjgDataHtml + "  </div>";
     yjgDataHtml = yjgDataHtml + "  <div class=\"item_info\">";
     yjgDataHtml = yjgDataHtml + "    <div class=\"item_info_name \">" + messages[i].crkmc + "</div>";
-    yjgDataHtml = yjgDataHtml + "    <div class=\"item_info_status\">正常</div>";
+    yjgDataHtml = yjgDataHtml + "    <div class=\"item_info_status item_info_status_success\">正常</div>";
     yjgDataHtml = yjgDataHtml + "  </div>";
     yjgDataHtml = yjgDataHtml + "</div>";
   }
@@ -1083,7 +1083,11 @@ function showYwgyData(messages) {
     ywgyDataHtml = ywgyDataHtml + "    <div class=\"item_info_name \">" + messages[i].dz + "</div>";
     ywgyDataHtml = ywgyDataHtml + "    <div class=\"item_info_name \"><i class=\"iconfont\">&#xe651;</i>&nbsp;" +
       messages[i].location + "</div>";
-    ywgyDataHtml = ywgyDataHtml + "    <div class=\"item_info_status\">正常</div>";
+    if (messages[i].status === "正常") {
+      ywgyDataHtml = ywgyDataHtml + "    <div class=\"item_info_status item_info_success\">" + messages[i].status + "</div>";
+    } else {
+      ywgyDataHtml = ywgyDataHtml + "    <div class=\"item_info_status item_info_error\">" + messages[i].status + "</div>";
+    }
     ywgyDataHtml = ywgyDataHtml + "  </div>";
     ywgyDataHtml = ywgyDataHtml + "</div>";
   }
@@ -2080,7 +2084,7 @@ function showXfsData(messages) {
       xfsDataHtml = xfsDataHtml + "  <i class=\"iconfont\">&#xe651;</i>";
       xfsDataHtml = xfsDataHtml + "  <div class=\"item_info\" style=\"width:218px;\">";
       xfsDataHtml = xfsDataHtml + "    <div class=\"item_info_name \" style=\"width:210px;\">" + messages[i].crkmc + "</div>";
-      xfsDataHtml = xfsDataHtml + "    <div class=\"item_info_status\">正常</div>";
+      xfsDataHtml = xfsDataHtml + "    <div class=\"item_info_status\">" + messages[i].status + "</div>";
       xfsDataHtml = xfsDataHtml + "  </div>";
       xfsDataHtml = xfsDataHtml + "</div>";
     }
@@ -2094,7 +2098,11 @@ function showXfsData(messages) {
       xfsDataHtml = xfsDataHtml + "  </div>";
       xfsDataHtml = xfsDataHtml + "  <div class=\"item_info\">";
       xfsDataHtml = xfsDataHtml + "    <div class=\"item_info_name \">" + messages[i].crkmc + "</div>";
-      xfsDataHtml = xfsDataHtml + "    <div class=\"item_info_status\">正常</div>";
+      if (messages[i].status === "正常") {
+        xfsDataHtml = xfsDataHtml + "    <div class=\"item_info_status item_info_success\">" + messages[i].status + "</div>";
+      } else {
+        xfsDataHtml = xfsDataHtml + "    <div class=\"item_info_status item_info_error\">" + messages[i].status + "</div>";
+      }
       xfsDataHtml = xfsDataHtml + "  </div>";
       xfsDataHtml = xfsDataHtml + "</div>";
     }
