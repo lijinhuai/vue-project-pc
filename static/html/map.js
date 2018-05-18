@@ -2423,7 +2423,7 @@ function addMediumMarker(lng, lat, did, type, origin) {
     // 标注为警员时， 处理是标注是否展示以及标签是否展示处理
     if (type == 'police') {
       // 实有立项标签是否选中
-      if ($("#operator-police").parent("label").hasClass("off")) {
+      if (!$("#operator-syll").is(":checked")) {
         marker.visible(false);
       } else {
         marker.setLabel(origin.mjxm, {
@@ -2435,7 +2435,7 @@ function addMediumMarker(lng, lat, did, type, origin) {
     }
     // 标注为电动车时，处理是标注是否展示
     if (type == "ddc") {
-      if ($("#operator-ddc").parent("label").hasClass("off")) {
+      if (!$("#operator-ddc").is(":checked")) {
         marker.visible(false);
       }
     }
