@@ -1,4 +1,5 @@
 var baseUrl = window.parent.document.getElementById("baseUrl").value;
+var areaId = window.parent.document.getElementById("areaId").value;
 var deptCode;
 var serviceUrl = locationPath();
 var token = Cookies.get("Admin-Token");
@@ -556,28 +557,55 @@ function countUp(id, end) {
 
 
 function queryAreaList(owner) {
+  if (areaId) {
+    queryAreaByAreaId(areaId)
+  } else {
+    $.ajax({
+      headers: {
+        Authorization: Cookies.get("Admin-Token")
+      },
+      type: "post",
+      url: baseUrl + "/dutyArea/queryAreaList",
+      data: {
+        "deptId": owner,
+        "parentCode": owner
+      },
+      success: function (data) {
+        var areaList = data.data
+        for (var i = 0; i < areaList.length; i++) {
+          var color = random();
+          if (areaList[i].areaStr != null && areaList[i].areaStr != "") {
+            addPolygon(areaList[i], color);
+          }
+        }
+      },
+      error: function () {}
+    });
+  }
+
+}
+
+function queryAreaByAreaId(areaId) {
   $.ajax({
     headers: {
       Authorization: Cookies.get("Admin-Token")
     },
     type: "post",
-    url: baseUrl + "/dutyArea/queryAreaList",
+    url: baseUrl + "/dutyArea/queryAreaById",
     data: {
-      "deptId": owner,
-      "parentCode": owner
+      "areaId": areaId,
     },
     success: function (data) {
-      var areaList = data.data
-      for (var i = 0; i < areaList.length; i++) {
-        var color = random();
-        if (areaList[i].areaStr != null && areaList[i].areaStr != "") {
-          addPolygon(areaList[i], color);
-        }
+      var area = data.data
+      var color = random();
+      if (area.areaStr != null && area.areaStr != "") {
+        addPolygon(area, color);
       }
     },
     error: function () {}
   });
 }
+
 
 
 //添加责任区
@@ -770,7 +798,7 @@ function addMediumMarker(lng, lat, did, type, origin) {
     var opts = new IMAP.MarkerOptions();
     opts.anchor = IMAP.Constants.BOTTOM_CENTER;
     opts.icon = new IMAP.Icon(
-      path + "/static/image/" + type + "_24.png", {
+      path + "/static/image/" + type + "_" + origin.mjlb + "_24.png", {
         "size": new IMAP.Size(24, 24),
         "offset": new IMAP.Pixel(0, 0)
       }

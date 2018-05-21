@@ -2409,7 +2409,7 @@ function addMediumMarker(lng, lat, did, type, origin) {
     var opts = new IMAP.MarkerOptions();
     opts.anchor = IMAP.Constants.BOTTOM_CENTER;
     opts.icon = new IMAP.Icon(
-      path + "/static/image/" + type + "_24.png", {
+      path + "/static/image/" + type + "_" + origin.mjlb + "_24.png", {
         "size": new IMAP.Size(24, 24),
         "offset": new IMAP.Pixel(0, 0)
       }

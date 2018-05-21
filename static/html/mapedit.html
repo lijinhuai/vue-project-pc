@@ -57,6 +57,74 @@
       -webkit-font-smoothing: antialiased;
     }
 
+    /************** INFOWINDOW 样式 *****************************/
+
+    .infowindow-container {
+      width: 280px;
+    }
+
+    .infowindow-container .infowindow-title {
+      position: relative;
+      background-color: rgba(20, 65, 170, 0.8);
+      border-bottom: 1px solid #CCC;
+      border-radius: 5px 5px 0 0;
+    }
+
+    .infowindow-container .infowindow-title-content {
+      display: inline-block;
+      color: #FFFFFF;
+      font-size: 14px;
+      font-weight: bold;
+      line-height: 31px;
+      padding: 0 10px;
+    }
+
+    .infowindow-container .infowindow-title-close {
+      position: absolute;
+      top: 5px;
+      right: 10px;
+      transition-duration: 0.25s;
+      color: #FFFFFF;
+    }
+
+    .infowindow-container .infowindow-content {
+      font-size: 12px;
+      padding: 6px;
+      line-height: 20px;
+      background-color: rgba(20, 65, 170, 0.8);
+      height: 77px;
+      color: #FFFFFF;
+    }
+
+    .infowindow-container .infowindow-content-image {
+      float: left;
+      margin-right: 10px;
+      width: 100px;
+      height: 70px;
+    }
+
+    .infowindow-container .infowindow-marker {
+      height: 0px;
+      width: 100%;
+      clear: both;
+      text-align: center;
+      position: relative;
+      top: -18px;
+      margin: 0px auto;
+    }
+
+    .infowindow-container .infowindow-marker i {
+      font-size: 32px;
+      color: rgba(20, 65, 170, 0.7);
+    }
+
+
+    /******* 地图颜色覆盖 **********/
+
+    .imap-label {
+      border: 0px;
+      background: rgba(255, 255, 255, 0);
+    }
 
     /************ 地图操作 ***************/
 
@@ -438,12 +506,62 @@
       // 页面初始数据
       initData();
 
-
-
       // 页面地图数据切换事件绑定
-      // initOperatorMenuEvent();
+      initOperatorMenuEvent();
 
     });
+
+    function initOperatorMenuEvent() {
+
+      // 地图展示数据类型切换
+      $(".operator-radio").click(function () {
+
+        var name = $(this).attr("name");
+        var checked = $(this).is(":checked");
+
+        if (checked) {
+          $(this).parent(".operator-label").removeClass("off");
+          $(this).parent(".operator-label").addClass("on");
+        } else {
+          $(this).parent(".operator-label").removeClass("on");
+          $(this).parent(".operator-label").addClass("off");
+        }
+
+        // 选中警员定位
+        if (name == 'operator-police' && checked) {
+          showPoliceLocations();
+        }
+        // 取消警员定位
+        if (name == 'operator-police' && !checked) {
+          hiddenPoliceLocations();
+        }
+      });
+
+    }
+
+    function showPoliceLocations() {
+      var overlays = map.getOverlayLayer().getOverlays();
+      for (var i in overlays) {
+        if (overlays[i].type == "police") {
+          overlays[i].visible(true);
+          overlays[i].setLabel(overlays[i].origin.mjxm, {
+            "anchor": IMAP.Constants.BOTTOM_CENTER,
+            "fontColor": "rgba(255,255,255,.6)",
+            "offset": new IMAP.Pixel(0, -24)
+          });
+        }
+      }
+    }
+
+    function hiddenPoliceLocations() {
+      var overlays = map.getOverlayLayer().getOverlays();
+      for (var i in overlays) {
+        if (overlays[i].type == "police") {
+          overlays[i].visible(false);
+          overlays[i].removeLabel();
+        }
+      }
+    }
 
     // 子菜单切换
     function setSubTab(prefix, model, index) {
@@ -462,6 +580,17 @@
     function initData() {
 
       loadDeptList();
+
+
+      // 清除超时警员定位标注
+      setInterval(function () {
+        clearPoliceLocation();
+      }, 1000 * 30);
+
+      // 加载警员定位数据
+      loadPoliceLatestLocations();
+
+      createEventSource(successCallBack);
 
       // queryAreaCount();
     }
@@ -509,7 +638,19 @@
 
     function reSetArea() {
       clearAdd();
-      map.getOverlayLayer().clear();
+      // map.getOverlayLayer().clear();
+      clearDutyOverlay();
+    }
+
+    function clearDutyOverlay() {
+      var overlays = map.getOverlayLayer().getOverlays();
+      for (var i in overlays) {
+        if (overlays[i].id && 'xq' == overlays[i].id.substr(0, 2)) {
+          var polygon = overlays[i];
+          map.getOverlayLayer().removeOverlay(polygon);
+        }
+      }
+      toggleRemoveLabel()
     }
 
 
@@ -596,7 +737,8 @@
         }, this);
       } else {
         $("#area_str").val("");
-        map.getOverlayLayer().clear(); //清除所有覆盖物
+        // map.getOverlayLayer().clear(); //清除所有覆盖物
+        clearDutyOverlay();
         toggleDrawClose();
       }
     }
@@ -673,7 +815,8 @@
       $("#isXjjg").val("1");
       setSubTab('subdetail', 'face', 2)
       $("#depts").val(owner);
-      map.getOverlayLayer().clear(); //清除所有覆盖物
+      // map.getOverlayLayer().clear(); //清除所有覆盖物
+      clearDutyOverlay();
       $('.loading').show();
       $.ajax({
         type: "post",
@@ -784,7 +927,8 @@
     //查询责任区数量
     function queryAreaCount() {
       $('.loading').show();
-      map.clearOverlays();
+      // map.clearOverlays();
+      clearDutyOverlay();
       var areaName = $("#xqName").val();
       var deptId = $("#dept_code").val();
       $.ajax({
@@ -1171,6 +1315,240 @@
       window.parent.location.href = serviceUrl + "#/home";
     }
 
+    // 清除超时警员定位标注
+    function clearPoliceLocation() {
+      //  获取所有图层
+      var overlays = map.getOverlayLayer().getOverlays();
+      var et = new Date().getTime();
+      for (var i in overlays) {
+        if (overlays[i].type == "police") {
+          // 判断超时时间
+          var origin = overlays[i].origin;
+          var gt = origin.rksj;
+
+          var st = Date.parse(gt);
+          if (et - st > 600000) {
+            map.getOverlayLayer().removeOverlay(i);
+          }
+        }
+      }
+    }
+
+    // 加载警员定位数据
+    function loadPoliceLatestLocations() {
+
+      var token = Cookies.get("Admin-Token");
+
+      // 加载警员定位数据
+      loadData(baseUrl + "/location/police/locations", token, function (data) {
+        var code = data.code;
+        if (code == 200) {
+          var locations = data.data;
+          showMjGpsData(locations)
+        }
+      });
+    }
+
+    function createEventSource(successCallBack) {
+      var token = Cookies.get("Admin-Token");
+      var url = baseUrl + '/sseEmitter/JYDW?Authorization=' + token;
+      if (!!window.EventSource) {
+        var source = new EventSource(url);
+        source.addEventListener('message', function (e) {
+          successCallBack(e);
+        }, true);
+        source.addEventListener('open', function (e) {
+          console.log("Connection opened");
+        }, true);
+
+        source.addEventListener('error', function (e) {
+          console.log("Connection error");
+        }, true);
+
+        source.addEventListener('close', function (e) {
+          console.log("Connection closed");
+        }, true);
+      }
+    }
+
+    function successCallBack(e) {
+      var data = JSON.parse(e.data);
+      var code = data.code;
+      if (code == 200 && data.dataType == 'JYDW') {
+        showMjGpsData(data.data);
+      }
+    }
+
+
+    // 警员位置信息展示
+    function showMjGpsData(data) {
+
+      //  获取所有图层
+      var overlays = map.getOverlayLayer().getOverlays();
+
+      // 遍历推送过来的数据集合
+      for (var li = 0; li < data.length; li++) {
+
+        var hit = false;
+        var location = data[li];
+        for (var i in overlays) {
+          var lid = "police_" + location.mjjh;
+          if (overlays[i].type == "police" && overlays[i].id == lid) {
+
+            // 当前标注打开了窗口， 新添加的标注需要自动打开窗口
+            if (_current_marker && _current_marker.id == lid && _current_marker.getInfoWindow() != null) {
+              hit = true;
+            }
+
+            map.getOverlayLayer().removeOverlay(i);
+            break;
+          }
+        }
+
+        // 地图添加标注
+        var marker = addMediumMarker(location.gpsjd, location.gpswd, location.mjjh, "police", location);
+
+        // 如果地图上的警员标注正好打开了 InfoWindow
+        if (hit) {
+          _current_marker = marker;
+
+          var content = assembleInfoWindowContentWithoutPicture("警员信息", "警员姓名：" + location.mjxm + (location.mjlb == 1 ?
+              "（民警）" : "（协管）") + "<br/>警员警号：" + location
+            .mjjh + "<br/>所属机构：" + location.jgmc + "<br/>定位时间：" + location.rksj);
+
+          var lnglat = marker.getPosition();
+          marker.openInfoWindow(
+            content, {
+              size: new IMAP.Size(320, 110),
+              position: lnglat,
+              autoPan: false,
+              offset: new IMAP.Pixel(160, 75),
+              anchor: IMAP.Constants.CENTER,
+              type: IMAP.Constants.OVERLAY_INFOWINDOW_CUSTOM,
+              visible: true
+            }
+          );
+        }
+      }
+    }
+
+    // 添加中等标注 - 动态数据 - 图标气泡类型
+    function addMediumMarker(lng, lat, did, type, origin) {
+
+      var path = locationPath();
+      if (map) {
+        var opts = new IMAP.MarkerOptions();
+        opts.anchor = IMAP.Constants.BOTTOM_CENTER;
+
+        opts.icon = new IMAP.Icon(
+          path + "/static/image/" + type + "_" + origin.mjlb + "_24.png", {
+            "size": new IMAP.Size(24, 24),
+            "offset": new IMAP.Pixel(0, 0)
+          }
+        );
+
+        var lnglat = new IMAP.LngLat(lng, lat);
+        marker = new IMAP.Marker(lnglat, opts);
+        marker.id = type + "_" + did;
+        marker.type = type;
+
+        map.getOverlayLayer().addOverlay(marker, false);
+
+        // 标注警员定位时，标注上增加原始数据
+        if (type == "police") {
+          marker.origin = origin;
+        }
+
+        // 标注为警员时， 处理是标注是否展示以及标签是否展示处理
+        if (type == 'police') {
+          // 实有立项标签是否选中
+          if ($("#operator-police").parent("label").hasClass("off")) {
+            marker.visible(false);
+          } else {
+            marker.setLabel(origin.mjxm, {
+              "anchor": IMAP.Constants.BOTTOM_CENTER,
+              "fontColor": "rgba(255,255,255,.6)",
+              "offset": new IMAP.Pixel(0, -24)
+            });
+          }
+        }
+
+        // 图标上添加点击事件
+        addMarkerClickEvt(type, origin, marker);
+
+        return marker;
+      }
+    }
+
+
+    var _current_marker;
+
+    function addMarkerClickEvt(type, origin, marker) {
+
+      // 针对不同数据类型添加不同的 InfoWindow
+      var content = "";
+      var token = Cookies.get("Admin-Token");
+      if (type == 'police') {
+        content = assembleInfoWindowContentWithoutPicture("警员信息", "警员姓名：" + origin.mjxm + (origin.mjlb == 1 ? "（民警）" :
+            "（协管）") + "<br/>警员警号：" + origin
+          .mjjh + "<br/>所属机构：" + origin.jgmc + "<br/>定位时间：" + origin.rksj);
+      }
+
+      // 图标点击事件
+      if (content != "") {
+        marker.addEventListener(IMAP.Constants.CLICK, function (evt) {
+
+          // 如果其他 Marker 打开了消息框，则关闭
+          if (_current_marker) {
+            _current_marker.closeInfoWindow();
+          }
+
+          // 打开消息框
+          _current_marker = this;
+          var lnglat = this.getPosition();
+          this.openInfoWindow(
+            content, {
+              size: new IMAP.Size(320, 110),
+              position: lnglat,
+              autoPan: false,
+              offset: new IMAP.Pixel(160, 75),
+              anchor: IMAP.Constants.CENTER,
+              type: IMAP.Constants.OVERLAY_INFOWINDOW_CUSTOM,
+              visible: true
+            }
+          );
+        });
+      }
+    }
+
+    // 关闭消息窗
+    function closeInfoWindow() {
+      if (map && _current_marker) {
+        _current_marker.closeInfoWindow();
+      }
+    }
+
+
+    function assembleInfoWindowContentWithoutPicture(title, context) {
+      var content = "<div class=\"infowindow-container\">"
+      content = content + "<div class=\"infowindow-title\">"
+      content = content + "<div class=\"infowindow-title-content\">";
+      content = content + title;
+      content = content + "</div>";
+      content = content + "<span class=\"infowindow-title-close\" onclick=\"closeInfoWindow()\">";
+      content = content + "<i class=\"iconfont\">&#xe603;</i>"
+      content = content + "</span>";
+      content = content + "</div>";
+      content = content + "<div class=\"infowindow-content\">";
+      content = content + context;
+      content = content + "</div>";
+      content = content + "<div class=\"infowindow-marker\">";
+      content = content + "<i class=\"iconfont\">&#xe682;</i>";
+      content = content + "</div>";
+      content = content + "</div>";
+      return content;
+    }
+
   </script>
 </head>
 
@@ -1183,6 +1561,11 @@
       <label class="operator-label on" onclick="openHome();" style="margin-left: 6px;">
         <span class="operator-checkbox operator-input"></span>
         首页
+      </label>
+      <label class="operator-label off">
+        <input class="operator-radio" type="checkbox" name="operator-police" id="operator-police">
+        <span class="operator-checkbox operator-input"></span>
+        实有力量
       </label>
     </div>
   </div>
@@ -1385,7 +1768,8 @@
         animation: true,
       });
       map.plugin(['IMAP.Tool']);
-      boundary();
+      // boundary();
+      queryAreaCount();
     }
 
     function boundary() {
