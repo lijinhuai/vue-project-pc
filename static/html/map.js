@@ -161,6 +161,7 @@ function initOperatorMenuEvent() {
     // 选中实有安防设施
     if (name == 'operator-camera' && checked) {
       showLocationsByType("camera");
+      showLocationsByType("pecc");
       showLocationsByType("xfs");
       showLocationsByType("smoke");
     }
@@ -168,6 +169,7 @@ function initOperatorMenuEvent() {
     // 取消选中实有安防设施
     if (name == 'operator-camera' && !checked) {
       hiddenLocationsByType("camera");
+      hiddenLocationsByType("pecc");
       hiddenLocationsByType("xfs");
       hiddenLocationsByType("smoke");
     }
@@ -194,20 +196,6 @@ function initOperatorMenuEvent() {
     // 取消选中WIFI嗅探
     if (name == 'operator-wifi' && !checked) {
       hiddenLocationsByType("wifi");
-    }
-
-    // 选中电子警察
-    if (name == 'operator-pecc' && checked) {
-      showLocationsByType("pecc");
-      showLocationsByType("xfs");
-      showLocationsByType("smoke");
-    }
-
-    // 取消选中电子警察
-    if (name == 'operator-pecc' && !checked) {
-      hiddenLocationsByType("pecc");
-      hiddenLocationsByType("xfs");
-      hiddenLocationsByType("smoke");
     }
 
     // 选中水闸
@@ -767,7 +755,7 @@ function alarm() {
 
 function createEventSource(successCallBack) {
   var token = Cookies.get("Admin-Token");
-  var url = baseUrl + '/sseEmitter/YBLS,YT,CLBK,RYBK,JYDW,DDCDW?Authorization=' + token;
+  var url = baseUrl + '/sseEmitter/YBLS,YT,CLBK,RYBK,JYDW,DDCDW?pcsdm=' + pcsdm + '&jcwdm=' + jcwdm + '&Authorization=' + token;
   if (!!window.EventSource) {
     var source = new EventSource(url);
     source.addEventListener('message', function (e) {
