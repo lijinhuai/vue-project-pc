@@ -30,8 +30,11 @@ $(document).ready(function () {
       }
       loadLocations(this);
     })
+    $(".hide").removeClass("hide")
   } else {
     pcsbm = deptCode
+    $("#" + deptCode).parent().parent().removeClass("hide");
+    $("#" + deptCode).parent().parent().parent().removeClass("hide")
   }
 });
 
