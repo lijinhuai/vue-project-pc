@@ -7,6 +7,7 @@ var serviceUrl = locationPath();
 var pcsdm = window.parent.document.getElementById("pcsdm").value;
 var jlxdm = window.parent.document.getElementById("jlxdm").value;
 var jcwdm = window.parent.document.getElementById("jcwdm").value;
+var name = window.parent.document.getElementById("name").value;
 var intro = window.parent.document.getElementById("intro").value;
 
 
@@ -447,8 +448,8 @@ function initData() {
 
   var token = Cookies.get("Admin-Token");
 
-  createEventSource(successCallBack);
-
+  createEventSource('YBLS,YT?pcsdm=' + pcsdm + '&jcwdm=' + jcwdm + '&Authorization=' + token, successCallBack);
+  createEventSource('CLBK,RYBK,JYDW,DDCDW?Authorization=' + token, successCallBack);
   // 加载一标六实数据
   setInterval(loadData(baseUrl + "/houses/amounts", token, function (data) {
     var code = data.code;
@@ -753,9 +754,9 @@ function alarm() {
   // audio.play();
 }
 
-function createEventSource(successCallBack) {
+function createEventSource(sseSubscriptionParams, successCallBack) {
   var token = Cookies.get("Admin-Token");
-  var url = baseUrl + '/sseEmitter/YBLS,YT,CLBK,RYBK,JYDW,DDCDW?pcsdm=' + pcsdm + '&jcwdm=' + jcwdm + '&Authorization=' + token;
+  var url = baseUrl + '/sseEmitter/' + sseSubscriptionParams;
   if (!!window.EventSource) {
     var source = new EventSource(url);
     source.addEventListener('message', function (e) {
@@ -2404,7 +2405,6 @@ function setSubTab(prefix, model, index) {
 // 添加中等标注 - 动态数据 - 图标气泡类型
 function addMediumMarker(lng, lat, did, type, origin) {
 
-  debugger
   var path = locationPath();
   if (map) {
     var opts = new IMAP.MarkerOptions();
@@ -2876,7 +2876,7 @@ function showYblsDetail_chart(id) {
   } else if (id == 'sydw') {
     window.location.href = "./sydw.html"
   } else if (id == 'syll') {
-    window.open(serviceUrl + "/#/equipment");
+    window.open(serviceUrl + "/#/equipment?pcsdm=" + pcsdm + "&jcwdm=" + jcwdm + "&jlxdm=" + jlxdm + "&name=" + name);
   } else if (id == 'syjq') {
     window.open(serviceUrl + "/#/case");
   } else if (id == 'syaf') {

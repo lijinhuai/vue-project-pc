@@ -8,8 +8,7 @@ export function fetchDwxxList (pageInfo, data) {
   return fetch({
     url: '/dwxx',
     method: 'get',
-    params: params,
-    loadingText: '111'
+    params: params
   })
 }
 

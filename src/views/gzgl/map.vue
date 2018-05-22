@@ -9,6 +9,7 @@
     <input hidden v-model="pcsdm" id="pcsdm" />
     <input hidden v-model="jlxdm" id="jlxdm" />
     <input hidden v-model="jcwdm" id="jcwdm" />
+    <input hidden v-model="name" id="name" />
     <input hidden v-model="center.lon" id="lon" />
     <input hidden v-model="center.lat" id="lat" />
     <input hidden v-model="center.zoom" id="zoom" />
@@ -35,6 +36,7 @@ export default {
       pcsdm: '',
       jlxdm: '',
       jcwdm: '',
+      name: '',
       iframeSrc: '',
       center: {
         lon: '',
@@ -64,6 +66,7 @@ export default {
       this.pcsdm = data.pcs.pcsdm
       this.jlxdm = data.community.jlxdm
       this.jcwdm = data.community.jcwdm
+      this.name = data.community.name
       this.center = data.community.center
       if (data.community.type === 'city') {
         this.iframeSrc =
