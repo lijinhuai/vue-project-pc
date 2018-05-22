@@ -556,10 +556,29 @@ function countUp(id, end) {
   obj.start();
 }
 
+function clearDutyOverlay() {
+  var overlays = map.getOverlayLayer().getOverlays();
+  for (var i in overlays) {
+    if (overlays[i].id && 'xq' == overlays[i].id.substr(0, 2)) {
+      var polygon = overlays[i];
+      map.getOverlayLayer().removeOverlay(polygon);
+    }
+  }
+}
 
+function clearMarkerByType(type) {
+  var overlays = map.getOverlayLayer().getOverlays();
+  for (var i in overlays) {
+    var polygon = overlays[i];
+    if (polygon.type == type) {
+      map.getOverlayLayer().removeOverlay(polygon);
+    }
+  }
+}
 
 
 function queryAreaList(owner) {
+  clearDutyOverlay()
   if (areaId) {
     queryAreaByAreaId(areaId)
   } else {

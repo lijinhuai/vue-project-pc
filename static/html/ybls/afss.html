@@ -108,7 +108,7 @@
       var pcsbm = $(obj).children('.dept-num').attr("id");
       $('.dept-box').removeClass('on');
       $(obj).parent().addClass('on');
-      map.getOverlayLayer().clear();
+      clearDutyOverlay();
       if (pcsbm == "xfs-total") {
         loadXfsLocations()
       } else if (pcsbm == "jkdw-total") {

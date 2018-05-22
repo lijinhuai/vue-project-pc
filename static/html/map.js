@@ -2048,8 +2048,6 @@ function showMenuContentForDoorFull(messages) {
 //   // 加载消防栓位置
 //   loadXfsLocations();
 
-//   // 加载消防重点单位
-//   // loadXfUnitLocations();
 
 // }
 
@@ -2146,23 +2144,6 @@ function assembleXfsDialogContent(dpic) {
 }
 
 
-// 加载消防重点单位
-function loadXfUnitLocations() {
-  var token = Cookies.get("Admin-Token");
-  loadData(baseUrl + "/xfunit/locations", token, function (data) {
-    var code = data.code;
-    if (code == 200) {
-      var locations = data.data;
-      addCluster(locations, 'xfunit')
-      // for (var i = 0; i < locations.length; i++) {
-      //   if (locations[i].lon != "" && locations[i].lat != "") {
-      //     addMarker(locations[i].lon, locations[i].lat, locations[i].crkbh, "xfunit", locations[i]);
-      //   }
-      // }
-    }
-  });
-}
-
 // 加载 WIFI 嗅探设备
 function loadWifiDeviceLocations() {
   var token = Cookies.get("Admin-Token");
@@ -2235,8 +2216,12 @@ function loadHouseLocations() {
     var code = data.code;
     if (code == 200) {
       var locations = data.data;
-      for (var i = 0; i < locations.length; i++) {
-        addMarker(locations[i].gpsjd, locations[i].gpswd, locations[i].cjbh, "house", locations[i]);
+      if (locations.length > 100) {
+        addHouseCluster(locations, "house")
+      } else {
+        for (var i = 0; i < locations.length; i++) {
+          addMarker(locations[i].gpsjd, locations[i].gpswd, locations[i].cjbh, "house", locations[i]);
+        }
       }
     }
   });
@@ -2298,26 +2283,59 @@ function hiddenLocationsByType(type) {
 
 // 展示实有房屋位置
 function showHouseLocations() {
-  var overlays = map.getOverlayLayer().getOverlays();
-  for (var i in overlays) {
-    if (overlays[i].type == "house") {
-      overlays[i].visible(true);
-      overlays[i].setLabel(overlays[i].dlbh + "号", {
-        "anchor": IMAP.Constants.BOTTOM_CENTER,
-        "fontColor": "rgba(255,255,255,.6)",
-        "offset": new IMAP.Pixel(0, -15)
+  if (houseMarkers) {
+    //获取点聚合的显示级别数
+    var zoom = parseInt(4, 10);
+    //获取点聚合的缓冲大小
+    var size = parseInt(5, 10);
+    //获取点聚合的最小聚合数
+    var clusterSum = parseInt(10, 10);
+    //获取是否允许点击放大
+    var zoomclick = 'true';
+    zoomclick = zoomclick == 'true' ? true : false;
+    zoom = zoom == -1 ? null : zoom;
+    size = size == -1 ? null : size;
+    clusterSum = clusterSum == -1 ? null : clusterSum;
+
+    //创建聚合管理对象 并将各参数设置到其中
+    map.plugin(['IMAP.DataCluster'], function () {
+      houseDataCluster = new IMAP.DataCluster(map, houseMarkers, {
+        // styles: sts,
+        maxZoom: zoom,
+        gridSize: size,
+        zoomOnClick: zoomclick,
+        minimumClusterSize: clusterSum
       });
+    });
+  } else {
+    var overlays = map.getOverlayLayer().getOverlays();
+    for (var i in overlays) {
+      if (overlays[i].type == "house") {
+        overlays[i].visible(true);
+        overlays[i].setLabel(overlays[i].dlbh + "号", {
+          "anchor": IMAP.Constants.BOTTOM_CENTER,
+          "fontColor": "rgba(255,255,255,.6)",
+          "offset": new IMAP.Pixel(0, -15)
+        });
+      }
     }
+
   }
+
 }
 
 // 隐藏实有房屋位置
 function hiddenHouseLocations() {
-  var overlays = map.getOverlayLayer().getOverlays();
-  for (var i in overlays) {
-    if (overlays[i].type == "house") {
-      overlays[i].visible(false);
-      overlays[i].removeLabel();
+  if (houseDataCluster) {
+    //清空所有的marker及点聚合对象
+    houseDataCluster.setMap(null);
+  } else {
+    var overlays = map.getOverlayLayer().getOverlays();
+    for (var i in overlays) {
+      if (overlays[i].type == "house") {
+        overlays[i].visible(false);
+        overlays[i].removeLabel();
+      }
     }
   }
 }
@@ -2446,7 +2464,7 @@ function addMediumMarker(lng, lat, did, type, origin) {
         marker.setLabel(origin.mjxm, {
           "anchor": IMAP.Constants.BOTTOM_CENTER,
           "fontColor": "rgba(255,255,255,.6)",
-          "offset": new IMAP.Pixel(0, -24)
+          "offset": new IMAP.Pixel(0, -24),
         });
       }
     }
@@ -2500,7 +2518,7 @@ function addMarker(lng, lat, did, type, origin) {
 }
 
 
-var dataCluster, markers;
+var houseDataCluster, houseMarkers;
 
 var sts = [{
   url: "http://a.amap.com/jsapi_demos/static/images/blue.png",
@@ -2524,7 +2542,7 @@ var sts = [{
   offset: new IMAP.Pixel(-24, -24)
 }];
 //添加点聚合
-function addCluster(serchRsusl, type) {
+function addHouseCluster(serchRsusl, type) {
   var path = locationPath();
   var opts = new IMAP.MarkerOptions();
   opts.anchor = IMAP.Constants.BOTTOM_CENTER;
@@ -2535,21 +2553,31 @@ function addCluster(serchRsusl, type) {
     }
   );
   if (map) {
-    if (dataCluster) {
+    if (houseDataCluster) {
       //清空所有的marker及点聚合对象
-      dataCluster.setMap(null);
+      houseDataCluster.setMap(null);
     }
-    markers = [];
+    houseMarkers = [];
     //循环遍历数据 把数据加载到markers中去 注：数据类型是IMAP.Marker类型
     for (var i = 0; i < serchRsusl.length; i++) {
       (function (i) {
         var poi = serchRsusl[i];
-        var lnglat = new IMAP.LngLat(poi.lon, poi.lat);
+        var lnglat = new IMAP.LngLat(poi.gpsjd, poi.gpswd);
         var marker = new IMAP.Marker(lnglat, opts);
         marker.type = type;
+        map.getOverlayLayer().addOverlay(marker, false);
+        if (type == 'house') {
+          marker.dlbh = poi.dlbh;
+          marker.setLabel(poi.dlbh + "号", {
+            "anchor": IMAP.Constants.BOTTOM_CENTER,
+            "fontColor": "rgba(255,255,255,.6)",
+            "offset": new IMAP.Pixel(0, -15),
+            minZoom:15
+          });
+        }
         // 图标上添加点击事件
         addMarkerClickEvt(type, poi, marker);
-        markers.push(marker);
+        houseMarkers.push(marker);
       })(i);
     }
     //获取点聚合的显示级别数
@@ -2557,7 +2585,7 @@ function addCluster(serchRsusl, type) {
     //获取点聚合的缓冲大小
     var size = parseInt(5, 10);
     //获取点聚合的最小聚合数
-    var clusterSum = parseInt(20, 10);
+    var clusterSum = parseInt(10, 10);
     //获取是否允许点击放大
     var zoomclick = 'true';
     zoomclick = zoomclick == 'true' ? true : false;
@@ -2567,7 +2595,7 @@ function addCluster(serchRsusl, type) {
 
     //创建聚合管理对象 并将各参数设置到其中
     map.plugin(['IMAP.DataCluster'], function () {
-      dataCluster = new IMAP.DataCluster(map, markers, {
+      houseDataCluster = new IMAP.DataCluster(map, houseMarkers, {
         // styles: sts,
         maxZoom: zoom,
         gridSize: size,

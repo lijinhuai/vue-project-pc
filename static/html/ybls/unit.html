@@ -83,7 +83,8 @@
       var pcsbm = $(obj).children('.dept-num').attr("id");
       $('.dept-box').removeClass('on');
       $(obj).parent().addClass('on');
-      map.getOverlayLayer().clear();
+      clearDutyOverlay();
+      clearMarkerByType("zdmb")
       loadLoactionsByPcsbm(pcsbm);
     }
 
