@@ -429,13 +429,14 @@
     var map;
     var lon = window.parent.document.getElementById("lon").value;
     var lat = window.parent.document.getElementById("lat").value;
+    var zoom = window.parent.document.getElementById("zoom").value;
 
     function initMap() {
       map = new IMAP.Map("map", {
         minZoom: 3,
         maxZoom: 20,
         // 设置地图初始化级别
-        zoom: 17,
+        zoom: zoom,
         // 设置地图中心点坐标
         center: new IMAP.LngLat(lon, lat),
         // 设置地图缩放动画效果

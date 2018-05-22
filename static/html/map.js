@@ -2404,16 +2404,26 @@ function setSubTab(prefix, model, index) {
 // 添加中等标注 - 动态数据 - 图标气泡类型
 function addMediumMarker(lng, lat, did, type, origin) {
 
+  debugger
   var path = locationPath();
   if (map) {
     var opts = new IMAP.MarkerOptions();
     opts.anchor = IMAP.Constants.BOTTOM_CENTER;
-    opts.icon = new IMAP.Icon(
-      path + "/static/image/" + type + "_" + origin.mjlb + "_24.png", {
-        "size": new IMAP.Size(24, 24),
-        "offset": new IMAP.Pixel(0, 0)
-      }
-    );
+    if (type == "police") {
+      opts.icon = new IMAP.Icon(
+        path + "/static/image/" + type + "_" + origin.mjlb + "_24.png", {
+          "size": new IMAP.Size(24, 24),
+          "offset": new IMAP.Pixel(0, 0)
+        }
+      );
+    } else {
+      opts.icon = new IMAP.Icon(
+        path + "/static/image/" + type + "_24.png", {
+          "size": new IMAP.Size(24, 24),
+          "offset": new IMAP.Pixel(0, 0)
+        }
+      );
+    }
 
     var lnglat = new IMAP.LngLat(lng, lat);
     marker = new IMAP.Marker(lnglat, opts);
