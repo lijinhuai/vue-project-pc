@@ -481,10 +481,10 @@ function initData() {
 
   var token = Cookies.get("Admin-Token");
 
-  createEventSource('YBLS,YT?pcsdm=' + pcsdm + '&jcwdm=' + jcwdm + '&Authorization=' + token, successCallBack);
+  createEventSource('YT?pcsdm=' + pcsdm + '&jcwdm=' + jcwdm + '&Authorization=' + token, successCallBack);
   createEventSource('CLBK,RYBK,JYDW,DDCDW,JCDW?Authorization=' + token, successCallBack);
   // 加载一标六实数据
-  setInterval(loadData(baseUrl + "/houses/amounts", token, function (data) {
+  loadData(baseUrl + "/houses/amounts", token, function (data) {
     var code = data.code;
     if (code == 200) {
       var ybls = data.data;
@@ -498,7 +498,7 @@ function initData() {
       countUp('lhry', ybls.lhry);
       countUp('jwry', ybls.jwry);
     }
-  }), 1000 * 30)
+  })
 
   loadData(baseUrl + "/houses/fwbq", token, function (data) {
     var code = data.code;
@@ -2603,15 +2603,17 @@ function addMediumMarker(lng, lat, did, type, origin) {
       }
     }
 
-    // 警车标签是否选中
-    if (!$("#operator-jc").is(":checked")) {
-      marker.visible(false);
-    } else {
-      marker.setLabel(origin.cphm, {
-        "anchor": IMAP.Constants.BOTTOM_CENTER,
-        "fontColor": "rgba(255,255,255,.6)",
-        "offset": new IMAP.Pixel(0, -24)
-      });
+    if (type == 'jc') {
+      // 警车标签是否选中
+      if (!$("#operator-jc").is(":checked")) {
+        marker.visible(false);
+      } else {
+        marker.setLabel(origin.cphm, {
+          "anchor": IMAP.Constants.BOTTOM_CENTER,
+          "fontColor": "rgba(255,255,255,.6)",
+          "offset": new IMAP.Pixel(0, -24)
+        });
+      }
     }
 
     // 图标上添加点击事件
