@@ -5,6 +5,7 @@ var mjPicBaseHost = window.parent.document.getElementById("mjPicBaseHost").value
 var rtspServer = window.parent.document.getElementById("rtspServer").value;
 var serviceUrl = locationPath();
 var pcsdm = window.parent.document.getElementById("pcsdm").value;
+var xqbh = window.parent.document.getElementById("jlxdm").xqbh;
 var jlxdm = window.parent.document.getElementById("jlxdm").value;
 var jcwdm = window.parent.document.getElementById("jcwdm").value;
 var name = window.parent.document.getElementById("name").value;
@@ -36,6 +37,11 @@ $(document).ready(function () {
   // 清除超时电动车定位标注
   setInterval(function () {
     clearDdcLocation();
+  }, 1000 * 30);
+
+  // 清除超时警车定位标注
+  setInterval(function () {
+    clearJcLocation();
   }, 1000 * 30);
 
 });
@@ -78,12 +84,29 @@ function clearDdcLocation() {
   }
 }
 
+// 清除超时警车定位标注
+function clearJcLocation() {
+  //  获取所有图层
+  var overlays = map.getOverlayLayer().getOverlays();
+  var et = new Date().getTime();
+  for (var i in overlays) {
+    if (overlays[i].type == "jc") {
+      // 判断超时时间
+      var origin = overlays[i].origin;
+      var gt = origin.gpssj;
+
+      var st = Date.parse(gt);
+      if (et - st > 600000) {
+        map.getOverlayLayer().removeOverlay(i);
+      }
+    }
+  }
+}
+
 function initOperatorMenuEvent() {
 
   // 地图展示数据类型切换
   $(".operator-radio").click(function () {
-
-    console.info("click");
 
     var name = $(this).attr("name");
     var checked = $(this).is(":checked");
@@ -127,6 +150,16 @@ function initOperatorMenuEvent() {
     // 取消电动车
     if (name == 'operator-ddc' && !checked) {
       hiddenLocationsByType("ddc");
+    }
+
+    // 选中警车
+    if (name == 'operator-jc' && checked) {
+      showJcLocations();
+    }
+
+    // 取消警车
+    if (name == 'operator-jc' && !checked) {
+      hiddenJcLocations();
     }
 
     // 选中实有房屋
@@ -449,7 +482,7 @@ function initData() {
   var token = Cookies.get("Admin-Token");
 
   createEventSource('YBLS,YT?pcsdm=' + pcsdm + '&jcwdm=' + jcwdm + '&Authorization=' + token, successCallBack);
-  createEventSource('CLBK,RYBK,JYDW,DDCDW?Authorization=' + token, successCallBack);
+  createEventSource('CLBK,RYBK,JYDW,DDCDW,JCDW?Authorization=' + token, successCallBack);
   // 加载一标六实数据
   setInterval(loadData(baseUrl + "/houses/amounts", token, function (data) {
     var code = data.code;
@@ -485,6 +518,9 @@ function initData() {
 
   // 加载电动车定位数据
   loadDdcLatestLocations();
+
+  // 加载警车定位数据
+  loadJcLatestLocations();
 }
 
 // 加载警员定位数据
@@ -512,6 +548,20 @@ function loadDdcLatestLocations() {
     if (code == 200) {
       var locations = data.data;
       showDdcGpsData(locations)
+    }
+  });
+}
+
+// 加载警车车定位数据
+function loadJcLatestLocations() {
+  var token = Cookies.get("Admin-Token");
+
+  // 加载警员定位数据
+  loadData(baseUrl + "/location/jc/locations", token, function (data) {
+    var code = data.code;
+    if (code == 200) {
+      var locations = data.data;
+      showJcGpsData(locations)
     }
   });
 }
@@ -601,6 +651,55 @@ function showDdcGpsData(data) {
 
       var content = assembleInfoWindowContentWithoutPicture("电动车信息", "车牌号码：" + location.palteId + "<br/>车主姓名：" + location
         .name + "<br/>车主手机：" + location.phone + "<br/>定位时间：" + location.rksj);
+
+      var lnglat = marker.getPosition();
+      marker.openInfoWindow(
+        content, {
+          size: new IMAP.Size(320, 110),
+          position: lnglat,
+          autoPan: false,
+          offset: new IMAP.Pixel(160, 75),
+          anchor: IMAP.Constants.CENTER,
+          type: IMAP.Constants.OVERLAY_INFOWINDOW_CUSTOM,
+          visible: true
+        }
+      );
+    }
+  }
+}
+
+// 警车位置信息展示np
+function showJcGpsData(data) {
+
+  //  获取所有图层
+  var overlays = map.getOverlayLayer().getOverlays();
+
+  // 遍历推送过来的数据集合
+  for (var li = 0; li < data.length; li++) {
+
+    var hit = false;
+    var location = data[li];
+    for (var i in overlays) {
+      var lid = "jc_" + location.clbh;
+      if (overlays[i].type == "jc" && overlays[i].id == lid) {
+        // 当前标注打开了窗口， 新添加的标注需要自动打开窗口
+        if (_current_marker && _current_marker.id == lid && _current_marker.getInfoWindow() != null) {
+          hit = true;
+        }
+        map.getOverlayLayer().removeOverlay(i);
+        break;
+      }
+    }
+
+    // 地图添加标注
+    var marker = addMediumMarker(location.gpsjd, location.gpswd, location.clbh, "jc", location);
+
+    // 如果地图上的警员标注正好打开了 InfoWindow
+    if (hit) {
+      _current_marker = marker;
+
+      var content = assembleInfoWindowContentWithoutPicture("警车信息", "车牌号码：" + location.cphm + "<br/>车辆部门：" + location
+        .clbm + "<br/>定位时间：" + location.gpssj);
 
       var lnglat = marker.getPosition();
       marker.openInfoWindow(
@@ -732,6 +831,8 @@ function successCallBack(e) {
     showMjGpsData(data.data);
   } else if (code == 200 && data.dataType == 'DDCDW') {
     showDdcGpsData(data.data);
+  } else if (code == 200 && data.dataType == 'JCDW') {
+    showJcGpsData(data.data);
   }
 }
 
@@ -2366,6 +2467,32 @@ function hiddenPoliceLocations() {
   }
 }
 
+// 显示警车
+function showJcLocations() {
+  var overlays = map.getOverlayLayer().getOverlays();
+  for (var i in overlays) {
+    if (overlays[i].type == "jc") {
+      overlays[i].visible(true);
+      overlays[i].setLabel(overlays[i].origin.cphm, {
+        "anchor": IMAP.Constants.BOTTOM_CENTER,
+        "fontColor": "rgba(255,255,255,.6)",
+        "offset": new IMAP.Pixel(0, -24)
+      });
+    }
+  }
+}
+
+// 隐藏警车
+function hiddenJcLocations() {
+  var overlays = map.getOverlayLayer().getOverlays();
+  for (var i in overlays) {
+    if (overlays[i].type == "jc") {
+      overlays[i].visible(false);
+      overlays[i].removeLabel();
+    }
+  }
+}
+
 
 // 异步加载数据
 function loadData(url, token, callback) {
@@ -2376,6 +2503,7 @@ function loadData(url, token, callback) {
     type: "get",
     url: url,
     data: {
+      "xqbh": xqbh,
       "jcwdm": jcwdm,
       "pcsdm": pcsdm,
       "jlxdm": jlxdm
@@ -2451,7 +2579,7 @@ function addMediumMarker(lng, lat, did, type, origin) {
     map.getOverlayLayer().addOverlay(marker, false);
 
     // 标注警员或者电动车定位时，标注上增加原始数据
-    if (type == "police" || type == "ddc") {
+    if (type == "police" || type == "ddc" || type == "jc") {
       marker.origin = origin;
     }
 
@@ -2473,6 +2601,17 @@ function addMediumMarker(lng, lat, did, type, origin) {
       if (!$("#operator-ddc").is(":checked")) {
         marker.visible(false);
       }
+    }
+
+    // 警车标签是否选中
+    if (!$("#operator-jc").is(":checked")) {
+      marker.visible(false);
+    } else {
+      marker.setLabel(origin.cphm, {
+        "anchor": IMAP.Constants.BOTTOM_CENTER,
+        "fontColor": "rgba(255,255,255,.6)",
+        "offset": new IMAP.Pixel(0, -24)
+      });
     }
 
     // 图标上添加点击事件
@@ -2713,6 +2852,9 @@ function addMarkerClickEvt(type, origin, marker) {
   } else if (type == 'ddc') {
     content = assembleInfoWindowContentWithoutPicture("电动车信息", "车牌号码：" + origin.palteId + "<br/>车主姓名：" + origin
       .name + "<br/>车主手机：" + origin.phone + "<br/>定位时间：" + origin.rksj);
+  } else if (type == 'jc') {
+    content = assembleInfoWindowContentWithoutPicture("警车信息", "车牌号码：" + origin.cphm + "<br/>车辆部门：" + origin
+      .clbm + "<br/>定位时间：" + origin.gpssj);
   }
   if (type == 'camera') {
     marker.addEventListener(IMAP.Constants.CLICK, function (evt) {

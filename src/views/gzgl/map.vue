@@ -7,6 +7,7 @@
     <input hidden v-model="mjPicBaseHost" id="mjPicBaseHost" />
     <input hidden v-model="rtspServer" id="rtspServer" />
     <input hidden v-model="pcsdm" id="pcsdm" />
+    <input hidden v-model="xqbh" id="xqbh" />
     <input hidden v-model="jlxdm" id="jlxdm" />
     <input hidden v-model="jcwdm" id="jcwdm" />
     <input hidden v-model="name" id="name" />
@@ -33,6 +34,7 @@ export default {
       carPicBaseUrl: '',
       mjPicBaseHost: '',
       rtspServer: '',
+      xqbh: '',
       pcsdm: '',
       jlxdm: '',
       jcwdm: '',
@@ -64,6 +66,7 @@ export default {
     confirmCity (data) {
       this.iframeSrc = ''
       this.pcsdm = data.pcs.pcsdm
+      this.xqbh = data.community.xqbh
       this.jlxdm = data.community.jlxdm
       this.jcwdm = data.community.jcwdm
       this.name = data.community.name
