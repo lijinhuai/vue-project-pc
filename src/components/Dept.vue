@@ -1,9 +1,9 @@
 <template>
   <div v-clickoutside="handleClose">
-    <Input @on-focus="handleFocus" :placeholder="placeholder" :value="visualValue"></Input>
+    <Input v-model="visualValue" @on-focus="handleFocus" :placeholder="placeholder" readonly></Input>
     <transition :name="transition">
       <div v-show="visible" class="treeWarp">
-        <el-tree :data="data" show-checkbox node-key="id" ref="tree" highlight-current :props="defaultProps">
+        <el-tree :data="data" show-checkbox node-key="id" ref="tree" highlight-current :props="defaultProps" @check-change="checkChange">
         </el-tree>
       </div>
     </transition>
@@ -19,10 +19,6 @@ export default {
     clickoutside
   },
   props: {
-    value: {
-      type: Array,
-      default: []
-    },
     clearable: {
       type: Boolean,
       default: true
@@ -67,7 +63,7 @@ export default {
     handleClose () {
       if (this.open !== null) return
       this.visible = false
-      this.checkChange()
+      // this.checkChange()
     },
     handleFocus () {
       if (this.readonly) return

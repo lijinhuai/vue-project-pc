@@ -112,8 +112,6 @@
 import Dept from '@/components/Dept.vue'
 import { fetchDbDictList } from '@/api/dict'
 import { fetchRjbxxList } from '@/api/cxtj/rycx'
-import { fetchYblsRjbxxList } from '@/api/ybls_home/syrkcx'
-import { fetchSyrkRjbxxList } from '@/api/ybls_home/map_syrkcx'
 export default {
   name: 'rycx',
   data () {
@@ -267,14 +265,6 @@ export default {
         })
         .catch(() => {})
     },
-    yblsSyrkCx () {
-      fetchYblsRjbxxList(this.pageInfo, this.queryForm)
-        .then(response => {
-          this.data = response.data.list
-          this.pageInfo.total = response.data.total
-        })
-        .catch(() => {})
-    },
     initDict () {
       const _self = this
       fetchDbDictList('MZ').then(response => {
@@ -287,14 +277,6 @@ export default {
     changePage (value) {
       this.pageInfo.pageNum = value
       this.search()
-    },
-    MapSyrkCx () {
-      fetchSyrkRjbxxList(this.pageInfo, this.queryForm)
-        .then(response => {
-          this.data = response.data.list
-          this.pageInfo.total = response.data.total
-        })
-        .catch(() => {})
     }
   }
 }

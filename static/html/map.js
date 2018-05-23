@@ -2572,7 +2572,6 @@ function addHouseCluster(serchRsusl, type) {
             "anchor": IMAP.Constants.BOTTOM_CENTER,
             "fontColor": "rgba(255,255,255,.6)",
             "offset": new IMAP.Pixel(0, -15),
-            minZoom:15
           });
         }
         // 图标上添加点击事件
