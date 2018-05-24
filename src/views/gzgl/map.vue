@@ -17,7 +17,7 @@
     <input hidden v-model="intro" id="intro" />
     <iframe id="map" :src="iframeSrc" style="width:100%; height:100%; border: 0px;overflow:hidden;"></iframe>
     <el-dialog :visible.sync="dialogTableVisible" width="318px" :show-close="false" :close-on-click-modal="false" :close-on-press-escape="false" center lock-scroll>
-        <cascading-address ref="cascading" @confirm="confirmCity"></cascading-address>
+        <cascading-address ref="cascading" :districts="districts" @confirm="confirmCity"></cascading-address>
     </el-dialog>
   </div>
 </template>
@@ -25,9 +25,11 @@
 <script>
 import config from '@/config/index'
 import cascadingAddress from './components/CascadingSelect/CascadingSelect.vue'
+import { fetchXqxxPcs } from '@/api/cxtj/amap.js'
 export default {
   data () {
     return {
+      districts: [],
       dialogTableVisible: true,
       baseUrl: '',
       facePicBaseUrl: '',
@@ -58,9 +60,12 @@ export default {
     this.carPicBaseUrl = config.carPicBaseUrl
     this.mjPicBaseHost = config.mjPicBaseHost
     this.rtspServer = config.rtspServer
-    setTimeout(function () {
-      _self.initDefault()
-    }, 0)
+    fetchXqxxPcs().then(response => {
+      this.districts = response.data
+      setTimeout(function () {
+        _self.initDefault()
+      }, 0)
+    })
   },
   methods: {
     confirmCity (data) {

@@ -3,8 +3,8 @@
     <!-- <input v-model="model" @click="open()" type="text" :class="inputClass" :readonly="readonly" /> -->
     <div v-show="show" class="cascading-address">
       <ul>
-        <li v-for="item in areas" :key="item.index" @click="setArea(item.area)" class="label" :class="{'label-success': a === item.area}">
-          {{ item.area }}
+        <li v-for="item in districts" :key="item.index" @click="setDistrict(item.district)" class="label" :class="{'label-success': d === item.district}">
+          {{ item.district }}
         </li>
       </ul>
       <ul v-show="pcss.length">
@@ -17,15 +17,15 @@
           {{ item.name }}
         </li>
       </ul>
-      <div v-show="a" class="address-area">
+      <div v-show="d" class="address-area">
         <label class="text-success">
-                  <span class="text-muted">地址：</span> {{ a }} {{ p }} {{ c }}
+                  <span class="text-muted">地址：</span> {{ d }} {{ p }} {{ c }}
               </label>
       </div>
       <div class="address-option-footer">
         <!-- <button @click="close()" class="btn btn-link btn-sm">关闭</button>
               <button @click="clear()" class="btn btn-default btn-sm">清空</button> -->
-        <button @click="confirm()" class="btn btn-success btn-sm" :disabled="!(p&&c&&a)">确定</button>
+        <button @click="confirm()" class="btn btn-success btn-sm" :disabled="!(d&&p&&c)">确定</button>
       </div>
     </div>
   </div>
@@ -33,21 +33,22 @@
 
 
 <script lang="babel">
-  import addressData from './CascadingSelectData.json'
+  // import addressData from './CascadingSelectData.json'
   export default {
     name: 'cascading',
     props: {
       inputClass: String,
-      readonly: Boolean
+      readonly: Boolean,
+      districts: Array
     },
     data () {
       return {
-        a: '',
+        d: '',
         p: '',
         c: '',
         pcs: {},
         community: {},
-        areas: addressData,
+        // districts: addressData,
         pcss: [],
         communitys: [],
         show: true
@@ -55,12 +56,12 @@
     },
     computed: {
       model () {
-        return this.a || this.c || this.p
+        return this.d || this.c || this.p
       }
     },
     methods: {
-      init (a, p, c) {
-        this.setArea(a)
+      init (d, p, c) {
+        this.setDistrict(d)
         for (var i in this.pcss) {
           var pcs = this.pcss[i]
           if (pcs.pcsdm === p) {
@@ -76,13 +77,12 @@
         }
       },
       clear () {
-        this.a = ''
+        this.d = ''
         this.p = ''
         this.c = ''
         this.pcs = {}
         this.community = {}
-        this.cities = []
-        this.areas = []
+        this.districts = []
       },
       open () {
         this.show = true
@@ -97,14 +97,14 @@
           community: this.community
         })
       },
-      setArea (area) {
-        this.a = area
+      setDistrict (district) {
+        this.d = district
         this.p = ''
         this.c = ''
         this.communitys = []
         // 根据选中的 p(省份) 值更新 cities(城市列表)
-        var result = this.areas.filter(function (v) {
-          return v.area === area
+        var result = this.districts.filter(function (v) {
+          return v.district === district
         })
         this.pcss = result[0].pcs || []
       },
