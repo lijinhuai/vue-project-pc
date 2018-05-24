@@ -1,10 +1,10 @@
 <template>
   <div class="body">
-    <div style="position: absolute; left: 0; right: 0; margin: 30px auto;">
+    <div v-show="showSyll" style="position: absolute; left: 0; right: 0; margin: 30px auto;">
       <div class="home-ranking-list" style="width: 350px;  margin-left: 30px;">
         <h4><label>实有力量</label></h4>
         <div style="height:260px; width:200px;left: 20px;background: url(static/image/bg-operator-top2.png) no-repeat;
-                background-size: 80% auto; margin: 10px 10px 0 90px; color: #f6b407; text-align: center;background-position:center;">
+                                    background-size: 80% auto; margin: 10px 10px 0 90px; color: #f6b407; text-align: center;background-position:center;">
           <span style="display: block;clear: both; font-size: 16px; padding-top: 80px; margin-left: -10px;">{{equipment.communityName}}</span>
           <b style="font-size: 36px; margin-left: -15px;">{{equipment.totalCount}}</b></div>
         <ul class="data-contents-height" style=" padding: 0px 20px; margin-top: -15px; height: 260px;">
@@ -16,7 +16,9 @@
         </ul>
       </div>
       <div class="home-ranking-list" style="width: 940px; margin-left: 400px;">
-        <h4><label>可依靠力量</label><label style="float: right; font-size: 14px; text-decoration: underline; color: #00d294;cursor:pointer;" @click="showEqup=true">警械装备</label></h4>
+        <h4><label>可依靠力量</label>
+          <label style="float: right; font-size: 14px; text-decoration: underline; color: #00d294;cursor:pointer;" @click="showEqup=true;showSyll=false;">警械装备</label>
+        </h4>
         <ul class="data-contents-height" style=" padding: 0px 20px; height: 515px;overflow:auto;">
           <li v-for="(item, index) in equipment.dataList" :key="item.rybh">
             <b style="width:25px;display:inline-block;">{{index+1}}</b>
@@ -26,15 +28,82 @@
             <span style="width:100px;display:inline-block;"><strong>{{item.sjhm}}</strong></span>
             <span style="width:100px;display:inline-block; "><strong>{{item.bmzw}}</strong></span>
             <label v-show="index==0" style="display:inline-block;">户籍地址：</label>
-            <span >{{item.hjdz}}</span>
+            <span>{{item.hjdz}}</span>
           </li>
         </ul>
       </div>
     </div>
     <transition name="bounce">
-      <div v-show="showEqup" class="cont s--inactive">
+      <div v-show="showEqup" style="position: absolute; left: 0; right: 0; margin: 30px auto;">
+        <div class="home-ranking-list" style="width: 350px;  margin-left: 30px;">
+          <h4><label>警械装备</label>
+          </h4>
+          <ul class="data-contents-height" style=" padding: 0px 20px; height: 515px;overflow:auto;">
+            <li v-for="(item, index) in equipment.syllzb" :key="item.id">
+              <b style="width:90px;display:inline-block;">{{index+1}}</b>
+              <label style="width:150px;display:inline-block;">{{item.x}}</label>
+              <label style="width:50px;;display:inline-block;">{{item.y}}</label>
+            </li>
+          </ul>
+        </div>
+        <div class="home-ranking-list" style="width: 940px; margin-left: 400px;">
+          <h4><label>警械装备饼图</label>
+            <label style="float: right; font-size: 14px; text-decoration: underline; color: #00d294;cursor:pointer;" @click="showEqupPic=true">警械装备(图)</label>
+            <label style="float: right; font-size: 14px; text-decoration: underline; color: #00d294;cursor:pointer;margin-right:10px;" @click="showSyll=true;showEqup=false">实有力量</label>
+          </h4>
+          <Row>
+            <Col span="8">
+            <div>
+              <ECharts :options="pie.option1" auto-resize style="height:257px;width:250px;"></ECharts>
+            </div>
+            </Col>
+            <Col span="8">
+            <div>
+              <ECharts :options="pie.option2" auto-resize style="height:257px;width:250px;"></ECharts>
+            </div>
+            </Col>
+            <Col span="8">
+            <div>
+              <ECharts :options="pie.option3" auto-resize style="height:257px;width:250px;"></ECharts>
+            </div>
+            </Col>
+            <Col span="8">
+            <div>
+              <ECharts :options="pie.option4" auto-resize style="height:257px;width:250px;"></ECharts>
+            </div>
+            </Col>
+            <Col span="8">
+            <div>
+              <ECharts :options="pie.option5" auto-resize style="height:257px;width:250px;"></ECharts>
+            </div>
+            </Col>
+            <Col span="8">
+            <div>
+              <ECharts :options="pie.option6" auto-resize style="height:257px;width:250px;"></ECharts>
+            </div>
+            </Col>
+          </Row>
+          <!-- <ul class="data-contents-height" style=" padding: 0px 20px; margin-top: -15px;">
+                  <li style="width:200px;display:inline-block;">
+                  </li>
+                  <li style="width:200px;display:inline-block;">
+                    <div style="width:200px;display:inline-block;">
+                      <ECharts :options="pie.option" auto-resize style="height:200px;"></ECharts>
+                    </div>
+                  </li>
+                  <li style="width:200px;display:inline-block;">
+                    <div style="width:200px;display:inline-block;">
+                      <ECharts :options="pie.option" auto-resize style="height:200px;"></ECharts>
+                    </div>
+                  </li>
+                </ul> -->
+        </div>
+      </div>
+    </transition>
+    <transition name="bounce">
+      <div v-show="showEqupPic" class="cont s--inactive">
         <div style="height:60px;background:#1f1f1f" class="el s--active">
-          <div class="close el__equp_close-btn" @click="showEqup=false" style="width:40px;height:40px;"></div>
+          <div class="close el__equp_close-btn" @click="showEqupPic=false" style="width:40px;height:40px;"></div>
         </div>
         <!-- cont inner start -->
         <div class="cont__inner">
@@ -160,9 +229,14 @@ import ECharts from 'vue-echarts/components/ECharts'
 import {
   fetchEquipmentCount,
   fetchEquipmentList,
-  fetchWordCloudList
+  fetchWordCloudList,
+  fetchSyllzb,
+  fetchSyllzbByLb
 } from '@/api/cxtj/equipment'
 import 'echarts-wordcloud'
+import 'echarts/lib/chart/pie'
+import 'echarts/lib/component/title'
+import 'echarts/lib/component/tooltip'
 export default {
   name: 'equipment',
   data () {
@@ -219,6 +293,190 @@ export default {
           }
         ]
       },
+      pie: {
+        option1: {
+          title: {
+            text: '持枪证人员',
+            x: 'center',
+            textStyle: {
+              color: '#fff'
+            },
+            top: 30
+          },
+          tooltip: {
+            trigger: 'item',
+            formatter: '{a} <br/>{b} : {c} ({d}%)'
+          },
+          series: [
+            {
+              name: '持枪证人员',
+              type: 'pie',
+              radius: '40%',
+              center: ['50%', '50%'],
+              data: [],
+              itemStyle: {
+                emphasis: {
+                  shadowBlur: 10,
+                  shadowOffsetX: 0,
+                  shadowColor: 'rgba(0, 0, 0, 0.5)'
+                }
+              }
+            }
+          ]
+        },
+        option2: {
+          title: {
+            text: '防护装备',
+            x: 'center',
+            textStyle: {
+              color: '#fff'
+            },
+            top: 30
+          },
+          tooltip: {
+            trigger: 'item',
+            formatter: '{a} <br/>{b} : {c} ({d}%)'
+          },
+          series: [
+            {
+              name: '防护装备',
+              type: 'pie',
+              radius: '40%',
+              center: ['50%', '50%'],
+              data: [],
+              itemStyle: {
+                emphasis: {
+                  shadowBlur: 10,
+                  shadowOffsetX: 0,
+                  shadowColor: 'rgba(0, 0, 0, 0.5)'
+                }
+              }
+            }
+          ]
+        },
+        option3: {
+          title: {
+            text: '警械装备',
+            x: 'center',
+            textStyle: {
+              color: '#fff'
+            },
+            top: 30
+          },
+          tooltip: {
+            trigger: 'item',
+            formatter: '{a} <br/>{b} : {c} ({d}%)'
+          },
+          series: [
+            {
+              name: '警械装备',
+              type: 'pie',
+              radius: '40%',
+              center: ['50%', '50%'],
+              data: [],
+              itemStyle: {
+                emphasis: {
+                  shadowBlur: 10,
+                  shadowOffsetX: 0,
+                  shadowColor: 'rgba(0, 0, 0, 0.5)'
+                }
+              }
+            }
+          ]
+        },
+        option4: {
+          title: {
+            text: '枪弹配置',
+            x: 'center',
+            textStyle: {
+              color: '#fff'
+            },
+            top: 30
+          },
+          tooltip: {
+            trigger: 'item',
+            formatter: '{a} <br/>{b} : {c} ({d}%)'
+          },
+          series: [
+            {
+              name: '枪弹配置',
+              type: 'pie',
+              radius: '40%',
+              center: ['50%', '50%'],
+              data: [],
+              itemStyle: {
+                emphasis: {
+                  shadowBlur: 10,
+                  shadowOffsetX: 0,
+                  shadowColor: 'rgba(0, 0, 0, 0.5)'
+                }
+              }
+            }
+          ]
+        },
+        option5: {
+          title: {
+            text: '枪支配额',
+            x: 'center',
+            textStyle: {
+              color: '#fff'
+            },
+            top: 30
+          },
+          tooltip: {
+            trigger: 'item',
+            formatter: '{a} <br/>{b} : {c} ({d}%)'
+          },
+          series: [
+            {
+              name: '枪支配额',
+              type: 'pie',
+              radius: '40%',
+              center: ['50%', '50%'],
+              data: [],
+              itemStyle: {
+                emphasis: {
+                  shadowBlur: 10,
+                  shadowOffsetX: 0,
+                  shadowColor: 'rgba(0, 0, 0, 0.5)'
+                }
+              }
+            }
+          ]
+        },
+        option6: {
+          title: {
+            text: '武器库室',
+            x: 'center',
+            textStyle: {
+              color: '#fff'
+            },
+            top: 30
+          },
+          tooltip: {
+            trigger: 'item',
+            formatter: '{a} <br/>{b} : {c} ({d}%)'
+          },
+          series: [
+            {
+              name: '武器库室',
+              type: 'pie',
+              radius: '40%',
+              center: ['50%', '50%'],
+              data: [],
+              itemStyle: {
+                emphasis: {
+                  shadowBlur: 10,
+                  shadowOffsetX: 0,
+                  shadowColor: 'rgba(0, 0, 0, 0.5)'
+                }
+              }
+            }
+          ]
+        }
+      },
+      showSyll: true,
+      showEqupPic: false,
       showEqup: false,
       queryFrom: {
         pcsdm: '',
@@ -228,7 +486,8 @@ export default {
       equipment: {
         totalCount: 0,
         communityName: '',
-        dataList: ''
+        dataList: [],
+        syllzb: []
       }
     }
   },
@@ -245,6 +504,27 @@ export default {
     })
     fetchWordCloudList(this.queryFrom).then(response => {
       this.option.series[0].data = response.data
+    })
+    fetchSyllzb(this.queryFrom).then(response => {
+      this.equipment.syllzb = response.data
+    })
+    fetchSyllzbByLb(this.queryFrom, 'CQZ').then(response => {
+      this.pie.option1.series[0].data = response.data
+    })
+    fetchSyllzbByLb(this.queryFrom, 'FHZB').then(response => {
+      this.pie.option2.series[0].data = response.data
+    })
+    fetchSyllzbByLb(this.queryFrom, 'JXZB').then(response => {
+      this.pie.option3.series[0].data = response.data
+    })
+    fetchSyllzbByLb(this.queryFrom, 'QD').then(response => {
+      this.pie.option4.series[0].data = response.data
+    })
+    fetchSyllzbByLb(this.queryFrom, 'QZ').then(response => {
+      this.pie.option5.series[0].data = response.data
+    })
+    fetchSyllzbByLb(this.queryFrom, 'WQK').then(response => {
+      this.pie.option6.series[0].data = response.data
     })
     this.init()
   },

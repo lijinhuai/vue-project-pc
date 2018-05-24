@@ -30,3 +30,28 @@ export function fetchWordCloudList (data) {
     params: params
   })
 }
+
+export function fetchSyllzb (data) {
+  const params = {
+    ...data
+  }
+  return fetch({
+    url: '/equipment/listSyllzb',
+    method: 'get',
+    params: params,
+    noAppLoading: true
+  })
+}
+
+export function fetchSyllzbByLb (data, lb) {
+  const params = {
+    ...data,
+    'lb': lb
+  }
+  return fetch({
+    url: '/equipment/listSyllzbChartByLb',
+    method: 'get',
+    params: params,
+    noAppLoading: true
+  })
+}
