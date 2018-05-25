@@ -4,7 +4,7 @@
       <div class="home-ranking-list" style="width: 350px;  margin-left: 30px;">
         <h4><label>实有力量</label></h4>
         <div style="height:260px; width:200px;left: 20px;background: url(static/image/bg-operator-top2.png) no-repeat;
-                                    background-size: 80% auto; margin: 10px 10px 0 90px; color: #f6b407; text-align: center;background-position:center;">
+                                          background-size: 80% auto; margin: 10px 10px 0 90px; color: #f6b407; text-align: center;background-position:center;">
           <span style="display: block;clear: both; font-size: 16px; padding-top: 80px; margin-left: -10px;">{{equipment.communityName}}</span>
           <b style="font-size: 36px; margin-left: -15px;">{{equipment.totalCount}}</b></div>
         <ul class="data-contents-height" style=" padding: 0px 20px; margin-top: -15px; height: 260px;">
@@ -20,9 +20,10 @@
           <label style="float: right; font-size: 14px; text-decoration: underline; color: #00d294;cursor:pointer;" @click="showEqup=true;showSyll=false;">警械装备</label>
         </h4>
         <ul class="data-contents-height" style=" padding: 0px 20px; height: 515px;overflow:auto;">
-          <li v-for="(item, index) in equipment.dataList" :key="item.rybh">
+          <li v-for="(item, index) in equipment.dataList" :key="item.rybh" style="position:relative;">
             <b style="width:25px;display:inline-block;">{{index+1}}</b>
-            <label style="width:70px;display:inline-block;">{{item.xm}}</label>
+            <label style="width:60px;display:inline-block;">{{item.xm}}</label>
+            <span style="width:60px;height:60px;display:inline-block;"><Photo :zjhm="item.sfzh"></Photo></span>
             <label style="width:30px;;display:inline-block;">{{item.xbhz}}</label>
             <span style="width:165px;display:inline-block;">{{item.sfzh}}</span>
             <span style="width:100px;display:inline-block;"><strong>{{item.sjhm}}</strong></span>
@@ -84,19 +85,19 @@
             </Col>
           </Row>
           <!-- <ul class="data-contents-height" style=" padding: 0px 20px; margin-top: -15px;">
-                  <li style="width:200px;display:inline-block;">
-                  </li>
-                  <li style="width:200px;display:inline-block;">
-                    <div style="width:200px;display:inline-block;">
-                      <ECharts :options="pie.option" auto-resize style="height:200px;"></ECharts>
-                    </div>
-                  </li>
-                  <li style="width:200px;display:inline-block;">
-                    <div style="width:200px;display:inline-block;">
-                      <ECharts :options="pie.option" auto-resize style="height:200px;"></ECharts>
-                    </div>
-                  </li>
-                </ul> -->
+                        <li style="width:200px;display:inline-block;">
+                        </li>
+                        <li style="width:200px;display:inline-block;">
+                          <div style="width:200px;display:inline-block;">
+                            <ECharts :options="pie.option" auto-resize style="height:200px;"></ECharts>
+                          </div>
+                        </li>
+                        <li style="width:200px;display:inline-block;">
+                          <div style="width:200px;display:inline-block;">
+                            <ECharts :options="pie.option" auto-resize style="height:200px;"></ECharts>
+                          </div>
+                        </li>
+                      </ul> -->
         </div>
       </div>
     </transition>
@@ -226,6 +227,7 @@
 
 <script>
 import ECharts from 'vue-echarts/components/ECharts'
+import Photo from './components/Photo'
 import {
   fetchEquipmentCount,
   fetchEquipmentList,
@@ -529,7 +531,8 @@ export default {
     this.init()
   },
   components: {
-    ECharts
+    ECharts,
+    Photo
   },
   methods: {
     createRandomItemStyle () {
@@ -573,6 +576,9 @@ export default {
             .classList.remove('s--active')
         })
       })
+    },
+    showPersonPic () {
+      alert(1)
     }
   }
 }
@@ -706,6 +712,4 @@ export default {
     font-size: 30px;
   }
 }
-</style>
-
 </style>

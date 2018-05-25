@@ -594,19 +594,22 @@
 
 /*选中后，选中样式显示*/
 
-.switch-container #switch:checked~label:after {
+.switch-container #switch:checked~label:after,
+.switch-container #switchDesc:checked~label:after {
   opacity: 1;
 }
 
 /*选中后，未选中样式消失*/
 
-.switch-container #switch:checked~label:before {
+.switch-container #switch:checked~label:before,
+.switch-container #switchDesc:checked~label:before {
   opacity: 0;
 }
 
 /*选中后label的背景色改变*/
 
-.switch-container #switch:checked~label {
+.switch-container #switch:checked~label,
+.switch-container #switchDesc:checked~label {
   background-color: green;
 }
 
@@ -619,4 +622,38 @@
 .imap-label {
   border: 0px;
   background: rgba(255, 255, 255, 0);
+}
+
+/****** 责任区描述 *******/
+
+.desc {
+  width: 188px;
+  height: 296px;
+  position: absolute;
+  bottom: 50px;
+  right: 10px;
+  background: url(/static/image/pm_bg.png) no-repeat;
+  background-size: 100% 100%;
+  z-index: 800;
+  color: #fff;
+  font-size: 14px;
+  padding: 10px 20px;
+}
+
+.desc_title {
+  width: 100%;
+  height: 30px;
+  line-height: 30px;
+  text-align: center;
+  font-size: 16px;
+  font-weight: 700;
+  color: gold;
+}
+
+.desc-content {
+  /* width: 40%; */
+  margin-right: 5px;
+  color: #0dc2fd;
+  text-align: center;
+  /* box-shadow: inset 0 0 11px 0px #0dc2fd; */
 }

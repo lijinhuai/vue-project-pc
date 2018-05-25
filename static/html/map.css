@@ -739,7 +739,10 @@
 
 .con_subdetail_face_2_item .item-title .item-title-name {
   float: left;
-  margin-left: 5px;
+  word-break: keep-all;
+  white-space: nowrap;
+  width: 80px;
+  overflow: hidden;
 }
 
 .con_subdetail_face_2_item .item-title .item-title-time {

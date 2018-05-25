@@ -8,17 +8,21 @@ var pcsbm;
 
 $(document).ready(function () {
 
-  var switchHtml = '<div title="责任区显示切换" class="switch-container">' +
+  var switchDutyAreaHtml = '<div title="责任区显示切换" class="switch-container">' +
     '<input id="switch" type="checkbox" checked class="switch" />' +
     '<label for="switch" onclick="toggleSwitch()"> </label> ' +
     '</div>'
-  $("body").append(switchHtml)
+
+  $("body").append(switchDutyAreaHtml)
 
   // 页面地图数据切换事件绑定
   initOperatorMenuEvent();
 
   // 页面初始数据
-  initData();
+  setTimeout(function () {
+    initData();
+  }, 0)
+
 
   deptCode = Cookies.get('deptCode');
   if (deptCode == '310116000000') {
@@ -54,6 +58,18 @@ function toggleSwitch() {
   }
 }
 
+function toggleSwitchDesc() {
+  var showAreaDesc = !document.getElementById('switchDesc').checked
+  if (showAreaDesc) {
+    $('#areaDesc').show();
+    $('#areaDesc').removeClass('animated zoomOutRight');
+    $('#areaDesc').addClass('animated zoomInRight');
+  } else {
+    $('#areaDesc').removeClass('animated zoomInRight');
+    $('#areaDesc').addClass('animated zoomOutRight');
+  }
+}
+
 // 页面初始化需要加载的数据
 function initData() {
   // 页面默认的定位信息数据加载
@@ -68,6 +84,34 @@ function initData() {
   loadPoliceLatestLocations();
 
   createEventSource(successCallBack);
+
+  if (areaId) {
+    $.ajax({
+      headers: {
+        Authorization: Cookies.get("Admin-Token")
+      },
+      type: "post",
+      url: baseUrl + "/dutyArea/queryAreaById",
+      data: {
+        "areaId": areaId,
+      },
+      success: function (data) {
+        var area = data.data
+        var switchDutyDescHtml =
+          '<div class="desc" id="areaDesc" style="display:none;">' +
+          '<div class="desc_title">责任区简介</div>' +
+          '<div class="desc-content">' + area.areaDesc + '</div>' +
+          '</div>' +
+          '<div title="责任区简介显示切换" class="switch-container" style="bottom: 30px;">' +
+          '<input id="switchDesc" type="checkbox" class="switch" />' +
+          '<label for="switchDesc" onclick="toggleSwitchDesc()"> </label> ' +
+          '</div>'
+        $("body").append(switchDutyDescHtml)
+      },
+      error: function () {}
+    });
+
+  }
 }
 
 function initOperatorMenuEvent() {

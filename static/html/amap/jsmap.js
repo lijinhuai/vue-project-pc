@@ -37,7 +37,8 @@ var host = "117.184.195.173";
 if (serviceUrl == "http://localhost:8080" || serviceUrl == "http://116.228.125.236:18080") {
   host = "117.184.195.173";
 } else if (serviceUrl == "http://15.216.17.104:18080") {
-  host = "15.216.17.167";
+  // host = "15.216.17.167";
+  host = "172.19.60.6";
 }
 
 var port = 25001;
