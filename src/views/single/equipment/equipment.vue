@@ -22,8 +22,8 @@
         <ul class="data-contents-height" style=" padding: 0px 20px; height: 515px;overflow:auto;">
           <li v-for="(item, index) in equipment.dataList" :key="item.rybh" style="position:relative;">
             <b style="width:25px;display:inline-block;">{{index+1}}</b>
+            <span style="width:60px;height:50px;display:inline-block;"><Photo :zjhm="item.sfzh"></Photo></span>
             <label style="width:60px;display:inline-block;">{{item.xm}}</label>
-            <span style="width:60px;height:60px;display:inline-block;"><Photo :zjhm="item.sfzh"></Photo></span>
             <label style="width:30px;;display:inline-block;">{{item.xbhz}}</label>
             <span style="width:165px;display:inline-block;">{{item.sfzh}}</span>
             <span style="width:100px;display:inline-block;"><strong>{{item.sjhm}}</strong></span>

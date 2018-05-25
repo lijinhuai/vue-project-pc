@@ -64,10 +64,10 @@ export default {
 <style lang="less" scoped>
 .upload-list {
   display: inline-block;
-  width: 60px;
-  height: 60px;
+  width: 50px;
+  height: 50px;
   text-align: center;
-  line-height: 60px;
+  line-height: 50px;
   border: 1px solid transparent;
   border-radius: 4px;
   overflow: hidden;
@@ -75,6 +75,7 @@ export default {
   position: relative;
   box-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
   margin-right: 4px;
+  top:14px;
 }
 .upload-list img {
   width: 100%;
