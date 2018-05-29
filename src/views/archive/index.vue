@@ -584,7 +584,8 @@ export default {
         },
         {
           title: '违法时间',
-          key: 'wfsj'
+          key: 'wfsj',
+          width: 110
         },
         {
           title: '违法地址',
