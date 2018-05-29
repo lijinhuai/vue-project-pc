@@ -7,7 +7,7 @@
         </div>
         <div class="data-container">
           <template v-if="archive.personalInfo.photo!=null">
-              <img style="width: 150px;opacity: 0.9;position: relative;left: 85px;margin-top: 20px;" :src="archive.personalInfo.photo.photoBase64" />
+                  <img style="width: 150px;opacity: 0.9;position: relative;left: 85px;margin-top: 20px;" :src="archive.personalInfo.photo.photoBase64" />
 </template>
 
 <template v-else>
@@ -398,10 +398,10 @@
       </div>
     </Modal>
     <Modal v-model="modal.modal_vehicle" height="100%" :styles="{top: '30px',left: '160px',width: 'calc(100vw - 400px)'}">
-      <div style="margin: 30px auto; display:flex;flex-direction: column;">
+      <div v-show="!modal.div_vio" style="margin: 30px auto; display:flex;flex-direction: column;">
         <div style="display: flex;">
         <div class="home-ranking-list" style="width: 320px;">
-          <h4><label>小区登记车辆</label> <label style="float: right; font-size: 14px; text-decoration: underline; color: #00d294;">违法信息</label></h4>
+          <h4><label>小区登记车辆</label> <label style="float: right; font-size: 14px; text-decoration: underline; color: #00d294;cursor:pointer;" @click="modal.div_vio=true">违法信息</label></h4>
           <ul class="data-contents-height">
             <li><label>车牌号码</label> <span style="background-color: #1857dc; padding: 5px; font-size: 14px; border-radius: 3px; color: whitesmoke;font-weight: bold;">
                         {{archive.vehicleInfo.cphm}}</span></li>
@@ -439,6 +439,12 @@
         </div>
         </div>
       </div>
+      <div v-show="modal.div_vio" style="margin: 30px auto; display:flex;flex-direction: column;">
+        <div class="face home-ranking-list" style="width: 100%;">
+          <h4><label>违章信息</label> <label style="float: right; font-size: 14px; text-decoration: underline; color: #00d294;cursor:pointer;" @click="modal.div_vio=false">车辆信息</label></h4>
+            <Table :columns="vioInfoColumn" :data="archive.vehicleInfo.vioInfoList"></Table>
+        </div>
+      </div>
     </Modal>
     <Modal v-model="modal.modal_hospital" height="100%" :styles="{top: '30px',left: '160px',width: 'calc(100vw - 400px)'}">
       <div style="margin: 30px auto; display:flex;flex-direction: column;">
@@ -454,7 +460,7 @@
     </Modal>
 
     <Modal v-model="modal.modal_face" height="100%" :styles="{top: '30px',left: '160px',width: 'calc(100vw - 400px)'}">
-    <div style="margin: 30px auto; display:flex;flex-direction: column;">
+      <div style="margin: 30px auto; display:flex;flex-direction: column;">
         <div class="face home-ranking-list" style="width: 100%;">
           <h4><label>人脸抓拍</label> </h4>
             <Table :columns="faceInfoColumn" :data="archive.faceInfoList"></Table>
@@ -506,7 +512,8 @@ export default {
           sdm: {}
         },
         vehicleInfo: {
-          option: {}
+          option: {},
+          vioInfoList: []
         },
         mzInfoList: [],
         zyInfoList: [],
@@ -516,7 +523,8 @@ export default {
         modal_house: false,
         modal_vehicle: false,
         modal_hospital: false,
-        modal_face: false
+        modal_face: false,
+        div_vio: false
       },
       mzInfoColumn: [
         {
@@ -534,6 +542,62 @@ export default {
         {
           title: '疾病诊断名称',
           key: 'jbzdmc'
+        }
+      ],
+      vioInfoColumn: [
+        {
+          title: '号牌号码',
+          key: 'hphm',
+          width: 125,
+          render: (h, params) => {
+            let platecolor = params.row.platecolor
+            let color = ''
+            if (platecolor === '黄色') {
+              color = 'plate_yellow'
+            } else if (platecolor === '绿色') {
+              color = 'plate_green'
+            } else if (platecolor === '白色') {
+              color = 'plate_white'
+            } else if (platecolor === '蓝色') {
+              color = ''
+            }
+            return h(
+              'span',
+              {
+                attrs: {
+                  class: 'plate ' + color
+                }
+              },
+              params.row.hphm
+            )
+          }
+        },
+        {
+          title: '号牌种类',
+          key: 'hpzlText',
+          width: 100
+        },
+        {
+          title: '车辆品牌',
+          key: 'clpp',
+          width: 100
+        },
+        {
+          title: '违法时间',
+          key: 'wfsj'
+        },
+        {
+          title: '违法地址',
+          key: 'wfdz'
+        },
+        {
+          title: '违法行为',
+          key: 'wfxwText'
+        },
+        {
+          title: '罚款金额',
+          key: 'fkje',
+          width: 100
         }
       ],
       zyInfoColumn: [
@@ -994,6 +1058,28 @@ tr.ivu-table-row-hover td {
 }
 table {
   border-color: rgba(67, 104, 199, 0.2);
+}
+
+.plate {
+  color: whitesmoke;
+  font-size: 16px;
+  padding: 3px 6px;
+  font-family: monospace;
+  background-color: #0a5eef;
+  text-align: center;
+  width: 100px;
+  &_yellow {
+    color: black !important;
+    background-color: #ef910a;
+  }
+  &_white {
+    color: black !important;
+    background-color: #dddddd;
+  }
+  &_green {
+    color: black !important;
+    background-color: #3fdc4a;
+  }
 }
 </style>
 

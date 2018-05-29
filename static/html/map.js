@@ -5,6 +5,7 @@ var mjPicBaseHost = window.parent.document.getElementById("mjPicBaseHost").value
 var rtspServer = window.parent.document.getElementById("rtspServer").value;
 var serviceUrl = locationPath();
 var pcsdm = window.parent.document.getElementById("pcsdm").value;
+var pcsmc = window.parent.document.getElementById("pcsmc").value;
 var xqbh = window.parent.document.getElementById("xqbh").value;
 var jlxdm = window.parent.document.getElementById("jlxdm").value;
 var jcwdm = window.parent.document.getElementById("jcwdm").value;
@@ -1562,9 +1563,6 @@ function showMenuContentForFaceSimilarAlarmItem(messages) {
     }
 
     var carameName = messages[i].cameraName;
-    if (carameName.substring(0, 4) == '万盛金邸') {
-      carameName = carameName.substring(4);
-    }
 
     // 数据加密
     var mb = $.base64.btoa(JSON.stringify(messages[i]), true);
@@ -1619,9 +1617,6 @@ function showMenuContentForFaceSimilarAlarmFull(messages) {
   for (var i = 0; i < messages.length; i++) {
 
     var carameName = messages[i].cameraName;
-    if (carameName.substring(0, 4) == '万盛金邸') {
-      carameName = carameName.substring(4);
-    }
 
     // 数据加密
     var mb = $.base64.btoa(JSON.stringify(messages[i]), true);
@@ -1698,9 +1693,6 @@ function showMenuContentForFaceSimilarItem(messages) {
     }
 
     var carameName = messages[i].cameraName;
-    if (carameName.substring(0, 4) == '万盛金邸') {
-      carameName = carameName.substring(4);
-    }
 
     // 数据加密
     var mb = $.base64.btoa(JSON.stringify(messages[i]), true);
@@ -1762,9 +1754,6 @@ function showMenuContentForFaceSimilarFull(messages) {
   for (var i = 0; i < messages.length; i++) {
 
     var carameName = messages[i].cameraName;
-    if (carameName.substring(0, 4) == '万盛金邸') {
-      carameName = carameName.substring(4);
-    }
 
     // 数据加密
     var mb = $.base64.btoa(JSON.stringify(messages[i]), true);
@@ -2204,17 +2193,7 @@ function showXfsData(messages) {
   var token = Cookies.get("Admin-Token");
 
   var xfsDataHtml = "";
-  if (jcwdm == '16103003') {
-    for (var i = 0; i < messages.length; i++) {
-      xfsDataHtml = xfsDataHtml + "<div class=\"con_xf_xfs_record_item\" data-pic=\"" + messages[i].crkbh + "\">";
-      xfsDataHtml = xfsDataHtml + "  <i class=\"iconfont\">&#xe651;</i>";
-      xfsDataHtml = xfsDataHtml + "  <div class=\"item_info\" style=\"width:218px;\">";
-      xfsDataHtml = xfsDataHtml + "    <div class=\"item_info_name \" style=\"width:210px;\">" + messages[i].crkmc + "</div>";
-      xfsDataHtml = xfsDataHtml + "    <div class=\"item_info_status\">" + messages[i].status + "</div>";
-      xfsDataHtml = xfsDataHtml + "  </div>";
-      xfsDataHtml = xfsDataHtml + "</div>";
-    }
-  } else {
+  if (jcwdm == '16113006') {
     for (var i = 0; i < messages.length; i++) {
       xfsDataHtml = xfsDataHtml + "<div class=\"con_xf_xfs_record_item\" data-pic=\"" + messages[i].crkbh + "\">";
       xfsDataHtml = xfsDataHtml + "  <i class=\"iconfont\">&#xe651;</i>";
@@ -2229,6 +2208,16 @@ function showXfsData(messages) {
       } else {
         xfsDataHtml = xfsDataHtml + "    <div class=\"item_info_status item_info_error\">" + messages[i].status + "</div>";
       }
+      xfsDataHtml = xfsDataHtml + "  </div>";
+      xfsDataHtml = xfsDataHtml + "</div>";
+    }
+  } else {
+    for (var i = 0; i < messages.length; i++) {
+      xfsDataHtml = xfsDataHtml + "<div class=\"con_xf_xfs_record_item\" data-pic=\"" + messages[i].crkbh + "\">";
+      xfsDataHtml = xfsDataHtml + "  <i class=\"iconfont\">&#xe651;</i>";
+      xfsDataHtml = xfsDataHtml + "  <div class=\"item_info\" style=\"width:218px;\">";
+      xfsDataHtml = xfsDataHtml + "    <div class=\"item_info_name \" style=\"width:210px;\">" + messages[i].crkmc + "</div>";
+      xfsDataHtml = xfsDataHtml + "    <div class=\"item_info_status\">" + messages[i].status + "</div>";
       xfsDataHtml = xfsDataHtml + "  </div>";
       xfsDataHtml = xfsDataHtml + "</div>";
     }
@@ -3074,7 +3063,7 @@ function showYblsDetail_chart(id) {
   } else if (id == 'sydw') {
     window.location.href = "./sydw.html"
   } else if (id == 'syll') {
-    window.open(serviceUrl + "/#/equipment?pcsdm=" + pcsdm + "&jcwdm=" + jcwdm + "&jlxdm=" + jlxdm + "&name=" + name);
+    window.open(serviceUrl + "/#/equipment?pcsdm=" + pcsdm + "&pcsmc=" + pcsmc + "&jcwdm=" + jcwdm + "&jlxdm=" + jlxdm + "&name=" + name);
   } else if (id == 'syjq') {
     window.open(serviceUrl + "/#/case");
   } else if (id == 'syaf') {

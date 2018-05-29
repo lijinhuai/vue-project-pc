@@ -7,6 +7,7 @@
     <input hidden v-model="mjPicBaseHost" id="mjPicBaseHost" />
     <input hidden v-model="rtspServer" id="rtspServer" />
     <input hidden v-model="pcsdm" id="pcsdm" />
+    <input hidden v-model="pcsmc" id="pcsmc" />
     <input hidden v-model="xqbh" id="xqbh" />
     <input hidden v-model="jlxdm" id="jlxdm" />
     <input hidden v-model="jcwdm" id="jcwdm" />
@@ -38,6 +39,7 @@ export default {
       rtspServer: '',
       xqbh: '',
       pcsdm: '',
+      pcsmc: '',
       jlxdm: '',
       jcwdm: '',
       name: '',
@@ -71,6 +73,7 @@ export default {
     confirmCity (data) {
       this.iframeSrc = ''
       this.pcsdm = data.pcs.pcsdm
+      this.pcsmc = data.pcs.pcsmc
       this.xqbh = data.community.xqbh
       this.jlxdm = data.community.jlxdm
       this.jcwdm = data.community.jcwdm

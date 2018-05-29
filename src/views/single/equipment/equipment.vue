@@ -37,7 +37,7 @@
     <transition name="bounce">
       <div v-show="showEqup" style="position: absolute; left: 0; right: 0; margin: 30px auto;">
         <div class="home-ranking-list" style="width: 350px;  margin-left: 30px;">
-          <h4><label>警械装备</label>
+          <h4 style="text-align:center;"><label style="position:absolute;left:20px;">警械装备</label><label style="color:rgb(246, 180, 7)">{{equipment.pcsmc}}</label>
           </h4>
           <ul class="data-contents-height" style=" padding: 0px 20px; height: 515px;overflow:auto;">
             <li v-for="(item, index) in equipment.syllzb" :key="item.id">
@@ -488,6 +488,7 @@ export default {
       equipment: {
         totalCount: 0,
         communityName: '',
+        pcsmc: '',
         dataList: [],
         syllzb: []
       }
@@ -498,6 +499,7 @@ export default {
     this.queryFrom.jcwdm = this.$route.query.jcwdm
     this.queryFrom.jlxdm = this.$route.query.jlxdm
     this.equipment.communityName = this.$route.query.name
+    this.equipment.pcsmc = this.$route.query.pcsmc
     fetchEquipmentCount(this.queryFrom).then(response => {
       this.equipment.totalCount = response.data
     })
