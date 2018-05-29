@@ -94,7 +94,13 @@ export default {
           this.data = response.data.list
           this.pageInfo.total = response.data.total
           this.data.forEach(function (currentValue) {
-            currentValue.photo.src = config.carPicBaseUrl + currentValue.photo.src
+            if (currentValue.xqbh === '3128271900100000') {
+              currentValue.photo.src =
+                config.carPicBaseUrl + currentValue.photo.src
+            } else {
+              currentValue.photo.src =
+                config.txwPicBaseUrl + currentValue.photo.src
+            }
           })
         })
         .catch(() => {})
