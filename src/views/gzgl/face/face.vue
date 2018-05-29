@@ -73,8 +73,8 @@ export default {
               return h(ImageView, {
                 props: {
                   smallImageSrc:
-                    config.facePicBaseUrl + params.row.photoList[0].src,
-                  bigImageSrc: config.facePicBaseUrl + params.row.photoList[1].src,
+                    config.txwPicBaseUrl + params.row.photoList[0].src,
+                  bigImageSrc: config.txwPicBaseUrl + params.row.photoList[1].src,
                   styles: {width: '820px', top: '60px'}
                 }
               })

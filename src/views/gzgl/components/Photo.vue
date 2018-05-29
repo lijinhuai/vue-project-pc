@@ -45,7 +45,7 @@ export default {
   },
   mounted () {
     this.uploadList.forEach(function (currentValue) {
-      currentValue.src = config.facePicBaseUrl + currentValue.src
+      currentValue.src = config.txwPicBaseUrl + currentValue.src
     })
   },
   methods: {

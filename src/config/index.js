@@ -12,7 +12,7 @@ if (Env === 'development') {
   }
 }
 
-const facePicBaseUrl = network === 'txw' ? 'http://15.216.17.104:18181/' : 'http://116.228.125.235:18181/'
+const txwPicBaseUrl = network === 'txw' ? 'http://15.216.17.104:18181/' : 'http://116.228.125.235:18181/'
 const carPicBaseUrl = network === 'txw' ? 'http://15.216.17.205:18182/' : 'http://116.228.125.236:18181/'
 const mjPicBaseHost = network === 'txw' ? 'http://15.216.17.205:18182/' : 'https://3thapi.lookdoor.cn/'
 const rtspServer = network === 'txw' ? '15.216.17.104:18180' : '116.228.125.235:18180'
@@ -21,10 +21,9 @@ let config = {
   env: Env,
   BASE_API: BASE_API,
   systemTitle: '智慧社区',
-  facePicBaseUrl: facePicBaseUrl,
+  txwPicBaseUrl: txwPicBaseUrl,
   carPicBaseUrl: carPicBaseUrl,
   mjPicBaseHost: mjPicBaseHost,
   rtspServer: rtspServer
-
 }
 export default config

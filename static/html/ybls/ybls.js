@@ -98,15 +98,18 @@ function initData() {
       success: function (data) {
         var area = data.data
         var switchDutyDescHtml =
-          '<div class="desc" id="areaDesc" style="display:none;">' +
+          '<div class="desc" id="areaDesc" style="display:none">' +
           '<div class="desc_title">责任区简介</div>' +
           '<div class="desc-content">' + area.areaDesc + '</div>' +
           '</div>' +
           '<div title="责任区简介显示切换" class="switch-container" style="bottom: 30px;">' +
-          '<input id="switchDesc" type="checkbox" class="switch" />' +
+          '<input id="switchDesc" type="checkbox" class="switch" checked/>' +
           '<label for="switchDesc" onclick="toggleSwitchDesc()"> </label> ' +
           '</div>'
         $("body").append(switchDutyDescHtml)
+        $('#areaDesc').show();
+        $('#areaDesc').removeClass('animated zoomOutRight');
+        $('#areaDesc').addClass('animated zoomInRight');
       },
       error: function () {}
     });

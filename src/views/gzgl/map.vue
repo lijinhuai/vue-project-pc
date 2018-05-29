@@ -2,7 +2,7 @@
   <div class="main">
     <input hidden @click="switchCommunity" id="switchCommunity" />
     <input hidden v-model="baseUrl" id="baseUrl" />
-    <input hidden v-model="facePicBaseUrl" id="facePicBaseUrl" />
+    <input hidden v-model="txwPicBaseUrl" id="txwPicBaseUrl" />
     <input hidden v-model="carPicBaseUrl" id="carPicBaseUrl" />
     <input hidden v-model="mjPicBaseHost" id="mjPicBaseHost" />
     <input hidden v-model="rtspServer" id="rtspServer" />
@@ -32,7 +32,7 @@ export default {
       districts: [],
       dialogTableVisible: true,
       baseUrl: '',
-      facePicBaseUrl: '',
+      txwPicBaseUrl: '',
       carPicBaseUrl: '',
       mjPicBaseHost: '',
       rtspServer: '',
@@ -56,7 +56,7 @@ export default {
   mounted () {
     const _self = this
     this.baseUrl = config.BASE_API
-    this.facePicBaseUrl = config.facePicBaseUrl
+    this.txwPicBaseUrl = config.txwPicBaseUrl
     this.carPicBaseUrl = config.carPicBaseUrl
     this.mjPicBaseHost = config.mjPicBaseHost
     this.rtspServer = config.rtspServer

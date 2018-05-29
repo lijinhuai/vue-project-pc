@@ -1,11 +1,11 @@
 var baseUrl = window.parent.document.getElementById("baseUrl").value;
-var picBaseUrl = window.parent.document.getElementById("facePicBaseUrl").value;
+var picBaseUrl = window.parent.document.getElementById("txwPicBaseUrl").value;
 var carPicBaseUrl = window.parent.document.getElementById("carPicBaseUrl").value;
 var mjPicBaseHost = window.parent.document.getElementById("mjPicBaseHost").value;
 var rtspServer = window.parent.document.getElementById("rtspServer").value;
 var serviceUrl = locationPath();
 var pcsdm = window.parent.document.getElementById("pcsdm").value;
-var xqbh = window.parent.document.getElementById("jlxdm").xqbh;
+var xqbh = window.parent.document.getElementById("xqbh").value;
 var jlxdm = window.parent.document.getElementById("jlxdm").value;
 var jcwdm = window.parent.document.getElementById("jcwdm").value;
 var name = window.parent.document.getElementById("name").value;
@@ -1287,6 +1287,12 @@ function showVehiclePassStatRecords(messages) {
     var dtime = messages[i].tm.substring(5);
     var dpic = "";
     var din = "";
+    var imageBaseUrl = '';
+    if (messages[i].xqbh == "3128271900100000") {
+      imageBaseUrl = carPicBaseUrl;
+    } else {
+      imageBaseUrl = picBaseUrl;
+    }
     if (messages[i].status == "进入") {
       dpic = messages[i].inimg;
       din = "item_info_status_entry";
@@ -1308,10 +1314,10 @@ function showVehiclePassStatRecords(messages) {
 
     passRecordsHtml = passRecordsHtml + "<div class=\"con_vehicle_pass_record_item\" data-pic=\"" + dpic +
       "\" data-cphm=\"" + messages[i].cphm + "\" data-lxdh=\"" + messages[i].lxdh + "\" data-ssxq=\"" + messages[i]
-      .ssxq + "\" data-dz=\"" + messages[i].dz + "\" data-clbh=\"" + messages[i].clbh + "\">";
+      .ssxq + "\" data-dz=\"" + messages[i].dz + "\" data-clbh=\"" + messages[i].clbh + "\" data-xqbh=\"" + messages[i].xqbh + "\">";
     passRecordsHtml = passRecordsHtml +
       " <div class=\"item_photo can-click\" onclick=\"showVehicleVehiclePicDialog(this)\">";
-    passRecordsHtml = passRecordsHtml + "   <img src=\"" + carPicBaseUrl + "/car/" + dpic +
+    passRecordsHtml = passRecordsHtml + "   <img src=\"" + imageBaseUrl + "/car/" + dpic +
       "\" onerror=\"this.src='/static/image/default_nophoto.png'\"></img>";
     passRecordsHtml = passRecordsHtml + " </div>";
     passRecordsHtml = passRecordsHtml + " <div class=\"item_info\">";
@@ -1337,6 +1343,12 @@ function showVehiclePassStatRecordsAlone(messages) {
   // $('#dg-container').destroy();
   $('#dg-wrapper').html('');
   for (var i = 0; i < messages.length; i++) {
+    var imageBaseUrl='';
+    if (messages[i].xqbh == "3128271900100000") {
+      imageBaseUrl = carPicBaseUrl;
+    } else {
+      imageBaseUrl = picBaseUrl;
+    }
     var data = messages[i];
     var dtime = data.tm.substring(10);
     var dpic = "";
@@ -1347,8 +1359,8 @@ function showVehiclePassStatRecordsAlone(messages) {
     } else {
       dpic = data.outimg;
     }
-    html += "<a class=\"can-click\" data-pic=\"" + dpic +
-      "\" onclick=\"showVehicleVehiclePicDialogAlone(this)\"><img src=\"" + carPicBaseUrl + "/car/" + dpic +
+    html += "<a class=\"can-click\" data-pic=\"" + dpic + "\" data-xqbh=\"" + messages[i].xqbh +
+      "\" onclick=\"showVehicleVehiclePicDialogAlone(this)\"><img src=\"" + imageBaseUrl + "/car/" + dpic +
       "\" onerror=\"this.src='/static/image/default_nophoto.png'\">" +
       "<div>" + data.plateid + " " + dtime + "</div>" +
       "</a>";
@@ -1389,10 +1401,17 @@ function assembleXqVehicleOwnersInfoDialogContent(obj, data) {
   var ssxq = $(obj).parent('.item_info').parent(".con_vehicle_pass_record_item").data("ssxq");
   var dz = $(obj).parent('.item_info').parent(".con_vehicle_pass_record_item").data("dz");
   var clbh = $(obj).parent('.item_info').parent(".con_vehicle_pass_record_item").data("clbh");
+  var xqbh = $(obj).parent('.item_info').parent(".con_vehicle_pass_record_item").data("xqbh");
+  var imageBaseUrl = '';
+  if (xqbh == "3128271900100000") {
+    imageBaseUrl = carPicBaseUrl;
+  } else {
+    imageBaseUrl = picBaseUrl;
+  }
   var content = "";
   content = content + "<div class='dialog-vehicle-owner-container'>";
   content = content + "<div class='img'>";
-  content = content + "<img src='" + carPicBaseUrl + "/car/" + pic +
+  content = content + "<img src='" + imageBaseUrl + "/car/" + pic +
     "' onerror=\"this.src='/static/image/default_nophoto.png'\">";
   content = content + "</div>";
   content = content + "<div class='msg'>";
@@ -1409,7 +1428,8 @@ function assembleXqVehicleOwnersInfoDialogContent(obj, data) {
 function showVehicleVehiclePicDialogAlone(obj) {
 
   var pic = $(obj).data("pic");
-  var content = assembleVehiclePicDialogContent(pic);
+  var xqbh = $(obj).data("xqbh");
+  var content = assembleVehiclePicDialogContent(pic, xqbh);
 
   if (_layer_index) {
     layer.close(_layer_index);
@@ -1433,7 +1453,8 @@ function showVehicleVehiclePicDialogAlone(obj) {
 function showVehicleVehiclePicDialog(obj) {
 
   var pic = $(obj).parent(".con_vehicle_pass_record_item").data("pic");
-  var content = assembleVehiclePicDialogContent(pic);
+  var xqbh = $(obj).parent(".con_vehicle_pass_record_item").data("xqbh");
+  var content = assembleVehiclePicDialogContent(pic, xqbh);
 
   if (_layer_index) {
     layer.close(_layer_index);
@@ -1453,10 +1474,16 @@ function showVehicleVehiclePicDialog(obj) {
   });
 }
 
-function assembleVehiclePicDialogContent(dpic) {
+function assembleVehiclePicDialogContent(dpic, xqbh) {
+  var imageBaseUrl = ''
+  if (xqbh == "3128271900100000") {
+    imageBaseUrl = carPicBaseUrl;
+  } else {
+    imageBaseUrl = picBaseUrl;
+  }
   var content = "";
   content = content + "<div class=\"dialog-vehicle-pass-container\">";
-  content = content + "<img src=\"" + carPicBaseUrl + "/car/" + dpic +
+  content = content + "<img src=\"" + imageBaseUrl + "/car/" + dpic +
     "\" onerror=\"this.src='/static/image/default_nophoto.png'\"></img>";
   content = content + "</div>";
   return content;

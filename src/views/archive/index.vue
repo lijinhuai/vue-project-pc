@@ -567,12 +567,12 @@ export default {
             return h(FaceImage, {
               props: {
                 faceSrc:
-                  config.facePicBaseUrl +
+                  config.txwPicBaseUrl +
                   '/face/' +
                   params.row.faceImageUrl +
                   '.jpg',
                 pictureSrc:
-                  config.facePicBaseUrl +
+                  config.txwPicBaseUrl +
                   '/face/' +
                   params.row.pictureUrl +
                   '.jpg'

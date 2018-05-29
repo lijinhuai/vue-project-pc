@@ -15,7 +15,7 @@
           </li>
         </ul>
       </div>
-      <div class="home-ranking-list" style="width: 940px; margin-left: 400px;">
+      <div class="home-ranking-list" style="margin-left: 400px;">
         <h4><label>可依靠力量</label>
           <label style="float: right; font-size: 14px; text-decoration: underline; color: #00d294;cursor:pointer;" @click="showEqup=true;showSyll=false;">警械装备</label>
         </h4>
@@ -47,7 +47,7 @@
             </li>
           </ul>
         </div>
-        <div class="home-ranking-list" style="width: 940px; margin-left: 400px;">
+        <div class="home-ranking-list" style="margin-left: 400px;">
           <h4><label>警械装备饼图</label>
             <label style="float: right; font-size: 14px; text-decoration: underline; color: #00d294;cursor:pointer;" @click="showEqupPic=true">警械装备(图)</label>
             <label style="float: right; font-size: 14px; text-decoration: underline; color: #00d294;cursor:pointer;margin-right:10px;" @click="showSyll=true;showEqup=false">实有力量</label>
