@@ -1343,7 +1343,7 @@ function showVehiclePassStatRecordsAlone(messages) {
   // $('#dg-container').destroy();
   $('#dg-wrapper').html('');
   for (var i = 0; i < messages.length; i++) {
-    var imageBaseUrl='';
+    var imageBaseUrl = '';
     if (messages[i].xqbh == "3128271900100000") {
       imageBaseUrl = carPicBaseUrl;
     } else {
@@ -1574,7 +1574,7 @@ function showMenuContentForFaceSimilarAlarmItem(messages) {
       "\" class=\"con_subdetail_face_3_item\">";
     faceSimilarHtml = faceSimilarHtml + " <div class=\"item-title\">";
     faceSimilarHtml = faceSimilarHtml + "   <i class=\"iconfont\">&#xe651;</i>";
-    faceSimilarHtml = faceSimilarHtml + "   <div class=\"item-title-name\">" + carameName + "</div>";
+    faceSimilarHtml = faceSimilarHtml + "   <div title=" + carameName + " class=\"item-title-name\">" + carameName + "</div>";
     faceSimilarHtml = faceSimilarHtml + "   <div class=\"item-title-time\">" + messages[i].timeBegin + "</div>";
     faceSimilarHtml = faceSimilarHtml + " </div>";
     faceSimilarHtml = faceSimilarHtml + " <div class=\"item-content\" data-message=\"" + mb + "\">";
@@ -1630,7 +1630,7 @@ function showMenuContentForFaceSimilarAlarmFull(messages) {
       "\" class=\"con_subdetail_face_3_item\">";
     faceSimilarHtml = faceSimilarHtml + " <div class=\"item-title\">";
     faceSimilarHtml = faceSimilarHtml + "   <i class=\"iconfont\">&#xe651;</i>";
-    faceSimilarHtml = faceSimilarHtml + "   <div class=\"item-title-name\">" + carameName + "</div>";
+    faceSimilarHtml = faceSimilarHtml + "   <div title=" + carameName + " class=\"item-title-name\">" + carameName + "</div>";
     faceSimilarHtml = faceSimilarHtml + "   <div class=\"item-title-time\">" + messages[i].timeBegin + "</div>";
     faceSimilarHtml = faceSimilarHtml + " </div>";
     faceSimilarHtml = faceSimilarHtml + " <div class=\"item-content\" data-message=\"" + mb + "\">";
@@ -1710,7 +1710,7 @@ function showMenuContentForFaceSimilarItem(messages) {
       "\" class=\"con_subdetail_face_2_item\">";
     faceSimilarHtml = faceSimilarHtml + " <div class=\"item-title\">";
     faceSimilarHtml = faceSimilarHtml + "   <i class=\"iconfont\">&#xe651;</i>";
-    faceSimilarHtml = faceSimilarHtml + "   <div class=\"item-title-name\">" + carameName + "</div>";
+    faceSimilarHtml = faceSimilarHtml + "   <div title=" + carameName + " class=\"item-title-name\">" + carameName + "</div>";
     faceSimilarHtml = faceSimilarHtml + "   <div class=\"item-title-time\">" + messages[i].timeBegin + "</div>";
     faceSimilarHtml = faceSimilarHtml + " </div>";
     faceSimilarHtml = faceSimilarHtml + " <div class=\"item-content\" data-message=\"" + mb + "\">";
@@ -1773,7 +1773,7 @@ function showMenuContentForFaceSimilarFull(messages) {
       "\" class=\"con_subdetail_face_2_item\">";
     faceSimilarHtml = faceSimilarHtml + " <div class=\"item-title\">";
     faceSimilarHtml = faceSimilarHtml + "   <i class=\"iconfont\">&#xe651;</i>";
-    faceSimilarHtml = faceSimilarHtml + "   <div class=\"item-title-name\">" + carameName + "</div>";
+    faceSimilarHtml = faceSimilarHtml + "   <div title=" + carameName + " class=\"item-title-name\">" + carameName + "</div>";
     faceSimilarHtml = faceSimilarHtml + "   <div class=\"item-title-time\">" + messages[i].timeBegin + "</div>";
     faceSimilarHtml = faceSimilarHtml + " </div>";
     faceSimilarHtml = faceSimilarHtml + " <div class=\"item-content\" data-message=\"" + mb + "\">";
