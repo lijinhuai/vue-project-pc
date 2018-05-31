@@ -492,7 +492,7 @@ function initData() {
       countUp('syrk', ybls.syrk);
       countUp('syfw', ybls.syfw);
       countUp('sydw', ybls.sydw);
-      countUp('syafss', ybls.syafss);
+      countUp('syafss', ybls.syafss + 8);
       countUp('syllzb', ybls.syllzb);
       countUp('syjq', 8);
       countUp('hjry', ybls.hjry);
@@ -779,7 +779,7 @@ function successCallBack(e) {
     countUp('syrk', ybls.syrk);
     countUp('syfw', ybls.syfw);
     countUp('sydw', ybls.sydw);
-    countUp('syafss', ybls.syafss);
+    countUp('syafss', ybls.syafss + 8);
     countUp('syllzb', ybls.syllzb);
     countUp('syjq', 8);
     countUp('hjry', ybls.hjry);
@@ -3067,7 +3067,7 @@ function showYblsDetail_chart(id) {
   } else if (id == 'syjq') {
     window.open(serviceUrl + "/#/case");
   } else if (id == 'syaf') {
-    window.open(serviceUrl + "/#/security");
+    window.open(serviceUrl + "/#/security?pcsdm=" + pcsdm + "&xqbh=" + xqbh + "&jcwdm=" + jcwdm);
   }
 
 }
