@@ -10,10 +10,13 @@ var xqbh = window.parent.document.getElementById("xqbh").value;
 var jlxdm = window.parent.document.getElementById("jlxdm").value;
 var jcwdm = window.parent.document.getElementById("jcwdm").value;
 var name = window.parent.document.getElementById("name").value;
+var areaStr = window.parent.document.getElementById("areaStr").value;
 var intro = window.parent.document.getElementById("intro").value;
 
 
 $(document).ready(function () {
+
+  addCommunityPolygon(areaStr);
 
   // 页面初始数据
   initData();
@@ -3123,4 +3126,24 @@ function openHome() {
 // 切换小区
 function switchCommunity() {
   window.parent.document.getElementById("switchCommunity").click();
+}
+
+//添加小区边界
+function addCommunityPolygon(areaStr) {
+  var lnglatarr = [];
+  var poiots = areaStr.split(",");
+  for (var i = 0; i < poiots.length; i++) {
+    lnglatarr.push(new IMAP.LngLat(poiots[i], poiots[i + 1]));
+    i = i + 1;
+  }
+  lnglatarr.push(new IMAP.LngLat(poiots[0], poiots[1]));
+  var pgo = new IMAP.PolygonOptions();
+  pgo.strokeColor = "rgba(255,51,51,.8)";
+  pgo.strokeOpacity = "1";
+  pgo.strokeWeight = "3";
+  pgo.strokeStyle = IMAP.Constants.OVERLAY_LINE_DASHED;
+  var polygon = new IMAP.Polyline(lnglatarr, pgo);
+  polygon.id = "community";
+  map.getOverlayLayer().addOverlay(polygon, false);
+  return polygon;
 }

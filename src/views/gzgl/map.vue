@@ -12,6 +12,7 @@
     <input hidden v-model="jlxdm" id="jlxdm" />
     <input hidden v-model="jcwdm" id="jcwdm" />
     <input hidden v-model="name" id="name" />
+    <input hidden v-model="areaStr" id="areaStr" />
     <input hidden v-model="center.lon" id="lon" />
     <input hidden v-model="center.lat" id="lat" />
     <input hidden v-model="center.zoom" id="zoom" />
@@ -43,6 +44,7 @@ export default {
       jlxdm: '',
       jcwdm: '',
       name: '',
+      areaStr: '',
       iframeSrc: '',
       center: {
         lon: '',
@@ -78,6 +80,7 @@ export default {
       this.jlxdm = data.community.jlxdm
       this.jcwdm = data.community.jcwdm
       this.name = data.community.name
+      this.areaStr = data.community.areaStr
       this.center = data.community.center
       if (data.community.type === 'city') {
         this.iframeSrc =
