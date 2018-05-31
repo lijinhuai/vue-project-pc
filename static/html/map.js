@@ -787,6 +787,8 @@ function successCallBack(e) {
     countUp('jwry', ybls.jwry);
   } else if (code == 200 && data.dataType == 'YT') {
     showDynamicData(data.data);
+    loadFaceMsgCount();
+    loadFaceSimilarCount();
   } else if (code == 200 && data.dataType == 'CLBK') {
     for (var i = 0; i < data.data.length; i++) {
       toastr.options = {
@@ -986,6 +988,12 @@ function loadDefaultMenuDatas() {
 
   // 右侧菜单人脸识别数据 - 小区
   loadFaceSimilarData();
+
+  //抓拍数量
+  loadFaceMsgCount();
+
+  //识别数量
+  loadFaceSimilarCount();
 
   // 右侧菜单人脸识别数据 - 报警
   loadFaceSimilarAlarmData();
@@ -1924,6 +1932,32 @@ function assembleFaceSimilarDialogContent(message, type) {
   content = content + "</div>";
   return content;
 }
+
+function loadFaceMsgCount() {
+
+  var token = Cookies.get("Admin-Token");
+
+  loadData(baseUrl + "/face/msg/count", token, function (data) {
+    var code = data.code;
+    if (code == 200) {
+      countUp('face_msg_cnt', data.data)
+    }
+  });
+}
+
+function loadFaceSimilarCount() {
+
+  var token = Cookies.get("Admin-Token");
+
+  loadData(baseUrl + "/face/similar/count", token, function (data) {
+    var code = data.code;
+    if (code == 200) {
+      countUp('face_similar_cnt', data.data)
+    }
+  });
+}
+
+
 
 // 加载人脸数据 - 比中
 function loadFaceMsgData() {
