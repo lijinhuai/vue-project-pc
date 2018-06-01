@@ -791,7 +791,7 @@ function successCallBack(e) {
   } else if (code == 200 && data.dataType == 'YT') {
     showDynamicData(data.data);
     loadFaceMsgCount();
-    loadFaceSimilarCount();
+    // loadFaceSimilarCount();
   } else if (code == 200 && data.dataType == 'CLBK') {
     for (var i = 0; i < data.data.length; i++) {
       toastr.options = {
@@ -999,10 +999,10 @@ function loadDefaultMenuDatas() {
   loadFaceMsgCountYestoday();
 
   //识别数量
-  loadFaceSimilarCount();
+  // loadFaceSimilarCount();
 
-  //昨日识别数量
-  loadFaceSimilarCountYestoday();
+  // //昨日识别数量
+  // loadFaceSimilarCountYestoday();
 
   // 右侧菜单人脸识别数据 - 报警
   loadFaceSimilarAlarmData();
