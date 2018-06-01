@@ -485,7 +485,7 @@ function initData() {
 
   var token = Cookies.get("Admin-Token");
 
-  createEventSource('YT?pcsdm=' + pcsdm + '&jcwdm=' + jcwdm + '&Authorization=' + token, successCallBack);
+  createEventSource('YT?pcsdm=' + pcsdm + '&xqbh=' + xqbh + '&Authorization=' + token, successCallBack);
   createEventSource('CLBK,RYBK,JYDW,DDCDW,JCDW?Authorization=' + token, successCallBack);
   // 加载一标六实数据
   loadData(baseUrl + "/houses/amounts", token, function (data) {
@@ -995,8 +995,14 @@ function loadDefaultMenuDatas() {
   //抓拍数量
   loadFaceMsgCount();
 
+  //昨日抓拍数量
+  loadFaceMsgCountYestoday();
+
   //识别数量
   loadFaceSimilarCount();
+
+  //昨日识别数量
+  loadFaceSimilarCountYestoday();
 
   // 右侧菜单人脸识别数据 - 报警
   loadFaceSimilarAlarmData();
@@ -1948,6 +1954,18 @@ function loadFaceMsgCount() {
   });
 }
 
+function loadFaceMsgCountYestoday() {
+
+  var token = Cookies.get("Admin-Token");
+
+  loadData(baseUrl + "/face/msg/count/yestoday", token, function (data) {
+    var code = data.code;
+    if (code == 200) {
+      countUp('face_msg_cnt_yestoday', data.data)
+    }
+  });
+}
+
 function loadFaceSimilarCount() {
 
   var token = Cookies.get("Admin-Token");
@@ -1959,6 +1977,19 @@ function loadFaceSimilarCount() {
     }
   });
 }
+
+function loadFaceSimilarCountYestoday() {
+
+  var token = Cookies.get("Admin-Token");
+
+  loadData(baseUrl + "/face/similar/count/yestoday", token, function (data) {
+    var code = data.code;
+    if (code == 200) {
+      countUp('face_similar_cnt_yestoday', data.data)
+    }
+  });
+}
+
 
 
 
