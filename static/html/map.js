@@ -602,9 +602,9 @@ function showMjGpsData(data) {
     if (hit) {
       _current_marker = marker;
 
-      var content = assembleInfoWindowContentWithoutPicture("警员信息", "警员姓名：" + location.mjxm + (location.mjlb == 1 ?
+      var content = assembleInfoWindowContent("警员信息", baseUrl + "/rjbxx/zps/" + location.sfzh + "?Authorization=" + token, "警员姓名：" + location.mjxm + (location.mjlb == 1 ?
           "（民警）" : "（协管）") + "<br/>警员警号：" + location
-        .mjjh + "<br/>所属机构：" + location.jgmc + "<br/>定位时间：" + location.rksj);
+        .mjjh + "<br/>手机号码：" + location.sjhm + "<br/>所属机构：" + location.jgmc + "<br/>定位时间：" + location.rksj);
 
       var lnglat = marker.getPosition();
       marker.openInfoWindow(
@@ -2933,8 +2933,9 @@ function addMarkerClickEvt(type, origin, marker) {
     content = assembleInfoWindowContent("信号塔", baseUrl + "/xqxx/" + origin.crkbh + "/photo?Authorization=" +
       token, "地址：" + origin.crkmc);
   } else if (type == 'police') {
-    content = assembleInfoWindowContentWithoutPicture("警员信息", "警员姓名：" + origin.mjxm + (origin.mjlb == 1 ? "（民警）" : "（协管）") + "<br/>警员警号：" + origin
-      .mjjh + "<br/>所属机构：" + origin.jgmc + "<br/>定位时间：" + origin.rksj);
+    content = assembleInfoWindowContent("警员信息", baseUrl + "/rjbxx/zps/" + origin.sfzh + "?Authorization=" + token, "警员姓名：" + origin.mjxm + (origin.mjlb == 1 ?
+      "（民警）" : "（协管）") + "<br/>警员警号：" + origin
+    .mjjh + "<br/>手机号码：" + origin.sjhm + "<br/>所属机构：" + origin.jgmc + "<br/>定位时间：" + origin.rksj);
   } else if (type == 'ddc') {
     content = assembleInfoWindowContentWithoutPicture("电动车信息", "车牌号码：" + origin.palteId + "<br/>车主姓名：" + origin
       .name + "<br/>车主手机：" + origin.phone + "<br/>定位时间：" + origin.rksj);

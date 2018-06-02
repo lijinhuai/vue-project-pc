@@ -505,8 +505,9 @@ function addMarkerClickEvt(type, origin, marker) {
     // content = content + "</div>";
     content = content + "</div>";
   } else if (type == 'police') {
-    content = assembleInfoWindowContentWithoutPicture("警员信息", "警员姓名：" + origin.mjxm + (origin.mjlb == 1 ? "（民警）" : "（协管）") + "<br/>警员警号：" + origin
-      .mjjh + "<br/>所属机构：" + origin.jgmc + "<br/>定位时间：" + origin.rksj);
+    content = assembleInfoWindowContent("警员信息", baseUrl + "/rjbxx/zps/" + origin.sfzh + "?Authorization=" + token, "警员姓名：" + origin.mjxm + (origin.mjlb == 1 ?
+        "（民警）" : "（协管）") + "<br/>警员警号：" + origin
+      .mjjh + "<br/>手机号码：" + origin.sjhm + "<br/>所属机构：" + origin.jgmc + "<br/>定位时间：" + origin.rksj);
   }
 
   // 图标点击事件
@@ -839,9 +840,9 @@ function showMjGpsData(data) {
     if (hit) {
       _current_marker = marker;
 
-      var content = assembleInfoWindowContentWithoutPicture("警员信息", "警员姓名：" + location.mjxm + (location.mjlb == 1 ?
+      var content = assembleInfoWindowContent("警员信息", baseUrl + "/rjbxx/zps/" + location.sfzh + "?Authorization=" + token, "警员姓名：" + location.mjxm + (location.mjlb == 1 ?
           "（民警）" : "（协管）") + "<br/>警员警号：" + location
-        .mjjh + "<br/>所属机构：" + location.jgmc + "<br/>定位时间：" + location.rksj);
+        .mjjh + "<br/>手机号码：" + location.sjhm + "<br/>所属机构：" + location.jgmc + "<br/>定位时间：" + location.rksj);
 
       var lnglat = marker.getPosition();
       marker.openInfoWindow(
@@ -917,6 +918,28 @@ function assembleInfoWindowContentWithoutPicture(title, context) {
   content = content + "</span>";
   content = content + "</div>";
   content = content + "<div class=\"infowindow-content\">";
+  content = content + context;
+  content = content + "</div>";
+  content = content + "<div class=\"infowindow-marker\">";
+  content = content + "<i class=\"iconfont\">&#xe682;</i>";
+  content = content + "</div>";
+  content = content + "</div>";
+  return content;
+}
+
+function assembleInfoWindowContent(title, url, context) {
+  var content = "<div class=\"infowindow-container\">"
+  content = content + "<div class=\"infowindow-title\">"
+  content = content + "<div class=\"infowindow-title-content\">";
+  content = content + title;
+  content = content + "</div>";
+  content = content + "<span class=\"infowindow-title-close\" onclick=\"closeInfoWindow()\">";
+  content = content + "<i class=\"iconfont\">&#xe603;</i>"
+  content = content + "</span>";
+  content = content + "</div>";
+  content = content + "<div class=\"infowindow-content\">";
+  content = content + "<img class=\"infowindow-content-image can-click\" data-pic=\"" + url + "\" src=\" " + url +
+    "\" onerror=\"this.src='/static/image/default_nophoto.png'\" onclick=\"showPicDialog(this)\" />";
   content = content + context;
   content = content + "</div>";
   content = content + "<div class=\"infowindow-marker\">";
