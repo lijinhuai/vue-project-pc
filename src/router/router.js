@@ -171,7 +171,7 @@ export const appRouter = [{
   {
     path: 'model',
     icon: 'model',
-    title: '模型',
+    title: '预警模型',
     name: 'modelMenu',
     meta: {
       privilege: 'MODEL'
@@ -451,7 +451,7 @@ export const singlePageRouter = [{
 {
   path: '/model',
   meta: {
-    title: '模型',
+    title: '预警模型',
     privilege: 'MODEL'
   },
   name: 'model',

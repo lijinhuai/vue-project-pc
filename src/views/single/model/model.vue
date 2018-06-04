@@ -11,7 +11,7 @@
       <Card :bordered="false" class="background_card">
         <p slot='title' style="font-size: 20px;color: whitesmoke">
           <Icon type="pricetags"></Icon>
-          模型
+          预警模型
           <div style="position:absolute;top: 14px;">
             <div style="margin:0px 0 0 100px;width: 50px;">
               <i class="showi" @click="back()" style="cursor: pointer;margin-left: 10px;">
