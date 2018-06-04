@@ -170,7 +170,7 @@ export const appRouter = [{
   },
   {
     path: 'model',
-    icon: 'map-point',
+    icon: 'model',
     title: '模型',
     name: 'modelMenu',
     meta: {
