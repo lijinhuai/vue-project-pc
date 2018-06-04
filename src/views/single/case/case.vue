@@ -2,42 +2,14 @@
   <div class="body">
     <div style="position: absolute; left: 0; right: 0; margin: 30px auto;">
       <div class="home-ranking-list" style="margin-left: 20px;">
-        <h4><label>警情信息</label><label style="float: right; font-size: 14px; color: #00d294;"> 接报发现单位：金山分局山阳派出所</label></h4>
+        <h4><label>警情信息</label><label style="float: right; font-size: 14px; color: #00d294;"> 接报发现单位：金山分局{{syjq.pcsmc}}</label></h4>
         <ul class="data-contents-height" style=" padding: 0px 20px;">
-          <li><b>１</b><label style=" padding-left: 20px;">2018-01-09 23:50:00</label>
-            <label style=" padding-left: 10px;">110报警</label>
-            <label style=" padding-left: 10px;">求助</label>
+          <li v-for="(item,index) in syjq.dataList" :key="item.index"><b style="width:20px;">{{index+1}}</b><label style="width:165px;display:inline-block; padding-left: 20px;">{{item.bjsj}}</label>
+            <label style="width:80px;display:inline-block;padding-left: 10px;">{{item.bjtj}}</label>
+            <label style="width:120px;display:inline-block; padding-left: 10px;">{{item.bjsy}}</label>
             <label style=" padding-left: 20px;">简要警情：</label>
-            <span style=" padding-left: 0px;">2018-01-09 23:50:16，手机号：18217629382，报警人在龙轩路蒙山北路口万盛金邸2单元门口，称：挪车沪K78817。民警协助联系车主。</span>
+            <span style=" padding-left: 0px;">{{item.jyjq}}</span>
           </li>
-          <li><b>２</b><label style=" padding-left: 20px;">2018-01-05 10:53:00</label>
-            <label style=" padding-left: 10px;">110报警</label>
-            <label style=" padding-left: 10px;">求助</label>
-            <span style=" padding-left: 113px;">2018-01-05 10:53:36，手机号：18964810870，报警人在石化 万盛居委会，称：需挪车，川RD6630，电话联系车主移动车辆。</span></li>
-          <li><b>３</b><label style=" padding-left: 20px;">2017-12-28 20:10:00</label>
-            <label style=" padding-left: 10px;">110报警</label>
-            <label style=" padding-left: 10px;">纠纷</label>
-            <span style=" padding-left: 113px;">2017-12-28 20:10:53，手机号：13575355075，报警人在金山万达广场对面“万盛金邸”西区41幢801室，称：租房纠纷请民警到场处理。</span></li>
-          <li><b>４</b><label style=" padding-left: 20px;">2017-12-20 20:47:00</label>
-            <label style=" padding-left: 10px;">110报警</label>
-            <label style=" padding-left: 10px;">非道路交通事故</label>
-            <span style=" padding-left: 43px;">2017-12-20 20:47:23，手机号：15618511202，报警人在龙皓路1000弄22号 万盛金邸西区，称：2辆轿车相撞。无人伤 请民警到场处理。</span></li>
-          <li style="height: 90px;"><b>５</b><label style=" padding-left: 20px;">2017-12-19 19:51:00</label>
-            <label style=" padding-left: 10px;">110报警</label>
-            <label style=" padding-left: 10px;">其他求助</label>
-            <span style=" padding-left: 85px;">2017-12-19 19:51:26，手机号：17621234345，报警人在龙山路万盛金邸东区6栋楼下，称：停车位被占，需要联系车主挪车沪B581E6。</span><br><span style=" margin-left: 396px;"> 民警电话联系该车车主并告知其驶离现场。</span></li>
-          <li style="height: 90px;"><b>６</b><label style=" padding-left: 20px;">2017-12-09 09:19:00</label>
-            <label style=" padding-left: 10px;">110报警</label>
-            <label style=" padding-left: 10px;">非道路交通事故</label>
-            <span style=" padding-left: 43px;">2017-12-09 09:19:10，手机号：13714078526，报警人在龙轩路866弄“万盛金邸”小区东区13号楼门口，称：2辆轿车相撞。</span><br><span style=" margin-left: 396px;">民警到达现场，经了解系两车事故，无人伤，受理。</span></li>
-          <li><b>７</b><label style=" padding-left: 20px;">2017-11-27 08:20:00</label>
-            <label style=" padding-left: 10px;">110报警</label>
-            <label style=" padding-left: 10px;">其他求助</label>
-            <span style=" padding-left: 85px;">2017-11-27 08:20:25，手机号：18916045977，报警人在龙轩路 万盛金邸小区内，称：沪C9WG35 挪车。电话联系车主告知移动车辆</span></li>
-          <li><b>８</b><label style=" padding-left: 20px;">2017-11-19 11:04:00</label>
-            <label style=" padding-left: 10px;">110报警</label>
-            <label style=" padding-left: 10px;">其他求助</label>
-            <span style=" padding-left: 85px;">2017-11-19 11:04:52，手机号：18930812615，报警人在龙轩路 万盛金邸19栋旁 近蒙山路，称：挪车：苏E10XH8联系车主移动车辆。</span></li>
         </ul>
       </div>
     </div>
@@ -45,37 +17,28 @@
 </template>
 
 <script>
-import { fetchCompany } from '@/api/cxtj/company'
+import { fetchCase } from '@/api/cxtj/case'
 export default {
   name: 'case',
   data () {
     return {
-      company: {
-        dwxx: {},
-        fr: {
-          photo: {
-            photoBase64: ''
-          }
-        },
-        cyry: []
+      queryForm: {
+        pcsdm: '',
+        xqbh: ''
+      },
+      syjq: {
+        pcsmc: '',
+        dataList: []
       }
     }
   },
   mounted () {
-    let dwbh = this.$route.query.dwbh
-    if (dwbh) {
-      fetchCompany(dwbh).then(response => {
-        if (response.data.fr) {
-          this.company.fr = response.data.fr
-        }
-        if (response.data.cyry) {
-          this.company.cyry = response.data.cyry
-        }
-        if (response.data.dwxx) {
-          this.company.dwxx = response.data.dwxx
-        }
-      })
-    }
+    this.queryForm.pcsdm = this.$route.query.pcsdm
+    this.queryForm.xqbh = this.$route.query.xqbh
+    this.syjq.pcsmc = this.$route.query.pcsmc
+    fetchCase(this.queryForm).then(response => {
+      this.syjq.dataList = response.data
+    })
   }
 }
 </script>
@@ -133,7 +96,23 @@ export default {
 }
 .data-contents-height {
   box-sizing: border-box;
-  /* height: 350px; */
+  overflow: auto;
+  height: 85vh;
+}
+.data-contents-height * {
+  box-sizing: border-box;
+}
+.data-contents-height::-webkit-scrollbar {
+  width: 6px;
+  height: 2px;
+}
+.data-contents-height::-webkit-scrollbar-thumb {
+  border-radius: 1px;
+  background: #2b85e4;
+}
+.data-contents-height::-webkit-scrollbar-track {
+  border-radius: 1px;
+  background: #033447;
 }
 .home-ranking-list {
   background: rgba(29, 51, 121, 0.5);

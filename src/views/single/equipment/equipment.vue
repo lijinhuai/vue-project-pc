@@ -578,9 +578,6 @@ export default {
             .classList.remove('s--active')
         })
       })
-    },
-    showPersonPic () {
-      alert(1)
     }
   }
 }

@@ -497,10 +497,10 @@ function initData() {
       countUp('sydw', ybls.sydw);
       countUp('syafss', ybls.syafss + 8);
       countUp('syllzb', ybls.syllzb);
-      countUp('syjq', 8);
+      countUp('syjq', ybls.syjq);
       countUp('hjry', ybls.hjry);
       countUp('lhry', ybls.lhry);
-      countUp('jwry', ybls.jwry);
+      countUp('zdry', ybls.zdry);
     }
   })
 
@@ -784,10 +784,10 @@ function successCallBack(e) {
     countUp('sydw', ybls.sydw);
     countUp('syafss', ybls.syafss + 8);
     countUp('syllzb', ybls.syllzb);
-    countUp('syjq', 8);
+    countUp('syjq', ybls.syjq);
     countUp('hjry', ybls.hjry);
     countUp('lhry', ybls.lhry);
-    countUp('jwry', ybls.jwry);
+    countUp('zdry', ybls.zdry);
   } else if (code == 200 && data.dataType == 'YT') {
     showDynamicData(data.data);
     loadFaceMsgCount();
@@ -2934,8 +2934,8 @@ function addMarkerClickEvt(type, origin, marker) {
       token, "地址：" + origin.crkmc);
   } else if (type == 'police') {
     content = assembleInfoWindowContent("警员信息", baseUrl + "/rjbxx/zps/" + origin.sfzh + "?Authorization=" + token, "警员姓名：" + origin.mjxm + (origin.mjlb == 1 ?
-      "（民警）" : "（协管）") + "<br/>警员警号：" + origin
-    .mjjh + "<br/>手机号码：" + origin.sjhm + "<br/>所属机构：" + origin.jgmc + "<br/>定位时间：" + origin.rksj);
+        "（民警）" : "（协管）") + "<br/>警员警号：" + origin
+      .mjjh + "<br/>手机号码：" + origin.sjhm + "<br/>所属机构：" + origin.jgmc + "<br/>定位时间：" + origin.rksj);
   } else if (type == 'ddc') {
     content = assembleInfoWindowContentWithoutPicture("电动车信息", "车牌号码：" + origin.palteId + "<br/>车主姓名：" + origin
       .name + "<br/>车主手机：" + origin.phone + "<br/>定位时间：" + origin.rksj);
@@ -3134,11 +3134,16 @@ function showYblsDetail_chart(id) {
   } else if (id == 'syll') {
     window.open(serviceUrl + "/#/equipment?pcsdm=" + pcsdm + "&pcsmc=" + pcsmc + "&jcwdm=" + jcwdm + "&jlxdm=" + jlxdm + "&name=" + name);
   } else if (id == 'syjq') {
-    window.open(serviceUrl + "/#/case");
+    window.open(serviceUrl + "/#/case?pcsdm=" + pcsdm + "&pcsmc=" + pcsmc + "&xqbh=" + xqbh);
   } else if (id == 'syaf') {
     window.open(serviceUrl + "/#/security?pcsdm=" + pcsdm + "&xqbh=" + xqbh + "&jcwdm=" + jcwdm);
   }
 
+}
+
+//打开重点人员页面
+function openZdry() {
+  window.open(serviceUrl + "/#/zdry?xqbh=" + xqbh + "&name=" + name);
 }
 //打开一人一档页面
 function openArchive(zjhm) {

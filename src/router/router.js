@@ -360,6 +360,14 @@ export const singlePageRouter = [{
   component: _import('single/case/case')
 },
 {
+  path: '/zdry',
+  name: 'zdry',
+  meta: {
+    title: '重点人员'
+  },
+  component: _import('single/zdry/zdry')
+},
+{
   path: '/security',
   name: 'security',
   meta: {
