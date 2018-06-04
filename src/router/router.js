@@ -167,6 +167,18 @@ export const appRouter = [{
     redirect: {
       name: 'mappoint'
     }
+  },
+  {
+    path: 'model',
+    icon: 'map-point',
+    title: '模型',
+    name: 'modelMenu',
+    meta: {
+      privilege: 'MODEL'
+    },
+    redirect: {
+      name: 'model'
+    }
   }
   ]
 }, {
@@ -435,6 +447,15 @@ export const singlePageRouter = [{
     privilege: 'DWBZ'
   },
   component: _import('gzgl/mappoint')
+},
+{
+  path: '/model',
+  meta: {
+    title: '模型',
+    privilege: 'MODEL'
+  },
+  name: 'model',
+  component: _import('single/model/model')
 }
 ]
 

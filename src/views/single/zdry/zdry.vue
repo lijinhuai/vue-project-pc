@@ -15,17 +15,17 @@
           </li>
         </ul>
       </div>
-      <div class="home-ranking-list" style="margin-left: 400px;width:calc(100% - 480px);">
+      <div class="home-ranking-list" style="margin-left: 400px;width:calc(100% - 420px);">
         <h4><label>重点人员明细</label>
         </h4>
         <ul class="data-contents-height" style=" padding: 0px 20px; height: 515px;overflow:auto;">
-          <li v-for="(item, index) in zdry.dataList" :key="item.rybh" style="position:relative;">
+          <li :title="item.bz" v-for="(item, index) in zdry.dataList" :key="item.rybh" style="position:relative;">
             <b style="width:25px;display:inline-block;">{{index+1}}</b>
             <span style="width:60px;height:50px;display:inline-block;"><Photo :zjhm="item.zjhm"></Photo></span>
             <label style="width:60px;display:inline-block;">{{item.bqName}}</label>
-            <label style="display:inline-block;">{{item.xm}}</label>
-            <span style="display:inline-block;">{{item.zjhm}}</span>
-            <span style="display:inline-block;"><strong>{{item.bz}}</strong></span>
+            <label v-if="item.xm.length>5" style="min-width:60px;width:145px;display:inline-block;margin-left:10px;">{{item.xm}}</label>
+            <label v-else style="min-width:60px;width:60px;display:inline-block;margin-left:10px;">{{item.xm}}</label>
+            <span style="width:160px;display:inline-block;margin-left:10px;">{{item.zjhm}}</span>
             <label v-show="index==0" style="display:inline-block;">居住地址：</label>
             <span>{{item.jzdz}}</span>
           </li>
