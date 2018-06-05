@@ -47,51 +47,86 @@ export function fetchHhjzfCount () {
   })
 }
 
-export function fetchKfydList () {
+export function fetchKfydList (pageInfo, query) {
+  const params = {
+    ...pageInfo,
+    ...query
+  }
   return fetch({
     url: '/model/listKfydYj',
-    method: 'get'
+    method: 'get',
+    params: params
   })
 }
 
-export function fetchFkfydList () {
+export function fetchFkfydList (pageInfo, query) {
+  const params = {
+    ...pageInfo,
+    ...query
+  }
   return fetch({
     url: '/model/listFkfydYj',
-    method: 'get'
+    method: 'get',
+    params: params
   })
 }
 
-export function fetch5rysqzList () {
+export function fetch5rysqzList (pageInfo, query) {
+  const params = {
+    ...pageInfo,
+    ...query
+  }
   return fetch({
     url: '/model/list5rysqzYj',
-    method: 'get'
+    method: 'get',
+    params: params
   })
 }
 
-export function fetchWcndjList () {
+export function fetchWcndjList (pageInfo, query) {
+  const params = {
+    ...pageInfo,
+    ...query
+  }
   return fetch({
     url: '/model/listWcndjYj',
-    method: 'get'
+    method: 'get',
+    params: params
   })
 }
 
-export function fetchWdjzjList () {
+export function fetchWdjzjList (pageInfo, query) {
+  const params = {
+    ...pageInfo,
+    ...query
+  }
   return fetch({
     url: '/model/listWdjzjYj',
-    method: 'get'
+    method: 'get',
+    params: params
   })
 }
 
-export function fetchWrjzkfList () {
+export function fetchWrjzkfList (pageInfo, query) {
+  const params = {
+    ...pageInfo,
+    ...query
+  }
   return fetch({
     url: '/model/listWrjzkfYj',
-    method: 'get'
+    method: 'get',
+    params: params
   })
 }
 
-export function fetchHhjzList () {
+export function fetchHhjzList (pageInfo, query) {
+  const params = {
+    ...pageInfo,
+    ...query
+  }
   return fetch({
     url: '/model/listHhjzYj',
-    method: 'get'
+    method: 'get',
+    params: params
   })
 }

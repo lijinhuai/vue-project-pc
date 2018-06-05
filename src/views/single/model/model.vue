@@ -91,7 +91,7 @@
           <br />
         </div>
         <div v-show="dataCard">
-          <Table :columns="columns" :data="dataList"></Table>
+          <FormTable ref="formTable" :columns="columns" :show-form="false" :fetch-list="search()"></FormTable>
         </div>
       </Card>
     </div>
@@ -115,6 +115,7 @@ import {
   fetchWrjzkfList,
   fetchHhjzList
 } from '@/api/model/model'
+import FormTable from '@/components/FormTable.vue'
 export default {
   data () {
     return {
@@ -130,16 +131,20 @@ export default {
         wdjzj: 0,
         wrjzk: 0,
         hhjzf: 0
-      }
+      },
+      fetchList: Function
     }
   },
   mounted () {
     this.initData()
   },
+  components: {
+    FormTable
+  },
   methods: {
     handleAdd (num) {
+      const _self = this
       this.columns = []
-      this.dataList = []
       if (num === '1' || num === '2') {
         this.columns = [
           {
@@ -182,34 +187,24 @@ export default {
         ]
       }
       if (num === '1') {
-        fetchKfydList().then(response => {
-          this.dataList = response.data
-        })
+        this.fetchList = fetchKfydList
       } else if (num === '2') {
-        fetchFkfydList().then(response => {
-          this.dataList = response.data
-        })
+        this.fetchList = fetchFkfydList
       } else if (num === '3') {
-        fetch5rysqzList().then(response => {
-          this.dataList = response.data
-        })
+        this.fetchList = fetch5rysqzList
       } else if (num === '4') {
-        fetchWcndjList().then(response => {
-          this.dataList = response.data
-        })
+        this.fetchList = fetchWcndjList
       } else if (num === '5') {
-        fetchWdjzjList().then(response => {
-          this.dataList = response.data
-        })
+        this.fetchList = fetchWdjzjList
       } else if (num === '6') {
-        fetchWrjzkfList().then(response => {
-          this.dataList = response.data
-        })
+        this.fetchList = fetchWrjzkfList
       } else if (num === '7') {
-        fetchHhjzList().then(response => {
-          this.dataList = response.data
-        })
+        this.fetchList = fetchHhjzList
       }
+      setTimeout(function () {
+        _self.$refs.formTable.search()
+      }, 0)
+
       this.divCard = false
       this.dataCard = true
     },
@@ -244,6 +239,9 @@ export default {
       fetchHhjzfCount().then(response => {
         this.yjCnt.hhjzf = response.data
       })
+    },
+    search () {
+      return this.fetchList
     }
   }
 }
