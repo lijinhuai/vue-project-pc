@@ -1,6 +1,6 @@
 <template>
   <div>
-    <Card>
+    <Card v-show="showForm">
       <p slot="title">
         <Icon type="navicon"></Icon>
         检索条件
@@ -56,6 +56,10 @@ export default {
     }
   },
   props: {
+    showForm: {
+      type: Boolean,
+      default: true
+    },
     columns: {
       type: Array
     },

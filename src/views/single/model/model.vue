@@ -12,23 +12,23 @@
         <p slot='title' style="font-size: 20px;color: whitesmoke">
           <Icon type="pricetags"></Icon>
           预警模型
-          <div style="position:absolute;top: 14px;">
+          <div v-show="dataCard" style="position:absolute;top: 14px;">
             <div style="margin:0px 0 0 100px;width: 50px;">
               <i class="showi" @click="back()" style="cursor: pointer;margin-left: 10px;">
-          							<Icon type="chevron-left" color="#67a29d"></Icon>
-          							<Icon type="chevron-left" color="#67a29d"></Icon>
-          						</i>
+            							<Icon type="chevron-left" color="#67a29d"></Icon>
+            							<Icon type="chevron-left" color="#67a29d"></Icon>
+            						</i>
             </div>
           </div>
         </p>
         <!-- <a slot='extra'@click="close">
-          				<Icon type="close" style="color: whitesmoke;font-size: 20px;"></Icon>
-          			</a> -->
+            				<Icon type="close" style="color: whitesmoke;font-size: 20px;"></Icon>
+            			</a> -->
         <div v-show="divCard" id="showCardDiv">
           <br />
           <Row>
             <Col span="4" offset='1'>
-            <Badge overflow-count='9999' count='189'>
+            <Badge overflow-count='9999' :count="yjCnt.kfyd">
               <Card @click.native="handleAdd('1')" :bordered="false" class="card" style="text-align: center;background-color: rgba(58, 126, 156, 0.52);cursor: pointer;">
                 <!--<p style="font-size: 24px;">9999999</p>-->
                 <img class="show_img" src="~@/images/yjs/home/交警短信平台.png" />
@@ -37,7 +37,7 @@
             </Badge>
             </Col>
             <Col span="4" offset='2'>
-            <Badge overflow-count='9999' count='86'>
+            <Badge overflow-count='9999' :count="yjCnt.fkfyd">
               <Card @click.native="handleAdd('2')" :bordered="false" class="card" style="text-align: center;background-color: rgba(61, 156, 58, 0.52);cursor: pointer;">
                 <img class="show_img" src="~@/images/yjs/home/全国在逃人员新增与撤销档.png" />
                 <p>非空房用电预警</p>
@@ -45,7 +45,7 @@
             </Badge>
             </Col>
             <Col span="4" offset='2'>
-            <Badge overflow-count='9999' count='93'>
+            <Badge overflow-count='9999' :count="yjCnt.rysqz">
               <Card @click.native="handleAdd('3')" :bordered="false" class="card" style="text-align: center;background-color: rgba(63, 58, 156, 0.52);cursor: pointer;">
                 <img class="show_img" src="~@/images/yjs/home/全国撤销人员.png" />
                 <p>5人以上群租房</p>
@@ -53,7 +53,7 @@
             </Badge>
             </Col>
             <Col span="4 " offset='2'>
-            <Badge overflow-count='9999' count='7'>
+            <Badge overflow-count='9999' :count="yjCnt.wcndj">
               <Card @click.native="handleAdd( '4') " :bordered="false " class="card " style="text-align: center;background-color: rgba(156, 120, 58, 0.52);cursor: pointer; ">
                 <img class="show_img" src="~@/images/yjs/home/涉毒人员（新）.png" />
                 <p>未成年人独居</p>
@@ -64,7 +64,7 @@
           <br />
           <Row>
             <Col span="4" offset='1'>
-            <Badge overflow-count='9999' count='12'>
+            <Badge overflow-count='9999' :count="yjCnt.wdjzj">
               <Card @click.native="handleAdd('5')" :bordered="false" class="card" style="text-align: center;background-color: rgba(170, 171, 49, 0.52);cursor: pointer;">
                 <img class="show_img" src="~@/images/yjs/home/小区停车.png" />
                 <p>未登记证件信息</p>
@@ -72,7 +72,7 @@
             </Badge>
             </Col>
             <Col span="4" offset='2'>
-            <Badge overflow-count='9999' count='779'>
+            <Badge overflow-count='9999'  :count="yjCnt.wrjzk">
               <Card @click.native="handleAdd('6')" :bordered="false" class="card" style="text-align: center;background-color: rgba(58, 107, 156, 0.52);cursor: pointer;">
                 <img class="show_img" src="~@/images/yjs/home/通讯录联系人.png" />
                 <p>无人居住空房</p>
@@ -80,57 +80,18 @@
             </Badge>
             </Col>
             <Col span="4" offset='2'>
-            <Badge overflow-count='9999' count='228'>
+            <Badge overflow-count='9999' :count="yjCnt.hhjzf">
               <Card @click.native="handleAdd('7')" :bordered="false" class="card" style="text-align: center;background-color: rgba(113, 67, 67, 0.52);cursor: pointer;">
                 <img class="show_img " src="~@/images/yjs/home/手机.png" />
                 <p>来沪与户籍人员混居</p>
               </Card>
             </Badge>
             </Col>
-            <!-- <Col span="4 " offset='2'>
-              <Badge overflow-count='9999' count='556'>
-                <Card @click.native="handleAdd( '8') " :bordered="false " class="card " style="text-align: center;background-color: rgba(37, 87, 101, 0.52);cursor: pointer; ">
-                  <img class="show_img" src="~@/images/yjs/home/手机持有人.png" />
-                  <p>手机持有人</p>
-                </Card>
-              </Badge>
-              </Col> -->
           </Row>
           <br />
-          <!-- <Row>
-              <Col span="4" offset='1'>
-              <Badge overflow-count='9999' count='564'>
-                <Card @click.native="handleAdd('9')" :bordered="false" class="card" style="text-align: center;background-color: rgba(201, 202, 168, 0.52);cursor: pointer;">
-                  <img class="show_img" src="~@/images/yjs/home/七类重点人员.png" />
-                  <p>七类重点人员</p>
-                </Card>
-              </Badge>
-              </Col>
-              <Col span="4" offset='2'>
-              <Badge overflow-count='9999' count='234'>
-                <Card @click.native="handleAdd('10')" :bordered="false" class="card" style="text-align: center;background-color: rgba(193, 53, 145, 0.52);cursor: pointer;">
-                  <img class="show_img" src="~@/images/yjs/home/终端人员采集.png" />
-                  <p>终端人员采集</p>
-                </Card>
-              </Badge>
-              </Col>
-              <Col span="4" offset='2'>
-              <Badge overflow-count='9999' count='543'>
-                <Card @click.native="handleAdd('11')" :bordered="false" class="card" style="text-align: center;background-color: rgba(130, 35, 84, 0.52);cursor: pointer;">
-                  <img class="show_img " src="~@/images/yjs/home/终端房屋采集.png" />
-                  <p>终端房屋采集</p>
-                </Card>
-              </Badge>
-              </Col>
-              <Col span="4 " offset='2'>
-              <Badge overflow-count='9999' count='556'>
-                <Card @click.native="handleAdd( '12') " :bordered="false " class="card " style="text-align: center;background-color: rgba(157, 46, 179, 0.52);cursor: pointer;">
-                  <img class="show_img" src="~@/images/yjs/home/监所人员.png" />
-                  <p>监所人员</p>
-                </Card>
-              </Badge>
-              </Col>
-            </Row> -->
+        </div>
+        <div v-show="dataCard">
+          <Table :columns="columns" :data="dataList"></Table>
         </div>
       </Card>
     </div>
@@ -138,23 +99,150 @@
 </template>
 
 <script>
-// import { fetchYjsCxList } from '@/api/yjs/yjscx'
+import {
+  fetchKfydCount,
+  fetchFkfydCount,
+  fetch5rysqzCount,
+  fetchWcndjCount,
+  fetchWdjzjCount,
+  fetchWrjzkCount,
+  fetchHhjzfCount,
+  fetchKfydList,
+  fetchFkfydList,
+  fetch5rysqzList,
+  fetchWcndjList,
+  fetchWdjzjList,
+  fetchWrjzkfList,
+  fetchHhjzList
+} from '@/api/model/model'
 export default {
   data () {
     return {
-      divCard: true
+      divCard: true,
+      dataCard: false,
+      columns: [],
+      dataList: [],
+      yjCnt: {
+        kfyd: 0,
+        fkfyd: 0,
+        rysqz: 0,
+        wcndj: 0,
+        wdjzj: 0,
+        wrjzk: 0,
+        hhjzf: 0
+      }
     }
+  },
+  mounted () {
+    this.initData()
   },
   methods: {
     handleAdd (num) {
+      this.columns = []
+      this.dataList = []
+      if (num === '1' || num === '2') {
+        this.columns = [
+          {
+            title: '日期',
+            key: 'rq',
+            width: 100
+          },
+          {
+            title: '房屋地址',
+            key: 'dz'
+          },
+          {
+            title: '用电量',
+            key: 'ydzl'
+          },
+          {
+            title: '派出所',
+            key: 'pcsmc'
+          }
+        ]
+      } else {
+        this.columns = [
+          {
+            title: '预警日期',
+            key: 'yjrq',
+            width: 220
+          },
+          {
+            title: '房屋地址',
+            key: 'dz'
+          },
+          {
+            title: '派出所',
+            key: 'pcsmc'
+          },
+          {
+            title: '局村委',
+            key: 'jcwmc'
+          }
+        ]
+      }
+      if (num === '1') {
+        fetchKfydList().then(response => {
+          this.dataList = response.data
+        })
+      } else if (num === '2') {
+        fetchFkfydList().then(response => {
+          this.dataList = response.data
+        })
+      } else if (num === '3') {
+        fetch5rysqzList().then(response => {
+          this.dataList = response.data
+        })
+      } else if (num === '4') {
+        fetchWcndjList().then(response => {
+          this.dataList = response.data
+        })
+      } else if (num === '5') {
+        fetchWdjzjList().then(response => {
+          this.dataList = response.data
+        })
+      } else if (num === '6') {
+        fetchWrjzkfList().then(response => {
+          this.dataList = response.data
+        })
+      } else if (num === '7') {
+        fetchHhjzList().then(response => {
+          this.dataList = response.data
+        })
+      }
       this.divCard = false
+      this.dataCard = true
     },
     back () {
       this.divCard = true
+      this.dataCard = false
     },
     backToHome () {
       this.$router.push({
         name: 'home_index'
+      })
+    },
+    initData () {
+      fetchKfydCount().then(response => {
+        this.yjCnt.kfyd = response.data
+      })
+      fetchFkfydCount().then(response => {
+        this.yjCnt.fkfyd = response.data
+      })
+      fetch5rysqzCount().then(response => {
+        this.yjCnt.rysqz = response.data
+      })
+      fetchWcndjCount().then(response => {
+        this.yjCnt.wcndj = response.data
+      })
+      fetchWdjzjCount().then(response => {
+        this.yjCnt.wdjzj = response.data
+      })
+      fetchWrjzkCount().then(response => {
+        this.yjCnt.wrjzk = response.data
+      })
+      fetchHhjzfCount().then(response => {
+        this.yjCnt.hhjzf = response.data
       })
     }
   }
@@ -260,6 +348,48 @@ export default {
     100% {
       margin-left: 10px;
     }
+  }
+
+  .ivu-modal-mask {
+    background: transparent;
+  }
+  .ivu-modal-content {
+    background: rgba(29, 51, 121, 0.8);
+    height: 90vh;
+    border-radius: 0px;
+    .ivu-modal-body {
+      padding: 5px 40px;
+    }
+    .ivu-modal-footer {
+      display: none;
+    }
+  }
+  .ivu-table-wrapper {
+    border: 0px;
+  }
+  .ivu-table {
+    color: white;
+    background-color: transparent;
+    &:before {
+      background-color: transparent;
+    }
+    &:after {
+      background-color: transparent;
+    }
+    th {
+      background-color: transparent;
+      border-bottom: 1px solid rgba(67, 104, 199, 0.2);
+    }
+    td {
+      background-color: transparent;
+      border-bottom: 1px solid rgba(67, 104, 199, 0.2);
+    }
+  }
+  tr.ivu-table-row-hover td {
+    background-color: rgba(255, 255, 255, 0.2);
+  }
+  table {
+    border-color: rgba(67, 104, 199, 0.2);
   }
 }
 </style>
