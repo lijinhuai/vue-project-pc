@@ -357,7 +357,7 @@ export default {
         this.queryForm.sfzh = zjhm
         this.searchRfglRoom()
       }
-      let fwbm = this.$route.params.fwbm
+      let fwbm = this.$route.params.fwbm || this.$route.query.fwbm
       if (fwbm) {
         this.queryForm.fwbm = fwbm
         this.searchRfglRoom()

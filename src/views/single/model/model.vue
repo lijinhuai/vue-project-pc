@@ -158,11 +158,40 @@ export default {
           },
           {
             title: '用电量',
-            key: 'ydzl'
+            key: 'ydzl',
+            width: 200
           },
           {
             title: '派出所',
-            key: 'pcsmc'
+            key: 'pcsmc',
+            width: 200
+          },
+          {
+            title: '操作',
+            key: 'action',
+            width: 120,
+            render: (h, params) => {
+              const _self = this
+              return h(
+              'Button',
+                {
+                  props: {
+                    type: 'primary',
+                    size: 'small'
+                  },
+                  on: {
+                    click: function () {
+                      let routeData = _self.$router.resolve({
+                        name: 'rfgl',
+                        query: { fwbm: params.row.fwbm }
+                      })
+                      window.open(routeData.href, '_blank')
+                    }
+                  }
+                },
+              '人房关联'
+            )
+            }
           }
         ]
       } else {
@@ -178,11 +207,40 @@ export default {
           },
           {
             title: '派出所',
-            key: 'pcsmc'
+            key: 'pcsmc',
+            width: 200
           },
           {
             title: '局村委',
-            key: 'jcwmc'
+            key: 'jcwmc',
+            width: 200
+          },
+          {
+            title: '操作',
+            key: 'action',
+            width: 120,
+            render: (h, params) => {
+              const _self = this
+              return h(
+              'Button',
+                {
+                  props: {
+                    type: 'primary',
+                    size: 'small'
+                  },
+                  on: {
+                    click: function () {
+                      let routeData = _self.$router.resolve({
+                        name: 'rfgl',
+                        query: { fwbm: params.row.fwbm }
+                      })
+                      window.open(routeData.href, '_blank')
+                    }
+                  }
+                },
+              '人房关联'
+            )
+            }
           }
         ]
       }
