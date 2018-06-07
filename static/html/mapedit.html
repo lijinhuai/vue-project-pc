@@ -118,6 +118,25 @@
       color: rgba(20, 65, 170, 0.7);
     }
 
+    .dialog-vehicle-pass-container {
+      width: 100%;
+      height: 100%;
+    }
+
+    .dialog-vehicle-pass-container img {
+      /* width: 100%; */
+      height: 99%;
+    }
+
+    .layer-custom {
+      background-color: rgba(42, 61, 93, 0.75) !important;
+    }
+
+    .layer-custom .layui-layer-content {
+      text-align: center;
+      overflow: hidden;
+    }
+
 
     /******* 地图颜色覆盖 **********/
 
@@ -1571,6 +1590,49 @@
       content = content + "</div>";
       content = content + "</div>";
       return content;
+    }
+
+    var _layer_index;
+
+    function showPicDialog(obj) {
+
+      var pic = $(obj).attr("src");
+      var content = assemblePicDialogContent(pic);
+
+      if (_layer_index) {
+        layer.close(_layer_index);
+      }
+
+      _layer_index = layer.open({
+        "type": 1,
+        "shade": false,
+        "title": false,
+        "area": ['768px', '432px'],
+        "content": content,
+        "moveType": 1,
+        "skin": 'layer-custom',
+        "cancel": function () {
+          layer.close(_layer_index);
+        }
+      });
+    }
+
+    function assemblePicDialogContent(pic) {
+      var content = "";
+      content = content + "<div class=\"dialog-vehicle-pass-container\">";
+      content = content + "<img src=\"" + pic +
+        "\" onerror=\"this.src='/static/image/default_nophoto.png'\"></img>";
+      content = content + "</div>";
+      return content;
+    }
+
+
+
+    // 关闭消息窗
+    function closeInfoWindow() {
+      if (map && _current_marker) {
+        _current_marker.closeInfoWindow();
+      }
     }
 
   </script>

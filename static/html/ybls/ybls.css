@@ -521,9 +521,18 @@
 }
 
 .dialog-vehicle-pass-container img {
-  width: 100%;
+  /* width: 100%; */
   height: 99%;
 }
+.layer-custom {
+  background-color: rgba(42, 61, 93, 0.75) !important;
+}
+
+.layer-custom .layui-layer-content {
+  text-align: center;
+  overflow: hidden;
+}
+
 
 /******* 开关 *******/
 

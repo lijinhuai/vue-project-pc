@@ -15,15 +15,15 @@
           <div v-show="dataCard" style="position:absolute;top: 14px;">
             <div style="margin:0px 0 0 100px;width: 50px;">
               <i class="showi" @click="back()" style="cursor: pointer;margin-left: 10px;">
-            							<Icon type="chevron-left" color="#67a29d"></Icon>
-            							<Icon type="chevron-left" color="#67a29d"></Icon>
-            						</i>
+              							<Icon type="chevron-left" color="#67a29d"></Icon>
+              							<Icon type="chevron-left" color="#67a29d"></Icon>
+              						</i>
             </div>
           </div>
         </p>
         <!-- <a slot='extra'@click="close">
-            				<Icon type="close" style="color: whitesmoke;font-size: 20px;"></Icon>
-            			</a> -->
+              				<Icon type="close" style="color: whitesmoke;font-size: 20px;"></Icon>
+              			</a> -->
         <div v-show="divCard" id="showCardDiv">
           <br />
           <Row>
@@ -72,7 +72,7 @@
             </Badge>
             </Col>
             <Col span="4" offset='2'>
-            <Badge overflow-count='9999'  :count="yjCnt.wrjzk">
+            <Badge overflow-count='9999' :count="yjCnt.wrjzk">
               <Card @click.native="handleAdd('6')" :bordered="false" class="card" style="text-align: center;background-color: rgba(58, 107, 156, 0.52);cursor: pointer;">
                 <img class="show_img" src="~@/images/yjs/home/通讯录联系人.png" />
                 <p>无人居住空房</p>
@@ -173,7 +173,7 @@ export default {
             render: (h, params) => {
               const _self = this
               return h(
-              'Button',
+                'Button',
                 {
                   props: {
                     type: 'primary',
@@ -183,14 +183,16 @@ export default {
                     click: function () {
                       let routeData = _self.$router.resolve({
                         name: 'rfgl',
-                        query: { fwbm: params.row.fwbm }
+                        query: {
+                          fwbm: params.row.fwbm
+                        }
                       })
                       window.open(routeData.href, '_blank')
                     }
                   }
                 },
-              '人房关联'
-            )
+                '人房关联'
+              )
             }
           }
         ]
@@ -211,7 +213,7 @@ export default {
             width: 200
           },
           {
-            title: '局村委',
+            title: '居村委',
             key: 'jcwmc',
             width: 200
           },
@@ -222,7 +224,7 @@ export default {
             render: (h, params) => {
               const _self = this
               return h(
-              'Button',
+                'Button',
                 {
                   props: {
                     type: 'primary',
@@ -232,14 +234,16 @@ export default {
                     click: function () {
                       let routeData = _self.$router.resolve({
                         name: 'rfgl',
-                        query: { fwbm: params.row.fwbm }
+                        query: {
+                          fwbm: params.row.fwbm
+                        }
                       })
                       window.open(routeData.href, '_blank')
                     }
                   }
                 },
-              '人房关联'
-            )
+                '人房关联'
+              )
             }
           }
         ]
@@ -262,7 +266,6 @@ export default {
       setTimeout(function () {
         _self.$refs.formTable.search()
       }, 0)
-
       this.divCard = false
       this.dataCard = true
     },
@@ -307,146 +310,150 @@ export default {
 
 
 <style lang="less">
-@import "./yjs_public.less";
-@import "./yjs_index.less";
-.model-mx {
-  .card {
-    width: 100%;
-  }
-  .card:hover {
-    border-left: 5px solid brown;
-    /*transform: rotate(-2deg);*/
-  }
-  .card p {
-    color: white;
-  }
-  .background_card {
-    /*background-color: rgba(15, 20, 63, 0.95);*/
-    height: 95%;
-    overflow: auto;
-    background-image: url(~@/images/yjs/observatory-bg.jpg);
-    background-size: cover;
-    box-shadow: 0px 0px 6px 1px rgba(0, 0, 0, 0.72);
-  }
-  .background_card:hover {
-    box-shadow: 0px 0px 6px 1px rgba(0, 0, 0, 0.72);
-  }
-  .background_card::-webkit-scrollbar {
-    width: 0px;
-  }
-  .background_card img {
-    width: 40%;
-  }
-  .hiddenCard,
-  .hiddenCard1,
-  .hiddenCard2,
-  .hiddenCard3,
-  .hiddenCard4,
-  .hiddenCard5,
-  .hiddenCard6,
-  .hiddenCard7,
-  .hiddenCard8,
-  .hiddenCard9 {
-    text-align: center;
-  }
-  .hiddenCard,
-  .hiddenCard1,
-  .hiddenCard2,
-  .hiddenCard3,
-  .hiddenCard4,
-  .hiddenCard5,
-  .hiddenCard6,
-  .hiddenCard7,
-  .hiddenCard8,
-  .hiddenCard9 span {
-    color: white;
-  }
-  .hiddenCard:hover,
-  .hiddenCard1:hover,
-  .hiddenCard2:hover,
-  .hiddenCard3:hover,
-  .hiddenCard4:hover,
-  .hiddenCard5:hover,
-  .hiddenCard6:hover,
-  .hiddenCard7:hover,
-  .hiddenCard8:hover,
-  .hiddenCard9:hover {
-    border-left: 5px solid brown;
-  }
-  .back_home {
-    animation: back_home 1.5s linear infinite;
-  }
-  @keyframes back_home {
-    0% {
-      margin-left: 0.5%;
+  @import "./yjs_public.less";
+  @import "./yjs_index.less";
+  .model-mx {
+    .card {
+      width: 100%;
     }
-    50% {
-      margin-left: 10%;
+    .card:hover {
+      border-left: 5px solid brown;
+      /*transform: rotate(-2deg);*/
     }
-    100% {
-      margin-left: 0.5%;
+    .card p {
+      color: white;
     }
-  }
-  .back_div:hover {
-    margin-top: 25px;
-    transition: 0.5s;
-  }
-  .showi {
-    animation: left_right 1s linear infinite;
-  }
-  @keyframes left_right {
-    0% {
-      margin-left: 10px;
+    .background_card {
+      /*background-color: rgba(15, 20, 63, 0.95);*/
+      height: 95%;
+      overflow: auto;
+      background-image: url(~@/images/yjs/observatory-bg.jpg);
+      background-size: cover;
+      box-shadow: 0px 0px 6px 1px rgba(0, 0, 0, 0.72);
     }
-    50% {
-      margin-left: 15px;
+    .background_card:hover {
+      box-shadow: 0px 0px 6px 1px rgba(0, 0, 0, 0.72);
     }
-    100% {
-      margin-left: 10px;
+    .background_card::-webkit-scrollbar {
+      width: 0px;
     }
-  }
-
-  .ivu-modal-mask {
-    background: transparent;
-  }
-  .ivu-modal-content {
-    background: rgba(29, 51, 121, 0.8);
-    height: 90vh;
-    border-radius: 0px;
-    .ivu-modal-body {
-      padding: 5px 40px;
+    .background_card img {
+      width: 40%;
     }
-    .ivu-modal-footer {
-      display: none;
+    .hiddenCard,
+    .hiddenCard1,
+    .hiddenCard2,
+    .hiddenCard3,
+    .hiddenCard4,
+    .hiddenCard5,
+    .hiddenCard6,
+    .hiddenCard7,
+    .hiddenCard8,
+    .hiddenCard9 {
+      text-align: center;
     }
-  }
-  .ivu-table-wrapper {
-    border: 0px;
-  }
-  .ivu-table {
-    color: white;
-    background-color: transparent;
-    &:before {
+    .hiddenCard,
+    .hiddenCard1,
+    .hiddenCard2,
+    .hiddenCard3,
+    .hiddenCard4,
+    .hiddenCard5,
+    .hiddenCard6,
+    .hiddenCard7,
+    .hiddenCard8,
+    .hiddenCard9 span {
+      color: white;
+    }
+    .hiddenCard:hover,
+    .hiddenCard1:hover,
+    .hiddenCard2:hover,
+    .hiddenCard3:hover,
+    .hiddenCard4:hover,
+    .hiddenCard5:hover,
+    .hiddenCard6:hover,
+    .hiddenCard7:hover,
+    .hiddenCard8:hover,
+    .hiddenCard9:hover {
+      border-left: 5px solid brown;
+    }
+    .back_home {
+      animation: back_home 1.5s linear infinite;
+    }
+    @keyframes back_home {
+      0% {
+        margin-left: 0.5%;
+      }
+      50% {
+        margin-left: 10%;
+      }
+      100% {
+        margin-left: 0.5%;
+      }
+    }
+    .back_div:hover {
+      margin-top: 25px;
+      transition: 0.5s;
+    }
+    .showi {
+      animation: left_right 1s linear infinite;
+    }
+    @keyframes left_right {
+      0% {
+        margin-left: 10px;
+      }
+      50% {
+        margin-left: 15px;
+      }
+      100% {
+        margin-left: 10px;
+      }
+    }
+    .ivu-modal-mask {
+      background: transparent;
+    }
+    .ivu-modal-content {
+      background: rgba(29, 51, 121, 0.8);
+      height: 90vh;
+      border-radius: 0px;
+      .ivu-modal-body {
+        padding: 5px 40px;
+      }
+      .ivu-modal-footer {
+        display: none;
+      }
+    }
+    .ivu-table-wrapper {
+      border: 0px;
+    }
+    .ivu-table-small {
+      td {
+        height:46px;
+      }
+    }
+    .ivu-table {
+      color: white;
       background-color: transparent;
+      &:before {
+        background-color: transparent;
+      }
+      &:after {
+        background-color: transparent;
+      }
+      th {
+        background-color: transparent;
+        border-bottom: 1px solid rgba(67, 104, 199, 0.2);
+      }
+      td {
+        background-color: transparent;
+        border-bottom: 1px solid rgba(67, 104, 199, 0.2);
+      }
     }
-    &:after {
-      background-color: transparent;
+    tr.ivu-table-row-hover td {
+      background-color: rgba(255, 255, 255, 0.2);
     }
-    th {
-      background-color: transparent;
-      border-bottom: 1px solid rgba(67, 104, 199, 0.2);
-    }
-    td {
-      background-color: transparent;
-      border-bottom: 1px solid rgba(67, 104, 199, 0.2);
+    table {
+      border-color: rgba(67, 104, 199, 0.2);
     }
   }
-  tr.ivu-table-row-hover td {
-    background-color: rgba(255, 255, 255, 0.2);
-  }
-  table {
-    border-color: rgba(67, 104, 199, 0.2);
-  }
-}
 </style>
 
