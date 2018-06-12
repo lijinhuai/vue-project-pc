@@ -182,30 +182,20 @@ export const appRouter = [{
   }
   ]
 }, {
-  path: '/sysmanage',
+  path: '/sys',
   icon: 'sysmanage',
-  name: 'sysmanage',
+  name: 'sys',
   title: '系统管理',
   component: Main,
   children: [{
-    path: 'usermanage',
+    path: 'user',
     icon: 'compose',
-    name: 'usermanage',
-    meta: {
-      privilege: 'USERMANAGE'
-    },
+    name: 'user',
+    // meta: {
+    //   privilege: 'USER'
+    // },
     title: '用户管理',
-    component: _import('sysmanage/user/user-manage')
-  },
-  {
-    path: 'rolemanage',
-    icon: 'compose',
-    name: 'rolemanage',
-    meta: {
-      privilege: 'ROLEMANAGE'
-    },
-    title: '角色管理',
-    component: _import('sysmanage/role/role-manage')
+    component: _import('sys/user/index')
   }
   ]
 },
