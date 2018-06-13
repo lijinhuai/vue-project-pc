@@ -6,6 +6,9 @@
 // 导入Bootstrap
 // import './Bootstrap'
 
+// 导入FontAwesome
+import './FontAwesome'
+
 // 导入ElementUI
 import './ElementUI'
 

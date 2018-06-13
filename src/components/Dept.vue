@@ -36,8 +36,9 @@ export default {
     return {
       data: [],
       defaultProps: {
-        children: 'children',
-        label: 'label'
+        id: 'id',
+        label: 'name',
+        children: 'children'
       },
       visualValue: '',
       visible: false
@@ -96,9 +97,9 @@ export default {
         if (index !== 0) {
           checkedKeysStr += ','
         }
-        checkedKeysStr += '\''
+        checkedKeysStr += "'"
         checkedKeysStr += checkedKey
-        checkedKeysStr += '\''
+        checkedKeysStr += "'"
         index++
       }
       this.visualValue = checkLabels

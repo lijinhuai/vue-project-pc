@@ -191,11 +191,21 @@ export const appRouter = [{
     path: 'user',
     icon: 'compose',
     name: 'user',
-    // meta: {
-    //   privilege: 'USER'
-    // },
+        // meta: {
+        //   privilege: 'USER'
+        // },
     title: '用户管理',
     component: _import('sys/user/index')
+  },
+  {
+    path: 'role',
+    icon: 'compose',
+    name: 'role',
+        // meta: {
+        //   privilege: 'USER'
+        // },
+    title: '角色管理',
+    component: _import('sys/role/index')
   }
   ]
 },
