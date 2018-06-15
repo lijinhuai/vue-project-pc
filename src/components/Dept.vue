@@ -1,9 +1,9 @@
 <template>
   <div v-clickoutside="handleClose">
-    <Input v-model="visualValue" @on-focus="handleFocus" :placeholder="placeholder" readonly></Input>
+    <el-input v-model="visualValue" @focus="handleFocus" :placeholder="placeholder" :size="inputSize"readonly></el-input>
     <transition :name="transition">
       <div v-show="visible" class="treeWarp">
-        <el-tree :data="data" show-checkbox node-key="id" ref="tree" highlight-current :props="defaultProps" @check-change="checkChange">
+        <el-tree :data="treeData" :show-checkbox="showCheckbox" :check-strictly="checkStrictly" :default-checked-keys="defaultCheckedKeys" node-key="id" ref="tree" :props="defaultProps" highlight-current @check-change="handleCheckChange">
         </el-tree>
       </div>
     </transition>
@@ -19,9 +19,26 @@ export default {
     clickoutside
   },
   props: {
-    clearable: {
+    multiple: {
       type: Boolean,
       default: true
+    },
+    inputSize: {
+      type: String
+    },
+    showCheckbox: {
+      type: Boolean,
+      default: true
+    },
+    checkStrictly: {
+      type: Boolean,
+      default: false
+    },
+    defaultCheckedKeys: {
+      type: Array,
+      default () {
+        return []
+      }
     },
     open: {
       type: Boolean,
@@ -34,14 +51,17 @@ export default {
   },
   data () {
     return {
-      data: [],
+      treeData: [],
       defaultProps: {
         id: 'id',
         label: 'name',
         children: 'children'
       },
       visualValue: '',
-      visible: false
+      visible: false,
+      treeChecked: {
+        keys: []
+      }
     }
   },
   computed: {
@@ -71,39 +91,75 @@ export default {
       this.visible = true
     },
     loadNode (node, resolve) {
-      fetchDeptTreeList().then(response => {
-        this.data = response.data
+      fetchDeptTreeList().then(res => {
+        this.treeData = res.data
       })
+    },
+    handleCheckChange (data, checked, indeterminate) {
+      if (!this.multiple) {
+        // 现获取当前选择的id 在数组中的索引
+        const index = this.treeChecked.keys.indexOf(data.id)
+        // 如果不在数组中，并且数组中已经有一个id 并且checked 为true的时候，代表不能再次选择
+        if (index < 0 && this.treeChecked.keys.length === 1 && checked) {
+          this.$message({
+            message: '只能选择一个机构',
+            type: 'error',
+            showClose: true
+          })
+          // 设置已选择的节点为fasle
+          this.$refs.tree.setChecked(data, false)
+        } else if (this.treeChecked.keys.length === 0 && checked) {
+          // 发现数组为空 并且是已选择
+          // 防止数组有值，首先清空，在push
+          this.treeChecked.keys = []
+          this.treeChecked.keys.push(data.id)
+        } else if (index >= 0 && this.treeChecked.keys.length === 1 && !checked) {
+          // 再次直接进行赋空操作
+          this.treeChecked.keys = []
+        }
+      }
+      this.checkChange()
     },
     checkChange () {
       const checkedNodes = this.$refs.tree.getCheckedNodes()
       const checkedKeys = this.$refs.tree.getCheckedKeys()
       let checkLabels = ''
+      let joinSeparator = ''
+      if (this.multiple) {
+        joinSeparator = "'"
+      }
       let index = 0
       for (var checkedNode of checkedNodes) {
-        // if (checkedNode.children.length <= 0) {
-        //   continue
-        // }
         if (index !== 0) {
           checkLabels += ','
         }
-        checkLabels += checkedNode.label
+        checkLabels += checkedNode.name
         index++
       }
-
       let checkedKeysStr = ''
       index = 0
       for (var checkedKey of checkedKeys) {
         if (index !== 0) {
           checkedKeysStr += ','
         }
-        checkedKeysStr += "'"
+        checkedKeysStr += joinSeparator
         checkedKeysStr += checkedKey
-        checkedKeysStr += "'"
+        checkedKeysStr += joinSeparator
         index++
       }
       this.visualValue = checkLabels
       this.$emit('input', checkedKeysStr)
+    },
+    setCheckedKeys (keyArr) {
+      this.$refs.tree.setCheckedKeys(keyArr)
+      if (!this.multiple) {
+        this.treeChecked.keys = []
+        this.treeChecked.keys.push(keyArr[0])
+      }
+      this.checkChange()
+    },
+    resetCheckedNodes () {
+      this.$refs.tree.setCheckedKeys([])
     }
   },
   mounted () {

@@ -65,3 +65,10 @@ export default {
   }
 }
 </script>
+
+<style lang="less">
+.ivu-select-dropdown.ivu-dropdown-transfer {
+  max-height: 100%;
+}
+</style>
+

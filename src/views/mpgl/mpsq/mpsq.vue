@@ -12,7 +12,7 @@
             <FormItem label="路名：" prop="lm">
               <div class="form-item">
                 <!-- <Input v-model="queryForm.lm"></Input> -->
-                <Dept v-model="queryForm.lm" placeholder="选择部门"></Dept>
+                <Dept v-model="queryForm.lm" placeholder="选择部门" show-checkbox></Dept>
               </div>
             </FormItem>
             </Col>

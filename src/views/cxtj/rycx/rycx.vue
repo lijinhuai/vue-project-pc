@@ -69,7 +69,7 @@
             <Col span="8">
             <FormItem label="派出所：" prop="policeDepts">
               <div class="form-item" style="display:inline-block;width:180px;">
-                <Dept v-model="queryForm.policeDepts" placeholder="选择部门"></Dept>
+                <Dept v-model="queryForm.policeDepts" placeholder="选择部门" input-size="small"></Dept>
               </div>
             </FormItem>
             </Col>

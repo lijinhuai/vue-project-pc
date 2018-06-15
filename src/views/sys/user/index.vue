@@ -1,89 +1,63 @@
 <template>
-  <imp-panel>
-    <!-- <h3 class="box-title" slot="header" style="width: 100%;">
-      <el-row style="width: 100%;">
-        <el-col :span="12">
-          <router-link :to="{ path: 'userAdd'}">
-            <el-button type="primary" icon="plus">新增</el-button>
-          </router-link>
-        </el-col>
-        <el-col :span="12">
-          <div class="el-input" style="width: 200px; float: right;">
-            <i class="el-input__icon el-icon-search"></i>
-            <input type="text" placeholder="输入用户名称" v-model="searchKey" @keyup.enter="search($event)"
-                   class="el-input__inner">
-          </div>
-        </el-col>
-      </el-row>
-    </h3> -->
-    <div slot="body">
-      <el-table
-        :data="tableData.rows"
-        border
-        style="width: 100%"
-        v-loading="listLoading"
-        @selection-change="handleSelectionChange">
-        <el-table-column
-          prop="id"
-          type="selection"
-          width="50">
-        </el-table-column>
-        <el-table-column
-          label="照片" width="76">
-          <template slot-scope="scope">
-            <img :src='scope.row.avatar' style="height: 35px;vertical-align: middle;" alt="">
-          </template>
-        </el-table-column>
+  <div>
+    <imp-panel v-show="!showUserForm">
+      <h3 class="box-title" slot="header" style="width: 100%;">
+        <el-row style="width: 100%;">
+          <el-col :span="12">
+            <el-button type="primary" @click="newAdd" icon="el-icon-plus">新增</el-button>
+          </el-col>
+          <!-- <el-col :span="12">
+                        <div class="el-input" style="width: 200px; float: right;">
+                          <i class="el-input__icon el-icon-search"></i>
+                          <input type="text" placeholder="输入用户名称" v-model="searchKey" @keyup.enter="search($event)" class="el-input__inner">
+                        </div>
+                      </el-col> -->
+        </el-row>
+      </h3>
+      <div slot="body">
+        <el-table :data="tableData.rows" border size="small" style="width: 100%" v-loading="listLoading">
+          <!-- <el-table-column prop="id" type="selection" width="50">
+                    </el-table-column> -->
+          <!-- <el-table-column
+                          label="照片" width="76">
+                          <template slot-scope="scope">
+                            <img :src='scope.row.avatar' style="height: 35px;vertical-align: middle;" alt="">
+</template>
+          </el-table-column> -->
         <el-table-column
           prop="code"
-          label="警员编码">
+          label="用户编码">
         </el-table-column>
         <el-table-column
           prop="username"
-          label="登录名称">
+          label="用户名">
         </el-table-column>
         <el-table-column
           prop="trueName"
           label="用户姓名">
         </el-table-column>
         <el-table-column
-          prop="email"
+          prop="mobilePhone"
           label="手机号码">
         </el-table-column>
          <el-table-column
           prop="dept.name"
-          label="所在机构">
+          label="用户部门">
         </el-table-column>
-        <el-table-column
-          label="状态">
-          <template slot-scope="scope">
-            {{ scope.row.status===1 ? '已激活' : '未激活' }}
-          </template>
-        </el-table-column>
-        <el-table-column label="操作" width="300">
-          <template slot-scope="scope">
-            <el-button
-              size="small"
-              type="default"
-              icon="el-icon-edit"
-              @click="handleEdit(scope.$index, scope.row)">编辑
-            </el-button>
-            <el-button
-              size="small"
-              type="primary"
-              icon="el-icon-setting"
-              @click="handleRoleConfig(scope.$index, scope.row)">配置角色
-            </el-button>
-            <el-button
-              size="small"
-              type="danger"
-              @click="handleDelete(scope.$index, scope.row)">删除
-            </el-button>
-          </template>
+        <el-table-column label="操作" width="320">
+<template slot-scope="scope">
+  <el-button size="small" type="primary" icon="el-icon-edit" @click="handleEdit(scope.$index, scope.row)">
+    编辑
+  </el-button>
+  <el-button size="small" type="info" icon="el-icon-setting" @click="handleRoleConfig(scope.$index, scope.row)">配置角色
+  </el-button>
+  <el-button size="small" type="danger" icon="el-icon-delete" @click="handleDelete(scope.$index, scope.row)">删除
+  </el-button>
+</template>
         </el-table-column>
       </el-table>
 
-      <el-pagination
+      <el-pagination background
         @size-change="handleSizeChange"
         @current-change="handleCurrentChange"
         :current-page="pageInfo.pageNum"
@@ -93,7 +67,7 @@
         :total="pageInfo.total">
       </el-pagination>
 
-      <el-dialog title="配置用户角色" v-model="dialogVisible" size="tiny">
+      <el-dialog title="配置用户角色" :visible="dialogVisible" append-to-body>
         <div class="select-tree">
           <el-scrollbar
             tag="div"
@@ -116,19 +90,62 @@
           </span>
       </el-dialog>
     </div>
-
-
   </imp-panel>
+   <imp-panel v-show="showUserForm" :title="form.id ? '编辑':'新增用户'">
+     <h3 class="box-title" slot="header" style="width: 100%;">
+        <el-row style="width: 100%;">
+          <el-col :span="12">
+            <el-button type="default" @click="back">返回</el-button>
+          </el-col>
+        </el-row>
+      </h3>
+    <el-form slot="body" ref="form" :model="form" :rules="rules" label-width="180px">
+      <el-form-item label="用户编码" prop="code">
+        <el-input v-model="form.code"></el-input>
+      </el-form-item>
+      <el-form-item label="用户名" prop="username">
+        <el-input v-model="form.username"></el-input>
+      </el-form-item>
+      <el-form-item label="用户姓名" prop="trueName">
+        <el-input v-model="form.trueName"></el-input>
+      </el-form-item>
+      <el-form-item label="用户部门" prop="deptCode">
+        <Dept ref="dept" v-model="form.deptCode" placeholder="选择部门" :multiple="false" show-checkbox check-strictly></Dept>
+      </el-form-item>
+      <el-form-item label="职位" prop="position">
+        <el-input v-model="form.position"></el-input>
+      </el-form-item>
+      <el-form-item label="手机号码" prop="mobilePhone">
+        <el-input v-model="form.mobilePhone"></el-input>
+      </el-form-item>
+      <el-form-item label="备注" prop="note">
+        <el-input type="textarea" v-model="form.note"></el-input>
+      </el-form-item>
+      <el-form-item>
+        <el-button type="primary" @click="onEditSubmit" v-if="form.id">保存</el-button>
+        <el-button type="primary" @click="onSubmit" v-else>立即创建</el-button>
+      </el-form-item>
+    </el-form>
+  </imp-panel>
+</div>
 </template>
 
 <script>
 import panel from '../components/panel.vue'
-// import * as api from '../../api'
-// import * as sysApi from '../../services/sys'
-import { fetchUserList } from '@/api/sys/user'
+import Dept from '@/components/Dept.vue'
+import {
+  fetchUserList,
+  fetchUserRoleIdList,
+  userRolesConfig,
+  userAdd,
+  userEdit,
+  userDelete
+} from '@/api/sys/user'
+import { fetchRoleTreeList } from '@/api/sys/role'
 export default {
   components: {
-    'imp-panel': panel
+    'imp-panel': panel,
+    Dept
   },
   data () {
     return {
@@ -146,51 +163,97 @@ export default {
       pageInfo: {
         pageNum: 1,
         total: 0,
-        pageSize: 10
+        pageSize: 5
       },
       tableData: {
         rows: []
+      },
+      showUserForm: false,
+      form: {
+        id: null,
+        code: '',
+        username: '',
+        password: '',
+        trueName: '',
+        deptCode: '',
+        position: '',
+        mobilePhone: '',
+        note: ''
+      },
+      rules: {
+        code: [
+          {
+            required: true,
+            message: '请输入用户编码',
+            trigger: 'blur'
+          }
+        ],
+        username: [
+          {
+            required: true,
+            message: '请输入用户名',
+            trigger: 'blur'
+          }
+        ],
+        trueName: [
+          {
+            required: true,
+            message: '请输入用户姓名',
+            trigger: 'blur'
+          }
+        ],
+        deptCode: [
+          {
+            required: true,
+            message: '请选择用户部门',
+            trigger: 'change'
+          }
+        ]
       }
     }
   },
   methods: {
-    search () {
-      return fetchUserList
+    clearForm () {
+      this.form = {
+        id: null,
+        code: '',
+        username: '',
+        password: '',
+        trueName: '',
+        deptCode: '',
+        position: '',
+        mobilePhone: '',
+        note: ''
+      }
+      this.$refs.dept.resetCheckedNodes()
+    },
+    newAdd () {
+      this.clearForm()
+      this.showUserForm = true
+    },
+    back () {
+      this.clearForm()
+      this.showUserForm = false
     },
     handleSelectionChange (val) {},
     handleRoleConfig (index, row) {
       this.currentRow = row
       this.dialogVisible = true
-      // if (this.roleTree.length <= 0) {
-      //   sysApi
-      //     .roleList({
-      //       selectChildren: true
-      //     })
-      //     .then(res => {
-      //       this.roleTree = res
-      //     })
-      // }
-      // this.$http
-      //   .get(api.SYS_USER_ROLE + '?id=' + row.id)
-      //   .then(res => {
-      //     this.$refs.roleTree.setCheckedKeys(res.data)
-      //   })
-      //   .catch(err => {})
+      if (this.roleTree.length <= 0) {
+        fetchRoleTreeList().then(res => {
+          this.roleTree = res.data
+        })
+      }
+      fetchUserRoleIdList(row.id).then(res => {
+        this.$refs.roleTree.setCheckedKeys(res.data)
+      })
     },
     configUserRoles () {
-      // let checkedKeys = this.$refs.roleTree.getCheckedKeys()
-      // this.$http
-      //   .get(
-      //     api.SYS_SET_USER_ROLE +
-      //       '?userId=' +
-      //       this.currentRow.id +
-      //       '&roleIds=' +
-      //       checkedKeys.join(',')
-      //   )
-      //   .then(res => {
-      //     this.$message('修改成功')
-      //     this.dialogVisible = false
-      //   })
+      let checkedKeys = this.$refs.roleTree.getCheckedKeys()
+      userRolesConfig(this.currentRow.id, checkedKeys.join(',')).then(res => {
+        this.$message.success('修改成功')
+        this.dialogVisible = false
+      })
     },
     handleSizeChange (val) {
       this.pageInfo.pageSize = val
@@ -201,22 +264,44 @@ export default {
       this.loadData()
     },
     handleEdit (index, row) {
-      this.$router.push({
-        path: 'userAdd',
-        query: {
-          id: row.id
+      this.currentRow = row
+      this.form = this.currentRow
+      this.$refs.dept.setCheckedKeys([row.deptCode])
+      this.showUserForm = true
+    },
+    handleDelete (index, row) {
+      userDelete(row.id).then(res => {
+        this.loadData()
+      })
+    },
+    onSubmit () {
+      this.$refs['form'].validate(valid => {
+        if (valid) {
+          userAdd(this.form).then(res => {
+            this.back()
+            this.loadData()
+          })
+        } else {
+          return false
         }
       })
     },
-    handleDelete (index, row) {
-      // this.$http.get(api.SYS_USER_DELETE + '?userIds=' + row.id).then(res => {
-      //   this.loadData()
-      // })
+    onEditSubmit () {
+      this.$refs['form'].validate(valid => {
+        if (valid) {
+          userEdit(this.form.id, this.form).then(res => {
+            this.back()
+            this.loadData()
+          })
+        } else {
+          return false
+        }
+      })
     },
     loadData () {
-      fetchUserList(this.pageInfo).then(response => {
-        this.tableData.rows = response.data.list
-        this.pageInfo.total = response.data.total
+      fetchUserList(this.pageInfo).then(res => {
+        this.tableData.rows = res.data.list
+        this.pageInfo.total = res.data.total
       })
     }
   },

@@ -170,7 +170,7 @@ export const appRouter = [{
   },
   {
     path: 'model',
-    icon: 'model',
+    icon: 'alarm',
     title: '预警模型',
     name: 'modelMenu',
     meta: {
@@ -179,33 +179,6 @@ export const appRouter = [{
     redirect: {
       name: 'model'
     }
-  }
-  ]
-}, {
-  path: '/sys',
-  icon: 'sysmanage',
-  name: 'sys',
-  title: '系统管理',
-  component: Main,
-  children: [{
-    path: 'user',
-    icon: 'compose',
-    name: 'user',
-        // meta: {
-        //   privilege: 'USER'
-        // },
-    title: '用户管理',
-    component: _import('sys/user/index')
-  },
-  {
-    path: 'role',
-    icon: 'compose',
-    name: 'role',
-        // meta: {
-        //   privilege: 'USER'
-        // },
-    title: '角色管理',
-    component: _import('sys/role/index')
   }
   ]
 },
@@ -296,6 +269,33 @@ export const appRouter = [{
       privilege: 'MPSP'
     },
     component: _import('mpgl/mpsp/mpsp')
+  }
+  ]
+}, {
+  path: '/sys',
+  icon: 'sysmanage',
+  name: 'sys',
+  title: '系统管理',
+  component: Main,
+  children: [{
+    path: 'user',
+    icon: 'sys-user',
+    name: 'user',
+    meta: {
+      privilege: 'USER'
+    },
+    title: '用户管理',
+    component: _import('sys/user/index')
+  },
+  {
+    path: 'role',
+    icon: 'sys-role',
+    name: 'role',
+    meta: {
+      privilege: 'ROLE'
+    },
+    title: '角色管理',
+    component: _import('sys/role/index')
   }
   ]
 }
