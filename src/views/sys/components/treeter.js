@@ -43,7 +43,6 @@ const appendTreeNode = (treeArray, item, idPropName = 'id', parentPropName = 'pa
 }
 
 const deleteFromTree = (list, id, idPropName = 'id', childrenPropName = 'children') => {
-  debugger
   if (!list || list == null || list.length <= 0) return true
   for (var i = 0; i < list.length; i++) {
     if (list[i][idPropName] === id) {

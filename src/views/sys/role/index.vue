@@ -33,9 +33,9 @@
               <el-form-item label="编码" :label-width="formLabelWidth">
                 <el-input v-model="form.code" auto-complete="off"></el-input>
               </el-form-item>
-              <el-form-item label="排序" :label-width="formLabelWidth">
+              <!-- <el-form-item label="排序" :label-width="formLabelWidth">
                 <el-slider v-model="form.sort"></el-slider>
-              </el-form-item>
+              </el-form-item> -->
               <el-form-item label="" :label-width="formLabelWidth">
                 <el-button type="primary" @click="onSubmit" v-text="form.id?'修改':'新增'"></el-button>
                 <el-button type="info" @click="settingPrivilege($event,form.id)" icon="el-icon-setting" v-show="form.id && form.id!=null">配置权限
