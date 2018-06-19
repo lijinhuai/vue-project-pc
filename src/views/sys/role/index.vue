@@ -21,16 +21,16 @@
       <el-col :span="18" :xs="24" :sm="24" :md="18" :lg="18">
         <el-card class="box-card">
           <div class="text item">
-            <el-form :model="form" ref="form">
+            <el-form :model="form" ref="form" :rules="rules">
               <!-- <el-form-item label="父级" :label-width="formLabelWidth">
                   <el-input v-model="form.parentId" auto-complete="off"></el-input>
                   <el-select-tree v-model="form.parentId" :treeData="roleTree" :propNames="defaultProps" clearable placeholder="请选择父级">
                   </el-select-tree>
                 </el-form-item> -->
-              <el-form-item label="名称" :label-width="formLabelWidth">
+              <el-form-item label="名称" prop="name" :label-width="formLabelWidth">
                 <el-input v-model="form.name" auto-complete="off"></el-input>
               </el-form-item>
-              <el-form-item label="编码" :label-width="formLabelWidth">
+              <el-form-item label="编码" prop="code" :label-width="formLabelWidth">
                 <el-input v-model="form.code" auto-complete="off"></el-input>
               </el-form-item>
               <!-- <el-form-item label="排序" :label-width="formLabelWidth">
@@ -100,6 +100,22 @@ export default {
         code: '',
         name: '',
         sort: 0
+      },
+      rules: {
+        name: [
+          {
+            required: true,
+            message: '请输入角色名称',
+            trigger: 'blur'
+          }
+        ],
+        code: [
+          {
+            required: true,
+            message: '请输入角色编码',
+            trigger: 'blur'
+          }
+        ]
       }
     }
   },
@@ -158,26 +174,38 @@ export default {
       }
     },
     roleAdd () {
-      roleAdd(this.form).then(res => {
-        this.form.id = res.data
-        this.$message.success('操作成功')
-        var ddd = {
-          id: this.form.id,
-          parentId: this.form.parentId,
-          code: this.form.code,
-          name: this.form.name,
-          sort: this.form.sort,
-          children: []
+      this.$refs['form'].validate(valid => {
+        if (valid) {
+          roleAdd(this.form).then(res => {
+            this.form.id = res.data
+            this.$message.success('操作成功')
+            var ddd = {
+              id: this.form.id,
+              parentId: this.form.parentId,
+              code: this.form.code,
+              name: this.form.name,
+              sort: this.form.sort,
+              children: []
+            }
+            this.appendTreeNode(this.roleTree, ddd)
+            this.roleTree.push({})
+            this.roleTree.pop()
+          })
+        } else {
+          return false
         }
-        this.appendTreeNode(this.roleTree, ddd)
-        this.roleTree.push({})
-        this.roleTree.pop()
       })
     },
     roleUpdate () {
-      roleUpdate(this.form.id, this.form).then(res => {
-        this.$message.success('操作成功')
-        this.loadData()
+      this.$refs['form'].validate(valid => {
+        if (valid) {
+          roleUpdate(this.form.id, this.form).then(res => {
+            this.$message.success('操作成功')
+            this.loadData()
+          })
+        } else {
+          return false
+        }
       })
     },
     deleteSelected (id) {
