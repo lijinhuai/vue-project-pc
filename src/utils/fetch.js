@@ -53,7 +53,7 @@ service.interceptors.response.use(
           return response.data
         } else {
           Message.error(res.message)
-          // return Promise.resolve('error')
+          return Promise.reject(response.data)
         }
       } else {
         return response.data

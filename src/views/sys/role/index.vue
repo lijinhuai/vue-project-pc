@@ -7,12 +7,12 @@
     <el-row slot="body" :gutter="24" style="margin-bottom: 20px;">
       <el-col :span="6" :xs="24" :sm="24" :md="6" :lg="6" style="margin-bottom: 20px;">
         <div class="role-tree">
-          <el-tree v-if="roleTree" :data="roleTree" ref="roleTree" show-checkbox highlight-current @node-click="handleNodeClick" clearable node-key="id" :props="defaultProps">
+          <el-tree v-if="roleTree" :data="roleTree" ref="roleTree" show-checkbox check-strictly highlight-current @node-click="handleNodeClick" clearable node-key="id" :props="defaultProps">
             <span class="tree-node" slot-scope="{ node, data }">
               <span>{{node.label}}</span>
             <span class="render-content">
                 <i class="fa fa-wrench" title="配置权限" @click="(e) => settingPrivilege(e, data.id)"></i>
-                <i class="fa fa-trash" @click="() => deleteSelected(data.id)"></i>
+                <i class="fa fa-trash" @click="(e) => deleteSelected(e, data.id)"></i>
               </span>
             </span>
           </el-tree>
@@ -22,11 +22,12 @@
         <el-card class="box-card">
           <div class="text item">
             <el-form :model="form" ref="form" :rules="rules">
-              <!-- <el-form-item label="父级" :label-width="formLabelWidth">
-                  <el-input v-model="form.parentId" auto-complete="off"></el-input>
-                  <el-select-tree v-model="form.parentId" :treeData="roleTree" :propNames="defaultProps" clearable placeholder="请选择父级">
-                  </el-select-tree>
-                </el-form-item> -->
+              <el-form-item label="父级" :label-width="formLabelWidth">
+                <!-- <el-input v-model="form.parentId" auto-complete="off"></el-input> -->
+                <el-select-tree v-model="form.parentId" :treeData="roleTree" :propNames="defaultProps" clearable
+                                placeholder="请选择父级">
+                </el-select-tree>
+              </el-form-item>
               <el-form-item label="名称" prop="name" :label-width="formLabelWidth">
                 <el-input v-model="form.name" auto-complete="off"></el-input>
               </el-form-item>
@@ -40,7 +41,7 @@
                 <el-button type="primary" @click="onSubmit" v-text="form.id?'修改':'新增'"></el-button>
                 <el-button type="info" @click="settingPrivilege($event,form.id)" icon="el-icon-setting" v-show="form.id && form.id!=null">配置权限
                 </el-button>
-                <el-button type="danger" @click="deleteSelected" icon="el-icon-delete" v-show="form.id && form.id!=null">删除
+                <el-button type="danger" @click="deleteSelected($event, form.id)" icon="el-icon-delete" v-show="form.id && form.id!=null">删除
                 </el-button>
               </el-form-item>
             </el-form>
@@ -94,6 +95,7 @@ export default {
       },
       roleTree: [],
       privilegeTree: [],
+      currRoleId: '',
       form: {
         id: null,
         parentId: null,
@@ -124,7 +126,6 @@ export default {
       let checkedKeys = this.$refs.privilegeTree.getCheckedKeys()
       let checkedNodes = this.$refs.privilegeTree.getCheckedNodes()
       for (let checkedNode of checkedNodes) {
-        console.log(checkedNode)
         if (checkedNode.parentId == null || checkedNode.parentId === '') {
           checkedKeys.splice(
             checkedKeys.findIndex(x => x === checkedNode.id),
@@ -132,7 +133,10 @@ export default {
           )
         }
       }
-      rolePrivielgesConfig(this.form.id, checkedKeys.join(',')).then(res => {
+      rolePrivielgesConfig(
+        this.form.id || this.currRoleId,
+        checkedKeys.join(',')
+      ).then(res => {
         this.$message.success('修改成功')
         this.dialogVisible = false
       })
@@ -179,17 +183,19 @@ export default {
           roleAdd(this.form).then(res => {
             this.form.id = res.data
             this.$message.success('操作成功')
-            var ddd = {
-              id: this.form.id,
-              parentId: this.form.parentId,
-              code: this.form.code,
-              name: this.form.name,
-              sort: this.form.sort,
-              children: []
-            }
-            this.appendTreeNode(this.roleTree, ddd)
-            this.roleTree.push({})
-            this.roleTree.pop()
+            this.newAdd()
+            this.loadData()
+            // var ddd = {
+            //   id: this.form.id,
+            //   parentId: this.form.parentId,
+            //   code: this.form.code,
+            //   name: this.form.name,
+            //   sort: this.form.sort,
+            //   children: []
+            // }
+            // this.appendTreeNode(this.roleTree, ddd)
+            // this.roleTree.push({})
+            // this.roleTree.pop()
           })
         } else {
           return false
@@ -208,12 +214,17 @@ export default {
         }
       })
     },
-    deleteSelected (id) {
-      roleDelete(id).then(res => {
-        this.$message.success('操作成功')
-        this.deleteFromTree(this.roleTree, id)
-        this.newAdd()
-      })
+    deleteSelected (event, id) {
+      event.stopPropagation()
+      roleDelete(id)
+        .then(res => {
+          this.$message.success('操作成功')
+          this.deleteFromTree(this.roleTree, id)
+          this.newAdd()
+        })
+        .catch(() => {
+          // this.loadData()
+        })
     },
     loadData () {
       fetchRoleTreeList().then(response => {
@@ -222,8 +233,9 @@ export default {
       })
     },
     settingPrivilege (event, id) {
+      this.currRoleId = id
       this.$refs.roleTree.setCurrentKey(id)
-      // event.stopPropagation()
+      event.stopPropagation()
       this.dialogVisible = true
       if (this.privilegeTree == null || this.privilegeTree.length <= 0) {
         this.dialogLoading = true

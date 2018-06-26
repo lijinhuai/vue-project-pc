@@ -10,17 +10,25 @@ const HtmlWebpackPlugin = require('html-webpack-plugin')
 const ExtractTextPlugin = require('extract-text-webpack-plugin')
 const OptimizeCSSPlugin = require('optimize-css-assets-webpack-plugin')
 
+function resolve(dir) {
+  return path.join(__dirname, '..', dir)
+}
+
 const env = process.env.NODE_ENV === 'testing' ?
   require('../config/test.env') :
   require('../config/prod.env')
 
 const webpackConfig = merge(baseWebpackConfig, {
   module: {
-    rules: utils.styleLoaders({
+    rules: [...utils.styleLoaders({
       sourceMap: config.build.productionSourceMap,
       extract: true,
       usePostCSS: true
-    })
+    }), {
+      test: /\.js$/,
+      loader: 'babel-loader',
+      include: [resolve('/node_modules/_element-ui@2.4.1@element-ui/src')]
+    }]
   },
   devtool: config.build.productionSourceMap ? config.build.devtool : false,
   output: {
@@ -52,24 +60,21 @@ const webpackConfig = merge(baseWebpackConfig, {
     // Compress extracted CSS. We are using this plugin so that possible
     // duplicated CSS from different components can be deduped.
     new OptimizeCSSPlugin({
-      cssProcessorOptions: config.build.productionSourceMap ?
-        {
-          safe: true,
-          map: {
-            inline: false
-          }
-        } :
-        {
-          safe: true
+      cssProcessorOptions: config.build.productionSourceMap ? {
+        safe: true,
+        map: {
+          inline: false
         }
+      } : {
+        safe: true
+      }
     }),
     // generate dist index.html with correct asset hash for caching.
     // you can customize output by editing /index.html
     // see https://github.com/ampedandwired/html-webpack-plugin
     new HtmlWebpackPlugin({
       filename: process.env.NODE_ENV === 'testing' ?
-        'index.html' :
-        config.build.index,
+        'index.html' : config.build.index,
       template: 'index.html',
       inject: true,
       minify: {

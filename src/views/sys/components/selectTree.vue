@@ -8,7 +8,7 @@
       </transition-group>
     </div>
     <el-input ref="reference" v-model="selectedLabel" type="text" :placeholder="currentPlaceholder" :name="name" :size="size" :disabled="disabled" :readonly="multiple" :validate-event="false" @focus="visible = true" @click="handleIconClick" @mouseenter.native="inputHovering = true"
-      @mouseleave.native="inputHovering = false" :suffix-icon="iconClass">
+      @mouseleave.native="inputHovering = false" :suffix-icon="iconClass" clearable @clear="handleClear">
     </el-input>
     <transition name="el-zoom-in-top" @after-leave="doDestroy" @after-enter="handleMenuEnter">
       <el-select-menu ref="popper" v-show="visible && emptyText !== false">
@@ -53,7 +53,7 @@ export default {
         this.value !== undefined &&
         this.value != null &&
         this.value !== ''
-      return criteria ? 'circle-close is-show-close' : 'caret-top'
+      return criteria ? 'el-icon-circle-close is-show-close' : 'el-icon-caret-top'
     },
     emptyText () {
       if (this.loading) {
@@ -151,13 +151,15 @@ export default {
     handleIconHide () {
       let icon = this.$el.querySelector('.el-input__icon')
       if (icon) {
-        removeClass(icon, 'is-reverse')
+        removeClass(icon, 'el-icon-caret-bottom')
+        addClass(icon, 'el-icon-caret-top')
       }
     },
     handleIconShow () {
       let icon = this.$el.querySelector('.el-input__icon')
       if (icon && !hasClass(icon, 'el-icon-circle-close')) {
-        addClass(icon, 'is-reverse')
+        removeClass(icon, 'el-icon-caret-top')
+        addClass(icon, 'el-icon-caret-bottom')
       }
     },
     handleMenuEnter () {
@@ -208,7 +210,7 @@ export default {
       }
     },
     handleIconClick (event) {
-      if (this.iconClass.indexOf('circle-close') > -1) {
+      if (this.iconClass.indexOf('el-icon-circle-close') > -1) {
         this.deleteSelected(event)
       } else {
         this.toggleMenu()
@@ -219,6 +221,17 @@ export default {
     },
     handleClose () {
       this.visible = false
+    },
+    handleClear () {
+      if (this.multiple) return
+      this.$emit('input', '')
+      this.visible = false
+      this.selectedLabel = ''
+      this.selected = null
+      this.handleResize()
+      setTimeout(() => {
+        this.visible = false
+      })
     },
     managePlaceholder () {
       if (this.currentPlaceholder !== '') {
