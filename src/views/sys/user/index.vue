@@ -6,24 +6,24 @@
           <el-col :span="12">
             <el-button type="primary" @click="newAdd" icon="el-icon-plus">新增</el-button>
           </el-col>
-          <!-- <el-col :span="12">
-                        <div class="el-input" style="width: 200px; float: right;">
-                          <i class="el-input__icon el-icon-search"></i>
-                          <input type="text" placeholder="输入用户名称" v-model="searchKey" @keyup.enter="search($event)" class="el-input__inner">
-                        </div>
-                      </el-col> -->
+          <el-col :span="12">
+            <div class="el-input" style="width: 200px; float: right;">
+              <el-input type="text" placeholder="用户编码、用户名或姓名" v-model="queryForm.searchContent" @keydown.enter.native="search($event)"  prefix-icon="el-icon-search"> </el-input>
+            </div>
+            <!-- <div class="el-input" style="width: 200px; float: right;">
+              <Dept ref="dept" v-model="queryForm.deptCode" placeholder="选择部门" show-checkbox></Dept>
+            </div> -->
+          </el-col>
         </el-row>
       </h3>
       <div slot="body">
         <el-table :data="tableData.rows" border size="small" style="width: 100%" v-loading="listLoading">
-          <!-- <el-table-column prop="id" type="selection" width="50">
-                    </el-table-column> -->
-          <!-- <el-table-column
-                          label="照片" width="76">
-                          <template slot-scope="scope">
-                            <img :src='scope.row.avatar' style="height: 35px;vertical-align: middle;" alt="">
-</template>
-          </el-table-column> -->
+          <!-- <el-table-column prop="id" type="selection" width="50"></el-table-column> -->
+          <!-- <el-table-column label="照片" width="76">
+                <template slot-scope="scope">
+                 <img :src='scope.row.avatar' style="height: 35px;vertical-align: middle;" alt="">
+                </template>
+               </el-table-column> -->
         <el-table-column
           prop="code"
           label="用户编码">
@@ -79,7 +79,9 @@
               :data="roleTree"
               show-checkbox
               check-strictly
-              node-key="id" v-loading="dialogLoading"
+              node-key="id"
+              default-expand-all
+              v-loading="dialogLoading"
               :props="defaultProps">
             </el-tree>
           </el-scrollbar>
@@ -110,7 +112,7 @@
         <el-input v-model="form.trueName"></el-input>
       </el-form-item>
       <el-form-item label="用户部门" prop="deptCode">
-        <Dept ref="dept" v-model="form.deptCode" placeholder="选择部门" :multiple="false" show-checkbox check-strictly></Dept>
+        <dept ref="dept" v-model="form.deptCode" placeholder="选择部门" :multiple="false" show-checkbox check-strictly></dept>
       </el-form-item>
       <el-form-item label="职位" prop="position">
         <el-input v-model="form.position"></el-input>
@@ -149,6 +151,8 @@ export default {
   },
   data () {
     return {
+      queryForm: {
+      },
       currentRow: {},
       dialogVisible: false,
       dialogLoading: false,
@@ -274,6 +278,9 @@ export default {
         this.loadData()
       })
     },
+    search (target) {
+      this.loadData()
+    },
     onSubmit () {
       this.$refs['form'].validate(valid => {
         if (valid) {
@@ -299,7 +306,7 @@ export default {
       })
     },
     loadData () {
-      fetchUserList(this.pageInfo).then(res => {
+      fetchUserList(this.pageInfo, this.queryForm).then(res => {
         this.tableData.rows = res.data.list
         this.pageInfo.total = res.data.total
       })
