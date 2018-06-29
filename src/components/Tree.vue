@@ -1,6 +1,6 @@
 <template>
   <div v-clickoutside="handleClose">
-    <el-input v-model="visualValue" @focus="handleFocus" :placeholder="placeholder" :size="inputSize" readonly></el-input>
+    <el-input v-model="visualValue" @focus="handleFocus" :placeholder="placeholder" :size="inputSize" :clearable="clearable" @clear="handleClear" readonly></el-input>
     <transition :name="transition">
       <div v-show="visible" class="treeWarp">
         <el-tree :data="treeData" :show-checkbox="showCheckbox" :check-strictly="checkStrictly" :default-checked-keys="defaultCheckedKeys" node-key="id" ref="eltree" :props="defaultProps" highlight-current @check-change="handleCheckChange">
@@ -49,6 +49,10 @@ export default {
     placeholder: {
       type: String,
       default: ''
+    },
+    clearable: {
+      type: Boolean,
+      default: false
     }
   },
   data () {
@@ -115,7 +119,11 @@ export default {
           // 防止数组有值，首先清空，在push
           this.treeChecked.keys = []
           this.treeChecked.keys.push(data.id)
-        } else if (index >= 0 && this.treeChecked.keys.length === 1 && !checked) {
+        } else if (
+          index >= 0 &&
+          this.treeChecked.keys.length === 1 &&
+          !checked
+        ) {
           // 再次直接进行赋空操作
           this.treeChecked.keys = []
         }
@@ -151,8 +159,10 @@ export default {
       }
       this.visualValue = checkLabels
       this.$emit('input', checkedKeysStr)
+      this.$emit('checkChange')
     },
     setCheckedKeys (keyArr) {
+      this.$refs.eltree.setCheckedKeys([])
       this.$refs.eltree.setCheckedKeys(keyArr)
       if (!this.multiple) {
         this.treeChecked.keys = []
@@ -161,7 +171,13 @@ export default {
       this.checkChange()
     },
     resetCheckedNodes () {
+      if (!this.multiple) {
+        this.treeChecked.keys = []
+      }
       this.$refs.eltree.setCheckedKeys([])
+    },
+    handleClear () {
+      this.resetCheckedNodes()
     }
   },
   mounted () {
