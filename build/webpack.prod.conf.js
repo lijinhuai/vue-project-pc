@@ -27,7 +27,7 @@ const webpackConfig = merge(baseWebpackConfig, {
     }), {
       test: /\.js$/,
       loader: 'babel-loader',
-      include: [resolve('/node_modules/_element-ui@2.4.1@element-ui/src')]
+      include: [resolve('/node_modules/_element-ui@2.4.2@element-ui/src')]
     }]
   },
   devtool: config.build.productionSourceMap ? config.build.devtool : false,
