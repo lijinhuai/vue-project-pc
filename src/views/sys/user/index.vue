@@ -1,13 +1,13 @@
 <template>
   <div>
     <imp-panel v-show="!showUserForm" @keydown.enter.native="search($event)">
-      <h3 class="box-title" slot="header" style="width: 100%;">
+      <div class="box-title" slot="header" style="width: 100%;">
         <el-row style="width: 100%;">
           <el-col :span="6">
             <el-button type="primary" @click="newAdd" icon="el-icon-plus">新增</el-button>
           </el-col>
           <el-col :span="18">
-            <el-form :inline="true" :model="formInline" style="float:right;">
+            <el-form inline style="float:right;">
               <el-form-item>
                 <el-input type="text" placeholder="用户编码、用户名或姓名" v-model="queryForm.searchContent" prefix-icon="el-icon-search"></el-input>
               </el-form-item>
@@ -20,14 +20,14 @@
             </el-form>
           </el-col>
         </el-row>
-      </h3>
+      </div>
       <div slot="body">
         <el-table :data="tableData.rows" border size="small" style="width: 100%" v-loading="listLoading">
           <!-- <el-table-column prop="id" type="selection" width="50"></el-table-column> -->
           <!-- <el-table-column label="照片" width="76">
                   <template slot-scope="scope">
                    <img :src='scope.row.avatar' style="height: 35px;vertical-align: middle;" alt="">
-</template>
+                  </template>
                </el-table-column> -->
         <el-table-column
           prop="code"

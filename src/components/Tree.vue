@@ -1,9 +1,13 @@
 <template>
   <div v-clickoutside="handleClose">
-    <el-input v-model="visualValue" @focus="handleFocus" :placeholder="placeholder" :size="inputSize" :clearable="clearable" @clear="handleClear" readonly></el-input>
+    <el-input v-bind:class="{'switch-tree':showSwitch}" v-model="visualValue" @focus="handleFocus" :placeholder="placeholder" :size="inputSize" :clearable="clearable" @clear="handleClear" readonly></el-input>
+    <el-tooltip v-show="showSwitch" :content="switchCheckStrictly==true?'包含下级':'不包含下级'" placement="top">
+      <el-switch v-model="switchCheckStrictly" @change="handleSwitchChange">
+      </el-switch>
+    </el-tooltip>
     <transition :name="transition">
       <div v-show="visible" class="treeWarp">
-        <el-tree :data="treeData" :show-checkbox="showCheckbox" :check-strictly="checkStrictly" :default-checked-keys="defaultCheckedKeys" node-key="id" ref="eltree" :props="defaultProps" highlight-current @check-change="handleCheckChange">
+        <el-tree :data="treeData" :show-checkbox="showCheckbox" :check-strictly="showSwitch?!switchCheckStrictly:checkStrictly" :default-checked-keys="defaultCheckedKeys" node-key="id" ref="eltree" :props="defaultProps" highlight-current @check-change="handleCheckChange">
         </el-tree>
       </div>
     </transition>
@@ -14,12 +18,32 @@
 import clickoutside from '../directives/clickoutside'
 export default {
   name: 'Tree',
+  data () {
+    return {
+      switchCheckStrictly: true,
+      treeData: [],
+      defaultProps: {
+        id: 'id',
+        label: 'name',
+        children: 'children'
+      },
+      visualValue: '',
+      visible: false,
+      treeChecked: {
+        keys: []
+      }
+    }
+  },
   directives: {
     clickoutside
   },
   props: {
     fetchTreeList: {
       type: Function
+    },
+    showSwitch: {
+      type: Boolean,
+      default: false
     },
     multiple: {
       type: Boolean,
@@ -53,21 +77,6 @@ export default {
     clearable: {
       type: Boolean,
       default: false
-    }
-  },
-  data () {
-    return {
-      treeData: [],
-      defaultProps: {
-        id: 'id',
-        label: 'name',
-        children: 'children'
-      },
-      visualValue: '',
-      visible: false,
-      treeChecked: {
-        keys: []
-      }
     }
   },
   computed: {
@@ -178,6 +187,9 @@ export default {
     },
     handleClear () {
       this.resetCheckedNodes()
+    },
+    handleSwitchChange () {
+      this.resetCheckedNodes()
     }
   },
   mounted () {
@@ -196,5 +208,10 @@ export default {
   position: absolute;
   z-index: 3;
   overflow: auto;
+}
+</style>
+<style scoped>
+.switch-tree {
+  width: calc(100% - 45px);
 }
 </style>

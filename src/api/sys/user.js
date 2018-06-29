@@ -1,14 +1,17 @@
 import fetch from '@/utils/fetch'
 // 查询用户列表
-export function fetchUserList (pageInfo, data) {
+export function fetchUserList (pageInfo, queryForm) {
   const params = {
-    ...pageInfo,
-    ...data
+    ...pageInfo
+  }
+  const data = {
+    ...queryForm
   }
   return fetch({
-    url: '/users',
-    method: 'get',
-    params: params
+    url: '/users/get',
+    method: 'post',
+    params: params,
+    data: data
   })
 }
 
