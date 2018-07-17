@@ -486,7 +486,13 @@ function initData() {
   var token = Cookies.get("Admin-Token");
 
   createEventSource('YT?pcsdm=' + pcsdm + '&xqbh=' + xqbh + '&Authorization=' + token, successCallBack);
-  createEventSource('CLBK,RYBK,JYDW,DDCDW,JCDW?Authorization=' + token, successCallBack);
+  createEventSource('CLBK,RYBK,DDCDW,JCDW?Authorization=' + token, successCallBack);
+  var deptCode = Cookies.get('deptCode');
+  if (deptCode == 310116000000) {
+    createEventSource('JYDW?Authorization=' + token, successCallBack);
+  } else {
+    createEventSource('JYDW?Authorization=' + token + '&deptCode=' + deptCode, successCallBack);
+  }
   // 加载一标六实数据
   loadData(baseUrl + "/houses/amounts", token, function (data) {
     var code = data.code;
@@ -531,9 +537,10 @@ function initData() {
 function loadPoliceLatestLocations() {
 
   var token = Cookies.get("Admin-Token");
+  var deptCode = Cookies.get("deptCode");
 
   // 加载警员定位数据
-  loadData(baseUrl + "/location/police/locations", token, function (data) {
+  loadData(baseUrl + "/location/police/locations?deptCode=" + deptCode, token, function (data) {
     var code = data.code;
     if (code == 200) {
       var locations = data.data;
@@ -2728,11 +2735,20 @@ function addMarker(lng, lat, did, type, origin) {
     map.getOverlayLayer().addOverlay(marker, false);
     if (type == 'house') {
       marker.dlbh = origin.dlbh;
-      marker.setLabel(origin.dlbh + "号", {
-        "anchor": IMAP.Constants.BOTTOM_CENTER,
-        "fontColor": "rgba(255,255,255,.6)",
-        "offset": new IMAP.Pixel(0, -15)
-      });
+      if (!$("#operator-house").is(":checked")) {
+        marker.visible(false);
+      } else {
+        marker.setLabel(origin.dlbh + "号", {
+          "anchor": IMAP.Constants.BOTTOM_CENTER,
+          "fontColor": "rgba(255,255,255,.6)",
+          "offset": new IMAP.Pixel(0, -15)
+        });
+      }
+    }
+    if (type == "dwxx") {
+      if (!$("#operator-dwxx").is(":checked")) {
+        marker.visible(false);
+      }
     }
 
     // 图标上添加点击事件
@@ -3178,7 +3194,7 @@ function addCommunityPolygon(areaStr) {
   pgo.strokeColor = "rgba(255,51,51,.8)";
   pgo.strokeOpacity = "1";
   pgo.strokeWeight = "3";
-  pgo.strokeStyle = IMAP.Constants.OVERLAY_LINE_DASHED;
+  // pgo.strokeStyle = IMAP.Constants.OVERLAY_LINE_DASHED;
   var polygon = new IMAP.Polyline(lnglatarr, pgo);
   polygon.id = "community";
   map.getOverlayLayer().addOverlay(polygon, false);

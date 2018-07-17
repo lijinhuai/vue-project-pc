@@ -766,9 +766,10 @@ function clearPoliceLocation() {
 function loadPoliceLatestLocations() {
 
   var token = Cookies.get("Admin-Token");
+  var deptCode = Cookies.get("deptCode");
 
   // 加载警员定位数据
-  loadData(baseUrl + "/location/police/locations", token, function (data) {
+  loadData(baseUrl + "/location/police/locations?deptCode=" + deptCode, token, function (data) {
     var code = data.code;
     if (code == 200) {
       var locations = data.data;
@@ -779,7 +780,13 @@ function loadPoliceLatestLocations() {
 
 function createEventSource(successCallBack) {
   var token = Cookies.get("Admin-Token");
-  var url = baseUrl + '/sseEmitter/JYDW?Authorization=' + token;
+  var deptCode = Cookies.get('deptCode');
+  var url = "";
+  if (deptCode == 310116000000) {
+    url = baseUrl + '/sseEmitter/JYDW?Authorization=' + token;
+  } else {
+    url = baseUrl + '/sseEmitter/JYDW?Authorization=' + token + '&deptCode=' + deptCode;
+  }
   if (!!window.EventSource) {
     var source = new EventSource(url);
     source.addEventListener('message', function (e) {
