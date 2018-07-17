@@ -3200,3 +3200,7 @@ function addCommunityPolygon(areaStr) {
   map.getOverlayLayer().addOverlay(polygon, false);
   return polygon;
 }
+
+function search() {
+  alert($("#searchContent").val())
+}
