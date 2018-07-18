@@ -107,6 +107,8 @@ function clearJcLocation() {
   }
 }
 
+var loadedHouse = false;
+var loadedDwxx = false;
 function initOperatorMenuEvent() {
 
   // 地图展示数据类型切换
@@ -168,7 +170,13 @@ function initOperatorMenuEvent() {
 
     // 选中实有房屋
     if (name == 'operator-house' && checked) {
-      showHouseLocations();
+      if (loadedHouse) {
+        showHouseLocations();
+      } else {
+        loadHouseLocations();
+        loadedHouse = true;
+      }
+
     }
 
     // 取消选中实有房屋
@@ -178,7 +186,12 @@ function initOperatorMenuEvent() {
 
     // 选中实有单位
     if (name == 'operator-dwxx' && checked) {
-      showLocationsByType("dwxx");
+      if (loadedDwxx) {
+        showLocationsByType("dwxx");
+      } else {
+        loadDwLocations();
+        loadedDwxx = true;
+      }
     }
 
     // 取消选中实有单位
@@ -2735,22 +2748,12 @@ function addMarker(lng, lat, did, type, origin) {
     map.getOverlayLayer().addOverlay(marker, false);
     if (type == 'house') {
       marker.dlbh = origin.dlbh;
-      if (!$("#operator-house").is(":checked")) {
-        marker.visible(false);
-      } else {
-        marker.setLabel(origin.dlbh + "号", {
-          "anchor": IMAP.Constants.BOTTOM_CENTER,
-          "fontColor": "rgba(255,255,255,.6)",
-          "offset": new IMAP.Pixel(0, -15)
-        });
-      }
+      marker.setLabel(origin.dlbh + "号", {
+        "anchor": IMAP.Constants.BOTTOM_CENTER,
+        "fontColor": "rgba(255,255,255,.6)",
+        "offset": new IMAP.Pixel(0, -15)
+      });
     }
-    if (type == "dwxx") {
-      if (!$("#operator-dwxx").is(":checked")) {
-        marker.visible(false);
-      }
-    }
-
     // 图标上添加点击事件
     addMarkerClickEvt(type, origin, marker);
 
