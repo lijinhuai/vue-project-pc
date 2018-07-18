@@ -302,7 +302,7 @@ export default {
             render: (h, params) => {
               const _self = this
               return h(
-              'Button',
+                'Button',
                 {
                   props: {
                     type: 'primary',
@@ -318,8 +318,8 @@ export default {
                     }
                   }
                 },
-              '一人一档'
-            )
+                '一人一档'
+              )
             }
           }
         ],
@@ -351,6 +351,9 @@ export default {
   },
   methods: {
     initQuery () {
+      this.queryForm.fwbm = ''
+      this.queryForm.mlphbm = ''
+      this.queryForm.sfzh = ''
       let zjhm = this.$route.params.zjhm
       if (zjhm) {
         this.cxlb = 'sfz'
