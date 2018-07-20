@@ -109,6 +109,7 @@ function clearJcLocation() {
 
 var loadedHouse = false;
 var loadedDwxx = false;
+
 function initOperatorMenuEvent() {
 
   // 地图展示数据类型切换
@@ -3169,6 +3170,13 @@ function openArchive(zjhm) {
   window.open(serviceUrl + "/#/archive?zjhm=" + zjhm);
 }
 
+//打开人房关联
+function openRfgl(fwbm) {
+  window.open(serviceUrl + "#/analysis/rfgl?fwbm=" + fwbm);
+}
+
+
+
 //打开单位信息页面
 function openDwxx(dwbh) {
   window.open(serviceUrl + "/#/company?dwbh=" + dwbh);
@@ -3205,5 +3213,128 @@ function addCommunityPolygon(areaStr) {
 }
 
 function search() {
-  alert($("#searchContent").val())
+  var token = Cookies.get("Admin-Token");
+  var searchType = $("#searchType").val();
+  var searchContent = $("#searchContent").val();
+  if (searchContent == '') {
+    return;
+  }
+  $("#search-result").html("");
+  loadData(baseUrl + "/search?searchType=" + searchType + '&searchContent=' + searchContent, token,
+    function (data) {
+      var code = data.code;
+      if (code == 200) {
+        var searchItemHtml = "";
+        if (searchType == 'ry') {
+          searchItemHtml = genSearchRyHtml(data.data)
+        } else if (searchType == 'fw') {
+          searchItemHtml = genSearchFwHtml(data.data)
+        } else if (searchType == 'dw') {
+          searchItemHtml = genSearchDwHtml(data.data)
+        }
+        $("#search-result").append(searchItemHtml);
+      }
+    })
+}
+
+function genSearchRyHtml(objList) {
+  var searchItemHtml = '';
+  for (var i in objList) {
+    var obj = objList[i];
+    searchItemHtml = searchItemHtml + "<div class=\"con_item\">";
+    searchItemHtml = searchItemHtml + " <div class=\"item_info\">";
+    searchItemHtml = searchItemHtml + "   <div>证件号码：" + obj.zjhm + "</div>";
+    searchItemHtml = searchItemHtml + "   <div>姓&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;名：" + obj.xm + "</div>";
+    searchItemHtml = searchItemHtml + " </div>";
+    searchItemHtml = searchItemHtml + " <div class=\"item_operation\">";
+    searchItemHtml = searchItemHtml + "   <div><a href=\"javascript:;\" onclick=\"toPosition('" + obj.gpsjd + "','" + obj.gpswd + "')\">定位</a></div>";
+    searchItemHtml = searchItemHtml + "   <div><a href=\"javascript:;\" onclick=\"openArchive('" + obj.zjhm + "')\">一人一档</a></div>";
+    searchItemHtml = searchItemHtml + " </div>";
+    searchItemHtml = searchItemHtml + "</div>";
+  }
+  return searchItemHtml;
+}
+
+
+function genSearchFwHtml(objList) {
+  var searchItemHtml = '';
+  for (var i in objList) {
+    var obj = objList[i];
+    searchItemHtml = searchItemHtml + "<div class=\"con_item\">";
+    searchItemHtml = searchItemHtml + " <div class=\"item_info\">";
+    searchItemHtml = searchItemHtml + "   <div>房屋地址：" + obj.mlphxx + obj.sh + "</div>";
+    searchItemHtml = searchItemHtml + "   <div>房主姓名：" + obj.fzxm + "</div>";
+    searchItemHtml = searchItemHtml + " </div>";
+    searchItemHtml = searchItemHtml + " <div class=\"item_operation\">";
+    searchItemHtml = searchItemHtml + "   <div><a href=\"javascript:;\" onclick=\"toPosition('" + obj.gpsjd + "','" + obj.gpswd + "')\">定位</a></div>";
+    searchItemHtml = searchItemHtml + "   <div><a href=\"javascript:;\" onclick=\"openRfgl('" + obj.fwbm + "')\">人房关联</a></div>";
+    searchItemHtml = searchItemHtml + " </div>";
+    searchItemHtml = searchItemHtml + "</div>";
+  }
+  return searchItemHtml;
+}
+
+function genSearchDwHtml(objList) {
+  var searchItemHtml = '';
+  for (var i in objList) {
+    var obj = objList[i];
+    searchItemHtml = searchItemHtml + "<div class=\"con_item\">";
+    searchItemHtml = searchItemHtml + " <div class=\"item_info\">";
+    searchItemHtml = searchItemHtml + "   <div>单位简称：" + obj.dwjc + "</div>";
+    searchItemHtml = searchItemHtml + "   <div>单位地址：" + obj.jydzlmmc + "</div>";
+    searchItemHtml = searchItemHtml + " </div>";
+    searchItemHtml = searchItemHtml + " <div class=\"item_operation\">";
+    searchItemHtml = searchItemHtml + "   <div><a href=\"javascript:;\" onclick=\"toPosition('" + obj.gpsjd + "','" + obj.gpswd + "')\">定位</a></div>";
+    searchItemHtml = searchItemHtml + "   <div><a href=\"javascript:;\" onclick=\"openDwxx('" + obj.dwbh + "')\">单位信息</a></div>";
+    searchItemHtml = searchItemHtml + " </div>";
+    searchItemHtml = searchItemHtml + "</div>";
+  }
+  return searchItemHtml;
+}
+
+function toPosition(gpsjd, gpswd) {
+  map.setCenter(new IMAP.LngLat(gpsjd, gpswd), 15);
+  addSearchMarkerWithLabel(gpsjd, gpswd, 1, 1, null)
+}
+
+var _search_marker;
+// 地图展示搜索 Marker
+function addSearchMarkerWithLabel(lng, lat, did, type, origin) {
+  if (!map) {
+    return;
+  }
+
+  // 如果已经展示了动态数据，清除数据
+  if (_search_marker) {
+    map.getOverlayLayer().removeOverlay(_search_marker);
+  }
+
+  // marker options
+  var path = locationPath();
+  var opts = new IMAP.MarkerOptions();
+  opts.anchor = IMAP.Constants.BOTTOM_CENTER;
+  opts.icon = new IMAP.Icon(
+    path + "/static/image/dynamic_16.png", {
+      "size": new IMAP.Size(16, 16),
+      "offset": new IMAP.Pixel(0, 0)
+    }
+  );
+
+  // marker location
+  var lnglat = new IMAP.LngLat(lng, lat);
+  _search_marker = new IMAP.Marker(lnglat, opts);
+  _search_marker.id = type + "_" + did;
+  _search_marker.type = type;
+  map.getOverlayLayer().addOverlay(_search_marker, false);
+
+  var content = assembleLabelContentForDynamicData("动态感知", picBaseUrl + "/face/" + origin.faceImageUrl + ".jpg",
+    origin.cameraName + "</br>" + origin.timeBegin);
+  // marker label
+  _search_marker.setLabel(
+    content, {
+      "anchor": IMAP.Constants.TOP_CENTER,
+      "visible": true,
+      "offset": new IMAP.Pixel(0, -134)
+    }
+  );
 }
