@@ -330,17 +330,19 @@
     <div class="detail-tab-container detail-tab-border">
       <div class="detail-menu-box ">
         <ul>
-          <li class="icon-rlsb hover" id="detail1" onclick="setTab('detail',1,6)">
+          <li class="icon-rlsb hover" id="detail1" onclick="setTab('detail',1,7)">
           </li>
-          <li class="icon-km" id="detail2" onclick="setTab('detail',2,6)">
+          <li class="icon-km" id="detail2" onclick="setTab('detail',2,7)">
           </li>
-          <li class="icon-gc" id="detail3" onclick="setTab('detail',3,6)">
+          <li class="icon-gc" id="detail3" onclick="setTab('detail',3,7)">
           </li>
-          <li class="icon-wifi" id="detail4" onclick="setTab('detail',4,6)">
+          <li class="icon-wifi" id="detail4" onclick="setTab('detail',4,7)">
           </li>
-          <li class="icon-af" id="detail5" onclick="setTab('detail',5,6)">
+          <li class="icon-af" id="detail5" onclick="setTab('detail',5,7)">
           </li>
-          <li class="icon-bk" id="detail6" onclick="setTab('detail',6,6)">
+          <li class="icon-bk" id="detail6" onclick="setTab('detail',6,7)">
+          </li>
+          <li class="icon-search" id="detail7" onclick="setTab('detail',7,7)">
           </li>
         </ul>
       </div>
@@ -453,6 +455,26 @@
         <div class="con_detail" id="con_detail_6" style="display:none">
           <div class="detail-title">布控报警</div>
           <div class="con_control">
+          </div>
+        </div>
+        <div class="con_detail" id="con_detail_7" style="display:none">
+          <div class="detail-title">搜索</div>
+          <div class="con_search">
+            <div class="search bar">
+              <select id="searchType">
+                <option value="ry">人员数据</option>
+                <option value="fw">房屋数据</option>
+                <option value="dw">单位数据</option>
+                <option value="poi">地图POI数据</option>
+              </select>
+              <form>
+                <input type="text" id="searchContent" placeholder="请输入您要搜索的内容...">
+                <button type="button" onclick="search()"></button>
+              </form>
+            </div>
+            <div id="search-result" class="con_container">
+
+            </div>
           </div>
         </div>
       </div>

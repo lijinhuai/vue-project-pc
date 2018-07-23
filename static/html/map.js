@@ -3099,6 +3099,7 @@ function assemblePicDialogContent(pic) {
 
 // 关闭消息窗
 function closeInfoWindow() {
+  console.log(_current_marker)
   if (map && _current_marker) {
     _current_marker.closeInfoWindow();
   }
@@ -3220,34 +3221,71 @@ function search() {
     return;
   }
   $("#search-result").html("");
-  loadData(baseUrl + "/search?searchType=" + searchType + '&searchContent=' + searchContent, token,
-    function (data) {
-      var code = data.code;
-      if (code == 200) {
-        var searchItemHtml = "";
-        if (searchType == 'ry') {
-          searchItemHtml = genSearchRyHtml(data.data)
-        } else if (searchType == 'fw') {
-          searchItemHtml = genSearchFwHtml(data.data)
-        } else if (searchType == 'dw') {
-          searchItemHtml = genSearchDwHtml(data.data)
-        }
-        $("#search-result").append(searchItemHtml);
-      }
+  if (searchType == 'poi') {
+    $("#searchType").change(function () {
+      poiSearch.clear()
     })
+    poiSearchContent = searchContent
+    doPoiSearch(1)
+  } else {
+    loadData(baseUrl + "/search?searchType=" + searchType + '&searchContent=' + searchContent, token,
+      function (data) {
+        var code = data.code;
+        if (code == 200) {
+          var searchItemHtml = "";
+          if (data.data.length <= 0) {
+            searchItemHtml = searchItemHtml + "<div class=\"con_item\">";
+            searchItemHtml = searchItemHtml + " <div class=\"item_info\">";
+            searchItemHtml = searchItemHtml + " <div style=\"text-align:center;\">暂无数据</div>";
+            searchItemHtml = searchItemHtml + " </div>";
+            searchItemHtml = searchItemHtml + "</div>";
+          } else {
+            if (searchType == 'ry') {
+              searchItemHtml = genSearchRyHtml(data.data)
+            } else if (searchType == 'fw') {
+              searchItemHtml = genSearchFwHtml(data.data)
+            } else if (searchType == 'dw') {
+              searchItemHtml = genSearchDwHtml(data.data)
+            }
+          }
+          $("#search-result").append(searchItemHtml);
+        }
+      })
+  }
+
+}
+var poiSearchContent, poiSearch;
+
+function doPoiSearch(pageNo) {
+  if (map) {
+    var keyword = poiSearchContent,
+      city = chengshi;
+    map.plugin(['IMAP.PoiSearch'], function () {
+      poiSearch = new IMAP.PoiSearch({
+        panel: "search-result",
+        map: map,
+        pageSize: 5,
+        scope: "all"
+      });
+      poiSearch.setPageNumber(parseInt(pageNo - 1));
+      poiSearch.search(keyword, city);
+    });
+  }
 }
 
 function genSearchRyHtml(objList) {
   var searchItemHtml = '';
   for (var i in objList) {
     var obj = objList[i];
+    // 数据加密
+    var mb = $.base64.btoa(JSON.stringify(obj), true);
     searchItemHtml = searchItemHtml + "<div class=\"con_item\">";
     searchItemHtml = searchItemHtml + " <div class=\"item_info\">";
     searchItemHtml = searchItemHtml + "   <div>证件号码：" + obj.zjhm + "</div>";
     searchItemHtml = searchItemHtml + "   <div>姓&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;名：" + obj.xm + "</div>";
     searchItemHtml = searchItemHtml + " </div>";
     searchItemHtml = searchItemHtml + " <div class=\"item_operation\">";
-    searchItemHtml = searchItemHtml + "   <div><a href=\"javascript:;\" onclick=\"toPosition('" + obj.gpsjd + "','" + obj.gpswd + "')\">定位</a></div>";
+    searchItemHtml = searchItemHtml + "   <div data-obj=\"" + mb + "\"><a href=\"javascript:;\" onclick=\"toPosition('" + obj.gpsjd + "','" + obj.gpswd + "','ry',this)\">定位</a></div>";
     searchItemHtml = searchItemHtml + "   <div><a href=\"javascript:;\" onclick=\"openArchive('" + obj.zjhm + "')\">一人一档</a></div>";
     searchItemHtml = searchItemHtml + " </div>";
     searchItemHtml = searchItemHtml + "</div>";
@@ -3260,13 +3298,14 @@ function genSearchFwHtml(objList) {
   var searchItemHtml = '';
   for (var i in objList) {
     var obj = objList[i];
+    var mb = $.base64.btoa(JSON.stringify(obj), true);
     searchItemHtml = searchItemHtml + "<div class=\"con_item\">";
     searchItemHtml = searchItemHtml + " <div class=\"item_info\">";
     searchItemHtml = searchItemHtml + "   <div>房屋地址：" + obj.mlphxx + obj.sh + "</div>";
     searchItemHtml = searchItemHtml + "   <div>房主姓名：" + obj.fzxm + "</div>";
     searchItemHtml = searchItemHtml + " </div>";
     searchItemHtml = searchItemHtml + " <div class=\"item_operation\">";
-    searchItemHtml = searchItemHtml + "   <div><a href=\"javascript:;\" onclick=\"toPosition('" + obj.gpsjd + "','" + obj.gpswd + "')\">定位</a></div>";
+    searchItemHtml = searchItemHtml + "   <div data-obj=\"" + mb + "\"><a href=\"javascript:;\" onclick=\"toPosition('" + obj.gpsjd + "','" + obj.gpswd + "','fw',this)\">定位</a></div>";
     searchItemHtml = searchItemHtml + "   <div><a href=\"javascript:;\" onclick=\"openRfgl('" + obj.fwbm + "')\">人房关联</a></div>";
     searchItemHtml = searchItemHtml + " </div>";
     searchItemHtml = searchItemHtml + "</div>";
@@ -3278,13 +3317,14 @@ function genSearchDwHtml(objList) {
   var searchItemHtml = '';
   for (var i in objList) {
     var obj = objList[i];
+    var mb = $.base64.btoa(JSON.stringify(obj), true);
     searchItemHtml = searchItemHtml + "<div class=\"con_item\">";
     searchItemHtml = searchItemHtml + " <div class=\"item_info\">";
     searchItemHtml = searchItemHtml + "   <div>单位简称：" + obj.dwjc + "</div>";
     searchItemHtml = searchItemHtml + "   <div>单位地址：" + obj.jydzlmmc + "</div>";
     searchItemHtml = searchItemHtml + " </div>";
     searchItemHtml = searchItemHtml + " <div class=\"item_operation\">";
-    searchItemHtml = searchItemHtml + "   <div><a href=\"javascript:;\" onclick=\"toPosition('" + obj.gpsjd + "','" + obj.gpswd + "')\">定位</a></div>";
+    searchItemHtml = searchItemHtml + "   <div data-obj=\"" + mb + "\"><a href=\"javascript:;\" onclick=\"toPosition('" + obj.gpsjd + "','" + obj.gpswd + "','dw',this)\">定位</a></div>";
     searchItemHtml = searchItemHtml + "   <div><a href=\"javascript:;\" onclick=\"openDwxx('" + obj.dwbh + "')\">单位信息</a></div>";
     searchItemHtml = searchItemHtml + " </div>";
     searchItemHtml = searchItemHtml + "</div>";
@@ -3292,49 +3332,126 @@ function genSearchDwHtml(objList) {
   return searchItemHtml;
 }
 
-function toPosition(gpsjd, gpswd) {
+function toPosition(gpsjd, gpswd, type, obj) {
   map.setCenter(new IMAP.LngLat(gpsjd, gpswd), 15);
-  addSearchMarkerWithLabel(gpsjd, gpswd, 1, 1, null)
+  var object = $.base64.atob($(obj).parent().data("obj"), true);
+  addSearchMarkerWithLabel(gpsjd, gpswd, type, JSON.parse(object))
 }
 
-var _search_marker;
 // 地图展示搜索 Marker
-function addSearchMarkerWithLabel(lng, lat, did, type, origin) {
-  if (!map) {
-    return;
-  }
-
-  // 如果已经展示了动态数据，清除数据
-  if (_search_marker) {
-    map.getOverlayLayer().removeOverlay(_search_marker);
-  }
-
-  // marker options
+function addSearchMarkerWithLabel(lng, lat, type, origin) {
   var path = locationPath();
-  var opts = new IMAP.MarkerOptions();
-  opts.anchor = IMAP.Constants.BOTTOM_CENTER;
-  opts.icon = new IMAP.Icon(
-    path + "/static/image/dynamic_16.png", {
-      "size": new IMAP.Size(16, 16),
-      "offset": new IMAP.Pixel(0, 0)
-    }
-  );
+  if (map) {
+    var opts = new IMAP.MarkerOptions();
+    opts.anchor = IMAP.Constants.BOTTOM_CENTER;
+    opts.icon = new IMAP.Icon(
+      path + "/static/image/dynamic_16.png", {
+        "size": new IMAP.Size(16, 16),
+        "offset": new IMAP.Pixel(0, 0)
+      }
+    );
 
-  // marker location
-  var lnglat = new IMAP.LngLat(lng, lat);
-  _search_marker = new IMAP.Marker(lnglat, opts);
-  _search_marker.id = type + "_" + did;
-  _search_marker.type = type;
-  map.getOverlayLayer().addOverlay(_search_marker, false);
+    var lnglat = new IMAP.LngLat(lng, lat);
+    marker = new IMAP.Marker(lnglat, opts);
+    marker.id = type + "_";
+    marker.type = type;
+    map.getOverlayLayer().addOverlay(marker, false);
+    // 图标上添加点击事件
+    addSearchMarkerClickEvt(type, origin, marker);
+  }
+}
 
-  var content = assembleLabelContentForDynamicData("动态感知", picBaseUrl + "/face/" + origin.faceImageUrl + ".jpg",
-    origin.cameraName + "</br>" + origin.timeBegin);
-  // marker label
-  _search_marker.setLabel(
-    content, {
-      "anchor": IMAP.Constants.TOP_CENTER,
-      "visible": true,
-      "offset": new IMAP.Pixel(0, -134)
-    }
-  );
+var searchInfoWindow;
+
+function addSearchMarkerClickEvt(type, origin, marker) {
+
+  // 针对不同数据类型添加不同的 InfoWindow
+  var content = "";
+  var token = Cookies.get("Admin-Token");
+  if (type == 'ry') {
+    content = "<div class=\"dynamic-container\" style=\"width:280px;height:150px;\">"
+    content = content + "<div class=\"dynamic-title\">"
+    content = content + "<div class=\"dynamic-title-content\" style=\"padding:0px 10px 6px\">";
+    content = content + "人员数据";
+    content = content + "</div>";
+    content = content + "<span class=\"dynamic-title-close\" onclick=\"closeSearchInfoWindow()\">";
+    content = content + "<i class=\"iconfont\">&#xe603;</i>"
+    content = content + "</span>";
+    content = content + "</div>";
+    content = content + "<div class=\"dynamic-content\">";
+    content = content + "<div class=\"dynamic-content-info\">"
+    content = content + "人员姓名：" + origin.xm + "<br>";
+    content = content + "证件号码：" + origin.zjhm + "<br>";
+    content = content + "手机号码：" + origin.sjhm + "<br>";
+    content = content + "</div>"
+    content = content + "</div>";
+    content = content + "</div>";
+  } else if (type == 'fw') {
+    content = "<div class=\"dynamic-container\" style=\"width:280px;height:150px;\">"
+    content = content + "<div class=\"dynamic-title\">"
+    content = content + "<div class=\"dynamic-title-content\" style=\"padding:0px 10px 6px\">";
+    content = content + "房屋数据";
+    content = content + "</div>";
+    content = content + "<span class=\"dynamic-title-close\" onclick=\"closeSearchInfoWindow()\">";
+    content = content + "<i class=\"iconfont\">&#xe603;</i>"
+    content = content + "</span>";
+    content = content + "</div>";
+    content = content + "<div class=\"dynamic-content\">";
+    content = content + "<div class=\"dynamic-content-info\">"
+    content = content + "房屋地址：" + origin.mlphxx + "<br>";
+    content = content + "室号：" + origin.sh + "<br>";
+    content = content + "房主姓名：" + origin.fzxm + "<br>";
+    content = content + "</div>"
+    content = content + "</div>";
+    content = content + "</div>";
+  } else if (type == 'dw') {
+    content = "<div class=\"dynamic-container\" style=\"width:280px;height:150px;\">"
+    content = content + "<div class=\"dynamic-title\">"
+    content = content + "<div class=\"dynamic-title-content\" style=\"padding:0px 10px 6px\">";
+    content = content + "房屋数据";
+    content = content + "</div>";
+    content = content + "<span class=\"dynamic-title-close\" onclick=\"closeSearchInfoWindow()\">";
+    content = content + "<i class=\"iconfont\">&#xe603;</i>"
+    content = content + "</span>";
+    content = content + "</div>";
+    content = content + "<div class=\"dynamic-content\">";
+    content = content + "<div class=\"dynamic-content-info\">"
+    content = content + "单位名称：" + origin.dwmc + "<br>";
+    content = content + "单位简称：" + origin.dwjc + "<br>";
+    content = content + "单位地址：" + origin.jydzlmmc + "<br>";
+    content = content + "</div>"
+    content = content + "</div>";
+    content = content + "</div>";
+  }
+
+  if (map && searchInfoWindow) {
+    map.getOverlayLayer().removeOverlay(searchInfoWindow);
+  }
+
+  // 图标点击事件
+  if (content != "") {
+    // 打开消息框
+    var lnglat = marker.getPosition();
+    searchInfoWindow = new IMAP.InfoWindow(content, {
+      size: new IMAP.Size(320, 110),
+      position: lnglat,
+      autoPan: false,
+      offset: new IMAP.Pixel(160, 30),
+      anchor: IMAP.Constants.CENTER,
+      type: IMAP.Constants.OVERLAY_INFOWINDOW_CUSTOM,
+      visible: true
+    });
+    marker.addEventListener(IMAP.Constants.CLICK, function (evt) {
+      // 打开消息框
+      map.getOverlayLayer().addOverlay(searchInfoWindow);
+
+    });
+    map.getOverlayLayer().addOverlay(searchInfoWindow);
+  }
+}
+
+function closeSearchInfoWindow() {
+  if (map && searchInfoWindow) {
+    map.getOverlayLayer().removeOverlay(searchInfoWindow);
+  }
 }

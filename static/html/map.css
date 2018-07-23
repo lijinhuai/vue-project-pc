@@ -1573,6 +1573,14 @@
   text-align: right;
 }
 
+#con_detail_7 .con_container #panel_search_resultDiv {
+  background: transparent !important;
+}
+
+#con_detail_7 .con_container #panel_search_resultDiv p {
+  color: #b2bbc1;
+}
+
 /******* 地图颜色覆盖 **********/
 
 .imap-popup-content-wrapper,
@@ -1593,6 +1601,10 @@
 .imap-label {
   border: 0px;
   background: rgba(255, 255, 255, 0);
+}
+
+.imap-window-content {
+  height: 100% !important;
 }
 
 /************** INFOWINDOW 样式 *****************************/
