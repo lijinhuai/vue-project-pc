@@ -3261,7 +3261,9 @@ function doPoiSearch(pageNo) {
     var keyword = poiSearchContent,
       city = chengshi;
     map.plugin(['IMAP.PoiSearch'], function () {
-      poiSearch = new IMAP.PoiSearch({
+      poiSearch = new IMAP.searchNearby({
+        center: new IMAP.LngLat(121.3377285004, 30.7521905824),
+        radius: 5000,
         panel: "search-result",
         map: map,
         pageSize: 5,
@@ -3335,9 +3337,11 @@ function genSearchDwHtml(objList) {
 function toPosition(gpsjd, gpswd, type, obj) {
   map.setCenter(new IMAP.LngLat(gpsjd, gpswd), 15);
   var object = $.base64.atob($(obj).parent().data("obj"), true);
+  map.getOverlayLayer().removeOverlay(searchMarker);
   addSearchMarkerWithLabel(gpsjd, gpswd, type, JSON.parse(object))
 }
 
+var searchMarker;
 // 地图展示搜索 Marker
 function addSearchMarkerWithLabel(lng, lat, type, origin) {
   var path = locationPath();
@@ -3352,18 +3356,18 @@ function addSearchMarkerWithLabel(lng, lat, type, origin) {
     );
 
     var lnglat = new IMAP.LngLat(lng, lat);
-    marker = new IMAP.Marker(lnglat, opts);
-    marker.id = type + "_";
-    marker.type = type;
-    map.getOverlayLayer().addOverlay(marker, false);
+    searchMarker = new IMAP.Marker(lnglat, opts);
+    searchMarker.id = type + "_";
+    searchMarker.type = type;
+    map.getOverlayLayer().addOverlay(searchMarker, false);
     // 图标上添加点击事件
-    addSearchMarkerClickEvt(type, origin, marker);
+    addSearchMarkerClickEvt(type, origin, searchMarker);
   }
 }
 
 var searchInfoWindow;
 
-function addSearchMarkerClickEvt(type, origin, marker) {
+function addSearchMarkerClickEvt(type, origin, searchMarker) {
 
   // 针对不同数据类型添加不同的 InfoWindow
   var content = "";
@@ -3431,7 +3435,7 @@ function addSearchMarkerClickEvt(type, origin, marker) {
   // 图标点击事件
   if (content != "") {
     // 打开消息框
-    var lnglat = marker.getPosition();
+    var lnglat = searchMarker.getPosition();
     searchInfoWindow = new IMAP.InfoWindow(content, {
       size: new IMAP.Size(320, 110),
       position: lnglat,
@@ -3441,7 +3445,7 @@ function addSearchMarkerClickEvt(type, origin, marker) {
       type: IMAP.Constants.OVERLAY_INFOWINDOW_CUSTOM,
       visible: true
     });
-    marker.addEventListener(IMAP.Constants.CLICK, function (evt) {
+    searchMarker.addEventListener(IMAP.Constants.CLICK, function (evt) {
       // 打开消息框
       map.getOverlayLayer().addOverlay(searchInfoWindow);
 
