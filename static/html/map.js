@@ -3385,7 +3385,7 @@ function addSearchMarkerWithLabel(lng, lat, type, origin) {
     var opts = new IMAP.MarkerOptions();
     opts.anchor = IMAP.Constants.BOTTOM_CENTER;
     opts.icon = new IMAP.Icon(
-      path + "/static/image/dynamic_16.png", {
+      path + "/static/image/location_16.png", {
         "size": new IMAP.Size(16, 16),
         "offset": new IMAP.Pixel(0, 0)
       }
@@ -3459,7 +3459,7 @@ function addSearchMarkerClickEvt(type, origin, searchMarker) {
     content = content + "</span>";
     content = content + "</div>";
     content = content + "<div class=\"dynamic-content\">";
-    content = content + "<img class=\"dynamic-content-image can-click\" src=\" " + baseUrl + "/dwxx/" + origin.dwbh + "/zjhm?Authorization=" + token +
+    content = content + "<img class=\"dynamic-content-image can-click\" src=\" " + baseUrl + "/dwxx/" + origin.dwbh + "/photo?Authorization=" + token +
       "\" onerror=\"this.src='/static/image/default_nophoto.png'\" onclick=\"showPicDialog(this)\" />";
     content = content + "<div class=\"dynamic-content-info\">"
     content = content + "单位名称：" + origin.dwmc +
