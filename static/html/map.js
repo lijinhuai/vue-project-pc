@@ -381,6 +381,12 @@ function initOperatorMenuEvent() {
       $(".operator-content").addClass("off");
     }
   })
+
+  $('#searchContent').bind('keydown', function (event) {
+    if (event.keyCode == "13") {
+      search();
+    }
+  });
 }
 
 
@@ -3032,7 +3038,7 @@ function assembleInfoWindowContent(title, url, context) {
   content = content + "</span>";
   content = content + "</div>";
   content = content + "<div class=\"infowindow-content\">";
-  content = content + "<img class=\"infowindow-content-image can-click\" data-pic=\"" + url + "\" src=\" " + url +
+  content = content + "<img class=\"infowindow-content-image can-click\" src=\" " + url +
     "\" onerror=\"this.src='/static/image/default_nophoto.png'\" onclick=\"showPicDialog(this)\" />";
   content = content + context;
   content = content + "</div>";
@@ -3066,7 +3072,7 @@ function showRtspVideoDialog(cameraId) {
 
 function showPicDialog(obj) {
 
-  var pic = $(obj).data("pic");
+  var pic = $(obj).attr("src");
   var content = assemblePicDialogContent(pic);
 
   if (_layer_index) {
@@ -3228,8 +3234,10 @@ function search() {
     poiSearchContent = searchContent
     doPoiSearch(1)
   } else {
+    $('.loading').show();
     loadData(baseUrl + "/search?searchType=" + searchType + '&searchContent=' + searchContent, token,
       function (data) {
+        $('.loading').hide();
         var code = data.code;
         if (code == 200) {
           var searchItemHtml = "";
@@ -3261,9 +3269,7 @@ function doPoiSearch(pageNo) {
     var keyword = poiSearchContent,
       city = chengshi;
     map.plugin(['IMAP.PoiSearch'], function () {
-      poiSearch = new IMAP.searchNearby({
-        center: new IMAP.LngLat(121.3377285004, 30.7521905824),
-        radius: 5000,
+      poiSearch = new IMAP.PoiSearch({
         panel: "search-result",
         map: map,
         pageSize: 5,
@@ -3276,25 +3282,35 @@ function doPoiSearch(pageNo) {
 }
 
 function genSearchRyHtml(objList) {
+  var token = Cookies.get("Admin-Token");
   var searchItemHtml = '';
   for (var i in objList) {
     var obj = objList[i];
     // 数据加密
     var mb = $.base64.btoa(JSON.stringify(obj), true);
     searchItemHtml = searchItemHtml + "<div class=\"con_item\">";
-    searchItemHtml = searchItemHtml + " <div class=\"item_info\">";
-    searchItemHtml = searchItemHtml + "   <div>证件号码：" + obj.zjhm + "</div>";
-    searchItemHtml = searchItemHtml + "   <div>姓&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;名：" + obj.xm + "</div>";
+    searchItemHtml = searchItemHtml + " <div class=\"item-title\">";
+    searchItemHtml = searchItemHtml + "   <div class=\"item-title-item\">证件号码：" + obj.zjhm + "</div>";
     searchItemHtml = searchItemHtml + " </div>";
-    searchItemHtml = searchItemHtml + " <div class=\"item_operation\">";
-    searchItemHtml = searchItemHtml + "   <div data-obj=\"" + mb + "\"><a href=\"javascript:;\" onclick=\"toPosition('" + obj.gpsjd + "','" + obj.gpswd + "','ry',this)\">定位</a></div>";
-    searchItemHtml = searchItemHtml + "   <div><a href=\"javascript:;\" onclick=\"openArchive('" + obj.zjhm + "')\">一人一档</a></div>";
+    searchItemHtml = searchItemHtml + " <div class=\"item_content\">";
+    searchItemHtml = searchItemHtml + "   <div class=\"item_avatar can-click\">";
+    searchItemHtml = searchItemHtml + "     <img onclick=\"showPicDialog(this)\" src=\"" + baseUrl + "/rjbxx/zps/" + obj.zjhm + "?Authorization=" + token + "\" onerror=\"this.src='/static/image/default_nophoto.png'\"></img>";
+    searchItemHtml = searchItemHtml + "   </div>";
+    searchItemHtml = searchItemHtml + " <div class=\"item_info\">";
+    searchItemHtml = searchItemHtml + "   <div>" + obj.xm + "</div>";
+    searchItemHtml = searchItemHtml + "   <div>" + obj.xbhz + "</div>";
+    searchItemHtml = searchItemHtml + "   <div style=\"color:gold;display:inline-block;\">" + obj.syrklbhz + "</div>";
+    searchItemHtml = searchItemHtml + "   <div class=\"can-click\" style=\"color:white;display:inline-block;background-color:#0889fb;padding:1px 5px;border-radius:5px;margin-left:5px;\" onclick=\"openArchive('" + obj.zjhm + "')\">一人一档</div>";
+    searchItemHtml = searchItemHtml + " </div>";
+    searchItemHtml = searchItemHtml + " </div>";
+    searchItemHtml = searchItemHtml + " <div class=\"item-footer can-click\" data-obj=\"" + mb + "\"  onclick=\"toPosition('" + obj.gpsjd + "','" + obj.gpswd + "','ry',this)\">";
+    searchItemHtml = searchItemHtml + "   <i class=\"iconfont\">&#xe651;</i>";
+    searchItemHtml = searchItemHtml + "   <div class=\"item-footer-item\">" + obj.mlphxx.substring(6) + obj.sh + "</div>";
     searchItemHtml = searchItemHtml + " </div>";
     searchItemHtml = searchItemHtml + "</div>";
   }
   return searchItemHtml;
 }
-
 
 function genSearchFwHtml(objList) {
   var searchItemHtml = '';
@@ -3302,13 +3318,23 @@ function genSearchFwHtml(objList) {
     var obj = objList[i];
     var mb = $.base64.btoa(JSON.stringify(obj), true);
     searchItemHtml = searchItemHtml + "<div class=\"con_item\">";
+    // searchItemHtml = searchItemHtml + " <div class=\"item-title\">";
+    // searchItemHtml = searchItemHtml + "   <div class=\"item-title-item\">证件号码：" + obj.zjhm + "</div>";
+    // searchItemHtml = searchItemHtml + " </div>";
+    searchItemHtml = searchItemHtml + " <div class=\"item_content\">";
+    // searchItemHtml = searchItemHtml + "   <div class=\"item_avatar can-click\">";
+    // searchItemHtml = searchItemHtml + "     <img onclick=\"showPicDialog(this)\" src=\"" + baseUrl + "/rjbxx/zps/" + obj.zjhm + "?Authorization=" + token + "\" onerror=\"this.src='/static/image/default_nophoto.png'\"></img>";
+    // searchItemHtml = searchItemHtml + "   </div>";
     searchItemHtml = searchItemHtml + " <div class=\"item_info\">";
-    searchItemHtml = searchItemHtml + "   <div>房屋地址：" + obj.mlphxx + obj.sh + "</div>";
-    searchItemHtml = searchItemHtml + "   <div>房主姓名：" + obj.fzxm + "</div>";
+    searchItemHtml = searchItemHtml + "   <div>所属派出所：" + obj.pcsmc + "</div>";
+    searchItemHtml = searchItemHtml + "   <div>所属居村委：" + obj.jcwmc + "</div>";
+    searchItemHtml = searchItemHtml + "   <div style=\"display:inline-block;\">房主姓名：<span style=\"color:gold;\">" + obj.fzxm + "</span></div>";
+    searchItemHtml = searchItemHtml + "   <div class=\"can-click\" style=\"color:white;display:inline-block;background-color:#0889fb;padding:1px 5px;border-radius:5px;margin-left:5px;\" onclick=\"openRfgl('" + obj.fwbm + "')\">人房关联</div>";
     searchItemHtml = searchItemHtml + " </div>";
-    searchItemHtml = searchItemHtml + " <div class=\"item_operation\">";
-    searchItemHtml = searchItemHtml + "   <div data-obj=\"" + mb + "\"><a href=\"javascript:;\" onclick=\"toPosition('" + obj.gpsjd + "','" + obj.gpswd + "','fw',this)\">定位</a></div>";
-    searchItemHtml = searchItemHtml + "   <div><a href=\"javascript:;\" onclick=\"openRfgl('" + obj.fwbm + "')\">人房关联</a></div>";
+    searchItemHtml = searchItemHtml + " </div>";
+    searchItemHtml = searchItemHtml + " <div class=\"item-footer can-click\" data-obj=\"" + mb + "\"  onclick=\"toPosition('" + obj.gpsjd + "','" + obj.gpswd + "','fw',this)\">";
+    searchItemHtml = searchItemHtml + "   <i class=\"iconfont\">&#xe651;</i>";
+    searchItemHtml = searchItemHtml + "   <div class=\"item-footer-item\">" + obj.mlphxx.substring(6) + obj.sh + "</div>";
     searchItemHtml = searchItemHtml + " </div>";
     searchItemHtml = searchItemHtml + "</div>";
   }
@@ -3316,18 +3342,28 @@ function genSearchFwHtml(objList) {
 }
 
 function genSearchDwHtml(objList) {
+  var token = Cookies.get("Admin-Token");
   var searchItemHtml = '';
   for (var i in objList) {
     var obj = objList[i];
     var mb = $.base64.btoa(JSON.stringify(obj), true);
     searchItemHtml = searchItemHtml + "<div class=\"con_item\">";
-    searchItemHtml = searchItemHtml + " <div class=\"item_info\">";
-    searchItemHtml = searchItemHtml + "   <div>单位简称：" + obj.dwjc + "</div>";
-    searchItemHtml = searchItemHtml + "   <div>单位地址：" + obj.jydzlmmc + "</div>";
+    searchItemHtml = searchItemHtml + " <div class=\"item-title\">";
+    searchItemHtml = searchItemHtml + "   <div class=\"item-title-item\">单位简称：" + obj.dwjc + "</div>";
     searchItemHtml = searchItemHtml + " </div>";
-    searchItemHtml = searchItemHtml + " <div class=\"item_operation\">";
-    searchItemHtml = searchItemHtml + "   <div data-obj=\"" + mb + "\"><a href=\"javascript:;\" onclick=\"toPosition('" + obj.gpsjd + "','" + obj.gpswd + "','dw',this)\">定位</a></div>";
-    searchItemHtml = searchItemHtml + "   <div><a href=\"javascript:;\" onclick=\"openDwxx('" + obj.dwbh + "')\">单位信息</a></div>";
+    searchItemHtml = searchItemHtml + " <div class=\"item_content\">";
+    searchItemHtml = searchItemHtml + "   <div class=\"item_avatar can-click\">";
+    searchItemHtml = searchItemHtml + "     <img onclick=\"showPicDialog(this)\" src=\"" + baseUrl + "/dwxx/" + obj.dwbh + "/photo?Authorization=" + token + "\" onerror=\"this.src='/static/image/default_nophoto.png'\"></img>";
+    searchItemHtml = searchItemHtml + "   </div>";
+    searchItemHtml = searchItemHtml + " <div class=\"item_info\">";
+    searchItemHtml = searchItemHtml + "   <div>" + obj.jydzlmmc + "</div>";
+    searchItemHtml = searchItemHtml + "   <div>" + obj.lxdh + "</div>";
+    searchItemHtml = searchItemHtml + "   <div class=\"can-click\" style=\"color:white;display:inline-block;background-color:#0889fb;padding:1px 5px;border-radius:5px;margin-left:5px;\" onclick=\"openDwxx('" + obj.dwbh + "')\">单位信息</div>";
+    searchItemHtml = searchItemHtml + " </div>";
+    searchItemHtml = searchItemHtml + " </div>";
+    searchItemHtml = searchItemHtml + " <div class=\"item-footer can-click\" data-obj=\"" + mb + "\"  onclick=\"toPosition('" + obj.gpsjd + "','" + obj.gpswd + "','dw',this)\">";
+    searchItemHtml = searchItemHtml + "   <i class=\"iconfont\">&#xe651;</i>";
+    searchItemHtml = searchItemHtml + "   <div class=\"item-footer-item\">" + obj.jydz.substring(6) + "</div>";
     searchItemHtml = searchItemHtml + " </div>";
     searchItemHtml = searchItemHtml + "</div>";
   }
@@ -3336,7 +3372,7 @@ function genSearchDwHtml(objList) {
 
 function toPosition(gpsjd, gpswd, type, obj) {
   map.setCenter(new IMAP.LngLat(gpsjd, gpswd), 15);
-  var object = $.base64.atob($(obj).parent().data("obj"), true);
+  var object = $.base64.atob($(obj).data("obj"), true);
   map.getOverlayLayer().removeOverlay(searchMarker);
   addSearchMarkerWithLabel(gpsjd, gpswd, type, JSON.parse(object))
 }
@@ -3383,10 +3419,12 @@ function addSearchMarkerClickEvt(type, origin, searchMarker) {
     content = content + "</span>";
     content = content + "</div>";
     content = content + "<div class=\"dynamic-content\">";
+    content = content + "<img class=\"dynamic-content-image can-click\" src=\" " + baseUrl + "/rjbxx/zps/" + origin.zjhm + "?Authorization=" + token +
+      "\" onerror=\"this.src='/static/image/default_nophoto.png'\" onclick=\"showPicDialog(this)\" />";
     content = content + "<div class=\"dynamic-content-info\">"
-    content = content + "人员姓名：" + origin.xm + "<br>";
-    content = content + "证件号码：" + origin.zjhm + "<br>";
-    content = content + "手机号码：" + origin.sjhm + "<br>";
+    content = content + "姓名：" + origin.xm +
+      "<br>性别：" + origin.xbhz + "<br/>证件号：" + origin.zjhm + "<br/>手机号码：" + origin.sjhm +
+      "<br/>住址：" + origin.mlphxx.substring(6) + origin.sh;
     content = content + "</div>"
     content = content + "</div>";
     content = content + "</div>";
@@ -3401,10 +3439,12 @@ function addSearchMarkerClickEvt(type, origin, searchMarker) {
     content = content + "</span>";
     content = content + "</div>";
     content = content + "<div class=\"dynamic-content\">";
+    // content = content + "<img class=\"dynamic-content-image can-click\" src=\" " + baseUrl + "/rjbxx/zps/" + origin.zjhm + "?Authorization=" + token +
+    //   "\" onerror=\"this.src='/static/image/default_nophoto.png'\" onclick=\"showPicDialog(this)\" />";
     content = content + "<div class=\"dynamic-content-info\">"
-    content = content + "房屋地址：" + origin.mlphxx + "<br>";
-    content = content + "室号：" + origin.sh + "<br>";
-    content = content + "房主姓名：" + origin.fzxm + "<br>";
+    content = content + "所属派出所：" + origin.pcsmc +
+      "<br>所属居村委：" + origin.jcwmc + "<br/>房主姓名：" + origin.fzxm + "<br/>房主证件号码：" + origin.fzzjhm + "<br/>联系电话：" + origin.fzlxdh +
+      "<br/>房屋地址：" + origin.mlphxx.substring(6) + origin.sh;
     content = content + "</div>"
     content = content + "</div>";
     content = content + "</div>";
@@ -3412,17 +3452,19 @@ function addSearchMarkerClickEvt(type, origin, searchMarker) {
     content = "<div class=\"dynamic-container\" style=\"width:280px;height:150px;\">"
     content = content + "<div class=\"dynamic-title\">"
     content = content + "<div class=\"dynamic-title-content\" style=\"padding:0px 10px 6px\">";
-    content = content + "房屋数据";
+    content = content + "单位数据";
     content = content + "</div>";
     content = content + "<span class=\"dynamic-title-close\" onclick=\"closeSearchInfoWindow()\">";
     content = content + "<i class=\"iconfont\">&#xe603;</i>"
     content = content + "</span>";
     content = content + "</div>";
     content = content + "<div class=\"dynamic-content\">";
+    content = content + "<img class=\"dynamic-content-image can-click\" src=\" " + baseUrl + "/dwxx/" + origin.dwbh + "/zjhm?Authorization=" + token +
+      "\" onerror=\"this.src='/static/image/default_nophoto.png'\" onclick=\"showPicDialog(this)\" />";
     content = content + "<div class=\"dynamic-content-info\">"
-    content = content + "单位名称：" + origin.dwmc + "<br>";
-    content = content + "单位简称：" + origin.dwjc + "<br>";
-    content = content + "单位地址：" + origin.jydzlmmc + "<br>";
+    content = content + "单位名称：" + origin.dwmc +
+      "<br>单位简称：" + origin.xbhz + "<br/>联系电话：" + origin.lxdh +
+      "<br/>经营地址：" + origin.jydz.substring(6);
     content = content + "</div>"
     content = content + "</div>";
     content = content + "</div>";

@@ -1478,7 +1478,7 @@
   display: none;
 }
 
-#con_detail_7 form {
+#con_detail_7 .form {
   position: relative;
   /* width: 300px; */
   margin: 0 auto;
@@ -1557,20 +1557,52 @@
 #con_detail_7 .con_item {
   margin-bottom: 10px;
   font-size: 14px;
+  display: flex;
+  flex-direction: column;
 }
 
-#con_detail_7 .item_info div {
+#con_detail_7 .con_item div {
   color: #b2bbc1;
 }
 
-#con_detail_7 .item_operation div {
+#con_detail_7 .con_item .item-title .item-title-item {
   display: inline-block;
-  width: 49%;
-  padding: 0 5px;
+  line-height: 25px;
 }
 
-#con_detail_7 .item_operation div:first-child {
-  text-align: right;
+#con_detail_7 .con_item .item_content>div {
+  display: inline-block;
+}
+
+#con_detail_7 .con_item .item_content .item_info div {
+  line-height: 25px;
+}
+
+#con_detail_7 .con_item .item_avatar {
+  width: 80px;
+  height: 70px;
+  display: block;
+  float: left;
+}
+
+#con_detail_7 .con_item .item_avatar img {
+  width: 70px;
+  height: 70px;
+  padding: 0 5px 0 0;
+}
+
+#con_detail_7 .con_item .item-footer i {
+  float: left;
+  color: #0075c2;
+}
+
+#con_detail_7 .con_item .item-footer .item-footer-item {
+  color: white;
+  float: left;
+  word-break: keep-all;
+  white-space: nowrap;
+  width: 205px;
+  overflow: hidden;
 }
 
 #con_detail_7 .con_container #panel_search_resultDiv {
@@ -2139,4 +2171,102 @@
   font-size: 16px;
   font-weight: 700;
   color: gold;
+}
+
+/************** loading样式 *****************************/
+
+.loading {
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.6);
+  padding-top: 100px;
+  z-index: 1001;
+  position: absolute;
+  display: none;
+}
+
+.loading a {
+  display: block;
+  text-align: center;
+  font-size: 20px;
+  margin-top: 200px;
+}
+
+.loading .loadEffect {
+  width: 100px;
+  height: 100px;
+  position: relative;
+  margin: 0 auto;
+  margin-top: 100px;
+}
+
+.loading .loadEffect span {
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: lightgreen;
+  position: absolute;
+  animation: load 1.04s ease infinite;
+}
+
+@keyframes load {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0.2;
+  }
+}
+
+.loading .loadEffect span:nth-child(1) {
+  left: 0;
+  top: 50%;
+  margin-top: -8px;
+  animation-delay: 0.13s;
+}
+
+.loading .loadEffect span:nth-child(2) {
+  left: 14px;
+  top: 14px;
+  animation-delay: 0.26s;
+}
+
+.loading .loadEffect span:nth-child(3) {
+  left: 50%;
+  top: 0;
+  margin-left: -8px;
+  animation-delay: 0.39s;
+}
+
+.loading .loadEffect span:nth-child(4) {
+  top: 14px;
+  right: 14px;
+  animation-delay: 0.52s;
+}
+
+.loading .loadEffect span:nth-child(5) {
+  right: 0;
+  top: 50%;
+  margin-top: -8px;
+  animation-delay: 0.65s;
+}
+
+.loading .loadEffect span:nth-child(6) {
+  right: 14px;
+  bottom: 14px;
+  animation-delay: 0.78s;
+}
+
+.loading .loadEffect span:nth-child(7) {
+  bottom: 0;
+  left: 50%;
+  margin-left: -8px;
+  animation-delay: 0.91s;
+}
+
+.loading .loadEffect span:nth-child(8) {
+  bottom: 14px;
+  left: 14px;
+  animation-delay: 1.04s;
 }

@@ -13,6 +13,7 @@
   <link rel="stylesheet" type="text/css" href="./amap/jsmap.css">
   <script src="./amap/jsmap.js"></script>
 
+  <link href="../icon/font-awesome-4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
   <link rel="stylesheet" type="text/css" href="../js/toastr/toastr.min.css">
 
   <script src="../js/js.cookie-2.2.0.min.js"></script>
@@ -38,6 +39,19 @@
 </head>
 
 <body style="overflow: hidden">
+
+  <div class="loading">
+    <div class="loadEffect">
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+  </div>
 
   <audio id="bgMusic">
     <source src="../audio/alarm.mp3" type="audio/mp3">
@@ -467,10 +481,10 @@
                 <option value="dw">单位数据</option>
                 <option value="poi">地图POI数据</option>
               </select>
-              <form>
+              <div class="form">
                 <input type="text" id="searchContent" placeholder="请输入您要搜索的内容...">
                 <button type="button" onclick="search()"></button>
-              </form>
+              </div>
             </div>
             <div id="search-result" class="con_container">
 

@@ -40,6 +40,19 @@
 
 <body style="overflow: hidden">
 
+  <div class="loading">
+    <div class="loadEffect">
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+  </div>
+
   <audio id="bgMusic">
     <source src="../audio/alarm.mp3" type="audio/mp3">
   </audio>
@@ -421,10 +434,10 @@
                 <option value="dw">单位数据</option>
                 <option value="poi">地图POI数据</option>
               </select>
-              <form>
+              <div class="form">
                 <input type="text" id="searchContent" placeholder="请输入您要搜索的内容...">
                 <button type="button" onclick="search()"></button>
-              </form>
+              </div>
             </div>
             <div id="search-result" class="con_container">
 
