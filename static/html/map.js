@@ -3227,6 +3227,8 @@ function search() {
     return;
   }
   $("#search-result").html("");
+  map.getOverlayLayer().removeOverlay(searchMarker);
+  closeSearchInfoWindow();
   if (searchType == 'poi') {
     $("#searchType").change(function () {
       poiSearch.clear()
@@ -3305,7 +3307,7 @@ function genSearchRyHtml(objList) {
     searchItemHtml = searchItemHtml + " </div>";
     searchItemHtml = searchItemHtml + " <div class=\"item-footer can-click\" data-obj=\"" + mb + "\"  onclick=\"toPosition('" + obj.gpsjd + "','" + obj.gpswd + "','ry',this)\">";
     searchItemHtml = searchItemHtml + "   <i class=\"iconfont\">&#xe651;</i>";
-    searchItemHtml = searchItemHtml + "   <div class=\"item-footer-item\">" + obj.mlphxx.substring(6) + obj.sh + "</div>";
+    searchItemHtml = searchItemHtml + "   <div class=\"item-footer-item\" title=\"" + obj.mlphxx + obj.sh + "\">" + obj.mlphxx.substring(6) + obj.sh + "</div>";
     searchItemHtml = searchItemHtml + " </div>";
     searchItemHtml = searchItemHtml + "</div>";
   }
@@ -3334,7 +3336,7 @@ function genSearchFwHtml(objList) {
     searchItemHtml = searchItemHtml + " </div>";
     searchItemHtml = searchItemHtml + " <div class=\"item-footer can-click\" data-obj=\"" + mb + "\"  onclick=\"toPosition('" + obj.gpsjd + "','" + obj.gpswd + "','fw',this)\">";
     searchItemHtml = searchItemHtml + "   <i class=\"iconfont\">&#xe651;</i>";
-    searchItemHtml = searchItemHtml + "   <div class=\"item-footer-item\">" + obj.mlphxx.substring(6) + obj.sh + "</div>";
+    searchItemHtml = searchItemHtml + "   <div class=\"item-footer-item\" title=\"" + obj.mlphxx + obj.sh + "\">" + obj.mlphxx.substring(6) + obj.sh + "</div>";
     searchItemHtml = searchItemHtml + " </div>";
     searchItemHtml = searchItemHtml + "</div>";
   }
@@ -3349,21 +3351,21 @@ function genSearchDwHtml(objList) {
     var mb = $.base64.btoa(JSON.stringify(obj), true);
     searchItemHtml = searchItemHtml + "<div class=\"con_item\">";
     searchItemHtml = searchItemHtml + " <div class=\"item-title\">";
-    searchItemHtml = searchItemHtml + "   <div class=\"item-title-item\">单位简称：" + obj.dwjc + "</div>";
+    searchItemHtml = searchItemHtml + "   <div class=\"item-title-item\" title=\"" + obj.dwmc + "\">" + obj.dwmc + "</div>";
     searchItemHtml = searchItemHtml + " </div>";
     searchItemHtml = searchItemHtml + " <div class=\"item_content\">";
     searchItemHtml = searchItemHtml + "   <div class=\"item_avatar can-click\">";
     searchItemHtml = searchItemHtml + "     <img onclick=\"showPicDialog(this)\" src=\"" + baseUrl + "/dwxx/" + obj.dwbh + "/photo?Authorization=" + token + "\" onerror=\"this.src='/static/image/default_nophoto.png'\"></img>";
     searchItemHtml = searchItemHtml + "   </div>";
     searchItemHtml = searchItemHtml + " <div class=\"item_info\">";
-    searchItemHtml = searchItemHtml + "   <div>" + obj.jydzlmmc + "</div>";
+    searchItemHtml = searchItemHtml + "   <div>" + obj.dwjc + "</div>";
     searchItemHtml = searchItemHtml + "   <div>" + obj.lxdh + "</div>";
     searchItemHtml = searchItemHtml + "   <div class=\"can-click\" style=\"color:white;display:inline-block;background-color:#0889fb;padding:1px 5px;border-radius:5px;margin-left:5px;\" onclick=\"openDwxx('" + obj.dwbh + "')\">单位信息</div>";
     searchItemHtml = searchItemHtml + " </div>";
     searchItemHtml = searchItemHtml + " </div>";
     searchItemHtml = searchItemHtml + " <div class=\"item-footer can-click\" data-obj=\"" + mb + "\"  onclick=\"toPosition('" + obj.gpsjd + "','" + obj.gpswd + "','dw',this)\">";
     searchItemHtml = searchItemHtml + "   <i class=\"iconfont\">&#xe651;</i>";
-    searchItemHtml = searchItemHtml + "   <div class=\"item-footer-item\">" + obj.jydz.substring(6) + "</div>";
+    searchItemHtml = searchItemHtml + "   <div class=\"item-footer-item\" title=\"" + obj.jydz + "\">" + obj.jydz.substring(6) + "</div>";
     searchItemHtml = searchItemHtml + " </div>";
     searchItemHtml = searchItemHtml + "</div>";
   }
@@ -3423,7 +3425,7 @@ function addSearchMarkerClickEvt(type, origin, searchMarker) {
       "\" onerror=\"this.src='/static/image/default_nophoto.png'\" onclick=\"showPicDialog(this)\" />";
     content = content + "<div class=\"dynamic-content-info\">"
     content = content + "姓名：" + origin.xm +
-      "<br>性别：" + origin.xbhz + "<br/>证件号：" + origin.zjhm + "<br/>手机号码：" + origin.sjhm +
+      "<br>性别：" + origin.xbhz + "<br/>证号：" + origin.zjhm + "<br/>手机：" + origin.sjhm +
       "<br/>住址：" + origin.mlphxx.substring(6) + origin.sh;
     content = content + "</div>"
     content = content + "</div>";
@@ -3463,7 +3465,7 @@ function addSearchMarkerClickEvt(type, origin, searchMarker) {
       "\" onerror=\"this.src='/static/image/default_nophoto.png'\" onclick=\"showPicDialog(this)\" />";
     content = content + "<div class=\"dynamic-content-info\">"
     content = content + "单位名称：" + origin.dwmc +
-      "<br>单位简称：" + origin.xbhz + "<br/>联系电话：" + origin.lxdh +
+      "<br>单位简称：" + origin.dwjc + "<br/>联系电话：" + origin.lxdh +
       "<br/>经营地址：" + origin.jydz.substring(6);
     content = content + "</div>"
     content = content + "</div>";
