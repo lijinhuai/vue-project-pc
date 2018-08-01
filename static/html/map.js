@@ -194,12 +194,12 @@ function initOperatorMenuEvent() {
 
     // 选中电动警车
     if (name == 'operator-ddjc' && checked) {
-      showLocationsByType("ddjc");
+      showDdjcLocations()
     }
 
     // 取消电动警车
     if (name == 'operator-ddjc' && !checked) {
-      hiddenLocationsByType("ddjc");
+      hiddenDdjcLocations();
     }
 
     // 选中实有房屋
@@ -2824,7 +2824,6 @@ function addMediumMarker(lng, lat, did, type, origin) {
     if (type == "police" || type == "ddc" || type == "jc" || type == "ddjc") {
       marker.origin = origin;
     }
-
     // 标注为警员时， 处理是标注是否展示以及标签是否展示处理
     if (type == 'police') {
       // 实有立项标签是否选中

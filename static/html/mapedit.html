@@ -10,6 +10,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
   <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
   <meta tabindex="">
+  <link rel="stylesheet" type="text/css" href="../css/animate.css">
   <link rel="stylesheet" type="text/css" href="./amap/jsmap.css">
   <script src="./amap/jsmap.js"></script>
 
@@ -575,6 +576,18 @@
         // 取消警员定位
         if (name == 'operator-jc' && !checked) {
           hiddenJcLocations();
+        }
+
+        // 选中责任区管理
+        if (name == 'operator-manage' && checked) {
+          $('#duty-manage').show();
+          $('#duty-manage').removeClass('animated bounceOutRight');
+          $('#duty-manage').addClass('animated bounceInRight');
+        }
+        // 取消责任区管理
+        if (name == 'operator-manage' && !checked) {
+          $('#duty-manage').removeClass('animated bounceInRight');
+          $('#duty-manage').addClass('animated bounceOutRight');
         }
       });
 
@@ -1904,6 +1917,23 @@
       </label>
     </div>
   </div>
+
+  <!-- 地图操作按钮 -->
+  <div class="operator-container">
+    <div class="operator-ops">
+      <div class="operator-content">
+        <label class="operator-label off" style="width:85px;">
+          <input class="operator-radio" type="checkbox" id="operator-manage" name="operator-manage">
+          <span class="operator-checkbox operator-input"></span>
+          责任区管理
+        </label>
+      </div>
+
+      <label class="operator-title on" title="隐藏菜单" style="margin-right: 3px;">
+        &nbsp;
+      </label>
+    </div>
+  </div>
   <!-- Head -->
   <div class="head-container">
     <div class="head_logo"></div>
@@ -1922,7 +1952,7 @@
     </div>
   </div>
 
-  <div class="detail-container">
+  <div class="detail-container" id="duty-manage" style="display: none;">
     <div class="detail-tab-container detail-tab-border">
       <!-- <div class="detail-menu-box ">
         <ul>
