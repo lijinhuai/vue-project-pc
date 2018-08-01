@@ -306,7 +306,7 @@
       /* border-top: none; */
       padding: 30px 2px 0px 6px;
       left: 10px;
-      height: 400px;
+      height: 500px;
       background-color: rgb(5, 48, 64);
       /* width: 300px; */
       border-image-source: url(../image/line1.png);
@@ -379,7 +379,7 @@
 
     .detail-sub-container .detail-sub-content-box {
       padding-top: 8px;
-      height: 350px;
+      height: 450px;
       overflow-y: auto;
     }
 
@@ -522,6 +522,19 @@
 
     $(document).ready(function () {
 
+      var token = Cookies.get("Admin-Token");
+      var deptCode = Cookies.get("deptCode");
+
+      loadData(baseUrl + "/jkdws/pcsinfos?pcsbm=" + deptCode, token, function (data) {
+        var code = data.code;
+        if (code == 200) {
+          var gps = data.data
+          if (gps != null) {
+            map.setCenter(new IMAP.LngLat(gps.lon, gps.lat), gps.zoom);
+          }
+        }
+      });
+
       // 页面初始数据
       initData();
 
@@ -554,6 +567,15 @@
         if (name == 'operator-police' && !checked) {
           hiddenPoliceLocations();
         }
+
+        // 选中警员定位
+        if (name == 'operator-jc' && checked) {
+          showJcLocations();
+        }
+        // 取消警员定位
+        if (name == 'operator-jc' && !checked) {
+          hiddenJcLocations();
+        }
       });
 
     }
@@ -576,6 +598,39 @@
       var overlays = map.getOverlayLayer().getOverlays();
       for (var i in overlays) {
         if (overlays[i].type == "police") {
+          overlays[i].visible(false);
+          overlays[i].removeLabel();
+        }
+      }
+    }
+
+
+    function showJcLocations() {
+      var overlays = map.getOverlayLayer().getOverlays();
+      for (var i in overlays) {
+        if (overlays[i].type == "jc") {
+          overlays[i].visible(true);
+          overlays[i].setLabel(overlays[i].origin.cphm, {
+            "anchor": IMAP.Constants.BOTTOM_CENTER,
+            "fontColor": "rgba(255,255,255,.6)",
+            "offset": new IMAP.Pixel(0, -24)
+          });
+        }
+        if (overlays[i].type == "ddjc") {
+          overlays[i].visible(true);
+          overlays[i].setLabel(overlays[i].origin.palteId, {
+            "anchor": IMAP.Constants.BOTTOM_CENTER,
+            "fontColor": "rgba(255,255,255,.6)",
+            "offset": new IMAP.Pixel(0, -24)
+          });
+        }
+      }
+    }
+
+    function hiddenJcLocations() {
+      var overlays = map.getOverlayLayer().getOverlays();
+      for (var i in overlays) {
+        if (overlays[i].type == "jc" || overlays[i].type == "ddjc") {
           overlays[i].visible(false);
           overlays[i].removeLabel();
         }
@@ -606,8 +661,16 @@
         clearPoliceLocation();
       }, 1000 * 30);
 
+      // 清除超时警车定位标注
+      setInterval(function () {
+        clearJcLocation();
+      }, 1000 * 30);
+
       // 加载警员定位数据
       loadPoliceLatestLocations();
+
+      // 加载警车定位数据
+      loadJcLatestLocations();
 
       createEventSource(successCallBack);
 
@@ -1353,6 +1416,25 @@
       }
     }
 
+    // 清除超时警车定位标注
+    function clearJcLocation() {
+      //  获取所有图层
+      var overlays = map.getOverlayLayer().getOverlays();
+      var et = new Date().getTime();
+      for (var i in overlays) {
+        if (overlays[i].type == "jc" || overlays[i].type == "ddjc") {
+          // 判断超时时间
+          var origin = overlays[i].origin;
+          var gt = origin.rksj;
+
+          var st = Date.parse(gt);
+          if (et - st > 600000) {
+            map.getOverlayLayer().removeOverlay(i);
+          }
+        }
+      }
+    }
+
     // 加载警员定位数据
     function loadPoliceLatestLocations() {
 
@@ -1369,14 +1451,39 @@
       });
     }
 
+    // 加载警车定位数据
+    function loadJcLatestLocations() {
+
+      var token = Cookies.get("Admin-Token");
+      var deptCode = Cookies.get("deptCode");
+
+      // 加载警车定位数据
+      loadData(baseUrl + "/location/jc/locations?deptCode=" + deptCode, token, function (data) {
+        var code = data.code;
+        if (code == 200) {
+          var locations = data.data;
+          showJcGpsData(locations)
+        }
+      });
+
+      // 加载电动警车定位数据
+      loadData(baseUrl + "/location/ddjc/locations?deptCode=" + deptCode, token, function (data) {
+        var code = data.code;
+        if (code == 200) {
+          var locations = data.data;
+          showDdjcGpsData(locations)
+        }
+      });
+    }
+
     function createEventSource(successCallBack) {
       var token = Cookies.get("Admin-Token");
       var deptCode = Cookies.get('deptCode');
       var url = "";
       if (deptCode == 310116000000) {
-        url = baseUrl + '/sseEmitter/JYDW?Authorization=' + token;
+        url = baseUrl + '/sseEmitter/JYDW,JCDW,DDJCDW?Authorization=' + token;
       } else {
-        url = baseUrl + '/sseEmitter/JYDW?Authorization=' + token + '&deptCode=' + deptCode;
+        url = baseUrl + '/sseEmitter/JYDW,JCDW,DDJCDW?Authorization=' + token + '&deptCode=' + deptCode;
       }
       if (!!window.EventSource) {
         var source = new EventSource(url);
@@ -1459,20 +1566,130 @@
       }
     }
 
+
+    // 警车位置信息展示np
+    function showJcGpsData(data) {
+
+      //  获取所有图层
+      var overlays = map.getOverlayLayer().getOverlays();
+
+      // 遍历推送过来的数据集合
+      for (var li = 0; li < data.length; li++) {
+
+        var hit = false;
+        var location = data[li];
+        for (var i in overlays) {
+          var lid = "jc_" + location.clbh;
+          if (overlays[i].type == "jc" && overlays[i].id == lid) {
+            // 当前标注打开了窗口， 新添加的标注需要自动打开窗口
+            if (_current_marker && _current_marker.id == lid && _current_marker.getInfoWindow() != null) {
+              hit = true;
+            }
+            map.getOverlayLayer().removeOverlay(i);
+            break;
+          }
+        }
+
+        // 地图添加标注
+        var marker = addMediumMarker(location.gpsjd, location.gpswd, location.clbh, "jc", location);
+
+        // 如果地图上的警员标注正好打开了 InfoWindow
+        if (hit) {
+          _current_marker = marker;
+
+          var content = assembleInfoWindowContentWithoutPicture("警车信息", "车牌号码：" + location.cphm + "<br/>车辆部门：" +
+            location
+            .clbm + "<br/>定位时间：" + location.gpssj);
+
+          var lnglat = marker.getPosition();
+          marker.openInfoWindow(
+            content, {
+              size: new IMAP.Size(320, 110),
+              position: lnglat,
+              autoPan: false,
+              offset: new IMAP.Pixel(160, 75),
+              anchor: IMAP.Constants.CENTER,
+              type: IMAP.Constants.OVERLAY_INFOWINDOW_CUSTOM,
+              visible: true
+            }
+          );
+        }
+      }
+    }
+
+    // 电动车位置信息展示
+    function showDdjcGpsData(data) {
+
+      //  获取所有图层
+      var overlays = map.getOverlayLayer().getOverlays();
+
+      // 遍历推送过来的数据集合
+      for (var li = 0; li < data.length; li++) {
+
+        var hit = false;
+        var location = data[li];
+        for (var i in overlays) {
+          var lid = "ddjc_" + location.device;
+          if (overlays[i].type == "ddjc" && overlays[i].id == lid) {
+            // 当前标注打开了窗口， 新添加的标注需要自动打开窗口
+            if (_current_marker && _current_marker.id == lid && _current_marker.getInfoWindow() != null) {
+              hit = true;
+            }
+
+            map.getOverlayLayer().removeOverlay(i);
+            break;
+          }
+        }
+
+        // 地图添加标注
+        var marker = addMediumMarker(location.lon, location.lat, location.device, "ddjc", location);
+
+        // 如果地图上的警员标注正好打开了 InfoWindow
+        if (hit) {
+          _current_marker = marker;
+
+          var content = assembleInfoWindowContentWithoutPicture("电动警车信息", "车牌号码：" + location.palteId + "<br/>车辆部门：" +
+            location
+            .name + "<br/>定位时间：" + location.rksj);
+
+          var lnglat = marker.getPosition();
+          marker.openInfoWindow(
+            content, {
+              size: new IMAP.Size(320, 110),
+              position: lnglat,
+              autoPan: false,
+              offset: new IMAP.Pixel(160, 75),
+              anchor: IMAP.Constants.CENTER,
+              type: IMAP.Constants.OVERLAY_INFOWINDOW_CUSTOM,
+              visible: true
+            }
+          );
+        }
+      }
+    }
     // 添加中等标注 - 动态数据 - 图标气泡类型
     function addMediumMarker(lng, lat, did, type, origin) {
-
       var path = locationPath();
       if (map) {
         var opts = new IMAP.MarkerOptions();
         opts.anchor = IMAP.Constants.BOTTOM_CENTER;
 
-        opts.icon = new IMAP.Icon(
-          path + "/static/image/" + type + "_" + origin.mjlb + "_24.png", {
-            "size": new IMAP.Size(24, 24),
-            "offset": new IMAP.Pixel(0, 0)
-          }
-        );
+        if (type == 'police') {
+          opts.icon = new IMAP.Icon(
+            path + "/static/image/" + type + "_" + origin.mjlb + "_24.png", {
+              "size": new IMAP.Size(24, 24),
+              "offset": new IMAP.Pixel(0, 0)
+            }
+          );
+        } else {
+          opts.icon = new IMAP.Icon(
+            path + "/static/image/" + type + "_24.png", {
+              "size": new IMAP.Size(24, 24),
+              "offset": new IMAP.Pixel(0, 0)
+            }
+          );
+        }
+
 
         var lnglat = new IMAP.LngLat(lng, lat);
         marker = new IMAP.Marker(lnglat, opts);
@@ -1482,7 +1699,7 @@
         map.getOverlayLayer().addOverlay(marker, false);
 
         // 标注警员定位时，标注上增加原始数据
-        if (type == "police") {
+        if (type == "police" || type == "jc" || type == "ddjc") {
           marker.origin = origin;
         }
 
@@ -1499,6 +1716,20 @@
             });
           }
         }
+
+        if (type == 'jc' || type == 'ddjc') {
+          // 警车标签是否选中
+          if ($("#operator-jc").parent("label").hasClass("off")) {
+            marker.visible(false);
+          } else {
+            marker.setLabel(origin.cphm || origin.palteId, {
+              "anchor": IMAP.Constants.BOTTOM_CENTER,
+              "fontColor": "rgba(255,255,255,.6)",
+              "offset": new IMAP.Pixel(0, -24)
+            });
+          }
+        }
+
 
         // 图标上添加点击事件
         addMarkerClickEvt(type, origin, marker);
@@ -1520,6 +1751,12 @@
           "警员姓名：" + origin.mjxm + (origin.mjlb == 1 ?
             "（民警）" : "（协管）") + "<br/>警员警号：" + origin
           .mjjh + "<br/>手机号码：" + origin.sjhm + "<br/>所属机构：" + origin.jgmc + "<br/>定位时间：" + origin.rksj);
+      } else if (type == 'jc') {
+        content = assembleInfoWindowContentWithoutPicture("警车信息", "车牌号码：" + origin.cphm + "<br/>车辆部门：" + origin
+          .clbm + "<br/>定位时间：" + origin.gpssj);
+      } else if (type == 'ddjc') {
+        content = assembleInfoWindowContentWithoutPicture("电动警车信息", "车牌号码：" + origin.palteId + "<br/>车辆部门：" + origin
+          .name + "<br/>定位时间：" + origin.rksj);
       }
 
       // 图标点击事件
@@ -1659,6 +1896,11 @@
         <input class="operator-radio" type="checkbox" name="operator-police" id="operator-police">
         <span class="operator-checkbox operator-input"></span>
         实有力量
+      </label>
+      <label class="operator-label off">
+        <input class="operator-radio" type="checkbox" name="operator-jc" id="operator-jc">
+        <span class="operator-checkbox operator-input"></span>
+        警车
       </label>
     </div>
   </div>
@@ -1854,7 +2096,7 @@
         minZoom: 3,
         maxZoom: 20,
         // 设置地图初始化级别
-        zoom: 14,
+        zoom: 11,
         // 设置地图中心点坐标
         center: new IMAP.LngLat(121.3377285004, 30.7521905824),
         // 设置地图缩放动画效果

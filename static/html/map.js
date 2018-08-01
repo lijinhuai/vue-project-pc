@@ -539,12 +539,12 @@ function initData() {
   var token = Cookies.get("Admin-Token");
 
   createEventSource('YT?pcsdm=' + pcsdm + '&xqbh=' + xqbh + '&Authorization=' + token, successCallBack);
-  createEventSource('CLBK,RYBK,DDCDW,JCDW,DDJCDW?Authorization=' + token, successCallBack);
+  createEventSource('CLBK,RYBK,DDCDW?Authorization=' + token, successCallBack);
   var deptCode = Cookies.get('deptCode');
   if (deptCode == 310116000000) {
-    createEventSource('JYDW?Authorization=' + token, successCallBack);
+    createEventSource('JYDW,JCDW,DDJCDW?Authorization=' + token, successCallBack);
   } else {
-    createEventSource('JYDW?Authorization=' + token + '&deptCode=' + deptCode, successCallBack);
+    createEventSource('JYDW,JCDW,DDJCDW?Authorization=' + token + '&deptCode=' + deptCode, successCallBack);
   }
   // 加载一标六实数据
   loadData(baseUrl + "/houses/amounts", token, function (data) {
@@ -622,9 +622,10 @@ function loadDdcLatestLocations() {
 // 加载警车车定位数据
 function loadJcLatestLocations() {
   var token = Cookies.get("Admin-Token");
+  var deptCode = Cookies.get("deptCode");
 
   // 加载警员定位数据
-  loadData(baseUrl + "/location/jc/locations", token, function (data) {
+  loadData(baseUrl + "/location/jc/locations?deptCode=" + deptCode, token, function (data) {
     var code = data.code;
     if (code == 200) {
       var locations = data.data;
@@ -637,9 +638,10 @@ function loadJcLatestLocations() {
 // 加载电动车定位数据
 function loadDdjcLatestLocations() {
   var token = Cookies.get("Admin-Token");
+  var deptCode = Cookies.get("deptCode");
 
   // 加载警员定位数据
-  loadData(baseUrl + "/location/ddjc/locations", token, function (data) {
+  loadData(baseUrl + "/location/ddjc/locations?deptCode=" + deptCode, token, function (data) {
     var code = data.code;
     if (code == 200) {
       var locations = data.data;
