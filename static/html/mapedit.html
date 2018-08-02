@@ -1522,6 +1522,10 @@
       var code = data.code;
       if (code == 200 && data.dataType == 'JYDW') {
         showMjGpsData(data.data);
+      } else if (code == 200 && data.dataType == 'JCDW') {
+        showJcGpsData(data.data);
+      } else if (code == 200 && data.dataType == 'DDJCDW') {
+        showDdjcGpsData(data.data);
       }
     }
 
